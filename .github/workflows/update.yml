@@ -33,6 +33,10 @@ jobs:
       - name: Rebuild reference snapshots
         run: uv run ld-skills build --refresh
 
+      # GITHUB_TOKEN pushes do not trigger the CI workflow, so validate here
+      - name: Registry check
+        run: uv run ld-skills check
+
       - name: Commit updated snapshots
         run: |
           git config user.name "ld-skills-bot"
