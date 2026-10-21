@@ -1,0 +1,13 @@
+{
+  "$schema": "https://docs.renovatebot.com/renovate-schema.json",
+  "extends": ["config:recommended"],
+  "schedule": ["before 4am on Monday"],
+  "pinDigests": false,
+  "packageRules": [
+    {
+      "description": "Batch dev-tooling updates (ruff, pytest) into one PR",
+      "matchDepTypes": ["dev-dependencies"],
+      "groupName": "dev dependencies"
+    }
+  ]
+}

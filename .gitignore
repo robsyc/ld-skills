@@ -1,0 +1,13 @@
+# Python
+__pycache__/
+*.py[cod]
+.venv/
+dist/
+*.egg-info/
+
+# Build cache of fetched spec HTML
+.cache/
+
+# Tooling
+.ruff_cache/
+.pytest_cache/

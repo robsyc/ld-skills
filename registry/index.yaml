@@ -1,0 +1,671 @@
+# Registry of RDF / Linked Data specifications.
+#
+# Schema (per family):
+#   <family-key>:            lowercase, dir-safe; becomes references/<key>/
+#     label: display name
+#     comment: one-liner for the catalog
+#     specifications:
+#       - key:     unique, dir-safe; becomes <family>/<key>.md
+#         label:   full document title
+#         comment: one-liner shown in the catalog
+#         uri:     canonical source page (fetched and converted)
+#         version: spec version, if meaningful
+#     namespaces:
+#       - key / label / comment / uri / version   (uri must serve RDF)
+#
+# URLs were verified 2026-10-21. Sources: W3C /TR/, w3id.org (kg-construct CG),
+# OGC. Undated /TR/ slugs follow the latest published version automatically.
+
+rdf:
+  label: RDF
+  comment: Resource Description Framework — data model, syntaxes, and semantics.
+  specifications:
+
+    - key: rdf12-concepts
+      label: RDF 1.2 Concepts and Abstract Data Model
+      comment: The abstract syntax all RDF languages share; includes triple terms (RDF-star).
+      uri: https://www.w3.org/TR/rdf12-concepts/
+      version: "1.2"
+
+    - key: rdf12-new
+      label: What's New in RDF 1.2
+      comment: Summary of changes from RDF 1.1 to 1.2.
+      uri: https://w3c.github.io/rdf-new/spec/
+      version: "1.2"
+
+    - key: rdf12-primer
+      label: RDF 1.2 Primer
+      comment: Introduction to RDF 1.2 with examples and use cases.
+      uri: https://www.w3.org/TR/rdf12-primer/
+      version: "1.2"
+
+    - key: rdf12-turtle
+      label: RDF 1.2 Turtle
+      comment: Terse RDF Triple Language — the standard compact text syntax.
+      uri: https://www.w3.org/TR/rdf12-turtle/
+      version: "1.2"
+
+    - key: rdf12-trig
+      label: RDF 1.2 TriG
+      comment: Turtle extended to full RDF datasets with named graphs.
+      uri: https://www.w3.org/TR/rdf12-trig/
+      version: "1.2"
+
+    - key: rdf12-ntriples
+      label: RDF 1.2 N-Triples
+      comment: Line-based plain text syntax for RDF graphs.
+      uri: https://www.w3.org/TR/rdf12-n-triples/
+      version: "1.2"
+
+    - key: rdf12-nquads
+      label: RDF 1.2 N-Quads
+      comment: Line-based plain text syntax for RDF datasets.
+      uri: https://www.w3.org/TR/rdf12-n-quads/
+      version: "1.2"
+
+    - key: rdf12-xml
+      label: RDF 1.2 XML Syntax
+      comment: RDF/XML serialization.
+      uri: https://www.w3.org/TR/rdf12-xml/
+      version: "1.2"
+
+    - key: rdf12-semantics
+      label: RDF 1.2 Semantics
+      comment: Model-theoretic semantics and entailment regimes.
+      uri: https://www.w3.org/TR/rdf12-semantics/
+      version: "1.2"
+
+    - key: rdfs12
+      label: RDF Schema 1.2
+      comment: Data-modelling vocabulary (class/property hierarchy) for RDF.
+      uri: https://www.w3.org/TR/rdf12-schema/
+      version: "1.2"
+
+    - key: rdf-canon
+      label: RDF Dataset Canonicalization
+      comment: A standard RDF Dataset Canonicalization Algorithm (URDNA2015, URGNA2012).
+      uri: https://www.w3.org/TR/rdf-canon/
+
+    - key: rdf11-primer
+      label: RDF 1.1 Primer
+      comment: Introduction to RDF 1.1 with examples and use cases.
+      uri: https://www.w3.org/TR/rdf11-primer/
+      version: "1.1"
+
+    - key: rdf11-concepts
+      label: RDF 1.1 Concepts and Abstract Syntax
+      comment: Abstract syntax and key concepts of RDF 1.1.
+      uri: https://www.w3.org/TR/rdf11-concepts/
+      version: "1.1"
+
+    - key: rdfs11
+      label: RDF Schema 1.1
+      comment: Data-modelling vocabulary for RDF 1.1.
+      uri: https://www.w3.org/TR/rdf-schema/
+      version: "1.1"
+
+    - key: rdf11-semantics
+      label: RDF 1.1 Semantics
+      comment: Semantics and entailment for RDF 1.1 / RDFS.
+      uri: https://www.w3.org/TR/rdf11-mt/
+      version: "1.1"
+
+    - key: rdf11-turtle
+      label: RDF 1.1 Turtle
+      comment: Terse RDF Triple Language (1.1 Recommendation).
+      uri: https://www.w3.org/TR/turtle/
+      version: "1.1"
+
+    - key: rdf11-trig
+      label: RDF 1.1 TriG
+      comment: Turtle extension for RDF datasets (1.1 Recommendation).
+      uri: https://www.w3.org/TR/trig/
+      version: "1.1"
+
+    - key: rdf11-ntriples
+      label: RDF 1.1 N-Triples
+      comment: Line-based syntax for graphs (1.1 Recommendation).
+      uri: https://www.w3.org/TR/n-triples/
+      version: "1.1"
+
+    - key: rdf11-nquads
+      label: RDF 1.1 N-Quads
+      comment: Line-based syntax for datasets (1.1 Recommendation).
+      uri: https://www.w3.org/TR/n-quads/
+      version: "1.1"
+
+    - key: rdf11-xml
+      label: RDF 1.1 XML Syntax
+      comment: RDF/XML serialization (1.1 Recommendation).
+      uri: https://www.w3.org/TR/rdf11-xml/
+      version: "1.1"
+
+    - key: rdf-star-cg
+      label: RDF-star and SPARQL-star
+      comment: Final CG report on statement-level metadata; folded into RDF 1.2 as triple terms.
+      uri: https://www.w3.org/2021/12/rdf-star.html
+
+  namespaces:
+
+    - key: rdf
+      label: RDF
+      comment: rdf:type, rdf:Property, rdf:List, rdf:langString and friends.
+      uri: https://www.w3.org/1999/02/22-rdf-syntax-ns#
+      version: "1.1"
+
+    - key: rdfs
+      label: RDFS
+      comment: rdfs:Class, rdfs:subClassOf, rdfs:label, rdfs:domain, rdfs:range and friends.
+      uri: https://www.w3.org/2000/01/rdf-schema#
+      version: "1.1"
+
+sparql:
+  label: SPARQL
+  comment: SPARQL query language, update, protocol, and result formats.
+  specifications:
+
+    - key: sparql12-query
+      label: SPARQL 1.2 Query Language
+      comment: Full query-language syntax and semantics (aggregates, property paths, negation).
+      uri: https://www.w3.org/TR/sparql12-query/
+      version: "1.2"
+
+    - key: sparql12-update
+      label: SPARQL 1.2 Update
+      comment: INSERT/DELETE operations on graph stores.
+      uri: https://www.w3.org/TR/sparql12-update/
+      version: "1.2"
+
+    - key: sparql12-protocol
+      label: SPARQL 1.2 Protocol
+      comment: HTTP protocol for conveying queries and updates.
+      uri: https://www.w3.org/TR/sparql12-protocol/
+      version: "1.2"
+
+    - key: sparql12-results-json
+      label: SPARQL 1.2 Query Results JSON Format
+      comment: JSON serialization of SPARQL results.
+      uri: https://www.w3.org/TR/sparql12-results-json/
+      version: "1.2"
+
+    - key: sparql12-results-xml
+      label: SPARQL 1.2 Query Results XML Format
+      comment: XML serialization of SPARQL results.
+      uri: https://www.w3.org/TR/sparql12-results-xml/
+      version: "1.2"
+
+    - key: sparql12-results-csv-tsv
+      label: SPARQL 1.2 Query Results CSV and TSV Formats
+      comment: CSV/TSV serializations of SPARQL results.
+      uri: https://www.w3.org/TR/sparql12-results-csv-tsv/
+      version: "1.2"
+
+    - key: sparql12-service-description
+      label: SPARQL 1.2 Service Description
+      comment: Describing SPARQL services with RDF.
+      uri: https://www.w3.org/TR/sparql12-service-description/
+      version: "1.2"
+
+    - key: sparql12-federated-query
+      label: SPARQL 1.2 Federated Query
+      comment: SERVICE-based federation across endpoints.
+      uri: https://www.w3.org/TR/sparql12-federated-query/
+      version: "1.2"
+
+    - key: sparql12-graph-store-protocol
+      label: SPARQL 1.2 Graph Store Protocol
+      comment: REST protocol for managing graphs in a store.
+      uri: https://www.w3.org/TR/sparql12-graph-store-protocol/
+      version: "1.2"
+
+    - key: sparql12-entailment
+      label: SPARQL 1.2 Entailment Regimes
+      comment: Querying under OWL/RDFS entailment regimes.
+      uri: https://www.w3.org/TR/sparql12-entailment/
+      version: "1.2"
+
+    - key: sparql11-query
+      label: SPARQL 1.1 Query Language
+      comment: Query language as of the 1.1 Recommendation.
+      uri: https://www.w3.org/TR/sparql11-query/
+      version: "1.1"
+
+    - key: sparql11-update
+      label: SPARQL 1.1 Update
+      comment: Update language as of the 1.1 Recommendation.
+      uri: https://www.w3.org/TR/sparql11-update/
+      version: "1.1"
+
+    - key: sparql11-protocol
+      label: SPARQL 1.1 Protocol
+      comment: HTTP protocol (1.1 Recommendation).
+      uri: https://www.w3.org/TR/sparql11-protocol/
+      version: "1.1"
+
+    - key: sparql11-results-json
+      label: SPARQL 1.1 Query Results JSON Format
+      comment: JSON results (1.1 Recommendation).
+      uri: https://www.w3.org/TR/sparql11-results-json/
+      version: "1.1"
+
+    - key: sparql11-results-xml
+      label: SPARQL 1.1 Query Results XML Format
+      comment: XML results (1.1 Recommendation, 2nd edition).
+      uri: https://www.w3.org/TR/sparql11-results-xml/
+      version: "1.1"
+
+    - key: sparql11-results-csv-tsv
+      label: SPARQL 1.1 Query Results CSV and TSV Formats
+      comment: CSV/TSV results (1.1 Recommendation).
+      uri: https://www.w3.org/TR/sparql11-results-csv-tsv/
+      version: "1.1"
+
+    - key: sparql11-service-description
+      label: SPARQL 1.1 Service Description
+      comment: Service descriptions (1.1 Recommendation).
+      uri: https://www.w3.org/TR/sparql11-service-description/
+      version: "1.1"
+
+    - key: sparql11-federated-query
+      label: SPARQL 1.1 Federated Query
+      comment: Federated queries (1.1 Recommendation).
+      uri: https://www.w3.org/TR/sparql11-federated-query/
+      version: "1.1"
+
+    - key: sparql11-graph-store-protocol
+      label: SPARQL 1.1 Graph Store HTTP Protocol
+      comment: Graph store REST protocol (1.1 Recommendation).
+      uri: https://www.w3.org/TR/sparql11-graph-store-protocol/
+      version: "1.1"
+
+    - key: sparql11-entailment
+      label: SPARQL 1.1 Entailment Regimes
+      comment: Entailment regimes (1.1 Recommendation).
+      uri: https://www.w3.org/TR/sparql11-entailment/
+      version: "1.1"
+
+owl:
+  label: OWL
+  comment: Web Ontology Language — expressive ontologies on RDF.
+  specifications:
+
+    - key: owl2-primer
+      label: OWL 2 Primer
+      comment: Approachable introduction with examples.
+      uri: https://www.w3.org/TR/owl2-primer/
+
+    - key: owl2-overview
+      label: OWL 2 Document Overview
+      comment: Map of the OWL 2 document suite.
+      uri: https://www.w3.org/TR/owl2-overview/
+
+    - key: owl2-quick-reference
+      label: OWL 2 Quick Reference Guide
+      comment: Compact listing of OWL 2 constructs with their meaning.
+      uri: https://www.w3.org/TR/owl2-quick-reference/
+
+    - key: owl2-syntax
+      label: OWL 2 Structural Specification and Functional-Style Syntax
+      comment: Ontology structure, functional syntax, and global restrictions.
+      uri: https://www.w3.org/TR/owl2-syntax/
+
+    - key: owl2-rdf-mapping
+      label: OWL 2 Mapping to RDF Graphs
+      comment: How OWL 2 constructs map to RDF triples.
+      uri: https://www.w3.org/TR/owl2-mapping-to-rdf/
+
+    - key: owl2-profiles
+      label: OWL 2 Profiles
+      comment: EL, QL, RL sublanguages and their trade-offs.
+      uri: https://www.w3.org/TR/owl2-profiles/
+
+    - key: owl2-direct-semantics
+      label: OWL 2 Direct Model-Theoretic Semantics
+      comment: Formal semantics for the structural specification.
+      uri: https://www.w3.org/TR/owl2-direct-semantics/
+
+    - key: owl2-rdf-based-semantics
+      label: OWL 2 RDF-Based Semantics
+      comment: Semantics of OWL 2 Full (RDF-compatible).
+      uri: https://www.w3.org/TR/owl2-rdf-based-semantics/
+
+    - key: owl2-conformance
+      label: OWL 2 Conformance
+      comment: Conformance criteria and test types.
+      uri: https://www.w3.org/TR/owl2-conformance/
+
+    - key: owl2-new-features
+      label: OWL 2 New Features and Rationale
+      comment: What changed since OWL 1 and why.
+      uri: https://www.w3.org/TR/owl2-new-features/
+
+  namespaces:
+
+    - key: owl
+      label: OWL
+      comment: owl:Class, owl:ObjectProperty, owl:Restriction, owl:equivalentClass and friends.
+      uri: https://www.w3.org/2002/07/owl#
+
+shacl:
+  label: SHACL
+  comment: Shapes Constraint Language — validating and transforming RDF graphs.
+  specifications:
+
+    - key: shacl12-core
+      label: SHACL 1.2 Core
+      comment: Core constraint components for RDF validation.
+      uri: https://www.w3.org/TR/shacl12-core/
+      version: "1.2"
+
+    - key: shacl12-sparql
+      label: SHACL 1.2 SPARQL Extensions
+      comment: SPARQL-based constraints and targets.
+      uri: https://www.w3.org/TR/shacl12-sparql/
+      version: "1.2"
+
+    - key: shacl12-node-expr
+      label: SHACL 1.2 Node Expressions
+      comment: Graph expressions computing nodes dynamically.
+      uri: https://www.w3.org/TR/shacl12-node-expr/
+      version: "1.2"
+
+    - key: shacl12-rules
+      label: SHACL 1.2 Rules
+      comment: Inferencing rules deriving new triples from shapes.
+      uri: https://www.w3.org/TR/shacl12-rules/
+      version: "1.2"
+
+    - key: shacl12-ui
+      label: SHACL 1.2 UI
+      comment: Generating user interfaces from shapes.
+      uri: https://w3c.github.io/data-shapes/shacl12-ui/
+      version: "1.2"
+
+    - key: shacl12-overview
+      label: SHACL 1.2 Overview
+      comment: Map of the SHACL 1.2 document suite.
+      uri: https://w3c.github.io/data-shapes/shacl12-overview/
+      version: "1.2"
+
+    - key: shacl11
+      label: SHACL 1.1 Core and SPARQL
+      comment: SHACL 1.1 Recommendation (core + SPARQL bindings).
+      uri: https://www.w3.org/TR/shacl/
+      version: "1.1"
+
+    - key: shacl11-af
+      label: SHACL 1.1 Advanced Features
+      comment: SHACL-AF — rules, node expressions, user-defined functions.
+      uri: https://www.w3.org/TR/shacl-af/
+      version: "1.1"
+
+  namespaces:
+
+    - key: sh
+      label: SHACL
+      comment: sh:NodeShape, sh:PropertyShape, sh:property, sh:path, sh:minCount and friends.
+      uri: https://www.w3.org/ns/shacl#
+      version: "1.1"
+
+jsonld:
+  label: JSON-LD
+  comment: JSON serialization of Linked Data — syntax, API, and framing.
+  specifications:
+
+    - key: json-ld11
+      label: JSON-LD 1.1
+      comment: Syntax and core concepts (@context, @graph, @embed...).
+      uri: https://www.w3.org/TR/json-ld/
+      version: "1.1"
+
+    - key: json-ld11-api
+      label: JSON-LD 1.1 Processing Algorithms and API
+      comment: Expansion, compaction, flattening algorithms.
+      uri: https://www.w3.org/TR/json-ld-api/
+      version: "1.1"
+
+    - key: json-ld11-framing
+      label: JSON-LD 1.1 Framing
+      comment: Shaping JSON-LD into a desired tree structure.
+      uri: https://www.w3.org/TR/json-ld-framing/
+      version: "1.1"
+
+skos:
+  label: SKOS
+  comment: Simple Knowledge Organization System — thesauri, classifications, taxonomies.
+  specifications:
+
+    - key: skos-reference
+      label: SKOS Reference
+      comment: Normative SKOS data model.
+      uri: https://www.w3.org/TR/skos-reference/
+
+    - key: skos-primer
+      label: SKOS Primer
+      comment: User guide for concept schemes in SKOS.
+      uri: https://www.w3.org/TR/skos-primer/
+
+  namespaces:
+
+    - key: skos
+      label: SKOS
+      comment: skos:Concept, skos:ConceptScheme, skos:prefLabel, skos:broader and friends.
+      uri: https://www.w3.org/2004/02/skos/core#
+
+prov:
+  label: PROV
+  comment: PROV provenance model and ontology.
+  specifications:
+
+    - key: prov-dm
+      label: "PROV-DM: The PROV Data Model"
+      comment: Conceptual model of entities, activities, agents.
+      uri: https://www.w3.org/TR/prov-dm/
+
+    - key: prov-o
+      label: "PROV-O: The PROV Ontology"
+      comment: OWL2 ontology for provenance interchange.
+      uri: https://www.w3.org/TR/prov-o/
+
+    - key: prov-primer
+      label: PROV Model Primer
+      comment: Intuitive introduction to provenance modelling.
+      uri: https://www.w3.org/TR/prov-primer/
+
+    - key: prov-n
+      label: "PROV-N: The Provenance Notation"
+      comment: Human-readable notation for PROV instances.
+      uri: https://www.w3.org/TR/prov-n/
+
+    - key: prov-constraints
+      label: Constraints of the PROV Data Model
+      comment: Validity constraints and normalization.
+      uri: https://www.w3.org/TR/prov-constraints/
+
+    - key: prov-aq
+      label: "PROV-AQ: Provenance Access and Query"
+      comment: Locating and querying provenance on the web.
+      uri: https://www.w3.org/TR/prov-aq/
+
+    - key: prov-xml
+      label: "PROV-XML: The PROV XML Schema"
+      comment: XML serialization of PROV.
+      uri: https://www.w3.org/TR/prov-xml/
+
+    - key: prov-dictionary
+      label: PROV-Dictionary
+      comment: Modeling dictionaries/participating collections in PROV.
+      uri: https://www.w3.org/TR/prov-dictionary/
+
+    - key: prov-links
+      label: Linking Across Provenance Bundles
+      comment: PROV-LINKS — references between provenance bundles.
+      uri: https://www.w3.org/TR/prov-links/
+
+  namespaces:
+
+    - key: prov
+      label: PROV-O
+      comment: prov:Entity, prov:Activity, prov:Agent, prov:wasGeneratedBy and friends.
+      uri: https://www.w3.org/ns/prov#
+
+mapping:
+  label: Mapping & Generation
+  comment: Generating RDF from data — RML (kg-construct CG), R2RML, YARRRML.
+  specifications:
+
+    - key: rml-core
+      label: RML-Core
+      comment: Core mapping constructs — triples maps, term maps (W3C CG draft).
+      uri: https://w3id.org/rml/core/spec
+
+    - key: rml-io
+      label: RML-IO
+      comment: Logical sources and targets for any input/output format (W3C CG draft).
+      uri: https://w3id.org/rml/io/spec/
+
+    - key: rml-fnml
+      label: RML-FNML
+      comment: Declarative execution of functions in mappings (W3C CG draft).
+      uri: https://w3id.org/rml/fnml/spec
+
+    - key: rml-cc
+      label: RML-CC
+      comment: Generating RDF collections and containers (W3C CG draft).
+      uri: https://w3id.org/rml/cc/spec
+
+    - key: rml-star
+      label: RML-star
+      comment: Generating RDF-star quoted triples (W3C CG draft).
+      uri: https://w3id.org/rml/star/spec
+
+    - key: rml-lv
+      label: RML Logical Views
+      comment: Format-agnostic flattened views over nested inputs (W3C CG draft).
+      uri: https://w3id.org/rml/lv/spec
+
+    - key: yarrrml
+      label: YARRRML
+      comment: Human-friendly YAML mapping language compiled to RML.
+      uri: https://w3id.org/yarrrml/spec/
+
+    - key: r2rml
+      label: "R2RML: RDB to RDF Mapping Language"
+      comment: W3C Recommendation mapping relational databases to RDF.
+      uri: https://www.w3.org/TR/r2rml/
+
+    - key: rdb-direct-mapping
+      label: A Direct Mapping of Relational Data to RDF
+      comment: Default lossless mapping of relational schemas.
+      uri: https://www.w3.org/TR/rdb-direct-mapping/
+
+  namespaces:
+
+    - key: rml
+      label: RML
+      comment: Unified RML vocabulary across all modules (rml:LogicalSource, rml:TriplesMap...).
+      uri: https://w3id.org/rml/
+
+vocabularies:
+  label: Vocabularies
+  comment: Widely used RDF vocabularies and ontologies beyond the core stack.
+  specifications:
+
+    - key: dcat3
+      label: DCAT Version 3
+      comment: Data Catalog Vocabulary — datasets, distributions, services.
+      uri: https://www.w3.org/TR/vocab-dcat-3/
+
+    - key: data-cube
+      label: RDF Data Cube Vocabulary
+      comment: Multi-dimensional statistical data (qb:DataSet, dimensions, measures).
+      uri: https://www.w3.org/TR/vocab-data-cube/
+
+    - key: void
+      label: Describing Linked Datasets with VoID
+      comment: Vocabulary of Interlinked Datasets metadata.
+      uri: https://www.w3.org/TR/void/
+
+    - key: ssn-sosa
+      label: SSN/SOSA Sensor Network Ontology
+      comment: Sensors, observations, procedures, and features of interest.
+      uri: https://www.w3.org/TR/vocab-ssn/
+
+    - key: vcard-rdf
+      label: vCard Ontology
+      comment: People and organizations in RDF (vcard:Individual, vcard:hasEmail...).
+      uri: https://www.w3.org/TR/vcard-rdf/
+
+    - key: geosparql
+      label: GeoSPARQL 1.1 (OGC)
+      comment: OGC standard for geospatial data in RDF — geometry literals, spatial relations.
+      uri: https://docs.ogc.org/is/22-047r1/22-047r1.html
+
+  namespaces:
+
+    - key: dcat
+      label: DCAT
+      comment: dcat:Dataset, dcat:Distribution, dcat:Catalog, dcat:service and friends.
+      uri: https://www.w3.org/ns/dcat#
+
+    - key: qb
+      label: RDF Data Cube
+      comment: qb:DataSet, qb:DimensionProperty, qb:MeasureProperty and friends.
+      uri: http://purl.org/linked-data/cube#
+
+    - key: sosa
+      label: SOSA
+      comment: sosa:Sensor, sosa:Observation, sosa:FeatureOfInterest and friends.
+      uri: http://www.w3.org/ns/sosa/
+
+time:
+  label: OWL-Time
+  comment: Temporal ontology — instants, intervals, durations, topological relations.
+  specifications:
+
+    - key: owl-time
+      label: Time Ontology in OWL
+      comment: OWL-Time vocabulary for temporal facts.
+      uri: https://www.w3.org/TR/owl-time/
+
+  namespaces:
+
+    - key: time
+      label: OWL-Time
+      comment: time:Instant, time:Interval, time:hasBeginning, time:inXSDDate and friends.
+      uri: https://www.w3.org/2006/time#
+
+web:
+  label: Linked Data on the Web
+  comment: Publishing and embedding RDF — LDP, RDFa, Notation3.
+  specifications:
+
+    - key: ldp
+      label: Linked Data Platform 1.0
+      comment: Read/write Linked Data over HTTP with containers and resources.
+      uri: https://www.w3.org/TR/ldp/
+
+    - key: rdfa-core
+      label: RDFa Core 1.1
+      comment: Embedding RDF in XML/HTML attributes.
+      uri: https://www.w3.org/TR/rdfa-core/
+
+    - key: rdfa-lite
+      label: RDFa Lite 1.1
+      comment: The minimal five-attribute subset of RDFa.
+      uri: https://www.w3.org/TR/rdfa-lite/
+
+    - key: html-rdfa
+      label: HTML+RDFa 1.1
+      comment: Using RDFa attributes in HTML5 documents.
+      uri: https://www.w3.org/TR/html-rdfa/
+
+    - key: rdfa-primer
+      label: RDFa 1.1 Primer
+      comment: Introductory guide with rich examples.
+      uri: https://www.w3.org/TR/rdfa-primer/
+
+    - key: n3
+      label: Notation3 Language
+      comment: N3 CG spec — RDF plus rules, paths, and formulae.
+      uri: https://w3c-cg.github.io/N3/spec/

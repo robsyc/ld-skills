@@ -1,0 +1,46 @@
+name: Update specs
+
+# Rebuilds the skill's reference snapshots from the live specification
+# sources and commits the result. Undated /TR/ URLs follow the latest
+# published edition, so this picks up new versions automatically.
+
+on:
+  schedule:
+    - cron: "17 4 * * 1" # Mondays 04:17 UTC
+  workflow_dispatch:
+
+permissions:
+  contents: write
+
+concurrency:
+  group: update-specs
+  cancel-in-progress: false
+
+jobs:
+  update:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+
+      - uses: astral-sh/setup-uv@v5
+      - uses: actions/setup-python@v5
+        with:
+          python-version: "3.12"
+
+      - name: Install dependencies
+        run: uv sync
+
+      - name: Rebuild reference snapshots
+        run: uv run ld-skills build --refresh
+
+      - name: Commit updated snapshots
+        run: |
+          git config user.name "ld-skills-bot"
+          git config user.email "actions@users.noreply.github.com"
+          if git diff --quiet; then
+            echo "No changes."
+            exit 0
+          fi
+          git add skills/ registry/
+          git commit -m "chore: refresh spec snapshots ($(date -u +%F))"
+          git push
