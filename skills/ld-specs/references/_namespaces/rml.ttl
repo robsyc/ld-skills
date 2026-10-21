@@ -1,0 +1,969 @@
+# Namespace snapshot of <https://w3id.org/rml/>
+# Unified RML vocabulary across all modules (rml:LogicalSource, rml:TriplesMap...).
+@prefix dcterms: <http://purl.org/dc/terms/> .
+@prefix ns1: <http://purl.org/ontology/bibo/> .
+@prefix owl: <http://www.w3.org/2002/07/owl#> .
+@prefix rdf: <http://www.w3.org/1999/02/22-rdf-syntax-ns#> .
+@prefix rdfs: <http://www.w3.org/2000/01/rdf-schema#> .
+@prefix sh: <http://www.w3.org/ns/shacl#> .
+@prefix vann: <http://purl.org/vocab/vann/> .
+@prefix xsd: <http://www.w3.org/2001/XMLSchema#> .
+
+<http://w3id.org/rml/AssertedTriplesMap> a owl:Class ;
+    rdfs:label "Asserted Triples Map" ;
+    rdfs:comment "A type of Triples Map that is quoted and asserted in the resulting graph."@en ;
+    rdfs:isDefinedBy <http://w3id.org/rml/star/> ;
+    rdfs:subClassOf <http://w3id.org/rml/TriplesMap> ;
+    owl:disjointWith <http://w3id.org/rml/NonAssertedTriplesMap> .
+
+<http://w3id.org/rml/BlankNode> a owl:Class ;
+    rdfs:label "Blank Node" ;
+    rdfs:comment "Denotes a blank node, used with termType"@en ;
+    rdfs:isDefinedBy <http://w3id.org/rml/core/> .
+
+<http://w3id.org/rml/CSV> a <http://w3id.org/rml/ReferenceFormulation>,
+        owl:NamedIndividual ;
+    rdfs:label "CSV" ;
+    rdfs:comment "Denotes that the CSV file's column names are used for referring to extracts of CSV resources."@en ;
+    rdfs:isDefinedBy <http://w3id.org/rml/io/> ;
+    rdfs:seeAlso <http://tools.ietf.org/html/rfc4180> .
+
+<http://w3id.org/rml/CurrentWorkingDirectory> a owl:Class ;
+    rdfs:label "Current Working Directory" ;
+    rdfs:comment "Denotes the path to the current working directory of the RML processor."@en ;
+    rdfs:isDefinedBy <http://w3id.org/rml/io/> .
+
+<http://w3id.org/rml/ExpressionField> a owl:Class ;
+    rdfs:label "Expression Field" ;
+    rdfs:comment "An expression field is an expression map that gives a name to an expression." ;
+    rdfs:isDefinedBy <http://w3id.org/rml/lv/> ;
+    rdfs:subClassOf <http://w3id.org/rml/ExpressionMap>,
+        <http://w3id.org/rml/Field> .
+
+<http://w3id.org/rml/ForeignKeyAnnotation> a owl:Class ;
+    rdfs:label "Foreign Key Annotation" ;
+    rdfs:comment "A foreign key annotation is analogous to the notion of foreign key constraint in databases." ;
+    rdfs:isDefinedBy <http://w3id.org/rml/lv/> ;
+    rdfs:subClassOf <http://w3id.org/rml/InclusionDependencyAnnotation> .
+
+<http://w3id.org/rml/IRI> a owl:Class ;
+    rdfs:label "IRI" ;
+    rdfs:comment "Denotes an IRI, used with termType."@en ;
+    rdfs:isDefinedBy <http://w3id.org/rml/core/> .
+
+<http://w3id.org/rml/IRISafeAnnotation> a owl:Class ;
+    rdfs:label "IRI Safe Annotation" ;
+    rdfs:comment "A IRI safe annotation indicates that the field content is IRI safe." ;
+    rdfs:isDefinedBy <http://w3id.org/rml/lv/> ;
+    rdfs:subClassOf <http://w3id.org/rml/StructuralAnnotation> .
+
+<http://w3id.org/rml/IterableField> a owl:Class ;
+    rdfs:label "Iterable Field" ;
+    rdfs:comment "An iterable field is an iterable that gives a name to a logical iteration." ;
+    rdfs:isDefinedBy <http://w3id.org/rml/lv/> ;
+    rdfs:subClassOf <http://w3id.org/rml/Field>,
+        <http://w3id.org/rml/Iterable> .
+
+<http://w3id.org/rml/JSONPath> a <http://w3id.org/rml/ReferenceFormulation>,
+        owl:NamedIndividual ;
+    rdfs:label "JSONPath" ;
+    rdfs:comment "Denotes the JSONPath reference formulation, used for referring to extracts of JSON sources."@en ;
+    rdfs:isDefinedBy <http://w3id.org/rml/io/> .
+
+<http://w3id.org/rml/Literal> a owl:Class ;
+    rdfs:label "Literal" ;
+    rdfs:comment "Denotes a Literal, used with termType."@en ;
+    rdfs:isDefinedBy <http://w3id.org/rml/core/> .
+
+<http://w3id.org/rml/MappingDirectory> a owl:Class ;
+    rdfs:label "Mapping Directory" ;
+    rdfs:comment "Denotes the path to the location of the RML mapping."@en ;
+    rdfs:isDefinedBy <http://w3id.org/rml/io/> .
+
+<http://w3id.org/rml/PrimaryKeyAnnotation> a owl:Class ;
+    rdfs:label "Primary Key Annotation" ;
+    rdfs:comment "A primary key annotation is analogous to the notion of a primary key constraints in databases." ;
+    rdfs:isDefinedBy <http://w3id.org/rml/lv/> ;
+    rdfs:subClassOf <http://w3id.org/rml/NonNullableAnnotation>,
+        <http://w3id.org/rml/UniqueAnnotation> .
+
+<http://w3id.org/rml/SQL2008Query> a <http://w3id.org/rml/ReferenceFormulation>,
+        owl:NamedIndividual ;
+    rdfs:label "SQL 2008 Query" ;
+    rdfs:comment "Denotes a query in SQL 2008."@en ;
+    rdfs:isDefinedBy <http://w3id.org/rml/io/> .
+
+<http://w3id.org/rml/SQL2008Table> a <http://w3id.org/rml/ReferenceFormulation>,
+        owl:NamedIndividual ;
+    rdfs:label "SQL 2008 Table" ;
+    rdfs:comment "Denotes a table in SQL 2008."@en ;
+    rdfs:isDefinedBy <http://w3id.org/rml/io/> .
+
+<http://w3id.org/rml/Target> a owl:Class ;
+    rdfs:label "Target" ;
+    rdfs:comment "Denotes a target."@en ;
+    rdfs:isDefinedBy <http://w3id.org/rml/io/> .
+
+<http://w3id.org/rml/URI> a owl:Class ;
+    rdfs:label "URI" ;
+    rdfs:comment "Denotes a URI, used with termType."@en ;
+    rdfs:isDefinedBy <http://w3id.org/rml/core/> .
+
+<http://w3id.org/rml/UTF-16> a <http://w3id.org/rml/Encoding>,
+        owl:NamedIndividual ;
+    rdfs:label "UTF-16" ;
+    rdfs:comment "Represents the UFT-16 encoding."@en ;
+    rdfs:isDefinedBy <http://w3id.org/rml/io/> .
+
+<http://w3id.org/rml/UTF-8> a <http://w3id.org/rml/Encoding>,
+        owl:NamedIndividual ;
+    rdfs:label "UTF-8" ;
+    rdfs:comment "Represents the UFT-8 encoding."@en ;
+    rdfs:isDefinedBy <http://w3id.org/rml/io/> .
+
+<http://w3id.org/rml/UnsafeIRI> a owl:Class ;
+    rdfs:label "Unsafe IRI" ;
+    rdfs:comment "Denotes an unsafe IRI, used with termType."@en ;
+    rdfs:isDefinedBy <http://w3id.org/rml/core/> .
+
+<http://w3id.org/rml/UnsafeURI> a owl:Class ;
+    rdfs:label "Unsafe URI" ;
+    rdfs:comment "Denotes an unsafe URI, used with termType."@en ;
+    rdfs:isDefinedBy <http://w3id.org/rml/core/> .
+
+<http://w3id.org/rml/XPath> a <http://w3id.org/rml/ReferenceFormulation>,
+        owl:NamedIndividual ;
+    rdfs:label "XPath" ;
+    rdfs:comment "Denotes the XPath reference formulation, used for referring to extracts of XML sources."@en ;
+    rdfs:isDefinedBy <http://w3id.org/rml/io/> ;
+    rdfs:seeAlso <http://www.w3.org/TR/xpath20/> .
+
+<http://w3id.org/rml/allowEmptyListAndContainer> a owl:DatatypeProperty ;
+    rdfs:label "allow empty list and container" ;
+    rdfs:comment "Indicates the behavior of a GatherMap in case rml:gather does not yield any element"@en ;
+    rdfs:domain <http://w3id.org/rml/GatherMap> ;
+    rdfs:isDefinedBy <http://w3id.org/rml/cc/> ;
+    rdfs:range xsd:boolean .
+
+<http://w3id.org/rml/append> a <http://w3id.org/rml/Strategy>,
+        owl:NamedIndividual ;
+    rdfs:label "Append" ;
+    rdfs:comment "Informs that the sets of RDF terms generated by each TermMap of the GatherMap are to be appended within the collection or container."@en ;
+    rdfs:isDefinedBy <http://w3id.org/rml/cc/> .
+
+<http://w3id.org/rml/baseIRI> a owl:ObjectProperty ;
+    rdfs:label "base IRI" ;
+    rdfs:comment "Indicates the base IRI of the RDF graph to be created with a triples map."@en ;
+    rdfs:domain <http://w3id.org/rml/TriplesMap> ;
+    rdfs:isDefinedBy <http://w3id.org/rml/core/> .
+
+<http://w3id.org/rml/cartesianProduct> a <http://w3id.org/rml/Strategy>,
+        owl:NamedIndividual ;
+    rdfs:label "Cartesian Product" ;
+    rdfs:comment "Informs that the RDF terms generated by each TermMap of the GatherMap are to be grouped (in the constructed collection or container) by doing a Cartesian product of these terms."@en ;
+    rdfs:isDefinedBy <http://w3id.org/rml/cc/> .
+
+<http://w3id.org/rml/child> a owl:DatatypeProperty ;
+    rdfs:label "child" ;
+    rdfs:comment "Names a source record in the child source of a join."@en ;
+    rdfs:domain <http://w3id.org/rml/Join> ;
+    rdfs:isDefinedBy <http://w3id.org/rml/core/> ;
+    rdfs:range xsd:string .
+
+<http://w3id.org/rml/childMap> a owl:ObjectProperty ;
+    rdfs:label "child map" ;
+    rdfs:comment "Names a child map in the child source of a join."@en ;
+    rdfs:domain <http://w3id.org/rml/Join> ;
+    rdfs:isDefinedBy <http://w3id.org/rml/core/> ;
+    rdfs:range <http://w3id.org/rml/ChildMap> .
+
+<http://w3id.org/rml/class> a owl:ObjectProperty ;
+    rdfs:label "class" ;
+    rdfs:comment "The subject value generated for a logical source record will be asserted as an instance of this RDFS class."@en ;
+    rdfs:domain <http://w3id.org/rml/SubjectMap> ;
+    rdfs:isDefinedBy <http://w3id.org/rml/core/> ;
+    rdfs:range rdfs:Class .
+
+<http://w3id.org/rml/compression> a owl:ObjectProperty ;
+    rdfs:label "compression" ;
+    rdfs:comment "Defines the compression format of a Source or Target."@en ;
+    rdfs:domain [ ] ;
+    rdfs:isDefinedBy <http://w3id.org/rml/io/> ;
+    rdfs:range <http://w3id.org/rml/Compression> .
+
+<http://w3id.org/rml/constant> a owl:AnnotationProperty ;
+    rdfs:label "constant" ;
+    rdfs:comment "A property for indicating whether a expression map is a constant-valued expression map."@en ;
+    rdfs:domain <http://w3id.org/rml/ExpressionMap> ;
+    rdfs:isDefinedBy <http://w3id.org/rml/core/> .
+
+<http://w3id.org/rml/datatype> a owl:ObjectProperty ;
+    rdfs:label "datatype" ;
+    rdfs:comment "Specifies the datatype of the object component for the generated triple."@en ;
+    rdfs:domain <http://w3id.org/rml/ObjectMap> ;
+    rdfs:isDefinedBy <http://w3id.org/rml/core/> .
+
+<http://w3id.org/rml/datatypeMap> a owl:ObjectProperty ;
+    rdfs:label "datatype map" ;
+    rdfs:comment "A DatatypetMap element to generate the datatype component of the object component from a logical source record."@en ;
+    rdfs:domain <http://w3id.org/rml/ObjectMap> ;
+    rdfs:isDefinedBy <http://w3id.org/rml/core/> ;
+    rdfs:range <http://w3id.org/rml/DatatypeMap> .
+
+<http://w3id.org/rml/defaultGraph> a owl:NamedIndividual ;
+    rdfs:comment "Denotes a default graph" .
+
+<http://w3id.org/rml/encoding> a owl:ObjectProperty ;
+    rdfs:label "encoding" ;
+    rdfs:comment "Defines the encoding format of a Source or Target."@en ;
+    rdfs:domain [ ] ;
+    rdfs:isDefinedBy <http://w3id.org/rml/io/> ;
+    rdfs:range <http://w3id.org/rml/Encoding> .
+
+<http://w3id.org/rml/field> a owl:ObjectProperty ;
+    rdfs:label "field" ;
+    rdfs:comment "A field of the logical view." ;
+    rdfs:domain [ ] ;
+    rdfs:isDefinedBy <http://w3id.org/rml/lv/> ;
+    rdfs:range <http://w3id.org/rml/Field> .
+
+<http://w3id.org/rml/fieldName> a owl:DatatypeProperty ;
+    rdfs:label "field name" ;
+    rdfs:comment "The name of the field." ;
+    rdfs:domain <http://w3id.org/rml/Field> ;
+    rdfs:isDefinedBy <http://w3id.org/rml/lv/> ;
+    rdfs:range xsd:string .
+
+<http://w3id.org/rml/function> a owl:ObjectProperty ;
+    rdfs:label "function" ;
+    rdfs:comment "Specifies a data transformation function."@en ;
+    rdfs:domain <http://w3id.org/rml/FunctionExecution> ;
+    rdfs:isDefinedBy <http://w3id.org/rml/fnml/> ;
+    rdfs:range rdfs:Resource .
+
+<http://w3id.org/rml/functionExecution> a owl:ObjectProperty ;
+    rdfs:label "function execution" ;
+    rdfs:comment "Denotes the execution of a function with its required input parameters and values."@en ;
+    rdfs:domain <http://w3id.org/rml/ExpressionMap> ;
+    rdfs:isDefinedBy <http://w3id.org/rml/fnml/> ;
+    rdfs:range <http://w3id.org/rml/FunctionExecution> .
+
+<http://w3id.org/rml/functionMap> a owl:ObjectProperty ;
+    rdfs:label "function map" ;
+    rdfs:comment "A Function Map element to generate the data transformation function."@en ;
+    rdfs:domain <http://w3id.org/rml/Input> ;
+    rdfs:isDefinedBy <http://w3id.org/rml/fnml/> ;
+    rdfs:range <http://w3id.org/rml/FunctionMap> .
+
+<http://w3id.org/rml/gather> a owl:ObjectProperty ;
+    rdfs:label "gather" ;
+    rdfs:comment "Specifies where the terms of a collection or container come from."@en ;
+    rdfs:domain <http://w3id.org/rml/GatherMap> ;
+    rdfs:isDefinedBy <http://w3id.org/rml/cc/> .
+
+<http://w3id.org/rml/gatherAs> a owl:ObjectProperty ;
+    rdfs:label "gather as" ;
+    rdfs:comment "Relates a GatherMap with the desired result type of collection or container."@en ;
+    rdfs:domain <http://w3id.org/rml/GatherMap> ;
+    rdfs:isDefinedBy <http://w3id.org/rml/cc/> ;
+    rdfs:range [ ] .
+
+<http://w3id.org/rml/graph> a owl:ObjectProperty ;
+    rdfs:label "graph" ;
+    rdfs:comment "An IRI reference for use as the graph name of all triples generated with the SubjectMap or PredicateObjectMap."@en ;
+    rdfs:domain [ ] ;
+    rdfs:isDefinedBy <http://w3id.org/rml/core/> .
+
+<http://w3id.org/rml/graphMap> a owl:ObjectProperty ;
+    rdfs:label "graph map" ;
+    rdfs:comment "Specifies a GraphMap. When used with a SubjectMap element, all the RDF triples generated from a logical row will be stored in the specified named graph. Otherwise, the RDF triple generated using the (predicate, object) pair will be stored in the specified named graph."@en ;
+    rdfs:domain [ ] ;
+    rdfs:isDefinedBy <http://w3id.org/rml/core/> ;
+    rdfs:range <http://w3id.org/rml/GraphMap> .
+
+<http://w3id.org/rml/gzip> a <http://w3id.org/rml/Compression>,
+        owl:NamedIndividual ;
+    rdfs:label "GZip" ;
+    rdfs:comment "Represents GZip file compression."@en ;
+    rdfs:isDefinedBy <http://w3id.org/rml/io/> .
+
+<http://w3id.org/rml/innerJoin> a owl:ObjectProperty ;
+    rdfs:label "inner join" ;
+    rdfs:comment "An inner join of the logical view." ;
+    rdfs:domain <http://w3id.org/rml/LogicalView> ;
+    rdfs:isDefinedBy <http://w3id.org/rml/lv/> ;
+    rdfs:range <http://w3id.org/rml/LogicalViewJoin> .
+
+<http://w3id.org/rml/input> a owl:ObjectProperty ;
+    rdfs:label "input" ;
+    rdfs:comment "Specifies the Input element of a Function Map."@en ;
+    rdfs:domain <http://w3id.org/rml/FunctionExecution> ;
+    rdfs:isDefinedBy <http://w3id.org/rml/fnml/> ;
+    rdfs:range <http://w3id.org/rml/Input> .
+
+<http://w3id.org/rml/inputValue> a owl:ObjectProperty ;
+    rdfs:label "value" ;
+    rdfs:comment "Specifies the value of a parameter of a function."@en ;
+    rdfs:domain <http://w3id.org/rml/Input> ;
+    rdfs:isDefinedBy <http://w3id.org/rml/fnml/> .
+
+<http://w3id.org/rml/inputValueMap> a owl:ObjectProperty ;
+    rdfs:label "value map" ;
+    rdfs:comment "A Value map element to generate the value of a parameter of a function."@en ;
+    rdfs:domain <http://w3id.org/rml/Input> ;
+    rdfs:isDefinedBy <http://w3id.org/rml/fnml/> ;
+    rdfs:range <http://w3id.org/rml/TermMap> .
+
+<http://w3id.org/rml/iterator> a owl:DatatypeProperty ;
+    rdfs:label "iterator" ;
+    rdfs:comment "An expression qualified according to the reference formulation that defines a sequence of logical iterations on the data source."@en ;
+    rdfs:domain <http://w3id.org/rml/Iterable> ;
+    rdfs:isDefinedBy <http://w3id.org/rml/core/> .
+
+<http://w3id.org/rml/joinCondition> a owl:ObjectProperty ;
+    rdfs:label "join condition" ;
+    rdfs:comment "Specifies the join condition for joining the child logical source with the parent logical source of the foreign key constraint."@en ;
+    rdfs:isDefinedBy <http://w3id.org/rml/core/> ;
+    rdfs:range <http://w3id.org/rml/Join> .
+
+<http://w3id.org/rml/language> a owl:DatatypeProperty ;
+    rdfs:label "language" ;
+    rdfs:comment "Specified the language for the object component for the generated triple."@en ;
+    rdfs:domain <http://w3id.org/rml/ObjectMap> ;
+    rdfs:isDefinedBy <http://w3id.org/rml/core/> ;
+    rdfs:range xsd:string .
+
+<http://w3id.org/rml/languageMap> a owl:ObjectProperty ;
+    rdfs:label "language map" ;
+    rdfs:comment "A LanguagetMap element to generate the language tag of the object component from a logical source record."@en ;
+    rdfs:domain <http://w3id.org/rml/ObjectMap> ;
+    rdfs:isDefinedBy <http://w3id.org/rml/core/> ;
+    rdfs:range <http://w3id.org/rml/LanguageMap> .
+
+<http://w3id.org/rml/leftJoin> a owl:ObjectProperty ;
+    rdfs:label "left join" ;
+    rdfs:comment "A left join of the logical view." ;
+    rdfs:domain <http://w3id.org/rml/LogicalView> ;
+    rdfs:isDefinedBy <http://w3id.org/rml/lv/> ;
+    rdfs:range <http://w3id.org/rml/LogicalViewJoin> .
+
+<http://w3id.org/rml/logicalSource> a owl:ObjectProperty ;
+    rdfs:label "logical source" ;
+    rdfs:comment "Represents the logical source to be mapped."@en ;
+    rdfs:domain <http://w3id.org/rml/TriplesMap> ;
+    rdfs:isDefinedBy <http://w3id.org/rml/core/> ;
+    rdfs:range <http://w3id.org/rml/AbstractLogicalSource> .
+
+<http://w3id.org/rml/logicalTarget> a owl:ObjectProperty ;
+    rdfs:label "logical target" ;
+    rdfs:comment "Represents the logical target to where triples are exported to." ;
+    rdfs:domain [ ] ;
+    rdfs:isDefinedBy <http://w3id.org/rml/io/> ;
+    rdfs:range <http://w3id.org/rml/LogicalTarget> .
+
+<http://w3id.org/rml/namespace> a owl:ObjectProperty ;
+    rdfs:label "namespace" ;
+    rdfs:comment "A namespace for describing a XPath reference formulation."@en ;
+    rdfs:domain <http://w3id.org/rml/XPathReferenceFormulation> ;
+    rdfs:isDefinedBy <http://w3id.org/rml/io/> ;
+    rdfs:range <http://w3id.org/rml/Namespace> .
+
+<http://w3id.org/rml/namespacePrefix> a owl:DatatypeProperty ;
+    rdfs:label "namespace prefix" ;
+    rdfs:comment "Describes the prefix of a namespace."@en ;
+    rdfs:domain <http://w3id.org/rml/Namespace> ;
+    rdfs:isDefinedBy <http://w3id.org/rml/io/> ;
+    rdfs:range xsd:string .
+
+<http://w3id.org/rml/namespaceURL> a owl:DatatypeProperty ;
+    rdfs:label "namespace URL" ;
+    rdfs:comment "Describes the URL of a namespace."@en ;
+    rdfs:domain <http://w3id.org/rml/Namespace> ;
+    rdfs:isDefinedBy <http://w3id.org/rml/io/> .
+
+<http://w3id.org/rml/none> a <http://w3id.org/rml/Compression>,
+        owl:NamedIndividual ;
+    rdfs:label "None" ;
+    rdfs:comment "Represents no compression."@en ;
+    rdfs:isDefinedBy <http://w3id.org/rml/io/> .
+
+<http://w3id.org/rml/null> a owl:DatatypeProperty ;
+    rdfs:label "null" ;
+    rdfs:comment "Describes which data values inside the source should be considered as NULL."@en ;
+    rdfs:domain <http://w3id.org/rml/Source> ;
+    rdfs:isDefinedBy <http://w3id.org/rml/io/> ;
+    rdfs:range xsd:string .
+
+<http://w3id.org/rml/object> a owl:ObjectProperty ;
+    rdfs:label "object" ;
+    rdfs:comment "Specifies the object for the generated triple from the logical source record."@en ;
+    rdfs:domain <http://w3id.org/rml/PredicateObjectMap> ;
+    rdfs:isDefinedBy <http://w3id.org/rml/core/> .
+
+<http://w3id.org/rml/objectMap> a owl:ObjectProperty ;
+    rdfs:label "object map" ;
+    rdfs:comment "An ObjectMap element to generate the object component of the (predicate, object) pair from a logical source record."@en ;
+    rdfs:domain <http://w3id.org/rml/PredicateObjectMap> ;
+    rdfs:isDefinedBy <http://w3id.org/rml/core/> .
+
+<http://w3id.org/rml/onFields> a owl:ObjectProperty ;
+    rdfs:label "on fields" ;
+    rdfs:comment """
+          The property onFields specifies the fields in LogicalView that are involved by the structural annotation.
+          The semantics of this involvement depends on the specific annotation.
+          """ ;
+    rdfs:domain <http://w3id.org/rml/StructuralAnnotation> ;
+    rdfs:isDefinedBy <http://w3id.org/rml/lv/> ;
+    rdfs:range rdf:List .
+
+<http://w3id.org/rml/parameter> a owl:ObjectProperty ;
+    rdfs:label "parameter" ;
+    rdfs:comment "Specifies the parameter of a function."@en ;
+    rdfs:domain <http://w3id.org/rml/Input> ;
+    rdfs:isDefinedBy <http://w3id.org/rml/fnml/> ;
+    rdfs:range rdfs:Resource .
+
+<http://w3id.org/rml/parameterMap> a owl:ObjectProperty ;
+    rdfs:label "parameter map" ;
+    rdfs:comment "A Parameter Map element to generate the parameter of a function."@en ;
+    rdfs:domain <http://w3id.org/rml/Input> ;
+    rdfs:isDefinedBy <http://w3id.org/rml/fnml/> ;
+    rdfs:range <http://w3id.org/rml/ParameterMap> .
+
+<http://w3id.org/rml/parent> a owl:DatatypeProperty ;
+    rdfs:label "parent" ;
+    rdfs:comment "Names a source record in the parent source of a join."@en ;
+    rdfs:domain <http://w3id.org/rml/Join> ;
+    rdfs:isDefinedBy <http://w3id.org/rml/core/> ;
+    rdfs:range xsd:string .
+
+<http://w3id.org/rml/parentLogicalView> a owl:ObjectProperty ;
+    rdfs:label "parent logical view" ;
+    rdfs:comment "The parent logical view of the logical view join." ;
+    rdfs:domain <http://w3id.org/rml/LogicalViewJoin> ;
+    rdfs:isDefinedBy <http://w3id.org/rml/lv/> ;
+    rdfs:range <http://w3id.org/rml/LogicalView> .
+
+<http://w3id.org/rml/parentMap> a owl:ObjectProperty ;
+    rdfs:label "parent map" ;
+    rdfs:comment "Names a parent map in the parent source of a join."@en ;
+    rdfs:domain <http://w3id.org/rml/Join> ;
+    rdfs:isDefinedBy <http://w3id.org/rml/core/> ;
+    rdfs:range <http://w3id.org/rml/ParentMap> .
+
+<http://w3id.org/rml/parentTriplesMap> a owl:ObjectProperty ;
+    rdfs:label "parent triples map" ;
+    rdfs:comment "Specifies the TriplesMap element corresponding to the parent logical source of the foreign key constraint."@en ;
+    rdfs:domain <http://w3id.org/rml/RefObjectMap> ;
+    rdfs:isDefinedBy <http://w3id.org/rml/core/> ;
+    rdfs:range <http://w3id.org/rml/TriplesMap> .
+
+<http://w3id.org/rml/path> a owl:DatatypeProperty ;
+    rdfs:label "path" ;
+    rdfs:comment "Denotes the path to a source or target resource."@en ;
+    rdfs:domain <http://w3id.org/rml/LogicalSource> ;
+    rdfs:isDefinedBy <http://w3id.org/rml/io/> ;
+    rdfs:range xsd:string .
+
+<http://w3id.org/rml/predicate> a owl:ObjectProperty ;
+    rdfs:label "predicate" ;
+    rdfs:comment "Specifies the predicate for the generated triple from the logical source record."@en ;
+    rdfs:domain <http://w3id.org/rml/PredicateObjectMap> ;
+    rdfs:isDefinedBy <http://w3id.org/rml/core/> .
+
+<http://w3id.org/rml/predicateMap> a owl:ObjectProperty ;
+    rdfs:label "predicate map" ;
+    rdfs:comment "A PredicateMap element to generate the predicate component of the (predicate, object) pair from a logical source record."@en ;
+    rdfs:domain <http://w3id.org/rml/PredicateObjectMap> ;
+    rdfs:isDefinedBy <http://w3id.org/rml/core/> ;
+    rdfs:range <http://w3id.org/rml/PredicateMap> .
+
+<http://w3id.org/rml/predicateObjectMap> a owl:ObjectProperty ;
+    rdfs:label "predicate object map" ;
+    rdfs:comment "A PredicateObjectMap element to generate (predicate, object) pair from a logical source record."@en ;
+    rdfs:domain <http://w3id.org/rml/TriplesMap> ;
+    rdfs:isDefinedBy <http://w3id.org/rml/core/> ;
+    rdfs:range <http://w3id.org/rml/PredicateObjectMap> .
+
+<http://w3id.org/rml/quotedTriplesMap> a owl:ObjectProperty ;
+    rdfs:label "quoted triples map" ;
+    rdfs:comment "An quoted TriplesMap element to generate a RDF-star triple as subject or object or another triple from a logical source record."@en ;
+    rdfs:domain <http://w3id.org/rml/StarMap> ;
+    rdfs:isDefinedBy <http://w3id.org/rml/star/> ;
+    rdfs:range [ ] .
+
+<http://w3id.org/rml/reference> a owl:DatatypeProperty ;
+    rdfs:label "reference" ;
+    rdfs:comment "A valid expression that selects values from the source data. The reference should conform to the syntax rules/grammar of the specified Reference Formulation." ;
+    rdfs:domain <http://w3id.org/rml/ExpressionMap> ;
+    rdfs:isDefinedBy <http://w3id.org/rml/core/> ;
+    rdfs:range xsd:string .
+
+<http://w3id.org/rml/referenceFormulation> a owl:ObjectProperty ;
+    rdfs:label "reference formulation" ;
+    rdfs:comment "The reference formulation used to refer to extracts of the source data. "@en ;
+    rdfs:domain <http://w3id.org/rml/Iterable> ;
+    rdfs:isDefinedBy <http://w3id.org/rml/core/> ;
+    rdfs:range <http://w3id.org/rml/ReferenceFormulation> .
+
+<http://w3id.org/rml/return> a owl:ObjectProperty ;
+    rdfs:label "return" ;
+    rdfs:comment "Specifies the return output of a function."@en ;
+    rdfs:domain <http://w3id.org/rml/ExpressionMap> ;
+    rdfs:isDefinedBy <http://w3id.org/rml/fnml/> ;
+    rdfs:range rdfs:Resource .
+
+<http://w3id.org/rml/returnMap> a owl:ObjectProperty ;
+    rdfs:label "return map" ;
+    rdfs:comment "A Return Map element to generate the return output of a function."@en ;
+    rdfs:domain <http://w3id.org/rml/ExpressionMap> ;
+    rdfs:isDefinedBy <http://w3id.org/rml/fnml/> ;
+    rdfs:range <http://w3id.org/rml/ReturnMap> .
+
+<http://w3id.org/rml/root> a owl:ObjectProperty ;
+    rdfs:label "root" ;
+    rdfs:comment "Defines the root of the relative path."@en ;
+    rdfs:domain <http://w3id.org/rml/RelativePath> ;
+    rdfs:isDefinedBy <http://w3id.org/rml/io/> ;
+    rdfs:range [ ] .
+
+<http://w3id.org/rml/serialization> a owl:ObjectProperty ;
+    rdfs:label "serialization" ;
+    rdfs:comment "Defines the serialization to generate the target output."@en ;
+    rdfs:domain <http://w3id.org/rml/LogicalTarget> ;
+    rdfs:isDefinedBy <http://w3id.org/rml/io/> ;
+    rdfs:range <http://www.w3.org/ns/formats/Format> .
+
+<http://w3id.org/rml/source> a owl:ObjectProperty ;
+    rdfs:label "source" ;
+    rdfs:comment "Defines the source that describe the input data."@en ;
+    rdfs:domain <http://w3id.org/rml/LogicalSource> ;
+    rdfs:isDefinedBy <http://w3id.org/rml/io/> ;
+    rdfs:range [ ] .
+
+<http://w3id.org/rml/strategy> a owl:ObjectProperty ;
+    rdfs:label "strategy" ;
+    rdfs:comment "A Strategy element to indicate how to perform an action (e.g. gather for collections and containers, join)."@en,
+        "A Strategy element to indicate how to perform an action."@en ;
+    rdfs:domain <http://w3id.org/rml/GatherMap> ;
+    rdfs:isDefinedBy <http://w3id.org/rml/cc/>,
+        <http://w3id.org/rml/core/> ;
+    rdfs:range <http://w3id.org/rml/Strategy> .
+
+<http://w3id.org/rml/structuralAnnotation> a owl:ObjectProperty ;
+    rdfs:label "structural annotation" ;
+    rdfs:comment "A structural annotation of the logical view." ;
+    rdfs:domain <http://w3id.org/rml/LogicalView> ;
+    rdfs:isDefinedBy <http://w3id.org/rml/lv/> ;
+    rdfs:range <http://w3id.org/rml/StructuralAnnotation> .
+
+<http://w3id.org/rml/subject> a owl:ObjectProperty ;
+    rdfs:label "subject" ;
+    rdfs:comment "An IRI reference for use as subject for all the RDF triples generated from a logical source record."@en ;
+    rdfs:domain <http://w3id.org/rml/TriplesMap> ;
+    rdfs:isDefinedBy <http://w3id.org/rml/core/> .
+
+<http://w3id.org/rml/subjectMap> a owl:ObjectProperty ;
+    rdfs:label "subject map" ;
+    rdfs:comment "A SubjectMap element to generate a subject from a logical source record."@en ;
+    rdfs:domain <http://w3id.org/rml/TriplesMap> ;
+    rdfs:isDefinedBy <http://w3id.org/rml/core/> ;
+    rdfs:range <http://w3id.org/rml/SubjectMap> .
+
+<http://w3id.org/rml/target> a owl:ObjectProperty ;
+    rdfs:label "target" ;
+    rdfs:comment "Defines the target that describe the output data."@en ;
+    rdfs:domain <http://w3id.org/rml/LogicalTarget> ;
+    rdfs:isDefinedBy <http://w3id.org/rml/io/> ;
+    rdfs:range [ ] .
+
+<http://w3id.org/rml/targetFields> a owl:ObjectProperty ;
+    rdfs:label "target fields" ;
+    rdfs:comment "The property targetFields specifies the Fields target of the InclusionAnnotation." ;
+    rdfs:domain <http://w3id.org/rml/StructuralAnnotation> ;
+    rdfs:isDefinedBy <http://w3id.org/rml/lv/> ;
+    rdfs:range rdf:List .
+
+<http://w3id.org/rml/targetView> a owl:ObjectProperty ;
+    rdfs:label "target view" ;
+    rdfs:comment "The property targetFields specifies the Fields target of the InclusionAnnotation." ;
+    rdfs:domain <http://w3id.org/rml/InclusionDependencyAnnotation> ;
+    rdfs:isDefinedBy <http://w3id.org/rml/lv/> ;
+    rdfs:range <http://w3id.org/rml/LogicalView> .
+
+<http://w3id.org/rml/targzip> a <http://w3id.org/rml/Compression>,
+        owl:NamedIndividual ;
+    rdfs:label "TarGZip" ;
+    rdfs:comment "Represents TarGZip file compression."@en ;
+    rdfs:isDefinedBy <http://w3id.org/rml/io/> .
+
+<http://w3id.org/rml/tarxz> a <http://w3id.org/rml/Compression>,
+        owl:NamedIndividual ;
+    rdfs:label "TarXz" ;
+    rdfs:comment "Represents TarXz file compression."@en ;
+    rdfs:isDefinedBy <http://w3id.org/rml/io/> .
+
+<http://w3id.org/rml/template> a owl:DatatypeProperty ;
+    rdfs:label "template" ;
+    rdfs:comment "A template (format string) to specify how to generate a value for a expression map, using one or more records from a logical source record."@en ;
+    rdfs:domain <http://w3id.org/rml/ExpressionMap> ;
+    rdfs:isDefinedBy <http://w3id.org/rml/core/> ;
+    rdfs:range xsd:string .
+
+<http://w3id.org/rml/termType> a owl:ObjectProperty ;
+    rdfs:label "term type" ;
+    rdfs:comment "A string indicating whether subject or object generated using the value from a source record name specified should be an IRI/URI (safe or unsafe) reference, blank node, or a literal."@en ;
+    rdfs:domain <http://w3id.org/rml/TermMap> ;
+    rdfs:isDefinedBy <http://w3id.org/rml/core/> ;
+    rdfs:range [ ] .
+
+<http://w3id.org/rml/viewOn> a owl:ObjectProperty ;
+    rdfs:label "view on" ;
+    rdfs:comment "The source of the logical view. This is the abstract logical source from which the logical view is derived." ;
+    rdfs:domain <http://w3id.org/rml/LogicalView> ;
+    rdfs:isDefinedBy <http://w3id.org/rml/lv/> ;
+    rdfs:range <http://w3id.org/rml/AbstractLogicalSource> .
+
+<http://w3id.org/rml/zip> a <http://w3id.org/rml/Compression>,
+        owl:NamedIndividual ;
+    rdfs:label "Zip" ;
+    rdfs:comment "Represents Zip file compression."@en ;
+    rdfs:isDefinedBy <http://w3id.org/rml/io/> .
+
+<http://w3id.org/rml/ChildMap> a owl:Class ;
+    rdfs:label "Child Map" ;
+    rdfs:comment "Represents a child map"@en ;
+    rdfs:isDefinedBy <http://w3id.org/rml/core/> ;
+    rdfs:subClassOf <http://w3id.org/rml/ExpressionMap> .
+
+<http://w3id.org/rml/DatatypeMap> a owl:Class ;
+    rdfs:label "Datatype Map" ;
+    rdfs:comment "Represents a datatype map"@en ;
+    rdfs:isDefinedBy <http://w3id.org/rml/core/> ;
+    rdfs:subClassOf <http://w3id.org/rml/TermMap> .
+
+<http://w3id.org/rml/FunctionMap> a owl:Class ;
+    rdfs:label "Function Map" ;
+    rdfs:comment "Represents a function map."@en ;
+    rdfs:isDefinedBy <http://w3id.org/rml/fnml/> ;
+    rdfs:subClassOf <http://w3id.org/rml/TermMap> .
+
+<http://w3id.org/rml/GraphMap> a owl:Class ;
+    rdfs:label "Graph Map" ;
+    rdfs:comment "Represents a graph map."@en ;
+    rdfs:isDefinedBy <http://w3id.org/rml/core/> ;
+    rdfs:subClassOf <http://w3id.org/rml/TermMap> .
+
+<http://w3id.org/rml/LanguageMap> a owl:Class ;
+    rdfs:label "Language Map" ;
+    rdfs:comment "Represents a language map" ;
+    rdfs:isDefinedBy <http://w3id.org/rml/core/> ;
+    rdfs:subClassOf <http://w3id.org/rml/ExpressionMap> .
+
+<http://w3id.org/rml/NonAssertedTriplesMap> a owl:Class ;
+    rdfs:label "Non Asserted Triples Map" ;
+    rdfs:comment "A type of Triples Map that is quoted but not asserted in the resulting graph"@en ;
+    rdfs:isDefinedBy <http://w3id.org/rml/star/> ;
+    rdfs:subClassOf <http://w3id.org/rml/TriplesMap> .
+
+<http://w3id.org/rml/NonNullableAnnotation> a owl:Class ;
+    rdfs:label "Non Nullable Annotation" ;
+    rdfs:comment "A non nullable annotation is analogous to the notion of NOT NULL constraints in databases." ;
+    rdfs:isDefinedBy <http://w3id.org/rml/lv/> ;
+    rdfs:subClassOf <http://w3id.org/rml/StructuralAnnotation> .
+
+<http://w3id.org/rml/ParameterMap> a owl:Class ;
+    rdfs:label "Parameter Map" ;
+    rdfs:comment "Represents a parameter map."@en ;
+    rdfs:isDefinedBy <http://w3id.org/rml/fnml/> ;
+    rdfs:subClassOf <http://w3id.org/rml/TermMap> .
+
+<http://w3id.org/rml/ParentMap> a owl:Class ;
+    rdfs:label "Parent Map" ;
+    rdfs:comment "Represents a parent map"@en ;
+    rdfs:isDefinedBy <http://w3id.org/rml/core/> ;
+    rdfs:subClassOf <http://w3id.org/rml/ExpressionMap> .
+
+<http://w3id.org/rml/PredicateMap> a owl:Class ;
+    rdfs:label "Predicate Map" ;
+    rdfs:comment "Represents a predicate map."@en ;
+    rdfs:isDefinedBy <http://w3id.org/rml/core/> ;
+    rdfs:subClassOf <http://w3id.org/rml/TermMap> .
+
+<http://w3id.org/rml/RefObjectMap> a owl:Class ;
+    rdfs:label "Reference Object Map" ;
+    rdfs:comment "Denotes a reference to an object map."@en ;
+    rdfs:isDefinedBy <http://w3id.org/rml/core/> .
+
+<http://w3id.org/rml/RelativePath> a owl:Class ;
+    rdfs:label "Relative Path" ;
+    rdfs:comment "Denotes a relative path location."@en ;
+    rdfs:isDefinedBy <http://w3id.org/rml/io/> .
+
+<http://w3id.org/rml/ReturnMap> a owl:Class ;
+    rdfs:label "Return Map" ;
+    rdfs:comment "Represents a return map."@en ;
+    rdfs:isDefinedBy <http://w3id.org/rml/fnml/> ;
+    rdfs:subClassOf <http://w3id.org/rml/TermMap> .
+
+<http://w3id.org/rml/Source> a owl:Class ;
+    rdfs:label "Source" ;
+    rdfs:comment "Denotes a source."@en ;
+    rdfs:isDefinedBy <http://w3id.org/rml/io/> .
+
+<http://w3id.org/rml/StarMap> a owl:Class ;
+    rdfs:label "Star Map" ;
+    rdfs:comment "Represents a star map able to generate RDF-star triples."@eb ;
+    rdfs:isDefinedBy <http://w3id.org/rml/star/> .
+
+<http://w3id.org/rml/UniqueAnnotation> a owl:Class ;
+    rdfs:label "Unique Annotation" ;
+    rdfs:comment "A unique annotation is analogous to the notion of UNIQUE constraints in databases. ." ;
+    rdfs:isDefinedBy <http://w3id.org/rml/lv/> ;
+    rdfs:subClassOf <http://w3id.org/rml/StructuralAnnotation> .
+
+<http://w3id.org/rml/XPathReferenceFormulation> a owl:Class ;
+    rdfs:label "XPath Reference Formulation" ;
+    rdfs:comment "Denotes a XPath Reference Formulation."@en ;
+    rdfs:isDefinedBy <http://w3id.org/rml/io/> ;
+    rdfs:subClassOf <http://w3id.org/rml/ReferenceFormulation> .
+
+<http://w3id.org/rml/InclusionDependencyAnnotation> a owl:Class ;
+    rdfs:label "Inclusion Dependency Annotation" ;
+    rdfs:comment "An inclusion dependency annotation is analogous to the notion of inclusion dependency in databases." ;
+    rdfs:isDefinedBy <http://w3id.org/rml/lv/> ;
+    rdfs:subClassOf <http://w3id.org/rml/StructuralAnnotation> .
+
+<http://w3id.org/rml/LogicalSource> a owl:Class ;
+    rdfs:label "Logical Source" ;
+    rdfs:comment "Denotes a logical source."@en ;
+    rdfs:isDefinedBy <http://w3id.org/rml/io/> ;
+    rdfs:subClassOf <http://w3id.org/rml/AbstractLogicalSource> .
+
+<http://w3id.org/rml/SubjectMap> a owl:Class ;
+    rdfs:label "Subject Map" ;
+    rdfs:comment "Represents a subject map."@en ;
+    rdfs:isDefinedBy <http://w3id.org/rml/core/> ;
+    rdfs:subClassOf <http://w3id.org/rml/TermMap> .
+
+<http://w3id.org/rml/Encoding> a owl:Class ;
+    rdfs:label "Encoding class" ;
+    rdfs:comment "Represents encoding formats."@en ;
+    rdfs:isDefinedBy <http://w3id.org/rml/io/> .
+
+<http://w3id.org/rml/FunctionExecution> a owl:Class ;
+    rdfs:label "Function Execution" ;
+    rdfs:comment "Represents a function execution."@en ;
+    rdfs:isDefinedBy <http://w3id.org/rml/fnml/> .
+
+<http://w3id.org/rml/LogicalTarget> a owl:Class ;
+    rdfs:label "LogicalTarget" ;
+    rdfs:comment "Denotes a logical target."@en ;
+    rdfs:isDefinedBy <http://w3id.org/rml/io/> .
+
+<http://w3id.org/rml/LogicalViewJoin> a owl:Class ;
+    rdfs:label "Logical View Join" ;
+    rdfs:comment "A logical view join is an operation that adapts the logical iterations of one logical view (the child logical view) with fields from another logical view (the parent logical view)." ;
+    rdfs:isDefinedBy <http://w3id.org/rml/lv/> .
+
+<http://w3id.org/rml/Namespace> a owl:Class ;
+    rdfs:label "Namespace" ;
+    rdfs:comment "Denotes a namespace."@en ;
+    rdfs:isDefinedBy <http://w3id.org/rml/io/> .
+
+<http://w3id.org/rml/Strategy> a owl:Class ;
+    rdfs:label "Strategy" ;
+    rdfs:comment "Denotes a strategy to perform a action (e.g. gather for collections and containers, joins)."@en,
+        "Denotes a strategy to perform an action or process."@en ;
+    rdfs:isDefinedBy <http://w3id.org/rml/cc/>,
+        <http://w3id.org/rml/core/> .
+
+<http://w3id.org/rml/AbstractLogicalSource> a owl:Class ;
+    rdfs:label "Abstract Logical Source" ;
+    rdfs:comment "An iterable that can be associated with a triples map such that a data source can be mapped to RDF triples."@en ;
+    rdfs:isDefinedBy <http://w3id.org/rml/core/> ;
+    rdfs:subClassOf <http://w3id.org/rml/Iterable> .
+
+<http://w3id.org/rml/Field> a owl:Class ;
+    rdfs:label "Field" ;
+    rdfs:comment "A field gives a name to data derived from the abstract logical source on which a logical view is defined." ;
+    rdfs:isDefinedBy <http://w3id.org/rml/lv/> .
+
+<http://w3id.org/rml/GatherMap> a owl:Class ;
+    rdfs:label "Gather Map" ;
+    rdfs:comment "Denotes a term map that generates a collection (rdf:List) or container (rdf:Bag, rdf:Seq, rdf:Alt)."@en ;
+    rdfs:isDefinedBy <http://w3id.org/rml/cc/> ;
+    rdfs:subClassOf <http://w3id.org/rml/TermMap> .
+
+<http://w3id.org/rml/Iterable> a owl:Class ;
+    rdfs:label "Iterable" ;
+    rdfs:comment "An abstract construct to describe data access and iteration for a data source."@en ;
+    rdfs:isDefinedBy <http://w3id.org/rml/core/> .
+
+<http://w3id.org/rml/ObjectMap> a owl:Class ;
+    rdfs:label "Object Map" ;
+    rdfs:comment "Represents an object map."@en ;
+    rdfs:isDefinedBy <http://w3id.org/rml/core/> ;
+    rdfs:subClassOf <http://w3id.org/rml/TermMap> .
+
+<http://w3id.org/rml/star/> a owl:Ontology ;
+    dcterms:contributor "Ana Iglesias Molina",
+        "Anastasia Dimou",
+        "David Chaves Fraga",
+        "Julián Arenas Guerrero" ;
+    dcterms:created "2023-03-14" ;
+    dcterms:description "RML module for generating RDF-star graphs"@en ;
+    dcterms:license <http://purl.org/NET/rdflicense/cc-by4.0> ;
+    dcterms:modified "2023-06-15" ;
+    dcterms:publisher <https://www.w3.org/community/kg-construct/> ;
+    dcterms:title "RML-star"@en ;
+    ns1:status "draft" ;
+    vann:preferredNamespacePrefix "rml" ;
+    vann:preferredNamespaceUri "http://w3id.org/rml/" ;
+    owl:versionIRI <http://w3id.org/rml/star> ;
+    owl:versionInfo "0.1.0" .
+
+<http://w3id.org/rml/Join> a owl:Class ;
+    rdfs:label "Join" ;
+    rdfs:comment "Represents a join condition."@en ;
+    rdfs:isDefinedBy <http://w3id.org/rml/core/> .
+
+<http://w3id.org/rml/PredicateObjectMap> a owl:Class ;
+    rdfs:label "Predicate Object Map" ;
+    rdfs:comment "Represents a predicate-object map."@en ;
+    rdfs:isDefinedBy <http://w3id.org/rml/core/> .
+
+<http://w3id.org/rml/Compression> a owl:Class ;
+    rdfs:label "compression class" ;
+    rdfs:comment "Represents file compression schemes."@en ;
+    rdfs:isDefinedBy <http://w3id.org/rml/io/> .
+
+<http://w3id.org/rml/Input> a owl:Class ;
+    rdfs:label "Input" ;
+    rdfs:comment "Represents a input for an execution."@en ;
+    rdfs:isDefinedBy <http://w3id.org/rml/fnml/> .
+
+<http://w3id.org/rml/LogicalView> a owl:Class ;
+    rdfs:label "Logical View" ;
+    rdfs:comment "A logical view (rml:LogicalView) is a type of abstract logical source that is derived from another abstract logical source by defining fields with data from said abstract logical source." ;
+    rdfs:isDefinedBy <http://w3id.org/rml/lv/> ;
+    rdfs:subClassOf <http://w3id.org/rml/AbstractLogicalSource> .
+
+<http://w3id.org/rml/ReferenceFormulation> a owl:Class ;
+    rdfs:label "Reference Formulation" ;
+    rdfs:comment "Denotes a Reference Formulation."@en ;
+    rdfs:isDefinedBy <http://w3id.org/rml/core/>,
+        <http://w3id.org/rml/io/> .
+
+<http://w3id.org/rml/StructuralAnnotation> a owl:Class ;
+    rdfs:label "Structural Annotation" ;
+    rdfs:comment "A structural annotation provide a mechanism to express relationships between logical views, as well as additional information about fields." ;
+    rdfs:isDefinedBy <http://w3id.org/rml/lv/> .
+
+<http://w3id.org/rml/TriplesMap> a owl:Class ;
+    rdfs:label "Triples Map" ;
+    rdfs:comment "Represents a triples map."@en ;
+    rdfs:isDefinedBy <http://w3id.org/rml/core/> .
+
+<http://w3id.org/rml/cc/> a owl:Ontology ;
+    dcterms:contributor "Ana Iglesias Molina",
+        "Christophe Debruyne",
+        "Franck Michel" ;
+    dcterms:created "2023-03-14" ;
+    dcterms:description "RML module to generate RDF collections and containers"@en ;
+    dcterms:license <http://purl.org/NET/rdflicense/cc-by4.0> ;
+    dcterms:modified "2023-06-15" ;
+    dcterms:publisher <https://www.w3.org/community/kg-construct/> ;
+    dcterms:title "RML-Containers"@en ;
+    ns1:status "draft" ;
+    vann:preferredNamespacePrefix "rml" ;
+    vann:preferredNamespaceUri "http://w3id.org/rml/" ;
+    owl:versionIRI <http://w3id.org/rml/cc> ;
+    owl:versionInfo "0.1.0" .
+
+<http://w3id.org/rml/ExpressionMap> a owl:Class ;
+    rdfs:label "Expression Map" ;
+    rdfs:comment "Represents an expression map"@en ;
+    rdfs:isDefinedBy <http://w3id.org/rml/core/> .
+
+<http://w3id.org/rml/TermMap> a owl:Class ;
+    rdfs:label "Term Map"@en ;
+    rdfs:comment "A function that generates any number of RDF terms from a logical source record."@en ;
+    rdfs:isDefinedBy <http://w3id.org/rml/core/> ;
+    rdfs:subClassOf <http://w3id.org/rml/ExpressionMap> .
+
+<http://w3id.org/rml/fnml/> a owl:Ontology ;
+    dcterms:contributor "Ana Iglesias Molina",
+        "Ben de Meester",
+        "Samaneh Jozashoori" ;
+    dcterms:created "2023-03-14" ;
+    dcterms:description "RML-FNML provides data transformations for generating knowledge graphs from (semi-)structured data"@en ;
+    dcterms:license <http://purl.org/NET/rdflicense/cc-by4.0> ;
+    dcterms:modified "2023-06-15" ;
+    dcterms:publisher <https://www.w3.org/community/kg-construct/> ;
+    dcterms:title "RML-FNML"@en ;
+    ns1:status "draft" ;
+    vann:preferredNamespacePrefix "rml" ;
+    vann:preferredNamespaceUri "http://w3id.org/rml/" ;
+    owl:versionIRI <http://w3id.org/rml/fnml> ;
+    owl:versionInfo "0.1.0" .
+
+<http://w3id.org/rml/lv/> a owl:Ontology ;
+    dcterms:contributor "Davide Lanti",
+        "Els de Vleeschauwer",
+        "Pano Maria" ;
+    dcterms:created "2025-01-14" ;
+    dcterms:description "RML Logical Views flatten nested data, allow flexible joining of data sources, and handle mix source formats."@en ;
+    dcterms:license <http://purl.org/NET/rdflicense/cc-by4.0> ;
+    dcterms:modified "2025-01-14" ;
+    dcterms:publisher <https://www.w3.org/community/kg-construct/> ;
+    dcterms:title "RML Logical Views"@en ;
+    ns1:status "draft" ;
+    vann:preferredNamespacePrefix "rml" ;
+    vann:preferredNamespaceUri "http://w3id.org/rml/" ;
+    owl:imports <http://w3id.org/rml/core/> ;
+    owl:versionIRI <http://w3id.org/rml/lv/> ;
+    owl:versionInfo "0.1.0" ;
+    sh:suggestedShapesGraph <http://w3id.org/rml/lv/shapes> .
+
+<http://w3id.org/rml/io/> a owl:Ontology ;
+    dcterms:contributor "Ana Iglesias Molina",
+        "Anastasia Dimou",
+        "Dylan Van Assche",
+        "Pano Maria" ;
+    dcterms:created "2023-03-14" ;
+    dcterms:description "RML-IO enables the description of input data sources and target output data serialization "@en ;
+    dcterms:license <http://purl.org/NET/rdflicense/cc-by4.0> ;
+    dcterms:modified "2025-01-18" ;
+    dcterms:publisher <https://www.w3.org/community/kg-construct/> ;
+    dcterms:title "RML-IO: Source and Target"@en ;
+    ns1:status "draft" ;
+    vann:preferredNamespacePrefix "rml" ;
+    vann:preferredNamespaceUri "http://w3id.org/rml/" ;
+    owl:imports <http://w3id.org/rml/core/> ;
+    owl:versionIRI <http://w3id.org/rml/io> ;
+    owl:versionInfo "0.1.0" .
+
+<http://w3id.org/rml/core/> a owl:Ontology ;
+    dcterms:contributor "Ana Iglesias Molina",
+        "Anastasia Dimou",
+        "Ben de Meester",
+        "Christophe Debruyne",
+        "David Chaves Fraga",
+        "Dylan Van Assche",
+        "Franck Michel",
+        "Pano Maria",
+        "Samaneh Jozashoori" ;
+    dcterms:created "2023-03-14" ;
+    dcterms:description "Generic Mapping Language for RDF (RDB/CSV/TSV/XML/JSON/... to RDF) - Vocabulary description"@en ;
+    dcterms:license <http://purl.org/NET/rdflicense/cc-by4.0> ;
+    dcterms:modified "2023-06-15" ;
+    dcterms:publisher <https://www.w3.org/community/kg-construct/> ;
+    dcterms:title "RML: Generic Mapping Language for RDF"@en ;
+    ns1:status "draft" ;
+    vann:preferredNamespacePrefix "rml" ;
+    vann:preferredNamespaceUri "http://w3id.org/rml/" ;
+    owl:versionIRI <http://w3id.org/rml/core/> ;
+    owl:versionInfo "0.1.0" .
+
+# fetched: 2026-10-21, resources: 142

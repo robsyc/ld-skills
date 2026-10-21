@@ -151,6 +151,14 @@ def load_registry(path: Path) -> tuple[Registry, list[str]]:
     return Registry(families), errors
 
 
+def spec_path(out_dir: Path, family_key: str, spec_key: str) -> Path:
+    return out_dir / family_key / f"{spec_key}.md"
+
+
+def namespace_path(out_dir: Path, ns_key: str) -> Path:
+    return out_dir / "_namespaces" / f"{ns_key}.ttl"
+
+
 def build_spec(
     family: Family, spec: SpecEntry, out_dir: Path, cache_dir: Path, refresh: bool, fetched: str
 ) -> tuple[bool, list[str]]:
@@ -185,7 +193,7 @@ def build_spec(
     if not validation.ok:
         return False, messages
 
-    target = out_dir / family.key / f"{spec.key}.md"
+    target = spec_path(out_dir, family.key, spec.key)
     target.parent.mkdir(parents=True, exist_ok=True)
     target.write_text(document)
     return True, messages
@@ -207,7 +215,7 @@ def build_namespace(
     turtle = serialize_namespace(graph, ns.uri, comment=ns.comment)
     turtle += f"# fetched: {fetched}, resources: {len(resources)}\n"
 
-    target = out_dir / "namespaces" / f"{ns.key}.ttl"
+    target = namespace_path(out_dir, ns.key)
     target.parent.mkdir(parents=True, exist_ok=True)
     target.write_text(turtle)
     return True, [f"{ns.key}: {len(graph)} triples, {len(resources)} resources"]
@@ -259,9 +267,9 @@ def prune_orphans(out_dir: Path, registry: Registry) -> list[str]:
     """Remove files in out_dir that no longer correspond to a registry entry."""
     keep: set[Path] = {out_dir / "index.md"}
     for family, spec in registry.specs:
-        keep.add(out_dir / family.key / f"{spec.key}.md")
+        keep.add(spec_path(out_dir, family.key, spec.key))
     for _, ns in registry.namespaces:
-        keep.add(out_dir / "_namespaces" / f"{ns.key}.ttl")
+        keep.add(namespace_path(out_dir, ns.key))
 
     removed: list[str] = []
     if not out_dir.exists():
@@ -298,7 +306,7 @@ def run_build(args: argparse.Namespace) -> int:
         ok, messages = build_spec(family, spec, out_dir, cache_dir, args.refresh, fetched)
         status = "ok " if ok else "FAIL"
         size = ""
-        target = out_dir / family.key / f"{spec.key}.md"
+        target = spec_path(out_dir, family.key, spec.key)
         if target.exists():
             size = f" ({target.stat().st_size // 1024} kB)"
         print(f"[{status}] {spec.key}{size}")

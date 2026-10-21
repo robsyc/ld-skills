@@ -33,7 +33,7 @@ Copy or symlink `skills/ld-specs/` into your agent's skills directory:
  
 | Agent | Location |
 |-------|----------|
-| Claude Code / ZCode | `.claude/skills/` or `~/.claude/skills/` (project or user scope) |
+| Claude Code | `.claude/skills/` or `~/.claude/skills/` (project or user scope) |
 | Generic agents | `.agents/skills/` |
  
 The skill triggers on RDF/SPARQL/SHACL/OWL/RML/etc. work; agents read
