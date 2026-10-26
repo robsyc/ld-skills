@@ -3,7 +3,7 @@ title: "RDFa 1.1 Primer - Third Edition"
 source: https://www.w3.org/TR/rdfa-primer/
 family: web
 spec_date: 2015-03-17
-fetched: 2026-10-21
+fetched: 2026-10-26
 ---
 
 # RDFa 1.1 Primer - Third Edition

@@ -3,7 +3,7 @@ title: "RML-CC: Collections and Containers in RML"
 source: https://w3id.org/rml/cc/spec
 family: mapping
 spec_date: 2025-02-25
-fetched: 2026-10-21
+fetched: 2026-10-26
 ---
 
 # RML-CC: Collections and Containers in RML

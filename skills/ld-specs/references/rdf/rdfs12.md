@@ -4,8 +4,8 @@ source: https://www.w3.org/TR/rdf12-schema/
 family: rdf
 version: "1.2"
 status: W3C Working Draft
-spec_date: 2026-10-10
-fetched: 2026-10-21
+spec_date: 2026-10-23
+fetched: 2026-10-26
 ---
 
 # RDF 1.2 Schema
@@ -91,15 +91,6 @@ is an extension of the basic RDF vocabulary.
 
 ## 1. Introduction
 
-RDF Schema provides a data-modelling vocabulary for RDF data.
-It is complemented by several companion documents which
-describe the basic concepts and abstract syntax of RDF
-[RDF12-CONCEPTS], the formal semantics of RDF [RDF12-SEMANTICS], and
-various concrete syntaxes for RDF, such as Turtle [RDF12-TURTLE],
-TriG, [RDF12-TRIG], and JSON-LD [JSON-LD11]. The RDF Primer
-[RDF12-PRIMER] provides an informal introduction and
-examples of the use of the concepts specified in this document.
-
 This document serves two complementary purposes:
 
 - It defines RDF Schema as a vocabulary for specifying lightweight
@@ -108,6 +99,13 @@ This document serves two complementary purposes:
 - It enumerates all terms defined within the `rdf:` and `rdfs:` namespaces, including both terms relevant to
   ontology construction and general-purpose terms used broadly within
   RDF applications.
+
+RDF Schema is a data-modelling vocabulary for RDF data,
+as well as a [semantic extension](https://www.w3.org/TR/rdf12-semantics/#semantic-extensions-and-entailment-regimes) of RDF. It provides mechanisms for describing groups of
+related resources and the relationships between these resources. RDF
+Schema is written in RDF
+using the terms described in this document. These resources are used to
+determine characteristics of other resources, such as the domains (§2.2.2) and ranges (§2.2.1) of properties.
 
 This document is intended to provide a clear specification of RDF
 Schema to those who find the formal semantics
@@ -120,12 +118,6 @@ and the RDF Semantics specification, the RDF Semantics specification
 should
 be taken to be correct.
 
-RDF Schema is a [semantic extension](https://www.w3.org/TR/rdf12-semantics/#semantic-extensions-and-entailment-regimes) of RDF. It provides mechanisms for describing groups of
-related resources and the relationships between these resources. RDF
-Schema is written in RDF
-using the terms described in this document. These resources are used to
-determine characteristics of other resources, such as the domains (§2.2.2) and ranges (§2.2.1) of properties.
-
 The RDF Schema class and property system is similar to the type
 systems of object-oriented programming languages such as Java. RDF
 Schema differs from many such systems in that instead of defining a
@@ -134,7 +126,7 @@ terms of the properties its instances may have, RDF Schema
 describes properties in terms of the classes of
 resource to which they apply. This is the role of the domain (§2.2.2) and range (§2.2.1) mechanisms described in this specification. For example, we could
 define the `eg:author` property to have a domain of `eg:Document` and a range of `eg:Person`, whereas a classical object oriented system might
-typically define a class `eg:Book` with an attribute called `eg:author` of type `eg:Person`. Using the RDF
+typically define a class `eg:Document` with an attribute called `eg:author` of type `eg:Person`. Using the RDF
 approach, it is easy for others to subsequently define additional
 properties with a domain of `eg:Document` or a range of `eg:Person`. This can be done without the need to re-define
 the original description of
@@ -143,11 +135,6 @@ it
 allows anyone to extend the description of existing resources, one of
 the
 architectural principles of the Web [RDF-NOT].
-
-However, RDF Schema also includes numerous terms in the rdf: and rdfs: namespaces that support broader RDF functionality
-and general data representation needs. These terms are not exclusively
-tied to ontology specification but serve essential roles in RDF’s
-broader architecture.
 
 This specification does not attempt to enumerate all the possible forms
 of
@@ -524,51 +511,15 @@ The class `rdf:dirLangString` is the class of [directional language-tagged strin
 
 ### 3.3 `rdf:HTML`
 
-*This section is non-normative.*
-
 The class `rdf:HTML` is the class of [HTML literal values](https://www.w3.org/TR/rdf12-concepts/#section-html). `rdf:HTML` is an instance of `rdfs:Datatype` and a subclass of `rdfs:Literal` (§2.1.3).
-> **Issue:**
->
-> > **Issue:**
-> >
-> > [Issue 79](https://github.com/w3c/rdf-schema/issues/79): sections describing `rdf:HTML`, `rdf:XMLLiteral` and `rdf:JSON` should be normative
->
-> contrarily to RDF 1.1, the sectionc of RDF 1.2 Concepts describing `rdf:HTML` and `rdf:XMLLiteral` are normative,
-> so they should also be normative in RDF Schema.
->
-> As for `rdf:JSON`, it was defined normatively in JSON-LD 1.1, and is defined normatively in RDF 1.2 Concepts. So this should also be normative in RDF Schema.
 
 ### 3.4 `rdf:XMLLiteral`
 
-*This section is non-normative.*
-
 The class `rdf:XMLLiteral` is the class of [XML literal values](https://www.w3.org/TR/rdf12-concepts/#section-XMLLiteral). `rdf:XMLLiteral` is an instance of `rdfs:Datatype` and a subclass of `rdfs:Literal` (§2.1.3).
-> **Issue:**
->
-> > **Issue:**
-> >
-> > [Issue 79](https://github.com/w3c/rdf-schema/issues/79): sections describing `rdf:HTML`, `rdf:XMLLiteral` and `rdf:JSON` should be normative
->
-> contrarily to RDF 1.1, the sectionc of RDF 1.2 Concepts describing `rdf:HTML` and `rdf:XMLLiteral` are normative,
-> so they should also be normative in RDF Schema.
->
-> As for `rdf:JSON`, it was defined normatively in JSON-LD 1.1, and is defined normatively in RDF 1.2 Concepts. So this should also be normative in RDF Schema.
 
 ### 3.5 `rdf:JSON`
 
-*This section is non-normative.*
-
 The class `rdf:JSON` is the class of [JSON literal values](https://www.w3.org/TR/rdf12-concepts/#section-json). `rdf:JSON` is an instance of `rdfs:Datatype` and a subclass of `rdfs:Literal` (§2.1.3).
-> **Issue:**
->
-> > **Issue:**
-> >
-> > [Issue 79](https://github.com/w3c/rdf-schema/issues/79): sections describing `rdf:HTML`, `rdf:XMLLiteral` and `rdf:JSON` should be normative
->
-> contrarily to RDF 1.1, the sectionc of RDF 1.2 Concepts describing `rdf:HTML` and `rdf:XMLLiteral` are normative,
-> so they should also be normative in RDF Schema.
->
-> As for `rdf:JSON`, it was defined normatively in JSON-LD 1.1, and is defined normatively in RDF 1.2 Concepts. So this should also be normative in RDF Schema.
 
 ### 3.6 XML Schema datatypes
 
@@ -1216,34 +1167,22 @@ they are formally defined, to avoid collisions and duplication.
 Each registry table has the following three fields: an IRI, the governing
 specification, and any relevant notes (such as applicable scope).
 
+New entries in either registry table must meet both of the following criteria:
+
+- They are defined by a W3C Recommendation-track specification [W3C-PROCESS].
+- They are of general utility for RDF. Terms specific to a particular application
+  or domain should be defined in a separate vocabulary.
+
 The policy for changes to existing entries is as follows:
 
 - Entries can be marked as deprecated but not deleted.
 - Entries can be updated to reflect any changes to the governing specification or the notes.
 
-The custodian for all registry tables is the RDF & SPARQL Working Group.
-> **Issue:**
->
-> > **Issue:**
-> >
-> > [Issue 81](https://github.com/w3c/rdf-schema/issues/81): Custodian of the vocabulary registry should be defined more robustly
->
-> Rather than "the RDF & SPARQL Working Group", I would identity the custodian of the registry as "the Working Group in charge of this document". This is more future proof.
->
-> It might also be useful to identify a fallback in case such a Working Group does not exist.
-> The RDF-Dev CG could be one? The team?
-> **Issue:**
->
-> > **Issue:**
-> >
-> > [Issue 80](https://github.com/w3c/rdf-schema/issues/80): Criteria for inclusion in the vocabulary registry should be described
->
-> The §A Vocabulary Registry defined in RDF 1.2 Schema should define criteria for including new entries.
->
-> I propose that new entries should
->
-> - be defined by W3C REC-track specifications, and
-> - be of general utility for RDF (otherwise they belong to their own separate vocabulary)
+The custodian for all registry tables is the Working Group in charge of this document.
+Requests for registry changes are to be sent to that Working Group.
+If no such Working Group exists, the W3C Team is the point of contact for
+registry change requests and for arranging continued custodianship in accordance
+with [§ 6.5.1 Registry Definitions](https://www.w3.org/policies/process/#registry-definition) of the W3C Process [W3C-PROCESS].
 
 ### A.1 `rdf:` Namespace
 
@@ -1373,6 +1312,7 @@ Changes for RDF 1.1 Recommendation
 
 - Added the datatype `rdf:dirLangString`.
 - Added the datatype `rdf:JSON`.
+- Made the sections describing `rdf:HTML`, `rdf:XMLLiteral`, and `rdf:JSON` normative.
 - Added the class `rdfs:Proposition` and the property `rdf:reifies`.
 - Reorganization of the document structure.
 - Added the vocabulary registry.
@@ -1427,17 +1367,13 @@ Changes for RDF 1.1 Recommendation
 
 [rdf:PlainLiteral: A Datatype for RDF Plain Literals (Second Edition)](https://www.w3.org/TR/rdf-plain-literal/). Jie Bao; Sandro Hawke; Boris Motik; Peter Patel-Schneider; Axel Polleres. W3C. 11 December 2012. W3C Recommendation. URL: <https://www.w3.org/TR/rdf-plain-literal/>
 
-[RDF11-SCHEMA]
-
-[RDF Schema 1.1](https://www.w3.org/TR/rdf-schema/). Dan Brickley; Ramanathan Guha. W3C. 25 February 2014. W3C Recommendation. URL: <https://www.w3.org/TR/rdf-schema/>
-
 [RDF12-CONCEPTS]
 
 [RDF 1.2 Concepts and Abstract Data Model](https://www.w3.org/TR/rdf12-concepts/). Andy Seaborne; Gregg Kellogg; Olaf Hartig; Pierre-Antoine Champin. W3C. 7 April 2026. W3C Candidate Recommendation. URL: <https://www.w3.org/TR/rdf12-concepts/>
 
 [RDF12-N-QUADS]
 
-[RDF 1.2 N-Quads](https://www.w3.org/TR/rdf12-n-quads/). Gregg Kellogg; Dominik Tomaszuk. W3C. 8 October 2026. W3C Working Draft. URL: <https://www.w3.org/TR/rdf12-n-quads/>
+[RDF 1.2 N-Quads](https://www.w3.org/TR/rdf12-n-quads/). Gregg Kellogg; Dominik Tomaszuk. W3C. 10 October 2026. W3C Working Draft. URL: <https://www.w3.org/TR/rdf12-n-quads/>
 
 [RDF12-N-TRIPLES]
 
@@ -1493,11 +1429,11 @@ Changes for RDF 1.1 Recommendation
 
 [SPARQL12-QUERY]
 
-[SPARQL 1.2 Query Language](https://www.w3.org/TR/sparql12-query/). Olaf Hartig; Andy Seaborne; Ruben Taelman; Gregory Williams; Thomas Pellissier Tanon. W3C. 8 October 2026. W3C Working Draft. URL: <https://www.w3.org/TR/sparql12-query/>
+[SPARQL 1.2 Query Language](https://www.w3.org/TR/sparql12-query/). Olaf Hartig; Andy Seaborne; Ruben Taelman; Gregory Williams; Thomas Pellissier Tanon. W3C. 11 October 2026. W3C Working Draft. URL: <https://www.w3.org/TR/sparql12-query/>
 
 [SPARQL12-RESULTS-CSV-TSV]
 
-[SPARQL 1.2 Query Results CSV and TSV Formats](https://www.w3.org/TR/sparql12-results-csv-tsv/). Ruben Taelman; Gregory Williams; Thomas Pellissier Tanon. W3C. 23 July 2026. W3C Working Draft. URL: <https://www.w3.org/TR/sparql12-results-csv-tsv/>
+[SPARQL 1.2 Query Results CSV and TSV Formats](https://www.w3.org/TR/sparql12-results-csv-tsv/). Ruben Taelman; Gregory Williams; Thomas Pellissier Tanon. W3C. 22 October 2026. W3C Working Draft. URL: <https://www.w3.org/TR/sparql12-results-csv-tsv/>
 
 [SPARQL12-RESULTS-JSON]
 
@@ -1513,7 +1449,7 @@ Changes for RDF 1.1 Recommendation
 
 [SPARQL12-UPDATE]
 
-[SPARQL 1.2 Update](https://www.w3.org/TR/sparql12-update/). Ruben Taelman; Andy Seaborne; Thomas Pellissier Tanon. W3C. 12 June 2026. W3C Working Draft. URL: <https://www.w3.org/TR/sparql12-update/>
+[SPARQL 1.2 Update](https://www.w3.org/TR/sparql12-update/). Ruben Taelman; Andy Seaborne; Thomas Pellissier Tanon. W3C. 12 October 2026. W3C Working Draft. URL: <https://www.w3.org/TR/sparql12-update/>
 
 [W3C-PROCESS]
 

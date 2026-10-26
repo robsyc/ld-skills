@@ -4,7 +4,7 @@ source: https://www.w3.org/TR/rdf-canon/
 family: rdf
 status: W3C Recommendation
 spec_date: 2024-05-21
-fetched: 2026-10-21
+fetched: 2026-10-26
 ---
 
 # RDF Dataset Canonicalization

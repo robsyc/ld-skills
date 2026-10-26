@@ -4,8 +4,8 @@ source: https://www.w3.org/TR/shacl12-rules/
 family: shacl
 version: "1.2"
 status: W3C Working Draft
-spec_date: 2026-10-20
-fetched: 2026-10-21
+spec_date: 2026-10-21
+fetched: 2026-10-26
 ---
 
 # SPARQL 1.2 RL
@@ -100,11 +100,14 @@ given goal pattern can be derived from the *base graph* using the rules.
 SPARQL-RL allows the creation of new RDF terms, including blank nodes,
 that can be used in triple templates in the head of rules.
 
-SPARQL-RL also supports negation as failure, which could lead to
+SPARQL-RL supports negation as failure, which could lead to
 different inference graphs depending on the order in which rules are
 evaluated. To avoid this, rules are evaluated using the technique
 of *stratification*, which establishes an ordering among rules,
 ensuring that the same inference graph is always produced.
+
+SPARQL-RL provides grouping and aggregation, with assignment of the
+aggregation function result to a variable in the body of a rule.
 
 SPARQL-RL can be referred to as *SRL* when the context is clear.
 
@@ -147,7 +150,7 @@ or contain RDF graphs in Turtle syntax.
 
 As well as sections marked as non-normative, all authoring guidelines, diagrams, examples, and notes in this specification are non-normative. Everything else in this specification is normative.
 
-The key words *MAY*, *MUST*, *MUST NOT*, and *SHOULD* in this document
+The key words *MAY*, *MUST*, and *MUST NOT* in this document
 are to be interpreted as described in [BCP 14](https://www.rfc-editor.org/info/bcp14) [RFC2119] [RFC8174]
 when, and only when, they appear in all
 capitals, as shown here.
@@ -157,8 +160,9 @@ This specification defines conformance criteria for:
 - SPARQL-RL Rule Set evaluation (§6)
 - SPARQL-RL syntax (§7)
 
-A conforming SPARQL-RL document is an [RDF string](https://www.w3.org/TR/rdf12-concepts/#dfn-rdf-string) that
-conforms to the §7.6 Grammar starting with the `RuleSet` production as defined in 7. SPARQL-RL Grammar (§7).
+A *conforming SPARQL-RL document* is an [RDF string](https://www.w3.org/TR/rdf12-concepts/#dfn-rdf-string), encoded in UTF-8 [RFC3629],
+and that conforms to the grammar and
+additional constraints defined in 7.6 Grammar (§7.6).
 > **Note:**
 >
 > > **Note:**
@@ -235,7 +239,7 @@ The above rules, applied to the data, will conclude that `:frontend` depends on 
 
 We can then derive `:exposedTo` relationships by adding a rule that depends
 on `:dependsOn` triples produced by the other rules
-(see also 4.3 Rule Dependency (§4.3)) below:
+(see also 4.3 Rule Dependency (§4.3) below):
 > **Example:**
 >
 > Example 2: Depending on inferred triples
@@ -421,22 +425,16 @@ If evaluating the expression in an assignment causes an error,
 then the current solution mapping is rejected by the assignment.
 
 ### 3.6 Grouping and Aggregation
-> **Issue:**
->
-> > **Issue:**
-> >
-> > [Issue 840](https://github.com/w3c/data-shapes/issues/840): SRL: incorporate aggregates [Needs Group Input/Decision](https://github.com/w3c/data-shapes/issues/?q=is%3Aissue+is%3Aopen+label%3A%22Needs+Group+Input%2FDecision%22)[SPARQL-RL](https://github.com/w3c/data-shapes/issues/?q=is%3Aissue+is%3Aopen+label%3A%22SPARQL-RL%22)
->
-> Provide GROUP BY and aggregation functions.
-> This covers at least `COUNT`, `COUNT DISTINCT`, `MIN`, `MAX`, and `SUM`.
 
-Rules with an aggregation element are run-once rules.
+Rules with a group element are run-once rules.
 Such rules are run after all the rules that could produce data that they
 depend on, and before any rules that depend on the data they produce.
-An aggregation element consumes the complete collection of solution sequences of preceeding rule elements in the rule body, collects them into groups based on group keys, then evaluates
+A group element consumes the complete collection of solution sequences of preceding rule elements in the rule body, collects them into groups based on group keys, then evaluates aggregation assignments.
 
-The output is a solution sequence where each [solution mapping=]
-contains the group key and the aggregation assignments.
+The output is a solution sequence where each [solution mapping](https://www.w3.org/TR/sparql12-query/#defn_sparqlSolutionMapping) is the current solution mapping extended with the group keys and
+the values of the aggregation variables.
+
+@@ example
 
 ### 3.7 Importing Rule Sets
 
@@ -509,7 +507,7 @@ the rule can then calculate a default value.
 > WHERE {
 >     ?x :distanceMiles ?miles .
 >     NOT DATA { ?x :distanceKilometers ?km }
->     SET ( ?kilometers := xsd:integer(?miles *  1.60934))
+>     SET ( ?kilometers := xsd:integer(?miles * 1.60934))
 > }
 > ```
 >
@@ -530,7 +528,7 @@ Such rules then only rely on matching from the base graph.
 > WHERE DATA {
 >     ?x :distanceMiles ?miles .
 >     NOT { ?x :distanceKilometers ?km }
->     SET ( ?kilometers := xsd:integer(?miles *  1.60934))
+>     SET ( ?kilometers := xsd:integer(?miles * 1.60934))
 > }
 > ```
 > **Note:**
@@ -610,13 +608,13 @@ included in the inference process.
 
 A triple pattern is a 3-tuple where each element is
 a [variable](https://www.w3.org/TR/sparql12-query/#defn_QueryVariable), an [RDF term](https://www.w3.org/TR/rdf12-concepts/#dfn-rdf-term), or a pattern for a [triple term](https://www.w3.org/TR/rdf12-concepts/#dfn-triple-term) with [variables](https://www.w3.org/TR/sparql12-query/#defn_QueryVariable).
-The second element of the tuple must be an [IRI](https://www.w3.org/TR/rdf12-concepts/#dfn-iri) or a [variable](https://www.w3.org/TR/sparql12-query/#defn_QueryVariable). Triple patterns appear in the body of a rule and are used to match [RDF triples](https://www.w3.org/TR/rdf12-concepts/#dfn-rdf-triple).
+The second element of the tuple is an [IRI](https://www.w3.org/TR/rdf12-concepts/#dfn-iri) or a [variable](https://www.w3.org/TR/sparql12-query/#defn_QueryVariable). Triple patterns appear in the body of a rule and are used to match [RDF triples](https://www.w3.org/TR/rdf12-concepts/#dfn-rdf-triple).
 
 *Triple template*
 
 A triple template is a 3-tuple where each element is
 a [variable](https://www.w3.org/TR/sparql12-query/#defn_QueryVariable), an [RDF term](https://www.w3.org/TR/rdf12-concepts/#dfn-rdf-term), or a template for a [triple term](https://www.w3.org/TR/rdf12-concepts/#dfn-triple-term) with [variables](https://www.w3.org/TR/sparql12-query/#defn_QueryVariable).
-The second element of the tuple must be an [IRI](https://www.w3.org/TR/rdf12-concepts/#dfn-iri) or a [variable](https://www.w3.org/TR/sparql12-query/#defn_QueryVariable). Triple templates appear in the head of a rule and
+The second element of the tuple is an [IRI](https://www.w3.org/TR/rdf12-concepts/#dfn-iri) or a [variable](https://www.w3.org/TR/sparql12-query/#defn_QueryVariable). Triple templates appear in the head of a rule and
 are used to generate [RDF triples](https://www.w3.org/TR/rdf12-concepts/#dfn-rdf-triple).
 > **Note:**
 >
@@ -627,15 +625,15 @@ are used to generate [RDF triples](https://www.w3.org/TR/rdf12-concepts/#dfn-rdf
 > A pattern or template for a [triple term](https://www.w3.org/TR/rdf12-concepts/#dfn-triple-term) in which no [variable](https://www.w3.org/TR/sparql12-query/#defn_QueryVariable) occurs is a [triple term](https://www.w3.org/TR/rdf12-concepts/#dfn-triple-term), and therefore also
 > an [RDF term](https://www.w3.org/TR/rdf12-concepts/#dfn-rdf-term).
 
+*Triple pattern element*
+
+A triple pattern element is a triple pattern that appears as a rule element.
+
 *Filter element*
 
 A filter element is an expression that appears as a rule element.
 It is used to restrict the values of variables
 in pattern matching.
-
-*Triple pattern element*
-
-A triple pattern element is a triple pattern that appears as a rule element.
 
 *Negation element*
 
@@ -652,19 +650,19 @@ a pair consisting
 of a [variable](https://www.w3.org/TR/sparql12-query/#defn_QueryVariable), called the *assignment variable*,
 and an expression, called the *assignment expression*.
 
-*Aggregation element*
+*Group element*
 
-An aggregation element is a rule element with *aggregation keys*,
-an *aggregation pattern* and a set of *aggregation assignments*.
+A group element is a rule element with a set of variables, called the *group keys*,
+a *group pattern*, and a set of *aggregation assignments*.
 Each aggregation assignment is a pair consisting of
 a [variable](https://www.w3.org/TR/sparql12-query/#defn_QueryVariable), called the *aggregation variable*,
 and an *aggregation function*.
-The aggregation pattern is composed
+The group pattern is composed
 of a sequence of triple pattern elements and filter elements.
 
 *Rule element*
 
-A rule element is any one of triple pattern element, filter element, negation element, assignment element, or aggregation element.
+A rule element is any one of triple pattern element, filter element, negation element, assignment element, or group element.
 
 *Rule head*
 
@@ -678,7 +676,7 @@ a triple pattern element,
 a filter element,
 a negation element,
 an assignment element, or
-an aggregation element.
+a group element.
 
 *Rule set imports*
 
@@ -702,7 +700,7 @@ particular point in the evaluation of a rule set.
 A rule is a run-once rule if any of the following hold:
 
 - the rule body has an assignment element;
-- the rule body has an aggregation element;
+- the rule body has a group element;
 - a triple template of the rule head has a [blank node](https://www.w3.org/TR/rdf12-concepts/#dfn-blank-node);
 - a triple template of the rule head has a template for a [triple term](https://www.w3.org/TR/rdf12-concepts/#dfn-triple-term) in which a [variable](https://www.w3.org/TR/sparql12-query/#defn_QueryVariable) occurs.
 
@@ -781,25 +779,25 @@ The following notation is used for the various components of rule sets and rules
 
 *Component Notation*
 
-| Component                 | Usage                                                                                                                                                                                 |
-| ------------------------- | ------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
-| `ruleset.rules`           | The rules of a rule set.                                                                                                           |
-| `ruleset.data`            | The [RDF graph](https://www.w3.org/TR/rdf12-concepts/#dfn-rdf-graph) formed by the union of the data blocks in the rule set.     |
-| `ruleset.imports`         | The set of imports of a rule set.                                           |
-| `rule.head`               | The triple templates of the rule head.                                  |
-| `rule.body`               | The rule elements of the rule.                                                  |
-| `rule.evaldata`           | A boolean flag; if *false*, the rule body is matched against the base graph. |
-| `rule.id`                 | An identifier for the rule, which is a [blank node](https://www.w3.org/TR/rdf12-concepts/#dfn-blank-node) or [IRI](https://www.w3.org/TR/rdf12-concepts/#dfn-iri).                    |
-| `filter.expr`             | The expression of a filter element.                                     |
-| `assign.var`              | The assignment variable of the assignment element.         |
-| `assign.expr`             | The assignment expression.                                                                                            |
-| `negation.inner`          | The negation element body of a negation element.           |
-| `negation.evaldata`       | A boolean flag; if *false*, the `negation.inner` is matched against the base graph.                                              |
-| `aggregation.grouping`    | @@                                                                                                                                                                                    |
-| `aggregation.pattern`     | @@                                                                                                                                                                                    |
-| `aggregation.assignments` | @@                                                                                                                                                                                    |
-| `aggregation.variables`   | @@                                                                                                                                                                                    |
-| `aggregation.functions`   | @@                                                                                                                                                                                    |
+| Component              | Usage                                                                                                                                                                                  |
+| ---------------------- | -------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
+| `ruleset.rules`        | The rules of a rule set.                                                                                                            |
+| `ruleset.data`         | The [RDF graph](https://www.w3.org/TR/rdf12-concepts/#dfn-rdf-graph) formed by the union of the data blocks in the rule set.      |
+| `ruleset.imports`      | The set of imports of a rule set.                                            |
+| `rule.head`            | The triple templates of the rule head.                                   |
+| `rule.body`            | The rule elements of the rule.                                                   |
+| `rule.evaldata`        | A boolean flag; if *false*, the rule body is matched against the base graph.  |
+| `rule.id`              | An identifier for the rule, which is a [blank node](https://www.w3.org/TR/rdf12-concepts/#dfn-blank-node) or [IRI](https://www.w3.org/TR/rdf12-concepts/#dfn-iri).                     |
+| `filter.expr`          | The expression of a filter element.                                      |
+| `assign.var`           | The assignment variable of the assignment element.          |
+| `assign.expr`          | The assignment expression.                                                                                             |
+| `negation.inner`       | The negation element body of a negation element.            |
+| `negation.evaldata`    | A boolean flag; if *false*, the `negation.inner` is matched against the base graph.                                               |
+| `group.keys`           | The set of group keys of a group element.                                 |
+| `group.pattern`        | The group pattern of a group element.                                  |
+| `group.aggregations`   | The aggregation assignments of a group element.               |
+| `aggregation.variable` | The aggregation variable of an aggregation assignment. |
+| `aggregation.function` | The aggregation function of an aggregation assignment. |
 
 ### 4.2 Well-formedness Conditions
 
@@ -809,59 +807,58 @@ that a [variable](https://www.w3.org/TR/sparql12-query/#defn_QueryVariable) in t
 that each variable in a filter element or assignment expression has a value at the point of evaluation;
 and that each assignment variable and aggregation variable in a rule is new and has not been used earlier in the rule body.
 
-Let *elti* be the i-th element of a sequence of rule elements, and let *N* be the length of the sequence.
+Let *S* be a sequence of rule elements.
 
-Let *V0* be the initial variables of the sequence.
+Let *elti* be the i-th element of *S*,
+and let *N* be the length of the sequence.
 
-Let *Vi*, for *i* from *1* to *N* be the set of variables *in-scope* after element *elti*.
+Let *V0* be a set of variables, called the initial
+variables of the sequence *S*.
 
-Let *Vall* be the value of *VN*.
+Define *vars(S, i, V0)* as the set of variables
+that are in scope after the i-th element of the sequence *S*,
+given the initial variables *V0*. *vars(S, i, V0)* is defined inductively:
 
-Define *Vi* inductively:
+- Let *vars(S, 0, V0)* be *V0*.
+- Let *vars(S, i, V0)*, for each i from 1 to *N* be
+  * if *elti* is a triple pattern element and *X* is the set of variables that occur in the triple pattern element then
+    + *vars(S, i, V0)* is the set *X* ∪ *vars(S, i-1, V0)*.
+  * if *elti* is an assignment element with assignment variable *avar* then
+    + *vars(S, i, V0)* is the set `{` *avar* `}` ∪ *vars(S, i-1, V0)*.
+  * if *elti* is a group element, *GRP*,
+    where the set *aggVars* is the set of aggregation variables of *GRP* then
+    + *vars(S, i, V0)* is the set *vars(S, i-1, V0)* ∪ *GRP.keys* ∪ *aggVars*.
+  * otherwise,
+    + *vars(S, i, V0)* is equal to the set *vars(S, i-1, V0)*.
 
-- If *elti* is a triple pattern element and *X* is the set of variables that occur in the triple pattern element then
-  * *Vi* is the set *X* ∪ *Vi-1*.
-- If *elti* is an assignment element with assignment variable *avar* then
-  * *Vi* is the set `{` *avar* `}` ∪ *Vi-1*.
-- If *elti* is an aggregation element where *aggGroupKeys* is the set of variables occurring in the aggregation keys and where the set *aggVar* is the set of aggregation variables then
-  * *Vi* is the set *aggGroupKeys* ∪ *aggVar*.
-    > **Note:**
-    >
-    > > **Note:**
-    > >
-    > > Note
-    >
-    > An aggregation replaces the set of variables in-scope.
+Define *vars(S, V0)*, the set of variables in-scope for *S* as *vars(S, N, V0)*, the set of variables in-scope
+after the last element of the sequence.
 
-- Otherwise,
-  * *Vi* is equal to the set *Vi-1*.
-
-A sequence of rule elements is a *well-formed sequence*,
+A sequence of rule elements, *S*,
+is a *well-formed sequence*,
 given a set of variables *V0*,
 if the following conditions are met for each *i*,
 from 1 to *N*:
 
-- If *elti* is a filter element then
-  * every [variable](https://www.w3.org/TR/sparql12-query/#defn_QueryVariable) mentioned in the filter element is an element of *Vi-1*.
-- If *elti* is an assignment element then
-  * every variable mentioned in the assignment expression is an element of *Vi-1*
-  * the assignment variable is not an element of *Vi-1*.
-- If *elti* is a negation element then
+- if *elti* is a filter element then
+  * every [variable](https://www.w3.org/TR/sparql12-query/#defn_QueryVariable) mentioned in the filter element is an element of *vars(S, i-1, V0)*.
+- if *elti* is an assignment element then
+  * every variable mentioned in the assignment expression is an element of *vars(S, i-1, V0)*
+  * the assignment variable is not an element of *vars(S, i-1, V0)*.
+- if *elti* is a negation element with negation element body *P* then
   * the sequence of rule elements in the negation element body is a well-formed sequence,
-    setting *V0* to the
-    value of *Vi-1*.
-- If *elti* is an aggregation element then
-  * the sequence of rule elements in the aggregation pattern is a well-formed sequence,
-    setting *V0* to the
-    value of *Vi-1*.
-  * the aggregation keys are elements of *Vall* of the aggregation pattern.
-  * none of the aggregation variables occur in the set of variables *Vi-1*.
-  * none of the aggregation variables occur in the set of aggregation keys.
+    with initial variables *vars(S, i-1, V0)*.
+- if *elti* is a group element, where *P* is the group pattern of the group element *elti* then
+  * the sequence of rule elements in the group pattern given initial variables *vars(S, i-1, V0)* is a well-formed sequence.
+  * each member of the group keys is an element of *vars(S, i-1, V0)* ∪ *vars(P, vars(S, i-1, V0))*.
+  * none of the aggregation variables occur in the set of
+    variables *vars(P, vars(S, i-1, V0))*.
   * the aggregation variables are distinct.
-  * the [variables](https://www.w3.org/TR/sparql12-query/#defn_QueryVariable) in aggregation functions appear in *Vall* of the aggregation pattern.
+  * the [variables](https://www.w3.org/TR/sparql12-query/#defn_QueryVariable) in aggregation functions appear
+    in *vars(P, vars(S, i-1, V0))*.
 
 A rule is a *well-formed rule* if the sequence of rule elements of the rule body is a well-formed sequence, starting with *V0* being the empty set,
-and if each variable in a triple template of the rule head is an element of *Vall*.
+and if each variable in a triple template of the rule head is an element of *vars(S, V0)*.
 
 A rule set is a *well-formed rule set* if and only if all
 rules of the rule set are well-formed rules.
@@ -871,7 +868,7 @@ rules of the rule set are well-formed rules.
 A rule `R1` depends on a rule `R2` if the output of the second rule
 affects the evaluation of the body of the first rule. That is, the head of `R2` has a triple template that can generate a triple that matches
 a triple pattern in the body of `R1`,
-either as a triple pattern element, or inside a negation element or an aggregation pattern.
+either as a triple pattern element, or inside a negation element or a group pattern.
 
 There are two kinds of dependency: closed dependencies and open dependencies.
 A *closed dependency* ensures that rule `R2` has generated all its possible output before rule `R1` is executed.
@@ -922,7 +919,7 @@ A triple pattern *depends on* a triple template if the triple pattern can match 
 
 Rule `R1` *depends on* rule `R2` if `R1.evaldata` is `true` and any triple pattern in the body of `R1`,
 whether as a triple pattern element, inside a negation element `neg` where `neg.evaldata` is `true`,
-or inside an aggregation pattern, depends on a triple template in the head of `R2`.
+or inside a group pattern, depends on a triple template in the head of `R2`.
 
 *Closed dependency*
 
@@ -1006,8 +1003,7 @@ define buildDependencyGraph(ruleSet):
 
         if R1.evaldata then:
             # Classify each triple pattern TP in the rule as requiring "open" or "closed"
-            # depending on whether it is in a negation element or an aggregation
-            # pattern, or not.
+            # depending on whether it is in a negation element or a group pattern, or not.
             foreach rule element RBE in R1.body:
                 if RBE is a triple pattern element of triple pattern TP:
                     let item be a pair (TP, "open")
@@ -1023,7 +1019,7 @@ define buildDependencyGraph(ruleSet):
                     endif
                 else if RBE is an assignment element:
                     # Do nothing
-                else if RBE is an aggregation element:
+                else if RBE is a group element:
                     foreach triple pattern TP in RBE.pattern:
                         let item be a pair (TP, "closed")
                         add item to bodyDependencies
@@ -1034,7 +1030,7 @@ define buildDependencyGraph(ruleSet):
 
         foreach pair (triple pattern TP, depLabel) in bodyDependencies:
             if R1 is a run-once rule:
-              set depLabel to "closed"
+                set depLabel to "closed"
             endif
             # Find dependencies for this triple pattern element or negation element.
             foreach rule R2 in ruleSet.rules:
@@ -1069,7 +1065,7 @@ Stratification is the process of partitioning a rule set into an ordered sequenc
 as "strata", singular "stratum"). Rules in lower strata are
 evaluated before rules in higher strata.
 
-Stratification imposes constraints on dependencies between rules to ensure that negation elements, aggregation elements,
+Stratification imposes constraints on dependencies between rules to ensure that negation elements, group elements,
 and run-once rules depend only
 on results computed using earlier (lower) strata and the base graph.
 This guarantees a single, well-defined, and finite
@@ -1127,7 +1123,7 @@ satisfied. If a rule set does not meet this condition, then this
 specification does not define an outcome for the evaluation of
 such a rule set.
 
-*Stratification Condition*
+*Stratification condition*
 
 The stratification condition requires that
 there is no recursive dependency involving a closed dependency in the dependency graph for a rule set.
@@ -1163,7 +1159,7 @@ define stratification(ruleSet):
         stratumMap.set(rule, 0)
     endfor
 
-    boolean changed = true
+    let changed = true
     while changed:
         changed = false
         foreach edge E in DP:
@@ -1194,8 +1190,8 @@ define stratification(ruleSet):
     endwhile
 
     # Initialize the result map.
-    let stratumRules be a map from integer to rules.
-    foreach i = 0 to maxStratum
+    let stratumRules be a map from integer to rules
+    foreach i = 0 to maxStratum:
         stratumRules.set(i, {})
     endfor
 
@@ -1206,8 +1202,8 @@ define stratification(ruleSet):
     endfor
 
     # Partition each level into once and general
-    let stratumLevels be a sequence of pairs of sets of rules.
-    for i = 0 to maxStratum:
+    let stratumLevels be a sequence of pairs of sets of rules
+    foreach i = 0 to maxStratum:
         let rules = stratumRules.get(i)
         let once = { R in rules | R is a run-once rule }
         let general = rules \ once
@@ -1462,42 +1458,46 @@ define evalFunction(F, μ):
     # Any error during evaluation causes evalFunction to return an error.
     if F is an error:
         return error
+    endif
     if F is an RDF term:
         return F
+    endif
     if F is a variable:
         # By well-formedness, F ∈ dom(μ).
         return μ(F)
+    endif
     # F is of the form F = op(expr1, ..., exprN)
     if op is a functional form (e.g., IF, logical-or):
         # Evaluated specifically for op; op may evaluate only some arguments.
         # For example, IF(c, t, f) evaluates c, then exactly
         # one of t or f is evaluated.
         return the value defined for op over expr1, ..., exprN under μ
+    endif
     # op is an ordinary function: evaluate all arguments first.
     return op(evalFunction(expr1, μ), ..., evalFunction(exprN, μ))
 enddefine
 ```
 
 ```
-define evalAggregate(AGGF, SEQ)
+define evalAggregate(AGGF, SEQ):
 @@
-    # AGGF is an aggregration function, which has an argument of a variable
-    # and a solution sequence. It returns a RDF term value.
+    # AGGF is an aggregation function, which has an argument of a variable
+    # and a solution sequence. It returns an RDF term value.
 
     # Noting that DISTINCT is only permitted for COUNT
     # Special case COUNT(*).
-endefine
+enddefine
 ```
 
 *Aggregation functions*
 
-| Agregation Function | SPARQL equivalent                                                                        |
-| ------------------- | ---------------------------------------------------------------------------------------- |
-| `COUNT`             | [SPARQL COUNT](https://www.w3.org/TR/sparql12-query/#aggSum) with *distinct* set `false` |
-| `COUNT DISTINCT`    | [COUNT](https://www.w3.org/TR/sparql12-query/#aggSum) with *distinct* set `true`         |
-| `MIN`               | [SPARQL MIN](https://www.w3.org/TR/sparql12-query/#aggMin)                               |
-| `MAX`               | [SPARQL MAX](https://www.w3.org/TR/sparql12-query/#aggMax)                               |
-| `SUM`               | [SPARQL SUM](https://www.w3.org/TR/sparql12-query/#aggSum)                               |
+| Aggregation Function | SPARQL equivalent                                                                          |
+| -------------------- | ------------------------------------------------------------------------------------------ |
+| `COUNT`              | [SPARQL COUNT](https://www.w3.org/TR/sparql12-query/#aggCount) with *distinct* set `false` |
+| `COUNT DISTINCT`     | [SPARQL COUNT](https://www.w3.org/TR/sparql12-query/#aggCount) with *distinct* set `true`  |
+| `MIN`                | [SPARQL MIN](https://www.w3.org/TR/sparql12-query/#aggMin)                                 |
+| `MAX`                | [SPARQL MAX](https://www.w3.org/TR/sparql12-query/#aggMax)                                 |
+| `SUM`                | [SPARQL SUM](https://www.w3.org/TR/sparql12-query/#aggSum)                                 |
 
 > **Note:**
 >
@@ -1506,7 +1506,7 @@ endefine
 > > Editor's note
 >
 > Any error in calculating an aggregate function causes an
-> evaluation error and this grouping is not added to the results.
+> evaluation error and that group is not added to the results.
 
 ### 6.4 Evaluation of a Rule
 
@@ -1543,8 +1543,8 @@ define evalRuleElements(B, SEQ, G, GD):
             foreach μ1 in X:
                 foreach μ2 in SEQ:
                     if compatible(μ1, μ2):
-                      μ3 = merge(μ1, μ2)
-                      add μ3 to SEQ1
+                        μ3 = merge(μ1, μ2)
+                        add μ3 to SEQ1
                     endif
                 endfor
             endfor
@@ -1590,31 +1590,35 @@ define evalRuleElements(B, SEQ, G, GD):
         endif
 
         ## What about COUNT(*)?
-        if rElt is an aggregation element AGG:
-            let SEQX = evalRuleElements(AGG.pattern, SEQ, G, GD)
-            let KGRP = empty map of solution mappings to solution sequences
-            # Allocate solution mappings to groups.
-            foreach solution μx in SEQX:
-                let μk be μx restricted to AGG.grouping
-                if KGRP[μk] is defined:
-                    Add μx to the solution sequence KGRP[μk]
-                else:
-                    KGRP[μk] = solution sequence of one element μx
-                endif
-            endfor
-            # For each group, calculate the aggregate functions and
-            # and create a solution mapping with group keys and
-            # the result of the aggregation assignments.
-            let SEQ1 be an empty solution sequence
-            foreach key K of map KGRP:
-                let X be solution sequence of KGRP[K]
-                let Z be an empty solution mapping
-                foreach aggregation function F in AGG.assignments:
-                    let V = calculate F.function(X)
-                    add solution mapping (F.var, V) to Z
+        if rElt is a group element GRP:
+            SEQ1 = {}
+            foreach solution μ in SEQ:
+                let μp be the restriction of μ to GRP.keys
+                let SEQX = evalRuleElements(GRP.pattern, { μp }, G, GD)
+                # Allocate solution mappings to groups.
+                let KGRP = empty map of solution mappings to solution sequences
+                foreach solution μx in SEQX:
+                    let μk be the restriction of μx to GRP.keys
+                    if KGRP[μk] is defined:
+                        add μx to the solution sequence KGRP[μk]
+                    else:
+                        KGRP[μk] = solution sequence of one element μx
+                    endif
                 endfor
-                Z = merge(Z, K)
-                add Z to SEQ1
+                # For each group, calculate the aggregate functions and extend
+                # the current solution mapping μ with the group keys
+                # and the results of the aggregation assignments.
+                foreach key K of map KGRP:
+                    let X be the solution sequence of KGRP[K]
+                    let Z be an empty solution mapping
+                    foreach aggregation function F in GRP.aggregations:
+                        let V = calculate F.function(X)
+                        add solution mapping (F.var, V) to Z
+                    endfor
+                    Z = merge(Z, K)
+                    Z = merge(Z, μ)
+                    add Z to SEQ1
+                endfor
             endfor
         endif
         SEQ = SEQ1
@@ -1631,7 +1635,7 @@ define evalRule(R, G, GD):
         treating blank nodes as variables.
 
     # Solution sequence of one solution that does not map any variables.
-    let SEQ0: Solution sequence = { μ0 }
+    let SEQ0 be the solution sequence { μ0 }
 
     if R.evaldata:
         let SEQ = evalRuleElements(B, SEQ0, G, GD)
@@ -1645,9 +1649,9 @@ define evalRule(R, G, GD):
         let S = {}
         # Rule head with each blank node replaced by a fresh blank node
         let HT = replaceBlankNodes(R.head)
-        foreach triple template TT in HT
+        foreach triple template TT in HT:
             let triple = subst(μ, TT)
-            Add triple to S
+            add triple to S
         endfor
         OUT = OUT ∪ S
     endfor
@@ -1681,7 +1685,7 @@ let LS be the sequence of layers after stratification
 # Inference graph
 let GI = { t ∈ D | t ∉ G0 }
 
-# Evaluation graph and data blocks
+# Evaluation graph: base graph and data blocks
 let GE = G0 ∪ D
 
 foreach stratum ST in LS:
@@ -1972,11 +1976,13 @@ final outcome.
 
 ## 7. SPARQL-RL Grammar
 
-A *SPARQL-RL document* is an [RDF string](https://www.w3.org/TR/rdf12-concepts/#dfn-rdf-string) encoded in UTF-8 [RFC3629] and starting with the `RuleSet` production and conforming to the additional constraints defined in 7.6 Grammar (§7.6).
-Only [Unicode scalar values](https://www.w3.org/TR/i18n-glossary/#dfn-scalar-value),
+A *SPARQL-RL document* is an [RDF string](https://www.w3.org/TR/rdf12-concepts/#dfn-rdf-string), encoded in UTF-8 [RFC3629],
+and that conforms to the grammar and
+additional constraints defined in 7.6 Grammar (§7.6). Only [Unicode scalar values](https://www.w3.org/TR/i18n-glossary/#dfn-scalar-value),
 in the ranges `U+0000` to `U+D7FF` and `U+E000` to `U+10FFFF`,
-are allowed. This excludes [surrogate code points](https://www.w3.org/TR/i18n-glossary/#dfn-surrogate),
-range `U+D800` to `U+DFFF`.
+are allowed.
+This excludes [surrogate code points](https://www.w3.org/TR/i18n-glossary/#dfn-surrogate),
+the range `U+D800` to `U+DFFF`.
 
 ### 7.1 Version Announcement
 
@@ -1989,10 +1995,11 @@ conformance for SPARQL-RL.
 | ------------- |
 | "1.2"         |
 
-The version announcement *SHOULD* be made early in the document.
+The version announcement is a hint. It should be made early in the
+document and before any feature depending on that version.
 
 Multiple `VERSION` directives
-may appear in a SPARQL-RL document.
+can appear in a SPARQL-RL document.
 Each directive applies to the part of the document following the directive,
 until another directive is encountered or the end of the document is reached.
 
@@ -2278,7 +2285,7 @@ Productions for terminals:
 | `[159]` | `HEX`                  | ::= | `[0-9] \| [A-F] \| [a-f]`                                                                                                                                                                                |
 | `[160]` | `PN_LOCAL_ESC`         | ::= | `'\' ( '_' \| '~' \| '.' \| '-' \| '!' \| '$' \| '&' \| "'" \| '(' \| ')' \| '*' \| '+' \| ',' \| ';' \| '=' \| '/' \| '?' \| '#' \| '@' \| '%' )`                                                       |
 
-A text version of this grammar is available in ["sparql-rl-grammar.bnf](https://www.w3.org/TR/sparql12-rl/sparql-rl-grammar.bnf).
+A text version of this grammar is available in `sparql-rl-grammar.bnf`.
 
 ### 7.7 Selected Terminal Literal Strings
 
@@ -2446,7 +2453,7 @@ SPARQL-RL documents may contain `IMPORTS` statements that reference other SPARQL
 If an imported document itself contains its own `IMPORTS` statements,
 those documents are also imported.
 
-While useful to modularizing rule sets, the use of `IMPORTS` statements can
+While useful for modularizing rule sets, the use of `IMPORTS` statements can
 introduce security risks.
 Risks include, but are not limited to, rule sets causing excessive computation, whether maliciously or accidentally, while being evaluated;
 and HTTP requests being intercepted and a different document being returned,
@@ -2492,16 +2499,14 @@ particularly whether authorization measures are needed for access to the data.
 ### G.1 Terms defined by this specification
 
 - aggregation assignments §4.1
-- Aggregation element §4.1
 - aggregation function §4.1
-- aggregation keys §4.1
-- aggregation pattern §4.1
 - aggregation variable §4.1
 - Assignment element §4.1
 - assignment expression §4.1
 - assignment variable §4.1
 - Base graph §4.1
 - Closed dependency §4.3
+- conforming SPARQL-RL document §2.
 - Data block §4.1
 - Dependency graph §4.3.1
 - depends on
@@ -2513,7 +2518,9 @@ particularly whether authorization measures are needed for access to the data.
 - General rule §4.1
 - generate §4.3
 - Graph match §6.1
-- in-scope §4.2
+- Group element §4.1
+- group keys §4.1
+- group pattern §4.1
 - Infer §4.1
 - Inference graph §4.1
 - matches §4.3
@@ -2542,7 +2549,7 @@ particularly whether authorization measures are needed for access to the data.
 - SPARQL-RL document §7.
 - SPARQL-RL processor §4.1
 - Stratification §4.4
-- Stratification Condition §4.4.1
+- Stratification condition §4.4.1
 - Stratification layer §4.4
 - stratum number §4.4
 - string escape sequence §7.5
@@ -2597,6 +2604,7 @@ particularly whether authorization measures are needed for access to the data.
   * SPARQL graph pattern matching
   * SPARQL MAX
   * SPARQL MIN
+  * SPARQL SUM
   * variables
 
 ## I. References
@@ -2661,6 +2669,12 @@ Permalink
 
 **Referenced in:**
 
+- Not referenced in this document.
+
+Permalink
+
+**Referenced in:**
+
 - § 4.1 Elements of the Abstract Syntax (2) (3) (4) (5) (6) (7)
 
 Permalink
@@ -2693,20 +2707,20 @@ Permalink
 
 **Referenced in:**
 
-- § 4.1 Elements of the Abstract Syntax (2) (3) (4) (5) (6)
-- § 4.2 Well-formedness Conditions (2) (3)
-- § 5. Relationship between SPARQL-RL and SPARQL
-- § 6.3 Evaluation of an Expression
-
-Permalink
-
-**Referenced in:**
-
 - § 4.1 Elements of the Abstract Syntax (2) (3) (4) (5)
 - § 4.2 Well-formedness Conditions (2)
 - § 4.3 Rule Dependency (2)
 - § 5. Relationship between SPARQL-RL and SPARQL
 - § 6.6.1 Determining the Dependencies (2)
+
+Permalink
+
+**Referenced in:**
+
+- § 4.1 Elements of the Abstract Syntax (2) (3) (4) (5) (6)
+- § 4.2 Well-formedness Conditions (2) (3)
+- § 5. Relationship between SPARQL-RL and SPARQL
+- § 6.3 Evaluation of an Expression
 
 Permalink
 
@@ -2724,7 +2738,7 @@ Permalink
 **Referenced in:**
 
 - § 4.1 Elements of the Abstract Syntax (2)
-- § 4.2 Well-formedness Conditions
+- § 4.2 Well-formedness Conditions (2)
 
 Permalink
 
@@ -2756,7 +2770,7 @@ Permalink
 **Referenced in:**
 
 - § 3.6 Grouping and Aggregation (2)
-- § 4.1 Elements of the Abstract Syntax (2) (3) (4)
+- § 4.1 Elements of the Abstract Syntax (2) (3) (4) (5) (6) (7)
 - § 4.2 Well-formedness Conditions (2)
 - § 4.4 Stratification
 
@@ -2765,13 +2779,14 @@ Permalink
 **Referenced in:**
 
 - § 3.6 Grouping and Aggregation (2)
-- § 4.2 Well-formedness Conditions (2) (3)
+- § 4.1 Elements of the Abstract Syntax
+- § 4.2 Well-formedness Conditions
 
 Permalink
 
 **Referenced in:**
 
-- § 4.1 Elements of the Abstract Syntax
+- § 4.1 Elements of the Abstract Syntax (2)
 - § 4.2 Well-formedness Conditions (2)
 - § 4.3 Rule Dependency (2)
 
@@ -2780,19 +2795,21 @@ Permalink
 **Referenced in:**
 
 - § 3.6 Grouping and Aggregation
-- § 4.1 Elements of the Abstract Syntax
-
-Permalink
-
-**Referenced in:**
-
-- § 4.2 Well-formedness Conditions (2) (3) (4) (5)
+- § 4.1 Elements of the Abstract Syntax (2) (3) (4)
 
 Permalink
 
 **Referenced in:**
 
 - § 3.6 Grouping and Aggregation
+- § 4.1 Elements of the Abstract Syntax
+- § 4.2 Well-formedness Conditions (2) (3) (4)
+
+Permalink
+
+**Referenced in:**
+
+- § 4.1 Elements of the Abstract Syntax
 
 Permalink
 
@@ -2958,12 +2975,6 @@ Permalink
 **Referenced in:**
 
 - Not referenced in this document.
-
-Permalink
-
-**Referenced in:**
-
-- § 4.2 Well-formedness Conditions
 
 Permalink
 
@@ -3158,7 +3169,7 @@ Permalink
 
 **Referenced in:**
 
-- § 2. Conformance (2)
+- § 2. Conformance
 - § 7.1 Version Announcement
 - § 7.4 IRI References
 - § 7.5 Escape Sequences
@@ -3344,6 +3355,7 @@ Permalink
 
 **Referenced in:**
 
+- § 3.6 Grouping and Aggregation
 - § 4.1 Elements of the Abstract Syntax (2)
 - § 6.1 Evaluation Definitions (2) (3) (4) (5) (6) (7)
 - § 6.3 Evaluation of an Expression
@@ -3353,7 +3365,7 @@ Permalink
 
 **Referenced in:**
 
-- § 6.3 Evaluation of an Expression (2) (3)
+- § 6.3 Evaluation of an Expression (2)
 
 Permalink
 
@@ -3366,6 +3378,12 @@ Permalink
 **Referenced in:**
 
 - § 6.4 Evaluation of a Rule
+
+Permalink
+
+**Referenced in:**
+
+- § 6.3 Evaluation of an Expression
 
 Permalink
 

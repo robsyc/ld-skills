@@ -4,7 +4,7 @@ source: https://www.w3.org/TR/prov-dm/
 family: prov
 status: W3C Recommendation
 spec_date: 2013-04-30
-fetched: 2026-10-21
+fetched: 2026-10-26
 ---
 
 # PROV-DM: The PROV Data Model

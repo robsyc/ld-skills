@@ -375,4 +375,4 @@ sosa: a <http://purl.org/vocommons/voaf#Vocabulary>,
     vann:preferredNamespacePrefix "sosa" ;
     vann:preferredNamespaceUri "http://www.w3.org/ns/sosa/" .
 
-# fetched: 2026-10-21, resources: 36
+# fetched: 2026-10-26, resources: 36

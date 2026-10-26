@@ -3,7 +3,7 @@ title: "PROV-XML: The PROV XML Schema"
 source: https://www.w3.org/TR/prov-xml/
 family: prov
 spec_date: 2013-04-30
-fetched: 2026-10-21
+fetched: 2026-10-26
 ---
 
 # PROV-XML: The PROV XML Schema

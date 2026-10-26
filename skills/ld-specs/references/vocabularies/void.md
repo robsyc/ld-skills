@@ -3,7 +3,7 @@ title: "Describing Linked Datasets with the VoID Vocabulary"
 source: https://www.w3.org/TR/void/
 family: vocabularies
 spec_date: 2011-03-03
-fetched: 2026-10-21
+fetched: 2026-10-26
 ---
 
 # Describing Linked Datasets with the VoID Vocabulary

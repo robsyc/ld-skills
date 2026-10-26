@@ -966,4 +966,4 @@
     owl:versionIRI <http://w3id.org/rml/core/> ;
     owl:versionInfo "0.1.0" .
 
-# fetched: 2026-10-21, resources: 142
+# fetched: 2026-10-26, resources: 142

@@ -5,7 +5,7 @@
 @prefix rdfs: <http://www.w3.org/2000/01/rdf-schema#> .
 @prefix xsd: <http://www.w3.org/2001/XMLSchema#> .
 
-<file:///home/robsyc/Desktop/Repos/ld-skills/#> prov:specializationOf <http://www.w3.org/ns/prov-o-inverses> ;
+<file:///home/runner/work/ld-skills/ld-skills/#> prov:specializationOf <http://www.w3.org/ns/prov-o-inverses> ;
     prov:wasDerivedFrom <http://www.w3.org/ns/prov-o-20130430> ;
     prov:wasRevisionOf <http://www.w3.org/ns/prov-o-inverses-20120312> .
 
@@ -1660,4 +1660,4 @@ prov:Entity a owl:Class ;
 [] prov:definition "influencee: an identifier (o2) for an entity, activity, or agent; " ;
     prov:dm "http://www.w3.org/TR/2013/REC-prov-dm-20130430/#term-influence" .
 
-# fetched: 2026-10-21, resources: 170
+# fetched: 2026-10-26, resources: 170

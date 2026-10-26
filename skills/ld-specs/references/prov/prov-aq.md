@@ -3,7 +3,7 @@ title: "PROV-AQ: Provenance Access and Query"
 source: https://www.w3.org/TR/prov-aq/
 family: prov
 spec_date: 2013-04-30
-fetched: 2026-10-21
+fetched: 2026-10-26
 ---
 
 # PROV-AQ: Provenance Access and Query

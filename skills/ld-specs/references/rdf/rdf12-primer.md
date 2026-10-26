@@ -5,7 +5,7 @@ family: rdf
 version: "1.2"
 status: W3C Group Note
 spec_date: 2026-09-17
-fetched: 2026-10-21
+fetched: 2026-10-26
 ---
 
 # RDF 1.2 Primer

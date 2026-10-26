@@ -4,7 +4,7 @@ source: https://www.w3.org/TR/rdfa-lite/
 family: web
 status: W3C Recommendation
 spec_date: 2015-03-17
-fetched: 2026-10-21
+fetched: 2026-10-26
 ---
 
 # RDFa Lite 1.1 - Second Edition

@@ -3,7 +3,7 @@ title: "SHACL 1.2 User Interfaces"
 source: https://w3c.github.io/data-shapes/shacl12-ui/
 family: shacl
 version: "1.2"
-fetched: 2026-10-21
+fetched: 2026-10-26
 ---
 
 # SHACL 1.2 User Interfaces
@@ -29,7 +29,7 @@ fetched: 2026-10-21
   - 4.1 SHACL Renderer
   - 4.2 Node UI Component
   - 4.3 Property UI Component
-  - 4.4 SHACL Global Configuration
+  - 4.4 Global Configuration
 - 5 Scoring System
   - 5.1 Introduction
   - 5.2 Score Conventions
@@ -231,7 +231,7 @@ sources:
 technical terms for SHACL and RDF, the latter from
 [rdf12-concepts]
 
-The SHACL & RDF terms include: *[binding](https://www.w3.org/TR/shacl/#dfn-binding)* , *[blank node](https://www.w3.org/TR/shacl/#dfn-blank-node)* , *[conformance](https://www.w3.org/TR/shacl/#dfn-conforms)* , *[constraint](https://www.w3.org/TR/shacl/#dfn-constraint)* , *[constraint component](https://www.w3.org/TR/shacl/#dfn-constraint-component)* , *[data graph](https://www.w3.org/TR/shacl/#dfn-data-graph)* , *[datatype](https://www.w3.org/TR/shacl/#dfn-datatype)* , *[failure](https://www.w3.org/TR/shacl/#dfn-failure)* , *[focus node](https://www.w3.org/TR/shacl/#dfn-focus-node)* , *[RDF graph](https://www.w3.org/TR/shacl/#dfn-rdf-graph)* , *[ill-formed](https://www.w3.org/TR/shacl/#dfn-ill-formed)* , *[IRI](https://www.w3.org/TR/shacl/#dfn-iri)* , *[literal](https://www.w3.org/TR/shacl/#dfn-literal)* , *[local name](https://www.w3.org/TR/shacl/#dfn-local-name)* , *[member](https://www.w3.org/TR/shacl/#dfn-members)* , *[node](https://www.w3.org/TR/shacl/#dfn-node)* , *[node shape](https://www.w3.org/TR/shacl/#dfn-node-shape)* , *[object](https://www.w3.org/TR/shacl/#dfn-object)* , *[parameter](https://www.w3.org/TR/shacl/#dfn-parameters)* , *[pre-binding](https://www.w3.org/TR/shacl/#pre-binding)* , *[predicate](https://www.w3.org/TR/shacl/#dfn-predicate)* , *[property path](https://www.w3.org/TR/shacl/#dfn-shacl-property-path)* , *[property shape](https://www.w3.org/TR/shacl/#dfn-property-shape)* , *[RDF term](https://www.w3.org/TR/shacl/#dfn-rdf-term)* , *[SHACL instance](https://www.w3.org/TR/shacl/#dfn-shacl-instance)* , *[SHACL list](https://www.w3.org/TR/shacl/#dfn-shacl-list)* , *[SHACL subclass](https://www.w3.org/TR/shacl/#dfn-shacl-subclass)* , *[shape](https://www.w3.org/TR/shacl/#dfn-shape)* , *[shapes graph](https://www.w3.org/TR/shacl/#dfn-shapes-graph)* , *[solution](https://www.w3.org/TR/shacl/#dfn-solution)* , *[subject](https://www.w3.org/TR/shacl/#dfn-subject)* , *[target](https://www.w3.org/TR/shacl/#dfn-target)* , *[triple](https://www.w3.org/TR/shacl/#dfn-rdf-triple)* , *[validation](https://www.w3.org/TR/shacl/#dfn-validation)* , *[validation report](https://www.w3.org/TR/shacl/#dfn-validation-report)* , *[validation result](https://www.w3.org/TR/shacl/#dfn-validation-results)* , *[validator](https://www.w3.org/TR/shacl/#dfn-validators)* , *[value](https://www.w3.org/TR/shacl/#dfn-value)* , *[value node](https://www.w3.org/TR/shacl/#dfn-value-nodes)* , *§4.4 SHACL Global Configuration* .
+The SHACL & RDF terms include: *[binding](https://www.w3.org/TR/shacl/#dfn-binding)* , *[blank node](https://www.w3.org/TR/shacl/#dfn-blank-node)* , *[conformance](https://www.w3.org/TR/shacl/#dfn-conforms)* , *[constraint](https://www.w3.org/TR/shacl/#dfn-constraint)* , *[constraint component](https://www.w3.org/TR/shacl/#dfn-constraint-component)* , *[data graph](https://www.w3.org/TR/shacl/#dfn-data-graph)* , *[datatype](https://www.w3.org/TR/shacl/#dfn-datatype)* , *[failure](https://www.w3.org/TR/shacl/#dfn-failure)* , *[focus node](https://www.w3.org/TR/shacl/#dfn-focus-node)* , *[RDF graph](https://www.w3.org/TR/shacl/#dfn-rdf-graph)* , *[ill-formed](https://www.w3.org/TR/shacl/#dfn-ill-formed)* , *[IRI](https://www.w3.org/TR/shacl/#dfn-iri)* , *[literal](https://www.w3.org/TR/shacl/#dfn-literal)* , *[local name](https://www.w3.org/TR/shacl/#dfn-local-name)* , *[member](https://www.w3.org/TR/shacl/#dfn-members)* , *[node](https://www.w3.org/TR/shacl/#dfn-node)* , *[node shape](https://www.w3.org/TR/shacl/#dfn-node-shape)* , *[object](https://www.w3.org/TR/shacl/#dfn-object)* , *[parameter](https://www.w3.org/TR/shacl/#dfn-parameters)* , *[pre-binding](https://www.w3.org/TR/shacl/#pre-binding)* , *[predicate](https://www.w3.org/TR/shacl/#dfn-predicate)* , *[property path](https://www.w3.org/TR/shacl/#dfn-shacl-property-path)* , *[property shape](https://www.w3.org/TR/shacl/#dfn-property-shape)* , *[RDF term](https://www.w3.org/TR/shacl/#dfn-rdf-term)* , *[SHACL instance](https://www.w3.org/TR/shacl/#dfn-shacl-instance)* , *[SHACL list](https://www.w3.org/TR/shacl/#dfn-shacl-list)* , *[SHACL subclass](https://www.w3.org/TR/shacl/#dfn-shacl-subclass)* , *[shape](https://www.w3.org/TR/shacl/#dfn-shape)* , *[shapes graph](https://www.w3.org/TR/shacl/#dfn-shapes-graph)* , *[solution](https://www.w3.org/TR/shacl/#dfn-solution)* , *[subject](https://www.w3.org/TR/shacl/#dfn-subject)* , *[target](https://www.w3.org/TR/shacl/#dfn-target)* , *[triple](https://www.w3.org/TR/shacl/#dfn-rdf-triple)* , *[validation](https://www.w3.org/TR/shacl/#dfn-validation)* , *[validation report](https://www.w3.org/TR/shacl/#dfn-validation-report)* , *[validation result](https://www.w3.org/TR/shacl/#dfn-validation-results)* , *[validator](https://www.w3.org/TR/shacl/#dfn-validators)* , *[value](https://www.w3.org/TR/shacl/#dfn-value)* , *[value node](https://www.w3.org/TR/shacl/#dfn-value-nodes)* , *§4.4 Global Configuration* .
 
 Language Resolution
 
@@ -693,7 +693,7 @@ typically containing one or more property UI components. It is often derived fro
 
 A *Property UI Component* is a combination of constraints across multiple property shapes that share the same focus node and property path.
 
-#### SHACL Global Configuration
+#### Global Configuration
 
 A shapes graph may contain a SHACL instance of the class `shui:Configuration` to define global configuration properties for rendering the UI. `sh:Graph` is a SHACL subclass of `shui:Configuration`.
 The following properties can be defined for a `shui:Configuration` instance.
@@ -1468,7 +1468,7 @@ by the renderer.
 
 The *effective order* of a property shape or
 property group is the value of its `sh:order`. Where `sh:order` is not
-specified, the effective order is the value of `shui:defaultOrder` in the global configuration, if present. Otherwise the property shape or property group has
+specified, the effective order is the value of `shui:defaultOrder` in the global configuration, if present. Otherwise, the property shape or property group has
 no effective order.
 
 Renderers MUST order the members of an ordered sequence by the ascending numeric value of

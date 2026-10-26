@@ -4,8 +4,8 @@ source: https://www.w3.org/TR/sparql12-update/
 family: sparql
 version: "1.2"
 status: W3C Working Draft
-spec_date: 2026-10-12
-fetched: 2026-10-21
+spec_date: 2026-10-25
+fetched: 2026-10-26
 ---
 
 # SPARQL 1.2 Update
@@ -1958,9 +1958,9 @@ Base IRI:
 
 The SPARQL 'BASE <IRIref>' term can change the current base IRI for relative IRIrefs in the query language that are used sequentially later in the document.
 
-Person & email address to contact for further information:
+Contact for further information:
 
-public-rdf-dawg-comments@w3.org
+RDF & SPARQL Working Group <public-rdf-star-wg@w3.org>
 
 Intended usage:
 
@@ -1972,7 +1972,8 @@ None
 
 Author/Change controller:
 
-The SPARQL 1.2 specification is a work product of the World Wide Web Consortium's RDF-star Working Group. The W3C has change control over these specifications.
+The SPARQL 1.2 specification is a work product of the World Wide Web Consortium's
+RDF and SPARQL Working Group. The W3C has change control over these specifications.
 
 ## 8. SPARQL 1.2 Update Grammar
 
@@ -2100,7 +2101,7 @@ TODO
 
 [RDF12-N-QUADS]
 
-[RDF 1.2 N-Quads](https://www.w3.org/TR/rdf12-n-quads/). Gregg Kellogg; Dominik Tomaszuk. W3C. 10 October 2026. W3C Working Draft. URL: <https://www.w3.org/TR/rdf12-n-quads/>
+[RDF 1.2 N-Quads](https://www.w3.org/TR/rdf12-n-quads/). Gregg Kellogg; Dominik Tomaszuk. W3C. 23 October 2026. W3C Working Draft. URL: <https://www.w3.org/TR/rdf12-n-quads/>
 
 [SPARQL12-CONCEPTS]
 
@@ -2112,7 +2113,7 @@ TODO
 
 [SPARQL12-RESULTS-CSV-TSV]
 
-[SPARQL 1.2 Query Results CSV and TSV Formats](https://www.w3.org/TR/sparql12-results-csv-tsv/). Ruben Taelman; Gregory Williams; Thomas Pellissier Tanon. W3C. 23 July 2026. W3C Working Draft. URL: <https://www.w3.org/TR/sparql12-results-csv-tsv/>
+[SPARQL 1.2 Query Results CSV and TSV Formats](https://www.w3.org/TR/sparql12-results-csv-tsv/). Ruben Taelman; Gregory Williams; Thomas Pellissier Tanon. W3C. 22 October 2026. W3C Working Draft. URL: <https://www.w3.org/TR/sparql12-results-csv-tsv/>
 
 [SPARQL12-RESULTS-JSON]
 

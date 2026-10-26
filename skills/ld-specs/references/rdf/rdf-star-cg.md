@@ -3,7 +3,7 @@ title: "RDF-star and SPARQL-star"
 source: https://www.w3.org/2021/12/rdf-star.html
 family: rdf
 spec_date: 2021-12-17
-fetched: 2026-10-21
+fetched: 2026-10-26
 ---
 
 # RDF-star and SPARQL-star

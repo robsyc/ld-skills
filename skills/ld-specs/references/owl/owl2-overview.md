@@ -4,7 +4,7 @@ source: https://www.w3.org/TR/owl2-overview/
 family: owl
 status: W3C Recommendation
 spec_date: 2012-12-11
-fetched: 2026-10-21
+fetched: 2026-10-26
 ---
 
 # OWL 2 Web Ontology Language Document Overview (Second Edition)

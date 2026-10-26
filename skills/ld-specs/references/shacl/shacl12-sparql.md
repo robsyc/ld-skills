@@ -4,8 +4,8 @@ source: https://www.w3.org/TR/shacl12-sparql/
 family: shacl
 version: "1.2"
 status: W3C Working Draft
-spec_date: 2026-10-11
-fetched: 2026-10-21
+spec_date: 2026-10-22
+fetched: 2026-10-26
 ---
 
 # SHACL 1.2 SPARQL-Related Features
@@ -95,7 +95,7 @@ defines expressions used to derive focus nodes and value nodes in SHACL
 
 defines SPARQL-related extensions of SHACL
 
-[SPARQL 1.2 RL](https://www.w3.org/TR/sparql12-rl/)
+[SHACL 1.2 Inference Rules](https://www.w3.org/TR/shacl12-inference-rules/)
 
 defines SHACL's framework of rule-based inference
 
@@ -1739,15 +1739,6 @@ the result of the SPARQL function call is an error.
 ### A. Pre-binding of Variables in SPARQL Queries
 
 Some features of SHACL-SPARQL rely on the concept of pre-binding of variables as defined in this section.
-> **Issue:**
->
-> > **Issue:**
-> >
-> > (Feature at Risk) Issue 1
->
-> This feature is "at risk" and may be changed (not removed)
-> to align with currently ongoing work in the RDF and SPARQL 1.2 work in this area.
-> Originally discussed as [Issue 647](https://github.com/w3c/data-shapes/issues/647).
 
 The definition of pre-binding used by SHACL requires the following restrictions on SPARQL queries.
 SHACL-SPARQL processors *MUST* report a [failure](https://www.w3.org/TR/shacl12-core/#dfn-failure) when operating on a [shapes graph](https://www.w3.org/TR/shacl12-core/#dfn-shapes-graph) that contains SHACL-SPARQL queries (via `sh:ask`, `sh:construct`, `sh:select` and `sh:sparqlExpr`)
@@ -2086,7 +2077,7 @@ security considerations of [SPARQL](https://www.w3.org/TR/sparql12-query/#securi
 
 [shacl12-core]
 
-[SHACL 1.2 Core](https://www.w3.org/TR/shacl12-core/). Holger Knublauch; Thomas Bergwinkl; Yousouf Taghzouti; Jesse Wright. W3C. 8 October 2026. W3C Working Draft. URL: <https://www.w3.org/TR/shacl12-core/>
+[SHACL 1.2 Core](https://www.w3.org/TR/shacl12-core/). Holger Knublauch; Thomas Bergwinkl; Yousouf Taghzouti; Jesse Wright. W3C. 14 October 2026. W3C Working Draft. URL: <https://www.w3.org/TR/shacl12-core/>
 
 [shacl12-inference-rules]
 
@@ -2098,7 +2089,7 @@ security considerations of [SPARQL](https://www.w3.org/TR/sparql12-query/#securi
 
 [sparql12-query]
 
-[SPARQL 1.2 Query Language](https://www.w3.org/TR/sparql12-query/). Olaf Hartig; Andy Seaborne; Ruben Taelman; Gregory Williams; Thomas Pellissier Tanon. W3C. 8 October 2026. W3C Working Draft. URL: <https://www.w3.org/TR/sparql12-query/>
+[SPARQL 1.2 Query Language](https://www.w3.org/TR/sparql12-query/). Olaf Hartig; Andy Seaborne; Ruben Taelman; Gregory Williams; Thomas Pellissier Tanon. W3C. 11 October 2026. W3C Working Draft. URL: <https://www.w3.org/TR/sparql12-query/>
 
 [vc-data-model]
 
@@ -2106,17 +2097,13 @@ security considerations of [SPARQL](https://www.w3.org/TR/sparql12-query/#securi
 
 #### G.2 Informative references
 
-[shacl12-inf-rules]
-
-[SPARQL 1.2 RL](https://www.w3.org/TR/sparql12-rl/). Robert David; David Habgood; Andy Seaborne; Simon Steyskal. W3C. 8 October 2026. W3C Working Draft. URL: <https://www.w3.org/TR/sparql12-rl/>
-
 [shacl12-profiling]
 
 [SHACL 1.2 Profiling](https://www.w3.org/TR/shacl12-profiling/). Nicholas Car; Scott Henninger; Yousouf Taghzouti; Alexander Nelson; Matt Goldberg. W3C. 2 July 2026. FPWD. URL: <https://www.w3.org/TR/shacl12-profiling/>
 
 [shacl12-sparql]
 
-[SHACL 1.2 SPARQL-Related Features](https://www.w3.org/TR/shacl12-sparql/). Holger Knublauch; Matt Goldberg; Scott Henninger; Livio Robaldo. W3C. 10 October 2026. W3C Working Draft. URL: <https://www.w3.org/TR/shacl12-sparql/>
+[SHACL 1.2 SPARQL-Related Features](https://www.w3.org/TR/shacl12-sparql/). Holger Knublauch; Matt Goldberg; Scott Henninger; Livio Robaldo. W3C. 11 October 2026. W3C Working Draft. URL: <https://www.w3.org/TR/shacl12-sparql/>
 
 [shacl12-ui]
 
@@ -2125,6 +2112,10 @@ security considerations of [SPARQL](https://www.w3.org/TR/sparql12-query/#securi
 [sparql12-federated-query]
 
 [SPARQL 1.2 Federated Query](https://www.w3.org/TR/sparql12-federated-query/). Ruben Taelman; Gregory Williams. W3C. 23 April 2026. W3C Working Draft. URL: <https://www.w3.org/TR/sparql12-federated-query/>
+
+[sparql12-rl]
+
+[SPARQL 1.2 RL](https://www.w3.org/TR/sparql12-rl/). Robert David; David Habgood; Andy Seaborne; Simon Steyskal. W3C. 21 October 2026. W3C Working Draft. URL: <https://www.w3.org/TR/sparql12-rl/>
 
 Permalink
 

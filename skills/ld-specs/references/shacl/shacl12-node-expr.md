@@ -4,8 +4,8 @@ source: https://www.w3.org/TR/shacl12-node-expr/
 family: shacl
 version: "1.2"
 status: W3C Working Draft
-spec_date: 2026-07-21
-fetched: 2026-10-21
+spec_date: 2026-10-22
+fetched: 2026-10-26
 ---
 
 # SHACL 1.2 Node Expressions
@@ -72,12 +72,14 @@ fetched: 2026-10-21
 - 8 Dynamic SHACL
   - 8.1 Example: Dynamic Minimum Age of Presidents
   - 8.2 Example: Dynamic Enumerations
-- 9 Security and Privacy Considerations
-- B Index
-  - B.1 Terms defined by this specification
-  - B.2 Terms defined by reference
-- D References
-  - D.1 Normative references
+- A Summary of Syntax Rules
+- B Security and Privacy Considerations
+- D Index
+  - D.1 Terms defined by this specification
+  - D.2 Terms defined by reference
+- F References
+  - F.1 Normative references
+  - F.2 Informative references
 
 ---
 
@@ -107,27 +109,31 @@ The specifications are as follows:
 
 defines the Core of SHACL
 
-[SHACL 1.2 SPARQL Extensions](https://www.w3.org/TR/shacl12-sparql/)
-
-defines SPARQL-related extensions of SHACL
-
 [SHACL 1.2 Node Expressions](https://www.w3.org/TR/shacl12-node-expr/)
 
 defines expressions used to derive focus nodes and value nodes in SHACL
 
-[SHACL 1.2 Rules](https://www.w3.org/TR/shacl12-rules/)
+[SHACL 1.2 SPARQL-Related Features](https://www.w3.org/TR/shacl12-sparql/)
 
-defines SHACL's methods of rule-based inference
+defines SPARQL-related extensions of SHACL
 
-[SHACL 1.2 UI](https://w3c.github.io/data-shapes/shacl12-ui/)
+[SHACL 1.2 Inference Rules](https://www.w3.org/TR/shacl12-inference-rules/)
 
-defines SHACL's use for User Interface generation
+defines SHACL's framework of rule-based inference
 
-[SHACL 1.2 Profiling](https://w3c.github.io/data-shapes/shacl12-profiling/)
+[SHACL 1.2 Profiling](https://www.w3.org/TR/shacl12-profiling/)
 
 defines the use of SHACL for profiling data, including SHACL data
 
-**Working Group Note Drafts:**
+[SHACL 1.2 User Interfaces](https://www.w3.org/TR/shacl12-ui/)
+
+defines SHACL's use for User Interface generation
+
+[SPARQL 1.2 RL](https://www.w3.org/TR/sparql12-rl/)
+
+defines a Datalog-style rules language for RDF that can be used with SHACL 1.2 Inference Rules
+
+**Editor's Drafts:**
 
 [SHACL 1.2 Overview](https://w3c.github.io/data-shapes/shacl12-overview/)
 
@@ -142,10 +148,10 @@ defines an RDF syntax for expressing SHACL concepts
 > >
 > > Note
 >
-> Implementers can partially check their level of conformance with the above specifications by successfully passing
-> the test cases of the [SHACL 1.2 test suite](https://github.com/w3c/data-shapes/tree/gh-pages/shacl12-test-suite).
-> Note, however, that passing all the tests in the test suite does not imply complete conformance to the specifications.
-> It only implies that the implementation conforms to the aspects tested by the test suite.
+> Implementers can partially check their level of conformance with the above specifications by testing themselves
+> with the test cases each presents, linked to in their metadata.
+> Note, however, that passing all the tests in a test suite does not imply complete conformance to the specifications,
+> it only implies that the implementation conforms to the aspects tested by the test suite.
 
 ## 1. Introduction
 
@@ -156,12 +162,12 @@ This section introduces the key terminology and document conventions.
 
 Basic RDF Terminology
 
-This document uses the terms *[RDF graph](https://www.w3.org/TR/rdf12-concepts/#dfn-rdf-graph)*, *[RDF triple](https://www.w3.org/TR/rdf12-concepts/#dfn-rdf-triple)*, *[IRI](https://www.w3.org/TR/rdf12-concepts/#dfn-iri)*, *[literal](https://www.w3.org/TR/rdf12-concepts/#dfn-literal)*, *[blank node](https://www.w3.org/TR/rdf12-concepts/#dfn-blank-node)*, *[node](https://www.w3.org/TR/rdf12-concepts/#dfn-node)* of an RDF graph, *[datatype](https://www.w3.org/TR/rdf12-concepts/#dfn-datatype)*, *[RDF term](https://www.w3.org/TR/rdf12-concepts/#dfn-rdf-term)*, and *[term equality](https://www.w3.org/TR/rdf12-concepts/#dfn-rdf-term-equality)*, and *[subject](https://www.w3.org/TR/rdf12-concepts/#dfn-subject)*, *[predicate](https://www.w3.org/TR/rdf12-concepts/#dfn-predicate)*, and *[object](https://www.w3.org/TR/rdf12-concepts/#dfn-object)* of RDF triples
+This document uses the terms *[RDF graph](https://www.w3.org/TR/rdf12-concepts/#dfn-rdf-graph)*, *[RDF triple](https://www.w3.org/TR/rdf12-concepts/#dfn-rdf-triple)*, *[IRI](https://www.w3.org/TR/rdf12-concepts/#dfn-iri)*, *[literal](https://www.w3.org/TR/rdf12-concepts/#dfn-literal)*, *[blank node](https://www.w3.org/TR/rdf12-concepts/#dfn-blank-node)*, *[node](https://www.w3.org/TR/rdf12-concepts/#dfn-node)* of an RDF graph, *[datatype](https://www.w3.org/TR/rdf12-concepts/#dfn-datatype)*, *[RDF term](https://www.w3.org/TR/rdf12-concepts/#dfn-rdf-term)*, *[triple term](https://www.w3.org/TR/rdf12-concepts/#dfn-triple-term)*, and *[term equality](https://www.w3.org/TR/rdf12-concepts/#dfn-rdf-term-equality)*, and *[subject](https://www.w3.org/TR/rdf12-concepts/#dfn-subject)*, *[predicate](https://www.w3.org/TR/rdf12-concepts/#dfn-predicate)*, and *[object](https://www.w3.org/TR/rdf12-concepts/#dfn-object)* of RDF triples
 as defined in RDF 1.2 Concepts and Abstract Syntax [rdf12-concepts].
 
 Basic SHACL Terminology
 
-This document uses the terms *[focus node](https://www.w3.org/TR/shacl12-core/#dfn-focus-node)*, *[value](https://www.w3.org/TR/shacl12-core/#dfn-value)*, *[value node](https://www.w3.org/TR/shacl12-core/#dfn-value-node)*, *[constraint](https://www.w3.org/TR/shacl12-core/#dfn-constraint)*, *[constraint component](https://www.w3.org/TR/shacl12-core/#dfn-constraint-component)*, *[parameter](https://www.w3.org/TR/shacl12-core/#dfn-parameter)*, *[mandatory parameter](https://www.w3.org/TR/shacl12-core/#dfn-mandatory-parameter)*, *[optional parameter](https://www.w3.org/TR/shacl12-core/#dfn-optional-parameter)*, *[parameter value](https://www.w3.org/TR/shacl12-core/#dfn-parameter-value)*, *[shape](https://www.w3.org/TR/shacl12-core/#dfn-shape)*, *[node shape](https://www.w3.org/TR/shacl12-core/#dfn-node-shape)*, *[property shape](https://www.w3.org/TR/shacl12-core/#dfn-property-shape)*, *[SHACL property path](https://www.w3.org/TR/shacl12-core/#dfn-shacl-property-path)*, *[data graph](https://www.w3.org/TR/shacl12-core/#dfn-data-graph)*, *[shapes graph](https://www.w3.org/TR/shacl12-core/#dfn-shapes-graph)*, *[target](https://www.w3.org/TR/shacl12-core/#dfn-target)*, *[validator](https://www.w3.org/TR/shacl12-core/#dfn-validators)*, *[validation result](https://www.w3.org/TR/shacl12-core/#dfn-validation-result)*, *[node expression](https://www.w3.org/TR/shacl12-core/#dfn-node-expression)*, *[node expression function](https://www.w3.org/TR/shacl12-core/#dfn-node-expression-function)*, *[function name](https://www.w3.org/TR/shacl12-core/#dfn-function-name)*, *[output nodes](https://www.w3.org/TR/shacl12-core/#dfn-output-nodes)*, *[focus graph](https://www.w3.org/TR/shacl12-core/#dfn-focus-graph)*, *[evaluation](https://www.w3.org/TR/shacl12-core/#dfn-evaluation)*, *[evaluation failure](https://www.w3.org/TR/shacl12-core/#dfn-evaluation-failure)*, *[conforms](https://www.w3.org/TR/shacl12-core/#dfn-conform)*, *[conformance checking](https://www.w3.org/TR/shacl12-core/#dfn-conformance-checking)*, *[failure](https://www.w3.org/TR/shacl12-core/#dfn-failure)*, *[validation](https://www.w3.org/TR/shacl12-core/#dfn-validation)*, *[SHACL instance](https://www.w3.org/TR/shacl12-core/#dfn-shacl-instance)*, *[SHACL subclass](https://www.w3.org/TR/shacl12-core/#dfn-shacl-subclass)*, *[SHACL type](https://www.w3.org/TR/shacl12-core/#dfn-shacl-type)*, *[SHACL list](https://www.w3.org/TR/shacl12-core/#dfn-shacl-list)*, *[members](https://www.w3.org/TR/shacl12-core/#dfn-members)*, *[well-formed](https://www.w3.org/TR/shacl12-core/#dfn-well-formed)*, *[deep copy](https://www.w3.org/TR/shacl12-core/#dfn-deep-copy)*,
+This document uses the terms *[focus node](https://www.w3.org/TR/shacl12-core/#dfn-focus-node)*, *[value](https://www.w3.org/TR/shacl12-core/#dfn-value)*, *[value node](https://www.w3.org/TR/shacl12-core/#dfn-value-node)*, *[constraint](https://www.w3.org/TR/shacl12-core/#dfn-constraint)*, *[constraint component](https://www.w3.org/TR/shacl12-core/#dfn-constraint-component)*, *[parameter](https://www.w3.org/TR/shacl12-core/#dfn-parameter)*, *[mandatory parameter](https://www.w3.org/TR/shacl12-core/#dfn-mandatory-parameter)*, *[optional parameter](https://www.w3.org/TR/shacl12-core/#dfn-optional-parameter)*, *[parameter value](https://www.w3.org/TR/shacl12-core/#dfn-parameter-value)*, *[shape](https://www.w3.org/TR/shacl12-core/#dfn-shape)*, *[node shape](https://www.w3.org/TR/shacl12-core/#dfn-node-shape)*, *[property shape](https://www.w3.org/TR/shacl12-core/#dfn-property-shape)*, *[SHACL property path](https://www.w3.org/TR/shacl12-core/#dfn-shacl-property-path)*, *[data graph](https://www.w3.org/TR/shacl12-core/#dfn-data-graph)*, *[shapes graph](https://www.w3.org/TR/shacl12-core/#dfn-shapes-graph)*, *[target](https://www.w3.org/TR/shacl12-core/#dfn-target)*, *[validator](https://www.w3.org/TR/shacl12-core/#dfn-validators)*, *[validation result](https://www.w3.org/TR/shacl12-core/#dfn-validation-result)*, *[node expression](https://www.w3.org/TR/shacl12-core/#dfn-node-expression)*, *[node expression function](https://www.w3.org/TR/shacl12-core/#dfn-node-expression-function)*, *[function name](https://www.w3.org/TR/shacl12-core/#dfn-function-name)*, *[output nodes](https://www.w3.org/TR/shacl12-core/#dfn-output-nodes)*, *[focus graph](https://www.w3.org/TR/shacl12-core/#dfn-focus-graph)*, *[evaluation](https://www.w3.org/TR/shacl12-core/#dfn-evaluation)*, *[evaluation failure](https://www.w3.org/TR/shacl12-core/#dfn-evaluation-failure)*, *[conforms](https://www.w3.org/TR/shacl12-core/#dfn-conform)*, *[conformance checking](https://www.w3.org/TR/shacl12-core/#dfn-conformance-checking)*, *[failure](https://www.w3.org/TR/shacl12-core/#dfn-failure)*, *[validation](https://www.w3.org/TR/shacl12-core/#dfn-validation)*, *[SHACL instance](https://www.w3.org/TR/shacl12-core/#dfn-shacl-instance)*, *[SHACL subclass](https://www.w3.org/TR/shacl12-core/#dfn-shacl-subclass)*, *[SHACL type](https://www.w3.org/TR/shacl12-core/#dfn-shacl-type)*, *[SHACL list](https://www.w3.org/TR/shacl12-core/#dfn-shacl-list)*, *[members](https://www.w3.org/TR/shacl12-core/#dfn-members)*, *[well-formed](https://www.w3.org/TR/shacl12-core/#dfn-well-formed)*, *[ill-formed](https://www.w3.org/TR/shacl12-core/#dfn-ill-formed)*, *[deep copy](https://www.w3.org/TR/shacl12-core/#dfn-deep-copy)*,
 as defined in the SHACL 1.2 Core specification [shacl12-core].
 
 ### 1.2 Document Conventions
@@ -172,16 +178,43 @@ The reader is expected to be familiar with SHACL [shacl12-core] and SPARQL
 
 Within this document, the following namespace prefix bindings are used:
 
-| Prefix    | Namespace                                     |
-| --------- | --------------------------------------------- |
-| `rdf:`    | `http://www.w3.org/1999/02/22-rdf-syntax-ns#` |
-| `rdfs:`   | `http://www.w3.org/2000/01/rdf-schema#`       |
-| `sh:`     | `http://www.w3.org/ns/shacl#`                 |
-| `shnex:`  | `http://www.w3.org/ns/shacl-node-expr#`       |
-| `skos:`   | `http://www.w3.org/2004/02/skos/core#`        |
-| `sparql:` | `http://www.w3.org/ns/sparql#`                |
-| `xsd:`    | `http://www.w3.org/2001/XMLSchema#`           |
-| `ex:`     | `http://example.com/ns#`                      |
+| Prefix            | Namespace                                          |
+| ----------------- | -------------------------------------------------- |
+| `rdf:`            | `http://www.w3.org/1999/02/22-rdf-syntax-ns#`      |
+| `rdfs:`           | `http://www.w3.org/2000/01/rdf-schema#`            |
+| `sh:`             | `http://www.w3.org/ns/shacl#`                      |
+| `shnex:`          | `http://www.w3.org/ns/shacl-node-expr#`            |
+| `skos:`           | `http://www.w3.org/2004/02/skos/core#`             |
+| `sparql:`         | `http://www.w3.org/ns/sparql#`                     |
+| `xsd:`            | `http://www.w3.org/2001/XMLSchema#`                |
+| `ex:`             | `http://example.com/ns#`                           |
+| `owl:`            | `http://www.w3.org/2002/07/owl#`                   |
+| `qb:`             | `http://purl.org/linked-data/cube#`                |
+| `sdmx-dimension:` | `http://purl.org/linked-data/sdmx/2009/dimension#` |
+| `eg:`             | `http://example.org/ns#`                           |
+| `eg-measure:`     | `http://example.org/measure#`                      |
+
+Within this document, the following JSON-LD context is used:
+
+```
+{
+  "@context": {
+    "rdf": "http://www.w3.org/1999/02/22-rdf-syntax-ns#",
+    "rdfs": "http://www.w3.org/2000/01/rdf-schema#",
+    "sh": "http://www.w3.org/ns/shacl#",
+    "shnex": "http://www.w3.org/ns/shacl-node-expr#",
+    "skos": "http://www.w3.org/2004/02/skos/core#",
+    "sparql": "http://www.w3.org/ns/sparql#",
+    "xsd": "http://www.w3.org/2001/XMLSchema#",
+    "ex": "http://example.com/ns#",
+    "owl": "http://www.w3.org/2002/07/owl#",
+    "qb": "http://purl.org/linked-data/cube#",
+    "sdmx-dimension": "http://purl.org/linked-data/sdmx/2009/dimension#",
+    "eg": "http://example.org/ns#",
+    "eg-measure": "http://example.org/measure#"
+  }
+}
+```
 
 Grey boxes such as this include syntax rules that apply to the shapes graph.
 
@@ -191,7 +224,7 @@ Grey boxes such as this include syntax rules that apply to the shapes graph.
 
 As well as sections marked as non-normative, all authoring guidelines, diagrams, examples, and notes in this specification are non-normative. Everything else in this specification is normative.
 
-The key words *MAY* and *MUST* in this document
+The key words *MAY*, *MUST*, and *OPTIONAL* in this document
 are to be interpreted as described in [BCP 14](https://www.rfc-editor.org/info/bcp14) [RFC2119] [RFC8174]
 when, and only when, they appear in all
 capitals, as shown here.
@@ -199,8 +232,10 @@ capitals, as shown here.
 This document defines the **SHACL Node Expressions** language that extends [SHACL 1.2 Core](https://www.w3.org/TR/shacl12-core/) [shacl12-core].
 This specification describes conformance criteria for:
 
-- **SHACL Node Expressions processors** as processors that support the evaluation of SHACL Node Expressions,
-  in particular as part of SHACL validation
+- **SHACL Node Expressions processors** as processors that support the evaluation
+  of the SHACL Node Expression functions from this document.
+  Support for 8. Dynamic SHACL (§8) is *OPTIONAL* for these processors;
+  processors that support it *MUST* follow the rules of that section.
 
 Also see the discussion of well-formedness in the [Conformance section of SHACL Core](https://www.w3.org/TR/shacl12-core/#conformance).
 
@@ -235,6 +270,30 @@ the `ex:headQuarterCountry` is `ex:Estonia`.
 > ]
 > ]
 > ]** .
+>
+> ```
+> {
+> 	"@id": "ex:EstonianCompanyShape",
+> 	"@type": "sh:NodeShape",
+> 	"sh:targetNode": {
+> 		"shnex:filterShape": {
+> 			"sh:property": {
+> 				"sh:hasValue": {
+> 					"@id": "ex:Estonia"
+> 				},
+> 				"sh:path": {
+> 					"@id": "ex:headQuarterCountry"
+> 				}
+> 			}
+> 		},
+> 		"shnex:nodes": {
+> 			"shnex:instancesOf": {
+> 				"@id": "ex:Company"
+> 			}
+> 		}
+> 	}
+> }
+> ```
 
 The following diagram illustrates how this node expression is interpreted, from a logical point of view.
 During validation, a SHACL processor will determine the [target](https://www.w3.org/TR/shacl12-core/#dfn-target) nodes of the shape
@@ -246,7 +305,7 @@ that [conform](https://www.w3.org/TR/shacl12-core/#dfn-conform) to the provided 
 
 ![Illustration of the data flow between node expressions](https://www.w3.org/TR/shacl12-node-expr/images/FilterShapeExampleDiagram.png)
 
-The scenario above can also be expressed using SPARQL *[select expressions](https://www.w3.org/TR/shacl12-sparql/#SelectExpression)*.
+The scenario above can also be expressed using SPARQL [select expressions](https://www.w3.org/TR/shacl12-sparql/#SelectExpression).
 For performance reasons, for example, specific implementations of SHACL node expressions might
 internally convert node expressions such as the `shnex:filterShape` above to SPARQL.
 > **Example:**
@@ -264,6 +323,16 @@ internally convert node expressions such as the `shnex:filterShape` above to SPA
 > }
 > """
 > ]** .
+>
+> ```
+> {
+> 	"@id": "ex:EstonianCompanyShape",
+> 	"@type": "sh:NodeShape",
+> 	"sh:targetNode": {
+> 		"sh:select": "\n\t\t\tSELECT ?company\n\t\t\tWHERE {\n\t\t\t\t?company rdf:type/rdfs:subClassOf* ex:Company .\n\t\t\t\t?company ex:headQuarterCountry ex:Estonia .\n\t\t\t}\n\t\t"
+> 	}
+> }
+> ```
 
 The next example uses a node expression to compute the values of the property `ex:employeeCount` as the number of values of the property `ex:employee` at each instance of `ex:Company`.
 > **Example:**
@@ -293,6 +362,56 @@ The next example uses a node expression to compute the values of the property `e
 > shnex:pathValues ex:employee ;
 > ]
 > ]** .
+>
+> ```
+> {
+> 	"@graph": [
+> 		{
+> 			"@id": "ex:Company",
+> 			"@type": "sh:ShapeClass",
+> 			"sh:property": [
+> 				{
+> 					"@id": "ex:Company-employee"
+> 				},
+> 				{
+> 					"@id": "ex:Company-employeeCount"
+> 				}
+> 			]
+> 		},
+> 		{
+> 			"@id": "ex:Company-employee",
+> 			"@type": "sh:PropertyShape",
+> 			"sh:class": {
+> 				"@id": "ex:Person"
+> 			},
+> 			"sh:description": "The company's employee(s).",
+> 			"sh:name": "employees",
+> 			"sh:path": {
+> 				"@id": "ex:employee"
+> 			}
+> 		},
+> 		{
+> 			"@id": "ex:Company-employeeCount",
+> 			"@type": "sh:PropertyShape",
+> 			"sh:datatype": {
+> 				"@id": "xsd:integer"
+> 			},
+> 			"sh:description": "The number of employees, automatically computed.",
+> 			"sh:name": "employee count",
+> 			"sh:path": {
+> 				"@id": "ex:employeeCount"
+> 			},
+> 			"sh:values": {
+> 				"shnex:count": {
+> 					"shnex:pathValues": {
+> 						"@id": "ex:employee"
+> 					}
+> 				}
+> 			}
+> 		}
+> 	]
+> }
+> ```
 
 ![Illustration of the data flow between node expressions computing the employee count](https://www.w3.org/TR/shacl12-node-expr/images/CountExampleDiagram.png)
 
@@ -311,7 +430,7 @@ demand; for example, whenever an instance of `ex:Company` is displayed or querie
 This section introduces the general syntax of SHACL [node expressions](https://www.w3.org/TR/shacl12-core/#dfn-node-expression).
 
 The term [node expression function](https://www.w3.org/TR/shacl12-core/#dfn-node-expression-function) refers to the *kind* or *type* of a [node expression](https://www.w3.org/TR/shacl12-core/#dfn-node-expression).
-For example, `sh:FilterShapeExpression` is a [node expression function](https://www.w3.org/TR/shacl12-core/#dfn-node-expression-function),
+For example, `shnex:FilterShapeExpression` is a [node expression function](https://www.w3.org/TR/shacl12-core/#dfn-node-expression-function),
 while a specific instance of this function in the [graph](https://www.w3.org/TR/rdf12-concepts/#dfn-rdf-graph) is the [node expression](https://www.w3.org/TR/shacl12-core/#dfn-node-expression) itself.
 
 The most basic node expression functions are constant node expressions, which are either [literals](https://www.w3.org/TR/rdf12-concepts/#dfn-literal), [IRIs](https://www.w3.org/TR/rdf12-concepts/#dfn-iri), or [triple terms](https://www.w3.org/TR/rdf12-concepts/#dfn-triple-term), and simply evaluate to these constants.
@@ -321,6 +440,10 @@ All other node expressions are represented by [blank nodes](https://www.w3.org/T
   triples, including the key parameter of the node expression function.
 - A list parameter function is comparable to a traditional function in SPARQL, for example,
   and is represented by a [blank node](https://www.w3.org/TR/rdf12-concepts/#dfn-blank-node) that is the subject of a single triple with a SHACL list as its object.
+
+The [function name](https://www.w3.org/TR/shacl12-core/#dfn-function-name) of a named parameter function is an [IRI](https://www.w3.org/TR/rdf12-concepts/#dfn-iri) such as `shnex:FilterShapeExpression` (or, for a custom named parameter function, the IRI of its declaration),
+while the [function name](https://www.w3.org/TR/shacl12-core/#dfn-function-name) of a list parameter function is its list parameter property,
+such as `sparql:concat` or `shnex:conformsToShape`.
 
 ### 3.1 Constant Node Expressions
 
@@ -381,7 +504,7 @@ The evaluation of a named parameter function can produce any of the following:
   i.e., an (unexpected) error during the evaluation
 
 For example, the named parameter function `shnex:FilterShapeExpression` (§4.2.5) has `shnex:filterShape` as its key parameter.
-In this document, key parameters are marked in **bold face**.
+In the property tables of this document, the key parameter is always listed in the first row.
 
 Expressions based on named parameter functions often
 take other [node expressions](https://www.w3.org/TR/shacl12-core/#dfn-node-expression) as arguments,
@@ -409,6 +532,10 @@ A *list parameter function* is a [node expression function](https://www.w3.org/T
    It is equivalent to a function call with a list of one element.
    Example: `[ sparql:abs -42 ]`, which is equivalent to `[ sparql:abs ( -42 ) ]`.
 
+These rules are applied in order, so an [object](https://www.w3.org/TR/rdf12-concepts/#dfn-object) that is a [SHACL list](https://www.w3.org/TR/shacl12-core/#dfn-shacl-list) is always interpreted as the list of arguments.
+To pass a single argument that is itself a list expression, it needs to be wrapped into a list with one member,
+e.g. `[ ex:f ( ( 1 2 ) ) ]`.
+
 The [predicate](https://www.w3.org/TR/rdf12-concepts/#dfn-predicate) of this [triple](https://www.w3.org/TR/rdf12-concepts/#dfn-rdf-triple) is called the *list parameter property*.
 
 The [evaluation](https://www.w3.org/TR/shacl12-core/#dfn-evaluation) of a list parameter function can produce any of the following:
@@ -417,12 +544,20 @@ The [evaluation](https://www.w3.org/TR/shacl12-core/#dfn-evaluation) of a list p
 - zero [output nodes](https://www.w3.org/TR/shacl12-core/#dfn-output-nodes), i.e., an empty list
 - an [evaluation failure](https://www.w3.org/TR/shacl12-core/#dfn-evaluation-failure), i.e., an (unexpected) error during the evaluation
 
-Furthermore, each argument of a list parameter function must evaluate to an individual, single [node](https://www.w3.org/TR/rdf12-concepts/#dfn-node),
-not to a list of nodes.
-If an argument is a [node expression](https://www.w3.org/TR/shacl12-core/#dfn-node-expression), then this [node expression](https://www.w3.org/TR/shacl12-core/#dfn-node-expression) must evaluate to
-a maximum of one [output node](https://www.w3.org/TR/shacl12-core/#dfn-output-nodes).
-An [evaluation failure](https://www.w3.org/TR/shacl12-core/#dfn-evaluation-failure) must be produced if there is more than one [output node](https://www.w3.org/TR/shacl12-core/#dfn-output-nodes).
-This is different from named parameter functions, where arguments may produce lists of multiple nodes.
+Furthermore, the arguments of a list parameter function are evaluated before the function is applied.
+Each argument is a [node expression](https://www.w3.org/TR/shacl12-core/#dfn-node-expression) that is evaluated using `evalExpr(argument, focusGraph, focusNode, scope)`,
+i.e., with the [focus node](https://www.w3.org/TR/shacl12-core/#dfn-focus-node) and the `scope` of the [node expression](https://www.w3.org/TR/shacl12-core/#dfn-node-expression) that uses the function,
+and must produce an individual, single [node](https://www.w3.org/TR/rdf12-concepts/#dfn-node), not a list of nodes.
+If an argument produces more than one [output node](https://www.w3.org/TR/shacl12-core/#dfn-output-nodes), then the evaluation of that argument
+produces an [evaluation failure](https://www.w3.org/TR/shacl12-core/#dfn-evaluation-failure), which is handled like any other failing argument
+(see 3.3 Handling of Failures (§3.3)).
+If no argument produces an [evaluation failure](https://www.w3.org/TR/shacl12-core/#dfn-evaluation-failure) and an argument produces no [output node](https://www.w3.org/TR/shacl12-core/#dfn-output-nodes),
+then the function is not applied and the [output nodes](https://www.w3.org/TR/shacl12-core/#dfn-output-nodes) of the expression are the empty list, unless the function is defined to handle unbound values
+(such as `sparql:bound`, `sparql:coalesce` and `sparql:if`),
+in which case the argument is unbound in the sense of SPARQL when the function is applied.
+A failing argument thus takes precedence over an argument without [output nodes](https://www.w3.org/TR/shacl12-core/#dfn-output-nodes),
+whatever their order.
+This is different from named parameter functions, where arguments are passed on as [node expressions](https://www.w3.org/TR/shacl12-core/#dfn-node-expression) that may produce lists of multiple nodes.
 
 *The remainder of this section is non-normative.*
 
@@ -458,6 +593,48 @@ as a concatenation of `ex:firstName`, a space, and `ex:lastName`.
 > ]
 > )
 > ]** .
+>
+> ```
+> {
+> 	"@id": "ex:Person-displayName",
+> 	"@type": "sh:PropertyShape",
+> 	"sh:datatype": {
+> 		"@id": "xsd:string"
+> 	},
+> 	"sh:name": "display name",
+> 	"sh:path": {
+> 		"@id": "ex:displayName"
+> 	},
+> 	"sh:values": {
+> 		"ex:coalesce": {
+> 			"@list": [
+> 				{
+> 					"shnex:pathValues": {
+> 						"@id": "ex:fullName"
+> 					}
+> 				},
+> 				{
+> 					"sparql:concat": {
+> 						"@list": [
+> 							{
+> 								"shnex:pathValues": {
+> 									"@id": "ex:firstName"
+> 								}
+> 							},
+> 							" ",
+> 							{
+> 								"shnex:pathValues": {
+> 									"@id": "ex:lastName"
+> 								}
+> 							}
+> 						]
+> 					}
+> 				}
+> 			]
+> 		}
+> 	}
+> }
+> ```
 
 ### 3.3 Handling of Failures
 
@@ -465,7 +642,9 @@ Node expressions may produce a [failure](https://www.w3.org/TR/shacl12-core/#dfn
 Some node expressions evaluate other, nested node expressions.
 For example, §4.1.6 If Expressions evaluate nested expressions for `shnex:if`, `shnex:then` and `shnex:else`.
 In general, if any such nested expressions produce a [failure](https://www.w3.org/TR/shacl12-core/#dfn-failure) then the surrounding
-expression also produces the same [failure](https://www.w3.org/TR/shacl12-core/#dfn-failure).
+expression also produces the same [failure](https://www.w3.org/TR/shacl12-core/#dfn-failure). SHACL SPARQL function expressions (§5) are an exception:
+a [failure](https://www.w3.org/TR/shacl12-core/#dfn-failure) of one of their arguments is treated as a SPARQL error, which some functions
+such as `sparql:coalesce` handle without failing.
 
 *The remainder of this section is non-normative.*
 
@@ -487,6 +666,9 @@ Instead, it is derived from the context:
 2. Otherwise, the [shapes graph](https://www.w3.org/TR/shacl12-core/#dfn-shapes-graph) may be passed into the node expression evaluation process as a parameter.
 3. In the absence of such a parameter, the [focus graph](https://www.w3.org/TR/shacl12-core/#dfn-focus-graph) is used as the [shapes graph](https://www.w3.org/TR/shacl12-core/#dfn-shapes-graph).
 
+If the [validation](https://www.w3.org/TR/shacl12-core/#dfn-validation) performed by such a function produces a [failure](https://www.w3.org/TR/shacl12-core/#dfn-failure),
+the node expression produces an [evaluation failure](https://www.w3.org/TR/shacl12-core/#dfn-evaluation-failure).
+
 ## 4. Node Expressions Library
 
 This section defines all [node expression functions](https://www.w3.org/TR/shacl12-core/#dfn-node-expression-function) that are built into SHACL engines
@@ -496,7 +678,11 @@ The syntax definitions of node expression functions that are based on [blank nod
 Such blank nodes are only [well-formed](https://www.w3.org/TR/shacl12-core/#dfn-well-formed) when they are not the [subject](https://www.w3.org/TR/rdf12-concepts/#dfn-subject) of any other
 triples, and when none of these properties is used more than once.
 The tables may also list SHACL constraints with which the property values are required to conform.
-In the tables, mandatory properties are rendered in **bold face**.
+In the tables, mandatory properties are rendered in **bold face**, and the key parameter of the function is listed in the first row.
+
+Several node expression functions take their input nodes from the property `shnex:nodes`.
+This property is mandatory for the 4.2 List Operator Expressions (§4.2), which transform the [output nodes](https://www.w3.org/TR/shacl12-core/#dfn-output-nodes) of another node expression, and optional for the 4.3 Advanced Sequence Operations (§4.3),
+where it defaults to the [focus node](https://www.w3.org/TR/shacl12-core/#dfn-focus-node).
 
 ### 4.1 Basic Node Expressions
 
@@ -546,7 +732,31 @@ creating a self-reference.
 > ex:Person-loves
 > a sh:PropertyShape ;
 > sh:path ex:loves ;
-> sh:defaultValue **[ shnex:var "focusNode" ] .**
+> sh:defaultValue **[ shnex:var "focusNode" ]** .
+>
+> ```
+> {
+> 	"@graph": [
+> 		{
+> 			"@id": "ex:Person",
+> 			"@type": "sh:ShapeClass",
+> 			"sh:property": {
+> 				"@id": "ex:Person-loves"
+> 			}
+> 		},
+> 		{
+> 			"@id": "ex:Person-loves",
+> 			"@type": "sh:PropertyShape",
+> 			"sh:defaultValue": {
+> 				"shnex:var": "focusNode"
+> 			},
+> 			"sh:path": {
+> 				"@id": "ex:loves"
+> 			}
+> 		}
+> 	]
+> }
+> ```
 
 #### 4.1.3 List Expressions
 
@@ -555,8 +765,8 @@ is called a *list expression* with the [function name](https://www.w3.org/TR/sha
 
 | Property        | Constraints                                                                                                                                                                                              | Description                            |
 | --------------- | -------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- | -------------------------------------- |
-| **`rdf:first`** | *MUST* be a [literal](https://www.w3.org/TR/rdf12-concepts/#dfn-literal) or an [IRI](https://www.w3.org/TR/rdf12-concepts/#dfn-iri).                                                                     | The first member of the list.          |
-| **`rdf:rest`**  | Must be a [well-formed](https://www.w3.org/TR/shacl12-core/#dfn-well-formed) [SHACL list](https://www.w3.org/TR/shacl12-core/#dfn-shacl-list), where each [member](https://www.w3.org/TR/shacl12-core/#dfn-members) is either a [literal](https://www.w3.org/TR/rdf12-concepts/#dfn-literal) or an [IRI](https://www.w3.org/TR/rdf12-concepts/#dfn-iri). | The rest of the list, e.g., `rdf:nil`. |
+| **`rdf:first`** | *MUST* be a constant node expression, i.e. a [literal](https://www.w3.org/TR/rdf12-concepts/#dfn-literal), an [IRI](https://www.w3.org/TR/rdf12-concepts/#dfn-iri) or a [triple term](https://www.w3.org/TR/rdf12-concepts/#dfn-triple-term). | The first member of the list.          |
+| **`rdf:rest`**  | Must be a [well-formed](https://www.w3.org/TR/shacl12-core/#dfn-well-formed) [SHACL list](https://www.w3.org/TR/shacl12-core/#dfn-shacl-list), where each [member](https://www.w3.org/TR/shacl12-core/#dfn-members) is a constant node expression. | The rest of the list, e.g., `rdf:nil`. |
 
 EVALUATION OF LIST EXPRESSIONS
 
@@ -566,7 +776,7 @@ in the same order as in the list.
 *The remainder of this section is non-normative.*
 
 Note that `rdf:nil` itself is not a list expression because it will be interpreted
-as a IRI expression.
+as an IRI expression.
 As a result, all [well-formed](https://www.w3.org/TR/shacl12-core/#dfn-well-formed) list expressions have at least one [member](https://www.w3.org/TR/shacl12-core/#dfn-members).
 
 The following example declares a property for instances of `rdfs:Class` where the values are derived from the values of the path `rdfs:subClassOf*` but with the constants from the list `( owl:Thing rdfs:Resource )` removed using `shnex:remove` (§4.2.4).
@@ -591,6 +801,50 @@ The following example declares a property for instances of `rdfs:Class` where th
 > # This removes any superclasses that are in the list below
 > shnex:remove **( owl:Thing rdfs:Resource )** ;
 > ] .
+>
+> ```
+> {
+> 	"@graph": [
+> 		{
+> 			"@id": "ex:ClassShape",
+> 			"@type": "sh:NodeShape",
+> 			"sh:property": {
+> 				"@id": "ex:ClassShape-superClassesExceptRoots"
+> 			},
+> 			"sh:targetClass": {
+> 				"@id": "rdfs:Class"
+> 			}
+> 		},
+> 		{
+> 			"@id": "ex:ClassShape-superClassesExceptRoots",
+> 			"@type": "sh:PropertyShape",
+> 			"sh:description": "The superclasses of this, except for owl:Thing and rdfs:Resource.",
+> 			"sh:path": {
+> 				"@id": "ex:superClassesExceptRoots"
+> 			},
+> 			"sh:values": {
+> 				"shnex:nodes": {
+> 					"shnex:pathValues": {
+> 						"sh:zeroOrMorePath": {
+> 							"@id": "rdfs:subClassOf"
+> 						}
+> 					}
+> 				},
+> 				"shnex:remove": {
+> 					"@list": [
+> 						{
+> 							"@id": "owl:Thing"
+> 						},
+> 						{
+> 							"@id": "rdfs:Resource"
+> 						}
+> 					]
+> 				}
+> 			}
+> 		}
+> 	]
+> }
+> ```
 
 #### 4.1.4 Path Values Expressions
 
@@ -606,12 +860,14 @@ EVALUATION OF PATH VALUES EXPRESSIONS
 
 Let `$pathValues` be the [value](https://www.w3.org/TR/shacl12-core/#dfn-value) of `shnex:pathValues`,
 and `$focusNode` be the [value](https://www.w3.org/TR/shacl12-core/#dfn-value) of `shnex:focusNode` in a path values expression.
-If `shnex:focusNode` is not given, `$focusNode` is the list consisting of exactly the [focus node](https://www.w3.org/TR/shacl12-core/#dfn-focus-node) from the evaluation context.
+If `shnex:focusNode` is given, let `N` be the [output nodes](https://www.w3.org/TR/shacl12-core/#dfn-output-nodes) of `evalExpr($focusNode, focusGraph, focusNode, scope)`;
+otherwise let `N` be the list consisting of exactly the [focus node](https://www.w3.org/TR/shacl12-core/#dfn-focus-node) from the evaluation context.
 
-Let `N` be the nodes produced by `evalExpr($focusNode, focusGraph, focusNode, scope)`.
 If `N` has 0 members, then the [output nodes](https://www.w3.org/TR/shacl12-core/#dfn-output-nodes) are the empty list.
 If `N` has more than 1 member, an [evaluation failure](https://www.w3.org/TR/shacl12-core/#dfn-evaluation-failure) is reported.
-Otherwise, the [output nodes](https://www.w3.org/TR/shacl12-core/#dfn-output-nodes) of the path values expression are the list of [value nodes](https://www.w3.org/TR/shacl12-core/#dfn-value-node) of the `path` for the (only) member of `N`.
+Otherwise, the [output nodes](https://www.w3.org/TR/shacl12-core/#dfn-output-nodes) of the path values expression are the [value nodes](https://www.w3.org/TR/shacl12-core/#dfn-value-node) of the [SHACL property path](https://www.w3.org/TR/shacl12-core/#dfn-shacl-property-path) `$pathValues` for the (only) member of `N`,
+in an implementation-dependent order.
+Use `shnex:orderBy` (§4.2.8) where a deterministic order is required.
 > **Note:**
 >
 > > **Note:**
@@ -655,6 +911,43 @@ number of top concepts.
 > shnex:pathValues skos:hasTopConcept ;
 > ]** ;
 > ] .
+>
+> ```
+> {
+> 	"@graph": [
+> 		{
+> 			"@id": "skos:ConceptScheme",
+> 			"@type": "sh:ShapeClass",
+> 			"sh:property": {
+> 				"@id": "skos:ConceptScheme-topConceptCount"
+> 			}
+> 		},
+> 		{
+> 			"@id": "skos:ConceptScheme-topConceptCount",
+> 			"@type": "sh:PropertyShape",
+> 			"sh:datatype": {
+> 				"@id": "xsd:integer"
+> 			},
+> 			"sh:description": "The number of top concepts in this scheme.",
+> 			"sh:maxCount": {
+> 				"@type": "xsd:integer",
+> 				"@value": "1"
+> 			},
+> 			"sh:name": "top concept count",
+> 			"sh:path": {
+> 				"@id": "ex:topConceptCount"
+> 			},
+> 			"sh:values": {
+> 				"shnex:count": {
+> 					"shnex:pathValues": {
+> 						"@id": "skos:hasTopConcept"
+> 					}
+> 				}
+> 			}
+> 		}
+> 	]
+> }
+> ```
 
 The next example illustrates the use of a path values expression together with a specific focus node
 (instead of the default focus node provided by the evaluation context).
@@ -670,6 +963,23 @@ In other words, the target nodes are the direct instances of `skos:Concept` base
 > shnex:pathValues [ sh:inversePath rdf:type ] ;
 > shnex:focusNode skos:Concept ;
 > ]** .
+>
+> ```
+> {
+> 	"@id": "ex:DirectInstancesOfConceptShape",
+> 	"@type": "sh:NodeShape",
+> 	"sh:targetNode": {
+> 		"shnex:focusNode": {
+> 			"@id": "skos:Concept"
+> 		},
+> 		"shnex:pathValues": {
+> 			"sh:inversePath": {
+> 				"@id": "rdf:type"
+> 			}
+> 		}
+> 	}
+> }
+> ```
 
 #### 4.1.5 Exists Expressions
 
@@ -737,6 +1047,42 @@ In the example, instances of `ex:City` that have a value for `ex:capitalOf` will
 > shnex:then "blue" ;
 > shnex:else "red" ;
 > ]** .
+>
+> ```
+> {
+> 	"@graph": [
+> 		{
+> 			"@id": "ex:City",
+> 			"@type": "sh:ShapeClass",
+> 			"sh:property": {
+> 				"@id": "ex:City-fillColor"
+> 			}
+> 		},
+> 		{
+> 			"@id": "ex:City-fillColor",
+> 			"@type": "sh:PropertyShape",
+> 			"sh:datatype": {
+> 				"@id": "xsd:string"
+> 			},
+> 			"sh:name": "fill color",
+> 			"sh:path": {
+> 				"@id": "ex:fillColor"
+> 			},
+> 			"sh:values": {
+> 				"shnex:else": "red",
+> 				"shnex:if": {
+> 					"shnex:exists": {
+> 						"shnex:pathValues": {
+> 							"@id": "ex:capitalOf"
+> 						}
+> 					}
+> 				},
+> 				"shnex:then": "blue"
+> 			}
+> 		}
+> 	]
+> }
+> ```
 
 ### 4.2 List Operator Expressions
 
@@ -753,7 +1099,7 @@ EVALUATION OF DISTINCT EXPRESSIONS
 
 Let `distinct` be the [value](https://www.w3.org/TR/shacl12-core/#dfn-value) of `shnex:distinct` in the distinct expression.
 Let `input` be the [output nodes](https://www.w3.org/TR/shacl12-core/#dfn-output-nodes) of `evalExpr(distinct, focusGraph, focusNode, scope)`.
-The [output nodes](https://www.w3.org/TR/shacl12-core/#dfn-output-nodes) of the distinct expression are the list of [nodes](https://www.w3.org/TR/rdf12-concepts/#dfn-node) in `input` in the same order but with duplicates eliminated (the first occurences of each node shall be kept, the others removed).
+The [output nodes](https://www.w3.org/TR/shacl12-core/#dfn-output-nodes) of the distinct expression are the list of [nodes](https://www.w3.org/TR/rdf12-concepts/#dfn-node) in `input` in the same order but with duplicates eliminated (the first occurrences of each node shall be kept, the others removed).
 Nodes are compared using [term equality](https://www.w3.org/TR/rdf12-concepts/#dfn-rdf-term-equality), i.e. `"01"^^xsd:integer` is distinct from `"1"^^xsd:integer`.
 
 *The remainder of this section is non-normative.*
@@ -784,6 +1130,53 @@ sure that the output nodes do not include `rdfs:Resource` twice.
 > )
 > ]** ;
 > ] .
+>
+> ```
+> {
+> 	"@graph": [
+> 		{
+> 			"@id": "ex:ClassShape",
+> 			"@type": "sh:NodeShape",
+> 			"sh:property": {
+> 				"@id": "ex:ClassShape-superClassesIncludingRoot"
+> 			},
+> 			"sh:targetClass": {
+> 				"@id": "rdfs:Class"
+> 			}
+> 		},
+> 		{
+> 			"@id": "ex:ClassShape-superClassesIncludingRoot",
+> 			"@type": "sh:PropertyShape",
+> 			"sh:description": "The superclasses of this, always including rdfs:Resource.",
+> 			"sh:path": {
+> 				"@id": "ex:superClassesIncludingRoot"
+> 			},
+> 			"sh:values": {
+> 				"shnex:distinct": {
+> 					"shnex:concat": {
+> 						"@list": [
+> 							{
+> 								"shnex:pathValues": {
+> 									"sh:zeroOrMorePath": {
+> 										"@id": "rdfs:subClassOf"
+> 									}
+> 								}
+> 							},
+> 							{
+> 								"@list": [
+> 									{
+> 										"@id": "rdfs:Resource"
+> 									}
+> 								]
+> 							}
+> 						]
+> 					}
+> 				}
+> 			}
+> 		}
+> 	]
+> }
+> ```
 
 #### 4.2.2 Intersection Expressions
 
@@ -817,6 +1210,29 @@ This shape will target all nodes that are [SHACL instances](https://www.w3.org/T
 > [ shnex:instancesOf ex:German ]
 > )
 > ]** .
+>
+> ```
+> {
+> 	"@id": "ex:DualCitizenShape",
+> 	"@type": "sh:NodeShape",
+> 	"sh:targetNode": {
+> 		"shnex:intersection": {
+> 			"@list": [
+> 				{
+> 					"shnex:instancesOf": {
+> 						"@id": "ex:Australian"
+> 					}
+> 				},
+> 				{
+> 					"shnex:instancesOf": {
+> 						"@id": "ex:German"
+> 					}
+> 				}
+> 			]
+> 		}
+> 	}
+> }
+> ```
 >
 > **Evaluation trace:**
 >
@@ -872,6 +1288,50 @@ all nodes from each expression in sequence from left to right.
 > )
 > ]** .
 >
+> ```
+> {
+> 	"@graph": [
+> 		{
+> 			"@id": "ex:PersonShape",
+> 			"@type": "sh:NodeShape",
+> 			"sh:property": {
+> 				"@id": "ex:PersonShape-allRelatives"
+> 			},
+> 			"sh:targetClass": {
+> 				"@id": "ex:Person"
+> 			}
+> 		},
+> 		{
+> 			"@id": "ex:PersonShape-allRelatives",
+> 			"@type": "sh:PropertyShape",
+> 			"sh:class": {
+> 				"@id": "ex:Person"
+> 			},
+> 			"sh:name": "all relatives",
+> 			"sh:path": {
+> 				"@id": "ex:allRelatives"
+> 			},
+> 			"sh:values": {
+> 				"shnex:concat": {
+> 					"@list": [
+> 						{
+> 							"shnex:pathValues": {
+> 								"@id": "ex:parent"
+> 							}
+> 						},
+> 						{
+> 							"shnex:pathValues": {
+> 								"@id": "ex:sibling"
+> 							}
+> 						}
+> 					]
+> 				}
+> 			}
+> 		}
+> 	]
+> }
+> ```
+>
 > **Evaluation trace:**
 >
 > The evaluation proceeds as follows:
@@ -923,6 +1383,46 @@ and removes the nodes returned by the `shnex:remove` expression (authors on leav
 > shnex:nodes [ shnex:pathValues ex:author ] ;
 > shnex:remove [ shnex:pathValues ex:authorOnLeave ] ;
 > ]** .
+>
+> ```
+> {
+> 	"@graph": [
+> 		{
+> 			"@id": "ex:PublisherShape",
+> 			"@type": "sh:NodeShape",
+> 			"sh:property": {
+> 				"@id": "ex:PublisherShape-availableAuthors"
+> 			},
+> 			"sh:targetClass": {
+> 				"@id": "ex:Publisher"
+> 			}
+> 		},
+> 		{
+> 			"@id": "ex:PublisherShape-availableAuthors",
+> 			"@type": "sh:PropertyShape",
+> 			"sh:class": {
+> 				"@id": "ex:Person"
+> 			},
+> 			"sh:description": "Authors who are currently available (not on leave).",
+> 			"sh:path": {
+> 				"@id": "ex:availableAuthors"
+> 			},
+> 			"sh:values": {
+> 				"shnex:nodes": {
+> 					"shnex:pathValues": {
+> 						"@id": "ex:author"
+> 					}
+> 				},
+> 				"shnex:remove": {
+> 					"shnex:pathValues": {
+> 						"@id": "ex:authorOnLeave"
+> 					}
+> 				}
+> 			}
+> 		}
+> 	]
+> }
+> ```
 >
 > **Evaluation trace:**
 >
@@ -978,6 +1478,45 @@ has the value `"male"`.
 > ]
 > ] ;
 > ]** .
+>
+> ```
+> {
+> 	"@graph": [
+> 		{
+> 			"@id": "ex:Person",
+> 			"@type": "sh:ShapeClass",
+> 			"sh:property": {
+> 				"@id": "ex:Person-maleChildren"
+> 			}
+> 		},
+> 		{
+> 			"@id": "ex:Person-maleChildren",
+> 			"@type": "sh:PropertyShape",
+> 			"sh:class": {
+> 				"@id": "ex:Person"
+> 			},
+> 			"sh:path": {
+> 				"@id": "ex:maleChildren"
+> 			},
+> 			"sh:values": {
+> 				"shnex:filterShape": {
+> 					"sh:property": {
+> 						"sh:hasValue": "male",
+> 						"sh:path": {
+> 							"@id": "ex:gender"
+> 						}
+> 					}
+> 				},
+> 				"shnex:nodes": {
+> 					"shnex:pathValues": {
+> 						"@id": "ex:child"
+> 					}
+> 				}
+> 			}
+> 		}
+> 	]
+> }
+> ```
 
 #### 4.2.6 Limit Expressions
 
@@ -1027,6 +1566,51 @@ ordering them by their `ex:dateOfBirth`, and finally getting only `2` of these c
 > ] ;
 > shnex:limit 2 ;
 > ]** .
+>
+> ```
+> {
+> 	"@graph": [
+> 		{
+> 			"@id": "ex:PersonShape",
+> 			"@type": "sh:NodeShape",
+> 			"sh:property": {
+> 				"@id": "ex:PersonShape-oldestTwoChildren"
+> 			},
+> 			"sh:targetClass": {
+> 				"@id": "ex:Person"
+> 			}
+> 		},
+> 		{
+> 			"@id": "ex:PersonShape-oldestTwoChildren",
+> 			"@type": "sh:PropertyShape",
+> 			"sh:class": {
+> 				"@id": "ex:Person"
+> 			},
+> 			"sh:path": {
+> 				"@id": "ex:oldestTwoChildren"
+> 			},
+> 			"sh:values": {
+> 				"shnex:limit": {
+> 					"@type": "xsd:integer",
+> 					"@value": "2"
+> 				},
+> 				"shnex:nodes": {
+> 					"shnex:nodes": {
+> 						"shnex:pathValues": {
+> 							"@id": "ex:child"
+> 						}
+> 					},
+> 					"shnex:orderBy": {
+> 						"shnex:pathValues": {
+> 							"@id": "ex:dateOfBirth"
+> 						}
+> 					}
+> 				}
+> 			}
+> 		}
+> 	]
+> }
+> ```
 
 #### 4.2.7 Offset Expressions
 
@@ -1077,6 +1661,51 @@ of these children.
 > ] ;
 > shnex:offset 1 ;
 > ]** .
+>
+> ```
+> {
+> 	"@graph": [
+> 		{
+> 			"@id": "ex:PersonShape",
+> 			"@type": "sh:NodeShape",
+> 			"sh:property": {
+> 				"@id": "ex:PersonShape-remainingChildren"
+> 			},
+> 			"sh:targetClass": {
+> 				"@id": "ex:Person"
+> 			}
+> 		},
+> 		{
+> 			"@id": "ex:PersonShape-remainingChildren",
+> 			"@type": "sh:PropertyShape",
+> 			"sh:class": {
+> 				"@id": "ex:Person"
+> 			},
+> 			"sh:path": {
+> 				"@id": "ex:remainingChildren"
+> 			},
+> 			"sh:values": {
+> 				"shnex:nodes": {
+> 					"shnex:nodes": {
+> 						"shnex:pathValues": {
+> 							"@id": "ex:child"
+> 						}
+> 					},
+> 					"shnex:orderBy": {
+> 						"shnex:pathValues": {
+> 							"@id": "ex:dateOfBirth"
+> 						}
+> 					}
+> 				},
+> 				"shnex:offset": {
+> 					"@type": "xsd:integer",
+> 					"@value": "1"
+> 				}
+> 			}
+> 		}
+> 	]
+> }
+> ```
 
 #### 4.2.8 OrderBy Expressions
 
@@ -1085,8 +1714,8 @@ is called an *order by expression* with the [function name](https://www.w3.org/T
 
 | Property            | Constraints                                                                                                                                      | Description                                              |
 | ------------------- | ------------------------------------------------------------------------------------------------------------------------------------------------ | -------------------------------------------------------- |
-| **`shnex:nodes`**   | A [well-formed](https://www.w3.org/TR/shacl12-core/#dfn-well-formed) [node expression](https://www.w3.org/TR/shacl12-core/#dfn-node-expression). | The input nodes.                                         |
 | **`shnex:orderBy`** | A [well-formed](https://www.w3.org/TR/shacl12-core/#dfn-well-formed) [node expression](https://www.w3.org/TR/shacl12-core/#dfn-node-expression). | The node expression that is applied to each input node.  |
+| **`shnex:nodes`**   | A [well-formed](https://www.w3.org/TR/shacl12-core/#dfn-well-formed) [node expression](https://www.w3.org/TR/shacl12-core/#dfn-node-expression). | The input nodes.                                         |
 | `shnex:desc`        | `sh:datatype xsd:boolean`                                                                                                                        | `true` to produce descending order, defaults to `false`. |
 
 EVALUATION OF ORDER BY EXPRESSIONS
@@ -1094,7 +1723,7 @@ EVALUATION OF ORDER BY EXPRESSIONS
 Let `orderBy` be the [value](https://www.w3.org/TR/shacl12-core/#dfn-value) of `shnex:orderBy`, `nodes` be the [value](https://www.w3.org/TR/shacl12-core/#dfn-value) of `shnex:nodes` and `desc` be the [value](https://www.w3.org/TR/shacl12-core/#dfn-value) of `shnex:desc` in the order by expression.
 Let `N` be the [output nodes](https://www.w3.org/TR/shacl12-core/#dfn-output-nodes) of `evalExpr(nodes, focusGraph, focusNode, scope)`.
 Let `c(n)` be the first output node of `evalExpr(orderBy, focusGraph, n, scope)` for each `n` in `N`.
-The [output nodes](https://www.w3.org/TR/shacl12-core/#dfn-output-nodes) of the order by expression are the [nodes](https://www.w3.org/TR/rdf12-concepts/#dfn-node) in `N` sorted by `c(n)` using the same logic as *[SPARQL ORDER BY](https://www.w3.org/TR/sparql12-query/#modOrderBy)*.
+The [output nodes](https://www.w3.org/TR/shacl12-core/#dfn-output-nodes) of the order by expression are the [nodes](https://www.w3.org/TR/rdf12-concepts/#dfn-node) in `N` sorted by `c(n)` using the same logic as [SPARQL ORDER BY](https://www.w3.org/TR/sparql12-query/#modOrderBy).
 Nodes where `c(n)` is unbound are considered smaller than those that have any value.
 If `desc` is `true` then the [output nodes](https://www.w3.org/TR/shacl12-core/#dfn-output-nodes) are returned in the reverse order.
 
@@ -1113,14 +1742,13 @@ with the [function name](https://www.w3.org/TR/shacl12-core/#dfn-function-name) 
 | Property            | Constraints                                                                                                                                      | Description                                                                                                        |
 | ------------------- | ------------------------------------------------------------------------------------------------------------------------------------------------ | ------------------------------------------------------------------------------------------------------------------ |
 | **`shnex:flatMap`** | A [well-formed](https://www.w3.org/TR/shacl12-core/#dfn-well-formed) [node expression](https://www.w3.org/TR/shacl12-core/#dfn-node-expression). | The [node expression](https://www.w3.org/TR/shacl12-core/#dfn-node-expression) that is applied to each input node. |
-| **`shnex:nodes`**   | A [well-formed](https://www.w3.org/TR/shacl12-core/#dfn-well-formed) [node expression](https://www.w3.org/TR/shacl12-core/#dfn-node-expression). | The input nodes. If omitted, defaults to the focus node.                                                           |
+| `shnex:nodes`       | A [well-formed](https://www.w3.org/TR/shacl12-core/#dfn-well-formed) [node expression](https://www.w3.org/TR/shacl12-core/#dfn-node-expression). | The input nodes. If omitted, defaults to the focus node.                                                           |
 
 EVALUATION OF FLAT MAP EXPRESSIONS
 
 Let `flatMap` be the [value](https://www.w3.org/TR/shacl12-core/#dfn-value) of `shnex:flatMap` and `nodes` be the [value](https://www.w3.org/TR/shacl12-core/#dfn-value) of `shnex:nodes` in a flat map expression.
-If `shnex:nodes` is not specified, let `nodes` be the focus node.
 
-Let `N` be the [output nodes](https://www.w3.org/TR/shacl12-core/#dfn-output-nodes) of `evalExpr(nodes, focusGraph, focusNode, scope)`.
+Let `N` be the [output nodes](https://www.w3.org/TR/shacl12-core/#dfn-output-nodes) of `evalExpr(nodes, focusGraph, focusNode, scope)` if `shnex:nodes` is specified, or the list consisting of exactly the [focus node](https://www.w3.org/TR/shacl12-core/#dfn-focus-node) otherwise.
 
 For each node `n` in `N`, let `Mn` be the [output nodes](https://www.w3.org/TR/shacl12-core/#dfn-output-nodes) of `evalExpr(flatMap, focusGraph, n, scope)`.
 
@@ -1166,6 +1794,43 @@ and flattens the resulting skill sequences into a single comprehensive list.
 > ] ;
 > ]** .
 >
+> ```
+> {
+> 	"@graph": [
+> 		{
+> 			"@id": "ex:CompanyShape",
+> 			"@type": "sh:NodeShape",
+> 			"sh:property": {
+> 				"@id": "ex:CompanyShape-allSkills"
+> 			},
+> 			"sh:targetClass": {
+> 				"@id": "ex:Company"
+> 			}
+> 		},
+> 		{
+> 			"@id": "ex:CompanyShape-allSkills",
+> 			"@type": "sh:PropertyShape",
+> 			"sh:name": "all skills",
+> 			"sh:path": {
+> 				"@id": "ex:allSkills"
+> 			},
+> 			"sh:values": {
+> 				"shnex:flatMap": {
+> 					"shnex:pathValues": {
+> 						"@id": "ex:skill"
+> 					}
+> 				},
+> 				"shnex:nodes": {
+> 					"shnex:pathValues": {
+> 						"@id": "ex:employee"
+> 					}
+> 				}
+> 			}
+> 		}
+> 	]
+> }
+> ```
+>
 > ex:CompanyA
 > ex:employee ex:Employee1 ;
 > ex:employee ex:Employee2 ;
@@ -1183,6 +1848,70 @@ and flattens the resulting skill sequences into a single comprehensive list.
 > ex:Employee3
 > ex:skill "Java"@en ;
 > ex:skill "DevOps"@en .
+>
+> ```
+> {
+> 	"@graph": [
+> 		{
+> 			"@id": "ex:CompanyA",
+> 			"ex:employee": [
+> 				{
+> 					"@id": "ex:Employee1"
+> 				},
+> 				{
+> 					"@id": "ex:Employee2"
+> 				},
+> 				{
+> 					"@id": "ex:Employee3"
+> 				}
+> 			]
+> 		},
+> 		{
+> 			"@id": "ex:Employee1",
+> 			"ex:skill": [
+> 				{
+> 					"@language": "en",
+> 					"@value": "Java"
+> 				},
+> 				{
+> 					"@language": "en",
+> 					"@value": "Python"
+> 				},
+> 				{
+> 					"@language": "en",
+> 					"@value": "SQL"
+> 				}
+> 			]
+> 		},
+> 		{
+> 			"@id": "ex:Employee2",
+> 			"ex:skill": [
+> 				{
+> 					"@language": "en",
+> 					"@value": "Python"
+> 				},
+> 				{
+> 					"@language": "en",
+> 					"@value": "JavaScript"
+> 				}
+> 			]
+> 		},
+> 		{
+> 			"@id": "ex:Employee3",
+> 			"ex:skill": [
+> 				{
+> 					"@language": "en",
+> 					"@value": "Java"
+> 				},
+> 				{
+> 					"@language": "en",
+> 					"@value": "DevOps"
+> 				}
+> 			]
+> 		}
+> 	]
+> }
+> ```
 >
 > **Evaluation trace:**
 >
@@ -1207,13 +1936,12 @@ with the [function name](https://www.w3.org/TR/shacl12-core/#dfn-function-name) 
 | Property              | Constraints                                                                                                                                      | Description                                              |
 | --------------------- | ------------------------------------------------------------------------------------------------------------------------------------------------ | -------------------------------------------------------- |
 | **`shnex:findFirst`** | A [well-formed](https://www.w3.org/TR/shacl12-core/#dfn-well-formed) [shape](https://www.w3.org/TR/shacl12-core/#dfn-shape).                     | The shape that the matching node must conform to.        |
-| **`shnex:nodes`**     | A [well-formed](https://www.w3.org/TR/shacl12-core/#dfn-well-formed) [node expression](https://www.w3.org/TR/shacl12-core/#dfn-node-expression). | The input nodes. If omitted, defaults to the focus node. |
+| `shnex:nodes`         | A [well-formed](https://www.w3.org/TR/shacl12-core/#dfn-well-formed) [node expression](https://www.w3.org/TR/shacl12-core/#dfn-node-expression). | The input nodes. If omitted, defaults to the focus node. |
 
 EVALUATION OF FIND FIRST EXPRESSIONS
 
 Let `shape` be the [value](https://www.w3.org/TR/shacl12-core/#dfn-value) of `shnex:findFirst` and `nodes` be the [value](https://www.w3.org/TR/shacl12-core/#dfn-value) of `shnex:nodes` in a find first expression.
-If `shnex:nodes` is not specified, let `nodes` be the focus node.
-Let `N` be the [output nodes](https://www.w3.org/TR/shacl12-core/#dfn-output-nodes) of `evalExpr(nodes, focusGraph, focusNode, scope)`.
+Let `N` be the [output nodes](https://www.w3.org/TR/shacl12-core/#dfn-output-nodes) of `evalExpr(nodes, focusGraph, focusNode, scope)` if `shnex:nodes` is specified, or the list consisting of exactly the [focus node](https://www.w3.org/TR/shacl12-core/#dfn-focus-node) otherwise.
 The [output nodes](https://www.w3.org/TR/shacl12-core/#dfn-output-nodes) of the find first expression contain exactly the first node `n` in `N` that [conforms](https://www.w3.org/TR/shacl12-core/#dfn-conform) to the [shape](https://www.w3.org/TR/shacl12-core/#dfn-shape) `shape`,
 or an empty sequence if no such node exists.
 
@@ -1252,6 +1980,64 @@ The `shnex:findFirst` operation tests each employee against a shape that validat
 > sh:datatype xsd:integer ;
 > sh:minInclusive 5 ;
 > ] .
+>
+> ```
+> {
+> 	"@graph": [
+> 		{
+> 			"@id": "ex:CompanyShape",
+> 			"@type": "sh:NodeShape",
+> 			"sh:property": {
+> 				"@id": "ex:CompanyShape-seniorEmployee"
+> 			},
+> 			"sh:targetClass": {
+> 				"@id": "ex:Company"
+> 			}
+> 		},
+> 		{
+> 			"@id": "ex:CompanyShape-seniorEmployee",
+> 			"@type": "sh:PropertyShape",
+> 			"sh:class": {
+> 				"@id": "ex:Employee"
+> 			},
+> 			"sh:maxCount": {
+> 				"@type": "xsd:integer",
+> 				"@value": "1"
+> 			},
+> 			"sh:name": "senior employee",
+> 			"sh:path": {
+> 				"@id": "ex:seniorEmployee"
+> 			},
+> 			"sh:values": {
+> 				"shnex:findFirst": {
+> 					"@id": "ex:SeniorEmployeeShape"
+> 				},
+> 				"shnex:nodes": {
+> 					"shnex:pathValues": {
+> 						"@id": "ex:employee"
+> 					}
+> 				}
+> 			}
+> 		},
+> 		{
+> 			"@id": "ex:SeniorEmployeeShape",
+> 			"@type": "sh:NodeShape",
+> 			"sh:property": {
+> 				"sh:datatype": {
+> 					"@id": "xsd:integer"
+> 				},
+> 				"sh:minInclusive": {
+> 					"@type": "xsd:integer",
+> 					"@value": "5"
+> 				},
+> 				"sh:path": {
+> 					"@id": "ex:yearsOfService"
+> 				}
+> 			}
+> 		}
+> 	]
+> }
+> ```
 
 #### 4.3.3 MatchAll Expressions
 
@@ -1262,13 +2048,12 @@ with the [function name](https://www.w3.org/TR/shacl12-core/#dfn-function-name) 
 | Property             | Constraints                                                                                                                                      | Description                                              |
 | -------------------- | ------------------------------------------------------------------------------------------------------------------------------------------------ | -------------------------------------------------------- |
 | **`shnex:matchAll`** | A [well-formed](https://www.w3.org/TR/shacl12-core/#dfn-well-formed) [shape](https://www.w3.org/TR/shacl12-core/#dfn-shape).                     | The shape that all input nodes must conform to.          |
-| **`shnex:nodes`**    | A [well-formed](https://www.w3.org/TR/shacl12-core/#dfn-well-formed) [node expression](https://www.w3.org/TR/shacl12-core/#dfn-node-expression). | The input nodes. If omitted, defaults to the focus node. |
+| `shnex:nodes`        | A [well-formed](https://www.w3.org/TR/shacl12-core/#dfn-well-formed) [node expression](https://www.w3.org/TR/shacl12-core/#dfn-node-expression). | The input nodes. If omitted, defaults to the focus node. |
 
 EVALUATION OF MATCH ALL EXPRESSIONS
 
 Let `shape` be the [value](https://www.w3.org/TR/shacl12-core/#dfn-value) of `shnex:matchAll` and `nodes` be the [value](https://www.w3.org/TR/shacl12-core/#dfn-value) of `shnex:nodes` in the match all expression.
-If `shnex:nodes` is not specified, let `nodes` be the focus node.
-Let `N` be the [output nodes](https://www.w3.org/TR/shacl12-core/#dfn-output-nodes) of `evalExpr(nodes, focusGraph, focusNode, scope)`.
+Let `N` be the [output nodes](https://www.w3.org/TR/shacl12-core/#dfn-output-nodes) of `evalExpr(nodes, focusGraph, focusNode, scope)` if `shnex:nodes` is specified, or the list consisting of exactly the [focus node](https://www.w3.org/TR/shacl12-core/#dfn-focus-node) otherwise.
 The [output nodes](https://www.w3.org/TR/shacl12-core/#dfn-output-nodes) of the match all expression are `( true )` if
 every node `n` in `N` [conforms](https://www.w3.org/TR/shacl12-core/#dfn-conform) to the [shape](https://www.w3.org/TR/shacl12-core/#dfn-shape) `shape`;
 otherwise the output nodes are `( false )`.
@@ -1307,6 +2092,61 @@ The match all operation tests each employee against a shape that validates their
 > sh:path ex:isActive ;
 > sh:hasValue true ;
 > ] .
+>
+> ```
+> {
+> 	"@graph": [
+> 		{
+> 			"@id": "ex:ActiveEmployeeShape",
+> 			"@type": "sh:NodeShape",
+> 			"sh:property": {
+> 				"sh:hasValue": {
+> 					"@type": "xsd:boolean",
+> 					"@value": "true"
+> 				},
+> 				"sh:path": {
+> 					"@id": "ex:isActive"
+> 				}
+> 			}
+> 		},
+> 		{
+> 			"@id": "ex:CompanyShape",
+> 			"@type": "sh:NodeShape",
+> 			"sh:property": {
+> 				"@id": "ex:CompanyShape-allEmployeesActive"
+> 			},
+> 			"sh:targetClass": {
+> 				"@id": "ex:Company"
+> 			}
+> 		},
+> 		{
+> 			"@id": "ex:CompanyShape-allEmployeesActive",
+> 			"@type": "sh:PropertyShape",
+> 			"sh:datatype": {
+> 				"@id": "xsd:boolean"
+> 			},
+> 			"sh:maxCount": {
+> 				"@type": "xsd:integer",
+> 				"@value": "1"
+> 			},
+> 			"sh:name": "all employees active",
+> 			"sh:path": {
+> 				"@id": "ex:allEmployeesActive"
+> 			},
+> 			"sh:values": {
+> 				"shnex:matchAll": {
+> 					"@id": "ex:ActiveEmployeeShape"
+> 				},
+> 				"shnex:nodes": {
+> 					"shnex:pathValues": {
+> 						"@id": "ex:employee"
+> 					}
+> 				}
+> 			}
+> 		}
+> 	]
+> }
+> ```
 
 ### 4.4 Aggregation Expressions
 
@@ -1348,6 +2188,46 @@ The following example illustrates the use of `shnex:count` to derive a property 
 > shnex:pathValues skos:hasTopConcept ;
 > ] ;
 > ]** .
+>
+> ```
+> {
+> 	"@graph": [
+> 		{
+> 			"@id": "skos:ConceptScheme",
+> 			"@type": [
+> 				"rdfs:Class",
+> 				"sh:NodeShape"
+> 			],
+> 			"sh:property": {
+> 				"@id": "skos:ConceptScheme-topConceptCount"
+> 			}
+> 		},
+> 		{
+> 			"@id": "skos:ConceptScheme-topConceptCount",
+> 			"@type": "sh:PropertyShape",
+> 			"sh:datatype": {
+> 				"@id": "xsd:integer"
+> 			},
+> 			"sh:description": "The number of top concepts in this scheme.",
+> 			"sh:maxCount": {
+> 				"@type": "xsd:integer",
+> 				"@value": "1"
+> 			},
+> 			"sh:name": "top concept count",
+> 			"sh:path": {
+> 				"@id": "ex:topConceptCount"
+> 			},
+> 			"sh:values": {
+> 				"shnex:count": {
+> 					"shnex:pathValues": {
+> 						"@id": "skos:hasTopConcept"
+> 					}
+> 				}
+> 			}
+> 		}
+> 	]
+> }
+> ```
 
 #### 4.4.2 Min Expressions
 
@@ -1363,12 +2243,12 @@ EVALUATION OF MIN EXPRESSIONS
 Let `min` be the [value](https://www.w3.org/TR/shacl12-core/#dfn-value) of `shnex:min` in the min expression.
 Let `N` be the [output nodes](https://www.w3.org/TR/shacl12-core/#dfn-output-nodes) of `evalExpr(min, focusGraph, focusNode, scope)`.
 The [output nodes](https://www.w3.org/TR/shacl12-core/#dfn-output-nodes) of the min expression is the list consisting of at most one [node](https://www.w3.org/TR/rdf12-concepts/#dfn-node) that is computed as the minimum value from `N`,
-see *[SPARQL MIN](https://www.w3.org/TR/sparql12-query/#aggMin)*.
+see [SPARQL MIN](https://www.w3.org/TR/sparql12-query/#aggMin).
 
 *The remainder of this section is non-normative.*
 
 The following example illustrates the use of `shnex:min` to derive a property `ex:minStartDate` as the smallest value of the values that can be reached using the
-property path `ex:exployee/ex:startDate`.
+property path `ex:employee/ex:startDate`.
 In other words, it walks through all employees of the given company and returns the earliest
 date on which an employee started.
 > **Example:**
@@ -1391,6 +2271,52 @@ date on which an employee started.
 > shnex:pathValues ( ex:employee ex:startDate ) ;
 > ] ;
 > ]** .
+>
+> ```
+> {
+> 	"@graph": [
+> 		{
+> 			"@id": "ex:CompanyShape",
+> 			"@type": "sh:NodeShape",
+> 			"sh:property": {
+> 				"@id": "ex:CompanyShape-minStartDate"
+> 			},
+> 			"sh:targetClass": {
+> 				"@id": "ex:Company"
+> 			}
+> 		},
+> 		{
+> 			"@id": "ex:CompanyShape-minStartDate",
+> 			"@type": "sh:PropertyShape",
+> 			"sh:datatype": {
+> 				"@id": "xsd:date"
+> 			},
+> 			"sh:maxCount": {
+> 				"@type": "xsd:integer",
+> 				"@value": "1"
+> 			},
+> 			"sh:name": "min start date",
+> 			"sh:path": {
+> 				"@id": "ex:minStartDate"
+> 			},
+> 			"sh:values": {
+> 				"shnex:min": {
+> 					"shnex:pathValues": {
+> 						"@list": [
+> 							{
+> 								"@id": "ex:employee"
+> 							},
+> 							{
+> 								"@id": "ex:startDate"
+> 							}
+> 						]
+> 					}
+> 				}
+> 			}
+> 		}
+> 	]
+> }
+> ```
 
 #### 4.4.3 Max Expressions
 
@@ -1406,7 +2332,7 @@ EVALUATION OF MAX EXPRESSIONS
 Let `max` be the [value](https://www.w3.org/TR/shacl12-core/#dfn-value) of `shnex:max` in the max expression.
 Let `N` be the [output nodes](https://www.w3.org/TR/shacl12-core/#dfn-output-nodes) of `evalExpr(max, focusGraph, focusNode, scope)`.
 The [output nodes](https://www.w3.org/TR/shacl12-core/#dfn-output-nodes) of the max expression is the list consisting of at most one [node](https://www.w3.org/TR/rdf12-concepts/#dfn-node) that is computed as the maximum value from `N`,
-see *[SPARQL MAX](https://www.w3.org/TR/sparql12-query/#aggMax)*.
+see [SPARQL MAX](https://www.w3.org/TR/sparql12-query/#aggMax).
 
 *The remainder of this section is non-normative.*
 
@@ -1427,7 +2353,7 @@ EVALUATION OF SUM EXPRESSIONS
 Let `sum` be the [value](https://www.w3.org/TR/shacl12-core/#dfn-value) of `shnex:sum` in the sum expression.
 Let `N` be the [output nodes](https://www.w3.org/TR/shacl12-core/#dfn-output-nodes) of `evalExpr(sum, focusGraph, focusNode, scope)`.
 The [output nodes](https://www.w3.org/TR/shacl12-core/#dfn-output-nodes) of the sum expression is the list consisting of exactly one [node](https://www.w3.org/TR/rdf12-concepts/#dfn-node) that is computed as the sum of all [nodes](https://www.w3.org/TR/rdf12-concepts/#dfn-node) from `N`,
-see *[SPARQL SUM](https://www.w3.org/TR/sparql12-query/#aggSum)*.
+see [SPARQL SUM](https://www.w3.org/TR/sparql12-query/#aggSum).
 
 *The remainder of this section is non-normative.*
 
@@ -1436,7 +2362,7 @@ when used with property paths.
 The problem is that when a path values expression is used as input to a sum expression,
 the path values expression will have eliminated duplicates before they can be processed by the `shnex:sum`.
 As a result, only the distinct values will be added up.
-To work around this, one option is to use *[SPARQL-based node expressions](https://www.w3.org/TR/shacl12-sparql/#sparql-node-expressions)*.
+To work around this, one option is to use [SPARQL-based node expressions](https://www.w3.org/TR/shacl12-sparql/#sparql-node-expressions).
 Another alternative is illustrated in the following example.
 > **Example:**
 >
@@ -1464,6 +2390,52 @@ Another alternative is illustrated in the following example.
 > ] ;
 > ]** .
 >
+> ```
+> {
+> 	"@graph": [
+> 		{
+> 			"@id": "ex:CompanyShape",
+> 			"@type": "sh:NodeShape",
+> 			"sh:property": {
+> 				"@id": "ex:CompanyShape-totalRevenue"
+> 			},
+> 			"sh:targetClass": {
+> 				"@id": "ex:Company"
+> 			}
+> 		},
+> 		{
+> 			"@id": "ex:CompanyShape-totalRevenue",
+> 			"@type": "sh:PropertyShape",
+> 			"sh:datatype": {
+> 				"@id": "xsd:decimal"
+> 			},
+> 			"sh:maxCount": {
+> 				"@type": "xsd:integer",
+> 				"@value": "1"
+> 			},
+> 			"sh:name": "total revenue",
+> 			"sh:path": {
+> 				"@id": "ex:totalRevenue"
+> 			},
+> 			"sh:values": {
+> 				"shnex:sum": {
+> 					"shnex:flatMap": {
+> 						"shnex:pathValues": {
+> 							"@id": "ex:revenue"
+> 						}
+> 					},
+> 					"shnex:nodes": {
+> 						"shnex:pathValues": {
+> 							"@id": "ex:department"
+> 						}
+> 					}
+> 				}
+> 			}
+> 		}
+> 	]
+> }
+> ```
+>
 > For the following data graph, the sum will be `42.0`.
 >
 > ex:MyCompany
@@ -1478,6 +2450,33 @@ Another alternative is illustrated in the following example.
 > ex:revenue 2.1 ;
 > ] .
 >
+> ```
+> {
+> 	"@id": "ex:MyCompany",
+> 	"@type": "ex:Company",
+> 	"ex:department": [
+> 		{
+> 			"ex:revenue": {
+> 				"@type": "xsd:decimal",
+> 				"@value": "2.1"
+> 			}
+> 		},
+> 		{
+> 			"ex:revenue": {
+> 				"@type": "xsd:decimal",
+> 				"@value": "37.8"
+> 			}
+> 		},
+> 		{
+> 			"ex:revenue": {
+> 				"@type": "xsd:decimal",
+> 				"@value": "2.1"
+> 			}
+> 		}
+> 	]
+> }
+> ```
+>
 > In this example, the system will first fetch all values of `ex:department` for the current company.
 > Then, for each of these departments, it will get the values for `ex:revenue` via a flat map expression and finally return the sum of those numbers.
 
@@ -1490,14 +2489,16 @@ This section enumerates node expression functions that did not fit into other ca
 A [blank node](https://www.w3.org/TR/rdf12-concepts/#dfn-blank-node) that is the [subject](https://www.w3.org/TR/rdf12-concepts/#dfn-subject) of the following properties
 is called an *instancesOf expression* with the [function name](https://www.w3.org/TR/shacl12-core/#dfn-function-name) `shnex:InstancesOfExpression`:
 
-| Property                | Constraints          | Description                                                                                                   |
-| ----------------------- | -------------------- | ------------------------------------------------------------------------------------------------------------- |
-| **`shnex:instancesOf`** | `sh:nodeKind sh:IRI` | The class that the [output nodes](https://www.w3.org/TR/shacl12-core/#dfn-output-nodes) must be instances of. |
+| Property                | Constraints                                                                                                                                      | Description                                                                                                                                   |
+| ----------------------- | ------------------------------------------------------------------------------------------------------------------------------------------------ | --------------------------------------------------------------------------------------------------------------------------------------------- |
+| **`shnex:instancesOf`** | A [well-formed](https://www.w3.org/TR/shacl12-core/#dfn-well-formed) [node expression](https://www.w3.org/TR/shacl12-core/#dfn-node-expression). | A node expression returning the class(es) that the [output nodes](https://www.w3.org/TR/shacl12-core/#dfn-output-nodes) must be instances of. |
 
 EVALUATION OF INSTANCESOF EXPRESSIONS
 
-Let `type` be the [value](https://www.w3.org/TR/shacl12-core/#dfn-value) of `shnex:instancesOf` in an instancesOf expression.
-The [output nodes](https://www.w3.org/TR/shacl12-core/#dfn-output-nodes) of the instancesOf expression are the [nodes](https://www.w3.org/TR/rdf12-concepts/#dfn-node) that are [SHACL instances](https://www.w3.org/TR/shacl12-core/#dfn-shacl-instance) of `type` in the [focus graph](https://www.w3.org/TR/shacl12-core/#dfn-focus-graph).
+Let `typesExpr` be the [value](https://www.w3.org/TR/shacl12-core/#dfn-value) of `shnex:instancesOf` in an instancesOf expression.
+Let `types` be the [output nodes](https://www.w3.org/TR/shacl12-core/#dfn-output-nodes) of `evalExpr(typesExpr, focusGraph, focusNode, scope)`.
+An [evaluation failure](https://www.w3.org/TR/shacl12-core/#dfn-evaluation-failure) is reported when any of the members of `types` is not an [IRI](https://www.w3.org/TR/rdf12-concepts/#dfn-iri).
+The [output nodes](https://www.w3.org/TR/shacl12-core/#dfn-output-nodes) of the instancesOf expression are the distinct [nodes](https://www.w3.org/TR/rdf12-concepts/#dfn-node) that are [SHACL instances](https://www.w3.org/TR/shacl12-core/#dfn-shacl-instance) in the [focus graph](https://www.w3.org/TR/shacl12-core/#dfn-focus-graph) of each member of `types`.
 
 *The remainder of this section is non-normative.*
 
@@ -1508,16 +2509,16 @@ The interpretation of `shnex:instancesOf` is similar to `sh:targetClass` and `sh
 
 Users of this node expression function should be aware that the list of output nodes may be very large.
 
-The Example for `shnex:intersection` uses `shnex:instanceOf`.
+The Example for `shnex:intersection` uses `shnex:instancesOf`.
 
 #### 4.5.2 Nodes Matching Expressions
 
 A [blank node](https://www.w3.org/TR/rdf12-concepts/#dfn-blank-node) that is the [subject](https://www.w3.org/TR/rdf12-concepts/#dfn-subject) of the following properties
 is called a *nodes matching expression* with the [function name](https://www.w3.org/TR/shacl12-core/#dfn-function-name) `shnex:NodesMatchingExpression`:
 
-| Property                  | Constraints                                                                                                                                                          | Description                                                                                              |
-| ------------------------- | -------------------------------------------------------------------------------------------------------------------------------------------------------------------- | -------------------------------------------------------------------------------------------------------- |
-| **`shnex:nodesMatching`** | `sh:nodeKind sh:BlankNodeOrIRI` Must be a [well-formed](https://www.w3.org/TR/shacl12-core/#dfn-well-formed) [shape](https://www.w3.org/TR/shacl12-core/#dfn-shape). | The shape that the [output nodes](https://www.w3.org/TR/shacl12-core/#dfn-output-nodes) must conform to. |
+| Property                  | Constraints                                                                                                                          | Description                                                                                              |
+| ------------------------- | ------------------------------------------------------------------------------------------------------------------------------------ | -------------------------------------------------------------------------------------------------------- |
+| **`shnex:nodesMatching`** | Must be a [well-formed](https://www.w3.org/TR/shacl12-core/#dfn-well-formed) [shape](https://www.w3.org/TR/shacl12-core/#dfn-shape). | The shape that the [output nodes](https://www.w3.org/TR/shacl12-core/#dfn-output-nodes) must conform to. |
 
 EVALUATION OF NODES MATCHING EXPRESSIONS
 
@@ -1532,7 +2533,7 @@ and that some implementations may not be able to efficiently process it.
 The following example illustrates the use of `shnex:nodesMatching` to compute all instances of `ex:Company` that have at least 100 employees.
 > **Example:**
 >
-> Example 23
+> Example 23: Using shnex:nodesMatching to target all large companies
 >
 > ex:LargeCompanyShape
 > a sh:NodeShape ;
@@ -1545,6 +2546,29 @@ The following example illustrates the use of `shnex:nodesMatching` to compute al
 > ]
 > ]
 > ]** .
+>
+> ```
+> {
+> 	"@id": "ex:LargeCompanyShape",
+> 	"@type": "sh:NodeShape",
+> 	"sh:targetNode": {
+> 		"shnex:nodesMatching": {
+> 			"sh:class": {
+> 				"@id": "ex:Company"
+> 			},
+> 			"sh:property": {
+> 				"sh:minCount": {
+> 					"@type": "xsd:integer",
+> 					"@value": "100"
+> 				},
+> 				"sh:path": {
+> 					"@id": "ex:employee"
+> 				}
+> 			}
+> 		}
+> 	}
+> }
+> ```
 
 The interpretation of `shnex:nodesMatching` is similar to `sh:targetWhere`.
 The main differences are that `sh:targetWhere` is part of SHACL Core and that `shnex:nodesMatching` can be used in arbitrary node expressions.
@@ -1610,25 +2634,104 @@ An [evaluation failure](https://www.w3.org/TR/shacl12-core/#dfn-evaluation-failu
 > shnex:conformsToShape ( [ shnex:var "focusNode" ] ex:HasDirectorShape )
 > ]** .
 >
+> ```
+> {
+> 	"@graph": [
+> 		{
+> 			"@id": "ex:CompanyShape",
+> 			"@type": "sh:NodeShape",
+> 			"sh:property": {
+> 				"@id": "ex:CompanyShape-hasDirector"
+> 			},
+> 			"sh:targetClass": {
+> 				"@id": "ex:Company"
+> 			}
+> 		},
+> 		{
+> 			"@id": "ex:CompanyShape-hasDirector",
+> 			"@type": "sh:PropertyShape",
+> 			"sh:datatype": {
+> 				"@id": "xsd:boolean"
+> 			},
+> 			"sh:maxCount": {
+> 				"@type": "xsd:integer",
+> 				"@value": "1"
+> 			},
+> 			"sh:name": "has director",
+> 			"sh:path": {
+> 				"@id": "ex:hasDirector"
+> 			},
+> 			"sh:values": {
+> 				"shnex:conformsToShape": {
+> 					"@list": [
+> 						{
+> 							"shnex:var": "focusNode"
+> 						},
+> 						{
+> 							"@id": "ex:HasDirectorShape"
+> 						}
+> 					]
+> 				}
+> 			}
+> 		},
+> 		{
+> 			"@id": "ex:HasDirectorShape",
+> 			"@type": "sh:NodeShape",
+> 			"sh:property": {
+> 				"sh:minCount": {
+> 					"@type": "xsd:integer",
+> 					"@value": "1"
+> 				},
+> 				"sh:path": {
+> 					"@id": "ex:director"
+> 				}
+> 			}
+> 		}
+> 	]
+> }
+> ```
+>
 > For the following data graph, the value of `ex:hasDirector` is `false` because `ex:MyCompany` lacks a value for `ex:director`.
 >
 > ex:MyCompany
 > a ex:Company .
+>
+> ```
+> {
+> 	"@id": "ex:MyCompany",
+> 	"@type": "ex:Company"
+> }
+> ```
 
 ## 5. SPARQL Functions
 
 This section introduces SHACL SPARQL function expressions based on [sparql12-query] that can be used in node expressions.
 
-A [blank node](https://www.w3.org/TR/rdf12-concepts/#dfn-blank-node) that uses a SPARQL function URI `sparql:<NAME>` as its predicate with an `rdf:List` of arguments as its object
-is called a *SHACL SPARQL function expression* with the corresponding SPARQL [function name](https://www.w3.org/TR/shacl12-core/#dfn-function-name).
+A [blank node](https://www.w3.org/TR/rdf12-concepts/#dfn-blank-node) that is the [subject](https://www.w3.org/TR/rdf12-concepts/#dfn-subject) of a single [triple](https://www.w3.org/TR/rdf12-concepts/#dfn-rdf-triple) whose [predicate](https://www.w3.org/TR/rdf12-concepts/#dfn-predicate) is one of the
+SPARQL function IRIs `sparql:<NAME>` declared in the SHACL node expression SPARQL vocabulary
+(listed in the table below) and whose [object](https://www.w3.org/TR/rdf12-concepts/#dfn-object) follows the syntax rules of list parameter functions is called a *SHACL SPARQL function expression* with the [function name](https://www.w3.org/TR/shacl12-core/#dfn-function-name) `sparql:<NAME>`.
 
 EVALUATION OF SPARQL FUNCTION EXPRESSIONS
 
-The evaluation follows the SPARQL semantics for the corresponding SPARQL function.
-Each item in the `rdf:List` is evaluated as a [node expression](https://www.w3.org/TR/shacl12-core/#dfn-node-expression) to produce argument values,
-which are then passed to the SPARQL function implementation.
-If the SPARQL function produces a single result value, it is wrapped as a singleton list containing that output node.
-If the SPARQL function produces no result or an error, the expression produces an empty list or an [evaluation failure](https://www.w3.org/TR/shacl12-core/#dfn-evaluation-failure), respectively.
+Each argument is evaluated as a [node expression](https://www.w3.org/TR/shacl12-core/#dfn-node-expression).
+An argument that produces exactly one [output node](https://www.w3.org/TR/shacl12-core/#dfn-output-nodes) has that node as its value.
+An argument that produces more than one [output node](https://www.w3.org/TR/shacl12-core/#dfn-output-nodes), or whose evaluation produces
+an [evaluation failure](https://www.w3.org/TR/shacl12-core/#dfn-evaluation-failure), is treated as a SPARQL error.
+If no argument is a SPARQL error, an argument without [output nodes](https://www.w3.org/TR/shacl12-core/#dfn-output-nodes) makes the expression produce no [output nodes](https://www.w3.org/TR/shacl12-core/#dfn-output-nodes),
+except for the functions that handle unbound values (`sparql:bound`, `sparql:coalesce`, `sparql:if`, `sparql:logical-and` and `sparql:logical-or`),
+where such an argument is an *unbound argument*, i.e. an unbound value in the sense of SPARQL.
+An error therefore takes precedence over an unbound argument: `[ sparql:plus ( [ shnex:var "unbound" ] [ shnex:instancesOf 42 ] ) ]` produces
+an [evaluation failure](https://www.w3.org/TR/shacl12-core/#dfn-evaluation-failure), whatever the order of its arguments.
+The function is then evaluated with these argument values following the SPARQL semantics of the corresponding SPARQL function,
+including its handling of unbound values and errors:
+for example, `sparql:bound` returns `false` for an unbound argument, `sparql:coalesce` skips arguments that are unbound or in error,
+and `sparql:if` ignores its unselected branch.
+Therefore `[ sparql:coalesce ( ( 1 2 ) "ok" ) ]` produces `( "ok" )` although its first argument produces two [output nodes](https://www.w3.org/TR/shacl12-core/#dfn-output-nodes),
+while `[ sparql:abs ( ( -1 -2 ) ) ]` produces an [evaluation failure](https://www.w3.org/TR/shacl12-core/#dfn-evaluation-failure).
+An unbound value that is selected is an error as in SPARQL, so that `[ sparql:if ( true [ shnex:var "unbound" ] "no" ) ]` produces an [evaluation failure](https://www.w3.org/TR/shacl12-core/#dfn-evaluation-failure),
+as does `sparql:coalesce` when all of its arguments are unbound; `shnex:if` (§4.1.6) is the choice when an empty branch should yield no [output nodes](https://www.w3.org/TR/shacl12-core/#dfn-output-nodes).
+If the function produces a value, the [output nodes](https://www.w3.org/TR/shacl12-core/#dfn-output-nodes) are the list consisting of exactly that node.
+If the function produces an error, the expression produces an [evaluation failure](https://www.w3.org/TR/shacl12-core/#dfn-evaluation-failure).
 
 Filter by category:
 
@@ -1651,7 +2754,7 @@ Filter by category:
 | [floor](https://www.w3.org/TR/sparql12-query/#func-floor)             | This function returns the greatest integer less than or equal to the numeric argument. Example: `[ sparql:floor ( 3.8 ) ]`                                                                               | numeric   |
 | [greater than](https://www.w3.org/TR/sparql12-query/)                 | This operator tests whether the first RDF term is greater than the second RDF term. Example: `[ sparql:greater-than ( 10 5 ) ]`                                                                          | other     |
 | [greater than or equal](https://www.w3.org/TR/sparql12-query/)        | This operator tests whether the first RDF term is greater than or equal to the second RDF term. Example: `[ sparql:greater-than-or-equal ( 10 10 ) ]`                                                    | other     |
-| [has lang](https://www.w3.org/TR/sparql12-query/#func-haslang)        | This function returns true if the given RDF literal has a specified language, matching the literal’s language tag. Example: `[ sparql:hasLang ( "hello"@en "en" ) ]`                                     | string    |
+| [has lang](https://www.w3.org/TR/sparql12-query/#func-haslang)        | This function returns true if the given RDF term is a literal with a language tag. Example: `[ sparql:hasLang ( "hello"@en ) ]`                                                                          | string    |
 | [has langdir](https://www.w3.org/TR/sparql12-query/#func-haslangdir)  | This function returns true if the given RDF literal has an initial text direction. Example: `[ sparql:hasLangdir ( "hello"@en--ltr ) ]`                                                                  | string    |
 | [hours](https://www.w3.org/TR/sparql12-query/#func-hours)             | This function returns the hour component (0–23) of an xsd:dateTime value. Example: `[ sparql:hours ( "2023-12-25T10:30:00"^^xsd:dateTime ) ]`                                                            | date      |
 | [if](https://www.w3.org/TR/sparql12-query/#func-if)                   | This conditional form evaluates a test expression and returns one of two provided expressions based on the boolean outcome of the test. Example: `[ sparql:if ( [ sparql:greater-than ( 10 5 ) ] "big" "small" ) ]` | other     |
@@ -1751,7 +2854,7 @@ The following example defines a new [node expression function](https://www.w3.or
 returning the average value of these nodes.
 > **Example:**
 >
-> Example 25
+> Example 25: Declaring a custom named parameter function that computes averages
 >
 > ex:AverageExpression
 > a sh:NamedParameterExpressionFunction ;
@@ -1773,11 +2876,66 @@ returning the average value of these nodes.
 > sh:description "The nodes of which the average shall be computed." ;
 > sh:keyParameter true ;
 > .
+>
+> ```
+> {
+> 	"@graph": [
+> 		{
+> 			"@id": "ex:AverageExpression",
+> 			"@type": "sh:NamedParameterExpressionFunction",
+> 			"rdfs:comment": "Computes the average of the nodes provided by ex:average.",
+> 			"rdfs:label": {
+> 				"@language": "en",
+> 				"@value": "Average expression"
+> 			},
+> 			"rdfs:subClassOf": {
+> 				"@id": "sh:NamedParameterExpression"
+> 			},
+> 			"sh:bodyExpression": {
+> 				"sparql:divide": {
+> 					"@list": [
+> 						{
+> 							"shnex:sum": {
+> 								"shnex:arg": {
+> 									"@id": "ex:average"
+> 								}
+> 							}
+> 						},
+> 						{
+> 							"shnex:count": {
+> 								"shnex:arg": {
+> 									"@id": "ex:average"
+> 								}
+> 							}
+> 						}
+> 					]
+> 				}
+> 			},
+> 			"sh:parameter": {
+> 				"@id": "ex:AverageExpression-average"
+> 			}
+> 		},
+> 		{
+> 			"@id": "ex:AverageExpression-average",
+> 			"@type": "sh:Parameter",
+> 			"sh:description": "The nodes of which the average shall be computed.",
+> 			"sh:keyParameter": {
+> 				"@type": "xsd:boolean",
+> 				"@value": "true"
+> 			},
+> 			"sh:name": "average",
+> 			"sh:path": {
+> 				"@id": "ex:average"
+> 			}
+> 		}
+> 	]
+> }
+> ```
 
-This new node expression function can the be used as follows:
+This new node expression function can then be used as follows:
 > **Example:**
 >
-> Example 26
+> Example 26: Using the custom ex:average expression
 >
 > ex:CompanyShape-averageIncome
 > a sh:PropertyShape ;
@@ -1786,6 +2944,33 @@ This new node expression function can the be used as follows:
 > sh:values [ **ex:average [
 > shnex:pathValues ( ex:employee ex:income )
 > ]** ] .
+>
+> ```
+> {
+> 	"@id": "ex:CompanyShape-averageIncome",
+> 	"@type": "sh:PropertyShape",
+> 	"sh:datatype": {
+> 		"@id": "xsd:decimal"
+> 	},
+> 	"sh:path": {
+> 		"@id": "ex:averageIncome"
+> 	},
+> 	"sh:values": {
+> 		"ex:average": {
+> 			"shnex:pathValues": {
+> 				"@list": [
+> 					{
+> 						"@id": "ex:employee"
+> 					},
+> 					{
+> 						"@id": "ex:income"
+> 					}
+> 				]
+> 			}
+> 		}
+> 	}
+> }
+> ```
 
 ### 6.2 Custom List Parameter Functions
 
@@ -1796,6 +2981,10 @@ It has a single [value](https://www.w3.org/TR/shacl12-core/#dfn-value) for `sh:b
 
 Custom list parameter functions can reference the arguments using an arg expression such as `[ shnex:arg 0 ]` and `[ shnex:arg 1 ]` where the `xsd:integer` `n` corresponds to the `n`th [member](https://www.w3.org/TR/shacl12-core/#dfn-members) of the arguments list, starting with `0` as the first member.
 
+Custom list parameter functions *MAY* document the expected shape of the arguments
+with [values](https://www.w3.org/TR/shacl12-core/#dfn-value) of `sh:parameter` where the values of `sh:path` are
+the values `shnex:arg0`, `shnex:arg1` etc.
+
 A *custom list parameter expression* is a [node expression](https://www.w3.org/TR/shacl12-core/#dfn-node-expression) represented by a [blank node](https://www.w3.org/TR/rdf12-concepts/#dfn-blank-node) that is the [subject](https://www.w3.org/TR/rdf12-concepts/#dfn-subject) of exactly one [triple](https://www.w3.org/TR/rdf12-concepts/#dfn-rdf-triple) and the [predicate](https://www.w3.org/TR/rdf12-concepts/#dfn-predicate) of that triple is the list parameter property of a custom list parameter function in the [shapes graph](https://www.w3.org/TR/shacl12-core/#dfn-shapes-graph).
 
 EVALUATION OF CUSTOM LIST PARAMETER EXPRESSIONS
@@ -1803,8 +2992,17 @@ EVALUATION OF CUSTOM LIST PARAMETER EXPRESSIONS
 Let `expr` be a custom list parameter expression with the custom list parameter function `f`.
 Let `body` be the [value](https://www.w3.org/TR/shacl12-core/#dfn-value) of `sh:bodyExpression` at `f` in the [shapes graph](https://www.w3.org/TR/shacl12-core/#dfn-shapes-graph).
 
-Let `argScope` be a map of (parameter index) [nodes](https://www.w3.org/TR/rdf12-concepts/#dfn-node) as keys and (argument) [nodes](https://www.w3.org/TR/rdf12-concepts/#dfn-node) as values, so that each list argument of `expr` has the index of the argument as an `xsd:integer` as key, starting with `0` for the first argument.
-For example, if `expr` has arguments `( 38 4 )` then the `argScope` is `{ 0 : 38, 1 : 4 }`.
+Let `argScope` be a map of (parameter index) [nodes](https://www.w3.org/TR/rdf12-concepts/#dfn-node) as keys and (argument) [nodes](https://www.w3.org/TR/rdf12-concepts/#dfn-node) as values, computed as follows for each list argument `argn` of `expr`,
+where the `xsd:integer` `n` is the index of the argument, starting with `0` for the first argument:
+Let `N` be the [output nodes](https://www.w3.org/TR/shacl12-core/#dfn-output-nodes) of `evalExpr(argn, focusGraph, focusNode, scope)`,
+i.e., the argument is evaluated with the `scope` of `expr`, as for any list parameter function.
+An [evaluation failure](https://www.w3.org/TR/shacl12-core/#dfn-evaluation-failure) is reported when `N` has more than one member.
+If `N` is empty and no argument of `expr` produces an [evaluation failure](https://www.w3.org/TR/shacl12-core/#dfn-evaluation-failure),
+then the [output nodes](https://www.w3.org/TR/shacl12-core/#dfn-output-nodes) of `expr` are the empty list, as for any list parameter function;
+a failing argument takes precedence, so all arguments are evaluated before the empty list is returned.
+Otherwise `argScope` maps `n` to the only member of `N`.
+For example, if `expr` has arguments `( 38 4 )` then the `argScope` is `{ 0 : 38, 1 : 4 }`,
+and if `expr` has arguments `( [ shnex:var "x" ] 4 )` and `scope` maps `"x"` to `38` then the `argScope` is also `{ 0 : 38, 1 : 4 }`.
 
 The [output nodes](https://www.w3.org/TR/shacl12-core/#dfn-output-nodes) of `expr` are computed using `evalExpr(expr, focusGraph, focusNode, scope) -> evalExpr(body, focusGraph, focusNode, argScope)` where an [evaluation failure](https://www.w3.org/TR/shacl12-core/#dfn-evaluation-failure) is reported when there is more than 1 output node.
 
@@ -1813,7 +3011,7 @@ The [output nodes](https://www.w3.org/TR/shacl12-core/#dfn-output-nodes) of `exp
 The following example defines a new [node expression function](https://www.w3.org/TR/shacl12-core/#dfn-node-expression-function) `ex:spacedConcat` that takes two nodes as input and returns a string concatenating the two nodes with a space in between.
 > **Example:**
 >
-> Example 27
+> Example 27: Declaring the custom list parameter function ex:spacedConcat
 >
 > ex:spacedConcat
 > a sh:ListParameterExpressionFunction ;
@@ -1825,12 +3023,83 @@ The following example defines a new [node expression function](https://www.w3.or
 > " "
 > [ shnex:arg 1 ]
 > )
+> ] ;
+> sh:parameter [
+> a sh:Parameter ;
+> sh:path shnex:arg0 ;
+> sh:name "first string" ;
+> sh:description "The first string to concatenate." ;
+> sh:datatype xsd:string ;
+> ] ;
+> sh:parameter [
+> a sh:Parameter ;
+> sh:path shnex:arg1 ;
+> sh:name "second string" ;
+> sh:description "The second string to concatenate." ;
+> sh:datatype xsd:string ;
 > ] .
+>
+> ```
+> {
+> 	"@id": "ex:spacedConcat",
+> 	"@type": "sh:ListParameterExpressionFunction",
+> 	"rdfs:label": {
+> 		"@language": "en",
+> 		"@value": "Spaced concat expression"
+> 	},
+> 	"rdfs:subClassOf": {
+> 		"@id": "sh:ListParameterExpression"
+> 	},
+> 	"sh:bodyExpression": {
+> 		"sparql:concat": {
+> 			"@list": [
+> 				{
+> 					"shnex:arg": {
+> 						"@type": "xsd:integer",
+> 						"@value": "0"
+> 					}
+> 				},
+> 				" ",
+> 				{
+> 					"shnex:arg": {
+> 						"@type": "xsd:integer",
+> 						"@value": "1"
+> 					}
+> 				}
+> 			]
+> 		}
+> 	},
+> 	"sh:parameter": [
+> 		{
+> 			"@type": "sh:Parameter",
+> 			"sh:datatype": {
+> 				"@id": "xsd:string"
+> 			},
+> 			"sh:description": "The first string to concatenate.",
+> 			"sh:name": "first string",
+> 			"sh:path": {
+> 				"@id": "shnex:arg0"
+> 			}
+> 		},
+> 		{
+> 			"@type": "sh:Parameter",
+> 			"sh:datatype": {
+> 				"@id": "xsd:string"
+> 			},
+> 			"sh:description": "The second string to concatenate.",
+> 			"sh:name": "second string",
+> 			"sh:path": {
+> 				"@id": "shnex:arg1"
+> 			}
+> 		}
+> 	]
+> }
+> ```
 
-This new node expression function can the be used as follows:
+This new node expression function can then be used as follows:
 > **Example:**
 >
-> Example 28
+> Example 28: Using the custom ex:spacedConcat function
 >
 > ex:Person-fullName
 > a sh:PropertyShape ;
@@ -1840,6 +3109,37 @@ This new node expression function can the be used as follows:
 > [ shnex:pathValues ex:firstName ]
 > [ shnex:pathValues ex:lastName ]
 > )** ] .
+>
+> ```
+> {
+> 	"@id": "ex:Person-fullName",
+> 	"@type": "sh:PropertyShape",
+> 	"sh:datatype": {
+> 		"@id": "xsd:string"
+> 	},
+> 	"sh:path": {
+> 		"@id": "ex:fullName"
+> 	},
+> 	"sh:values": {
+> 		"ex:spacedConcat": {
+> 			"@list": [
+> 				{
+> 					"shnex:pathValues": {
+> 						"@id": "ex:firstName"
+> 					}
+> 				},
+> 				{
+> 					"shnex:pathValues": {
+> 						"@id": "ex:lastName"
+> 					}
+> 				}
+> 			]
+> 		}
+> 	}
+> }
+> ```
+
+More examples of using custom list parameter functions can be found in [the SHACL-SPARQL spec](https://www.w3.org/TR/shacl12-sparql/#sparql-functions).
 
 ### 6.3 Arg Expressions
 
@@ -1855,7 +3155,7 @@ is called an *arg expression* with the [function name](https://www.w3.org/TR/sha
 EVALUATION OF ARG EXPRESSIONS
 
 Let `arg` be the [value](https://www.w3.org/TR/shacl12-core/#dfn-value) of `shnex:arg` in the arg expression.
-The [output nodes](https://www.w3.org/TR/shacl12-core/#dfn-output-nodes) of the var expression are computed as follows, in order:
+The [output nodes](https://www.w3.org/TR/shacl12-core/#dfn-output-nodes) of the arg expression are computed as follows, in order:
 
 1. if `arg` is in the `scope` and has the value `a` then `evalExpr(expr, focusGraph, focusNode, scope) -> evalExpr(a, focusGraph, focusNode, {})`
 2. otherwise `evalExpr(expr, focusGraph, focusNode, scope) -> []`
@@ -1865,6 +3165,10 @@ The [output nodes](https://www.w3.org/TR/shacl12-core/#dfn-output-nodes) of the 
 Both `shnex:arg` and `shnex:var` access values from the scope.
 The difference is that `shnex:arg` interprets the values as node expressions, while `shnex:var` treats the values as individual nodes.
 As a result, a custom node expression can evaluate nested node expressions that are passed in as arguments.
+
+For custom named parameter expressions, the values in the scope are the argument [node expressions](https://www.w3.org/TR/shacl12-core/#dfn-node-expression) as given in the expression, which are therefore evaluated with an empty scope when `shnex:arg` is used.
+For custom list parameter expressions, the arguments have already been evaluated in the scope of the
+calling expression, so the values in the scope are individual [nodes](https://www.w3.org/TR/rdf12-concepts/#dfn-node) that `shnex:arg` returns as constants.
 
 Examples of `shnex:arg` can be found in Example 25 and Example 27.
 
@@ -1876,7 +3180,7 @@ This section introduces SHACL [constraint components](https://www.w3.org/TR/shac
 
 Based on [node expressions](https://www.w3.org/TR/shacl12-core/#dfn-node-expression), this section introduces a [constraint component](https://www.w3.org/TR/shacl12-core/#dfn-constraint-component) called *expression constraints*.
 Expression constraints can be used in any [shape](https://www.w3.org/TR/shacl12-core/#dfn-shape) to declare the condition that the [node expression](https://www.w3.org/TR/shacl12-core/#dfn-node-expression) specified via `sh:expression` has `true` as its only output node.
-The evaluation of these node expressions is repeated for all [value nodes](https://www.w3.org/TR/shacl12-core/#dfn-value-node) of the [shape](https://www.w3.org/TR/shacl12-core/#dfn-shape) as the [focus node](https://www.w3.org/TR/shacl12-core/#dfn-focus-node).
+The node expression is evaluated once for each [value node](https://www.w3.org/TR/shacl12-core/#dfn-value-node) of the [shape](https://www.w3.org/TR/shacl12-core/#dfn-shape), with the [focus node](https://www.w3.org/TR/shacl12-core/#dfn-focus-node) of the shape as the focus node and the value node bound to the scope variable `value`.
 
 Constraint Component IRI: `sh:ExpressionConstraintComponent`
 
@@ -1889,7 +3193,7 @@ Parameters:
 TEXTUAL DEFINITION
 
 Let `$expr` be a [value](https://www.w3.org/TR/shacl12-core/#dfn-value) of `sh:expression`.
-For each [value node](https://www.w3.org/TR/shacl12-core/#dfn-value-node) `v` where `evalExpr(expr, data graph, focusNode, {value: v})` does not return the list consisting of exactly `true` as its [output nodes](https://www.w3.org/TR/shacl12-core/#dfn-output-nodes),
+For each [value node](https://www.w3.org/TR/shacl12-core/#dfn-value-node) `v` where `evalExpr($expr, data graph, focusNode, {"value": v})` does not return the list consisting of exactly `true` as its [output nodes](https://www.w3.org/TR/shacl12-core/#dfn-output-nodes),
 there is a [validation result](https://www.w3.org/TR/shacl12-core/#dfn-validation-result) that has `v` as its `sh:value` and a [deep copy](https://www.w3.org/TR/shacl12-core/#dfn-deep-copy) of `$expr` in the results graph as its `sh:sourceConstraint`.
 
 *The remainder of this section is non-normative.*
@@ -1901,7 +3205,7 @@ the constraint that the values of `ex:ibanNumber` must start with the same two (
 the values of the path `ex:country/ex:code`.
 > **Example:**
 >
-> Example 29
+> Example 29: Using sh:expression to check that IBAN numbers start with the country code
 >
 > ex:AccountShape
 > a sh:NodeShape ;
@@ -1917,14 +3221,66 @@ the values of the path `ex:country/ex:code`.
 > [ shnex:var "value" ]
 > [
 > sparql:ucase (
-> [
-> shnex:pathValues ( ex:country ex:code )
-> shnex:nodes [ shnex:var "focusNode" ]
-> ]
+> [ shnex:pathValues ( ex:country ex:code ) ]
 > )
 > ]
 > )
 > ]** .
+>
+> ```
+> {
+> 	"@graph": [
+> 		{
+> 			"@id": "ex:AccountShape",
+> 			"@type": "sh:NodeShape",
+> 			"sh:property": {
+> 				"@id": "ex:AccountShape-ibanNumber"
+> 			},
+> 			"sh:targetClass": {
+> 				"@id": "ex:Account"
+> 			}
+> 		},
+> 		{
+> 			"@id": "ex:AccountShape-ibanNumber",
+> 			"@type": "sh:PropertyShape",
+> 			"sh:datatype": {
+> 				"@id": "xsd:string"
+> 			},
+> 			"sh:expression": {
+> 				"sparql:strstarts": {
+> 					"@list": [
+> 						{
+> 							"shnex:var": "value"
+> 						},
+> 						{
+> 							"sparql:ucase": {
+> 								"@list": [
+> 									{
+> 										"shnex:pathValues": {
+> 											"@list": [
+> 												{
+> 													"@id": "ex:country"
+> 												},
+> 												{
+> 													"@id": "ex:code"
+> 												}
+> 											]
+> 										}
+> 									}
+> 								]
+> 							}
+> 						}
+> 					]
+> 				}
+> 			},
+> 			"sh:message": "IBAN numbers must start with the country code, in upper-case letters.",
+> 			"sh:path": {
+> 				"@id": "ex:ibanNumber"
+> 			}
+> 		}
+> 	]
+> }
+> ```
 >
 > ex:ValidGermanAccount
 > a ex:Account ;
@@ -1942,6 +3298,39 @@ the values of the path `ex:country/ex:code`.
 > ex:Germany
 > a ex:Country ;
 > ex:code "de" .
+>
+> ```
+> {
+> 	"@graph": [
+> 		{
+> 			"@id": "ex:Estonia",
+> 			"@type": "ex:Country",
+> 			"ex:code": "ee"
+> 		},
+> 		{
+> 			"@id": "ex:Germany",
+> 			"@type": "ex:Country",
+> 			"ex:code": "de"
+> 		},
+> 		{
+> 			"@id": "ex:InvalidGermanAccount",
+> 			"@type": "ex:Account",
+> 			"ex:country": {
+> 				"@id": "ex:Estonia"
+> 			},
+> 			"ex:ibanNumber": "DE987654..."
+> 		},
+> 		{
+> 			"@id": "ex:ValidGermanAccount",
+> 			"@type": "ex:Account",
+> 			"ex:country": {
+> 				"@id": "ex:Germany"
+> 			},
+> 			"ex:ibanNumber": "DE123456..."
+> 		}
+> 	]
+> }
+> ```
 
 ### 7.2 sh:nodeByExpression
 
@@ -1959,7 +3348,7 @@ Parameters:
 TEXTUAL DEFINITION
 
 Let `$expr` be a [value](https://www.w3.org/TR/shacl12-core/#dfn-value) of `sh:nodeByExpression`.
-For each [value node](https://www.w3.org/TR/shacl12-core/#dfn-value-node) `v`: perform a [conformance check](https://www.w3.org/TR/shacl12-core/#dfn-conformance-checking) of `v` against each [output node](https://www.w3.org/TR/shacl12-core/#dfn-output-nodes) of `evalExpr(expr, 						data graph, v, {})` `s`. A [failure](https://www.w3.org/TR/shacl12-core/#dfn-failure) *MUST* be produced if the [conformance check](https://www.w3.org/TR/shacl12-core/#dfn-conformance-checking) of `v` against `s` produces a [failure](https://www.w3.org/TR/shacl12-core/#dfn-failure). Otherwise, if `v` does
+For each [value node](https://www.w3.org/TR/shacl12-core/#dfn-value-node) `v`: perform a [conformance check](https://www.w3.org/TR/shacl12-core/#dfn-conformance-checking) of `v` against each [output node](https://www.w3.org/TR/shacl12-core/#dfn-output-nodes) `s` of `evalExpr($expr, 						data graph, v, {})`. A [failure](https://www.w3.org/TR/shacl12-core/#dfn-failure) *MUST* be produced if the [conformance check](https://www.w3.org/TR/shacl12-core/#dfn-conformance-checking) of `v` against `s` produces a [failure](https://www.w3.org/TR/shacl12-core/#dfn-failure). Otherwise, if `v` does
 not [conform](https://www.w3.org/TR/shacl12-core/#dfn-conform) to `s`, there is a [validation result](https://www.w3.org/TR/shacl12-core/#dfn-validation-result) with `v` as `sh:value` and a [deep copy](https://www.w3.org/TR/shacl12-core/#dfn-deep-copy) of `s` as `sh:sourceConstraint`.
 
 *The remainder of this section is non-normative.*
@@ -1967,7 +3356,7 @@ not [conform](https://www.w3.org/TR/shacl12-core/#dfn-conform) to `s`, there is 
 `sh:nodeByExpression` functions similarly to `sh:node`, but instead of referencing a fixed [node shape](https://www.w3.org/TR/shacl12-core/#dfn-node-shape),
 a referenced [node expression](https://www.w3.org/TR/shacl12-core/#dfn-node-expression) is used to dynamically compute the set of [node shapes](https://www.w3.org/TR/shacl12-core/#dfn-node-shape) to which each [value node](https://www.w3.org/TR/shacl12-core/#dfn-value-node) must conform.
 
-There are three key differences between `sh:nodeByExpression` and *[`sh:node`](https://www.w3.org/TR/shacl12-core/#NodeConstraintComponent)*:
+There are three key differences between `sh:nodeByExpression` and [`sh:node`](https://www.w3.org/TR/shacl12-core/#NodeConstraintComponent):
 
 1. `sh:nodeByExpression` references a [node expression](https://www.w3.org/TR/shacl12-core/#dfn-node-expression) instead of a fixed [node shape](https://www.w3.org/TR/shacl12-core/#dfn-node-shape) as `sh:node` does.
 2. `sh:nodeByExpression` cannot reference a [node shape](https://www.w3.org/TR/shacl12-core/#dfn-node-shape) that is a [blank node](https://www.w3.org/TR/rdf12-concepts/#dfn-blank-node) as a value like `sh:node` can,
@@ -1983,7 +3372,7 @@ which links to an associated [node shape](https://www.w3.org/TR/shacl12-core/#df
 To validate that every `qb:Observation` instance conforms to the appropriate shape, `sh:nodeByExpression` with a path values expression is used to locate the shape at the property path `qb:dataSet/qb:structure/eg:hasShape` from each `qb:Observation` instance.
 > **Example:**
 >
-> Example 30
+> Example 30: Using sh:nodeByExpression to validate observations against the shape of their data structure definition
 >
 > eg:dsd1-shape
 > a sh:NodeShape ;
@@ -2155,7 +3544,7 @@ To validate that every `qb:Observation` instance conforms to the appropriate sha
 > 			"rdfs:comment": {
 > 				"@language": "en",
 > 				"@value": "shipments by time (multiple measures approach)"
-> 			}
+> 			},
 > 			"eg:hasShape": {
 > 				"@id": "eg:dsd1-shape"
 > 			},
@@ -2205,11 +3594,11 @@ To validate that every `qb:Observation` instance conforms to the appropriate sha
 > 			"sdmx-dimension:refTime": {
 > 				"@type": "xsd:dateTime",
 > 				"@value": "2010-07-31T12:00:00"
-> 			}
+> 			},
 > 			"eg-measure:weight": {
 > 				"@type": "xsd:decimal",
 > 				"@value": "1.4"
-> 			},
+> 			}
 > 		}
 > 	]
 > }
@@ -2326,11 +3715,12 @@ To validate that every `qb:Observation` instance conforms to the appropriate sha
 
 ## 8. Dynamic SHACL
 
-This section defines *Dynamic SHACL* as a dialect of SHACL that some implementations *MAY* support.
+This section defines *Dynamic SHACL* as a dialect of SHACL.
+Support for Dynamic SHACL is *OPTIONAL*, see 1.3 Conformance (§1.3).
 
 In Dynamic SHACL any [parameter](https://www.w3.org/TR/shacl12-core/#dfn-parameter) of a [constraint](https://www.w3.org/TR/shacl12-core/#dfn-constraint) can be computed using a [node expression](https://www.w3.org/TR/shacl12-core/#dfn-node-expression),
-excluding those that do *not* allow [blank nodes](https://www.w3.org/TR/rdf12-concepts/#dfn-blank-node) (such as `sh:node`)
-but including those that take [SHACL lists](https://www.w3.org/TR/shacl12-core/#dfn-shacl-list) as values (such as `sh:class`, `sh:datatype`, and `sh:in`).
+except for parameters whose values may be [blank nodes](https://www.w3.org/TR/rdf12-concepts/#dfn-blank-node) (such as `sh:node`, `sh:property` or `sh:qualifiedValueShape`), because such a value cannot be distinguished from a node expression.
+Parameters that take [SHACL lists](https://www.w3.org/TR/shacl12-core/#dfn-shacl-list) as values (such as `sh:class`, `sh:datatype`, and `sh:in`) are included.
 During [validation](https://www.w3.org/TR/shacl12-core/#dfn-validation), such [node expressions](https://www.w3.org/TR/shacl12-core/#dfn-node-expression) are evaluated in the [data graph](https://www.w3.org/TR/shacl12-core/#dfn-data-graph),
 using the current [focus node](https://www.w3.org/TR/shacl12-core/#dfn-focus-node).
 The resulting [nodes](https://www.w3.org/TR/rdf12-concepts/#dfn-node) will be used as [parameters](https://www.w3.org/TR/shacl12-core/#dfn-parameter) for the [constraint](https://www.w3.org/TR/shacl12-core/#dfn-constraint).
@@ -2354,14 +3744,62 @@ of a president is 18 unless the country is USA, where it is 35.
 > a sh:PropertyShape ;
 > sh:path ex:age ; **sh:minInclusive [
 > shnex:if [
-> sparql:eq (
+> sparql:equals (
 > [ shnex:pathValues ex:country ]
 > ex:USA
 > )
-> ]
+> ] ;
 > shnex:then 35 ;
 > shnex:else 18 ;
 > ]** .
+>
+> ```
+> {
+> 	"@graph": [
+> 		{
+> 			"@id": "ex:PresidentShape",
+> 			"@type": "sh:NodeShape",
+> 			"sh:property": {
+> 				"@id": "ex:PresidentShape-age"
+> 			},
+> 			"sh:targetClass": {
+> 				"@id": "ex:President"
+> 			}
+> 		},
+> 		{
+> 			"@id": "ex:PresidentShape-age",
+> 			"@type": "sh:PropertyShape",
+> 			"sh:minInclusive": {
+> 				"shnex:else": {
+> 					"@type": "xsd:integer",
+> 					"@value": "18"
+> 				},
+> 				"shnex:if": {
+> 					"sparql:equals": {
+> 						"@list": [
+> 							{
+> 								"shnex:pathValues": {
+> 									"@id": "ex:country"
+> 								}
+> 							},
+> 							{
+> 								"@id": "ex:USA"
+> 							}
+> 						]
+> 					}
+> 				},
+> 				"shnex:then": {
+> 					"@type": "xsd:integer",
+> 					"@value": "35"
+> 				}
+> 			},
+> 			"sh:path": {
+> 				"@id": "ex:age"
+> 			}
+> 		}
+> 	]
+> }
+> ```
 
 ### 8.2 Example: Dynamic Enumerations
 
@@ -2384,6 +3822,31 @@ As a use case of Dynamic SHACL, assume the following [data graph](https://www.w3
 > ex:country ex:Australia ;
 > ex:state "QLD" ;
 > .
+>
+> ```
+> {
+> 	"@graph": [
+> 		{
+> 			"@id": "ex:ArizonaAddress1",
+> 			"@type": "ex:Address",
+> 			"ex:country": {
+> 				"@id": "ex:USA"
+> 			},
+> 			"ex:state": "AZ",
+> 			"ex:street": "123 John Muir Ave"
+> 		},
+> 		{
+> 			"@id": "ex:QueenslandAddress1",
+> 			"@type": "ex:Address",
+> 			"ex:country": {
+> 				"@id": "ex:Australia"
+> 			},
+> 			"ex:state": "QLD",
+> 			"ex:street": "123 Bob Katter Cl"
+> 		}
+> 	]
+> }
+> ```
 
 We want to express that the valid values of `ex:state` depend on the value of `ex:country` at the given focus node.
 For example, the valid values for country `ex:USA` would be `( "AL" "AK" "AZ" ... )` while valid values for country `ex:Australia` would be `( "ACT" "NSW" "NT" "QLD" "SA" "TAS" "VIC" "WA" )`.
@@ -2410,6 +3873,37 @@ This fact can be represented as part of the data:
 > "AZ",
 > "AR" ; # ...
 > .
+>
+> ```
+> {
+> 	"@graph": [
+> 		{
+> 			"@id": "ex:Australia",
+> 			"@type": "ex:Country",
+> 			"ex:stateCode": [
+> 				"ACT",
+> 				"NSW",
+> 				"NT",
+> 				"QLD",
+> 				"SA",
+> 				"TAS",
+> 				"VIC",
+> 				"WA"
+> 			]
+> 		},
+> 		{
+> 			"@id": "ex:USA",
+> 			"@type": "ex:Country",
+> 			"ex:stateCode": [
+> 				"AL",
+> 				"AK",
+> 				"AZ",
+> 				"AR"
+> 			]
+> 		}
+> 	]
+> }
+> ```
 
 Using this extra information, we can now define a `sh:in` constraint using a path values expression:
 > **Example:**
@@ -2425,18 +3919,96 @@ Using this extra information, we can now define a `sh:in` constraint using a pat
 > sh:path ex:state ; **sh:in [
 > shnex:pathValues ( ex:country ex:stateCode )
 > ]** .
+>
+> ```
+> {
+> 	"@graph": [
+> 		{
+> 			"@id": "ex:Address",
+> 			"@type": "sh:ShapeClass",
+> 			"sh:property": {
+> 				"@id": "ex:Address-state"
+> 			}
+> 		},
+> 		{
+> 			"@id": "ex:Address-state",
+> 			"@type": "sh:PropertyShape",
+> 			"sh:in": {
+> 				"shnex:pathValues": {
+> 					"@list": [
+> 						{
+> 							"@id": "ex:country"
+> 						},
+> 						{
+> 							"@id": "ex:stateCode"
+> 						}
+> 					]
+> 				}
+> 			},
+> 			"sh:path": {
+> 				"@id": "ex:state"
+> 			}
+> 		}
+> 	]
+> }
+> ```
 
 During validation, a Dynamic SHACL engine will evaluate the path values expression at `sh:in` and use the resulting nodes as members of the allowed values.
 Thus, when the value of `ex:country` is `ex:USA`, it will look up the
 state codes that are linked to `ex:USA`.
 
-## 9. Security and Privacy Considerations
+## A. Summary of Syntax Rules
+
+This section enumerates all normative syntax rules of this document.
+This section is automatically generated from other parts of this spec and hyperlinks are provided back
+into the prose if the context of the rule in unclear.
+Nodes that violate these rules in a [shapes graph](https://www.w3.org/TR/shacl12-core/#dfn-shapes-graph) are [ill-formed](https://www.w3.org/TR/shacl12-core/#dfn-ill-formed).
+
+| Syntax Rule Id                                                                                                                      | Syntax Rule Text                                                                                                                                                                                         |
+| ----------------------------------------------------------------------------------------------------------------------------------- | -------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
+| IRIExpression-syntax                                   | A node in an RDF graph is a [well-formed](https://www.w3.org/TR/shacl12-core/#dfn-well-formed) IRI expression if it is an [IRI](https://www.w3.org/TR/rdf12-concepts/#dfn-iri). |
+| LiteralExpression-syntax                           | A node in an RDF graph is a [well-formed](https://www.w3.org/TR/shacl12-core/#dfn-well-formed) literal expression if it is a [literal](https://www.w3.org/TR/rdf12-concepts/#dfn-literal). |
+| TripleTermExpression-syntax                     | A node in an RDF graph is a [well-formed](https://www.w3.org/TR/shacl12-core/#dfn-well-formed) triple term expression if it is a [triple term](https://www.w3.org/TR/rdf12-concepts/#dfn-triple-term). |
+| EmptyExpression-syntax                               | A [blank node](https://www.w3.org/TR/rdf12-concepts/#dfn-blank-node) that is not the [subject](https://www.w3.org/TR/rdf12-concepts/#dfn-subject) of any triple is called an empty expression with the [function name](https://www.w3.org/TR/shacl12-core/#dfn-function-name) `shnex:EmptyExpression`. |
+| VarExpression-syntax                                   | A [blank node](https://www.w3.org/TR/rdf12-concepts/#dfn-blank-node) that is the [subject](https://www.w3.org/TR/rdf12-concepts/#dfn-subject) of the following properties is called a var expression with the [function name](https://www.w3.org/TR/shacl12-core/#dfn-function-name) `shnex:VarExpression`: |
+| ListExpression-syntax                                 | A [blank node](https://www.w3.org/TR/rdf12-concepts/#dfn-blank-node) that is the [subject](https://www.w3.org/TR/rdf12-concepts/#dfn-subject) of the following properties is called a list expression with the [function name](https://www.w3.org/TR/shacl12-core/#dfn-function-name) `shnex:ListExpression`: |
+| PathValuesExpression-syntax                     | A [blank node](https://www.w3.org/TR/rdf12-concepts/#dfn-blank-node) that is the [subject](https://www.w3.org/TR/rdf12-concepts/#dfn-subject) of the following properties is called a path values expression with the [function name](https://www.w3.org/TR/shacl12-core/#dfn-function-name) `shnex:PathValuesExpression`: |
+| ExistsExpression-syntax                             | A [blank node](https://www.w3.org/TR/rdf12-concepts/#dfn-blank-node) that is the [subject](https://www.w3.org/TR/rdf12-concepts/#dfn-subject) of the following properties is called an exists expression with the [function name](https://www.w3.org/TR/shacl12-core/#dfn-function-name) `shnex:ExistsExpression`: |
+| IfExpression-syntax                                     | A [blank node](https://www.w3.org/TR/rdf12-concepts/#dfn-blank-node) that is the [subject](https://www.w3.org/TR/rdf12-concepts/#dfn-subject) of the following properties is called an if expression with the [function name](https://www.w3.org/TR/shacl12-core/#dfn-function-name) `shnex:IfExpression`: |
+| DistinctExpression-syntax                         | A [blank node](https://www.w3.org/TR/rdf12-concepts/#dfn-blank-node) that is the [subject](https://www.w3.org/TR/rdf12-concepts/#dfn-subject) of the following properties is called a distinct expression with the [function name](https://www.w3.org/TR/shacl12-core/#dfn-function-name) `shnex:DistinctExpression`: |
+| IntersectionExpression-syntax                 | A [blank node](https://www.w3.org/TR/rdf12-concepts/#dfn-blank-node) that is the [subject](https://www.w3.org/TR/rdf12-concepts/#dfn-subject) of the following properties is called an intersection expression with the [function name](https://www.w3.org/TR/shacl12-core/#dfn-function-name) `shnex:IntersectionExpression`: |
+| ConcatExpression-syntax                             | A [blank node](https://www.w3.org/TR/rdf12-concepts/#dfn-blank-node) that is the [subject](https://www.w3.org/TR/rdf12-concepts/#dfn-subject) of the following properties is called a concat expression, with the [function name](https://www.w3.org/TR/shacl12-core/#dfn-function-name) `shnex:ConcatExpression`: |
+| RemoveExpression-syntax                             | A [blank node](https://www.w3.org/TR/rdf12-concepts/#dfn-blank-node) that is the [subject](https://www.w3.org/TR/rdf12-concepts/#dfn-subject) of the following properties is called a remove expression, with the [function name](https://www.w3.org/TR/shacl12-core/#dfn-function-name) `shnex:RemoveExpression`: |
+| FilterShapeExpression-syntax                   | A [blank node](https://www.w3.org/TR/rdf12-concepts/#dfn-blank-node) that is the [subject](https://www.w3.org/TR/rdf12-concepts/#dfn-subject) of the following properties is called a filter shape expression with the [function name](https://www.w3.org/TR/shacl12-core/#dfn-function-name) `shnex:FilterShapeExpression`: |
+| LimitExpression-syntax                               | A [blank node](https://www.w3.org/TR/rdf12-concepts/#dfn-blank-node) that is the [subject](https://www.w3.org/TR/rdf12-concepts/#dfn-subject) of the following properties is called a limit expression with the [function name](https://www.w3.org/TR/shacl12-core/#dfn-function-name) `shnex:LimitExpression`: |
+| OffsetExpression-syntax                             | A [blank node](https://www.w3.org/TR/rdf12-concepts/#dfn-blank-node) that is the [subject](https://www.w3.org/TR/rdf12-concepts/#dfn-subject) of the following properties is called an offset expression with the [function name](https://www.w3.org/TR/shacl12-core/#dfn-function-name) `shnex:OffsetExpression`: |
+| OrderByExpression-syntax                           | A [blank node](https://www.w3.org/TR/rdf12-concepts/#dfn-blank-node) that is the [subject](https://www.w3.org/TR/rdf12-concepts/#dfn-subject) of the following properties is called an order by expression with the [function name](https://www.w3.org/TR/shacl12-core/#dfn-function-name) `shnex:OrderByExpression`: |
+| FlatMapExpression-syntax                           | A [blank node](https://www.w3.org/TR/rdf12-concepts/#dfn-blank-node) that is the [subject](https://www.w3.org/TR/rdf12-concepts/#dfn-subject) of the following properties is called a flat map expression, with the [function name](https://www.w3.org/TR/shacl12-core/#dfn-function-name) `shnex:FlatMapExpression`: |
+| FindFirstExpression-syntax                       | A [blank node](https://www.w3.org/TR/rdf12-concepts/#dfn-blank-node) that is the [subject](https://www.w3.org/TR/rdf12-concepts/#dfn-subject) of the following properties is called a find first expression, with the [function name](https://www.w3.org/TR/shacl12-core/#dfn-function-name) `shnex:FindFirstExpression`: |
+| MatchAllExpression-syntax                         | A [blank node](https://www.w3.org/TR/rdf12-concepts/#dfn-blank-node) that is the [subject](https://www.w3.org/TR/rdf12-concepts/#dfn-subject) of the following properties is called a match all expression, with the [function name](https://www.w3.org/TR/shacl12-core/#dfn-function-name) `shnex:MatchAllExpression`: |
+| CountExpression-syntax                               | A [blank node](https://www.w3.org/TR/rdf12-concepts/#dfn-blank-node) that is the [subject](https://www.w3.org/TR/rdf12-concepts/#dfn-subject) of the following properties is called a count expression with the [function name](https://www.w3.org/TR/shacl12-core/#dfn-function-name) `shnex:CountExpression`: |
+| MinExpression-syntax                                   | A [blank node](https://www.w3.org/TR/rdf12-concepts/#dfn-blank-node) that is the [subject](https://www.w3.org/TR/rdf12-concepts/#dfn-subject) of the following properties is called a min expression with the [function name](https://www.w3.org/TR/shacl12-core/#dfn-function-name) `shnex:MinExpression`: |
+| MaxExpression-syntax                                   | A [blank node](https://www.w3.org/TR/rdf12-concepts/#dfn-blank-node) that is the [subject](https://www.w3.org/TR/rdf12-concepts/#dfn-subject) of the following properties is called a max expression with the [function name](https://www.w3.org/TR/shacl12-core/#dfn-function-name) `shnex:MaxExpression`: |
+| SumExpression-syntax                                   | A [blank node](https://www.w3.org/TR/rdf12-concepts/#dfn-blank-node) that is the [subject](https://www.w3.org/TR/rdf12-concepts/#dfn-subject) of the following properties is called a sum expression with the [function name](https://www.w3.org/TR/shacl12-core/#dfn-function-name) `shnex:SumExpression`: |
+| InstancesOfExpression-syntax                   | A [blank node](https://www.w3.org/TR/rdf12-concepts/#dfn-blank-node) that is the [subject](https://www.w3.org/TR/rdf12-concepts/#dfn-subject) of the following properties is called an instancesOf expression with the [function name](https://www.w3.org/TR/shacl12-core/#dfn-function-name) `shnex:InstancesOfExpression`: |
+| NodesMatchingExpression-syntax               | A [blank node](https://www.w3.org/TR/rdf12-concepts/#dfn-blank-node) that is the [subject](https://www.w3.org/TR/rdf12-concepts/#dfn-subject) of the following properties is called a nodes matching expression with the [function name](https://www.w3.org/TR/shacl12-core/#dfn-function-name) `shnex:NodesMatchingExpression`: |
+| ConformsToShapeExpression-syntax           | A [blank node](https://www.w3.org/TR/rdf12-concepts/#dfn-blank-node) that has a [SHACL list](https://www.w3.org/TR/shacl12-core/#dfn-shacl-list) with two [members](https://www.w3.org/TR/shacl12-core/#dfn-members) as its [value](https://www.w3.org/TR/shacl12-core/#dfn-value) for `shnex:conformsToShape shnex:conformsToShape` is called a conformsToShape expression with the [function name](https://www.w3.org/TR/shacl12-core/#dfn-function-name). The two members are as follows: |
+| sparql-syntax                                                 | A [blank node](https://www.w3.org/TR/rdf12-concepts/#dfn-blank-node) that is the [subject](https://www.w3.org/TR/rdf12-concepts/#dfn-subject) of a single [triple](https://www.w3.org/TR/rdf12-concepts/#dfn-rdf-triple) whose [predicate](https://www.w3.org/TR/rdf12-concepts/#dfn-predicate) is one of the SPARQL function IRIs `sparql:<NAME> sparql:<NAME>` declared in the SHACL node expression SPARQL vocabulary (listed in the table below) and whose [object](https://www.w3.org/TR/rdf12-concepts/#dfn-object) follows the syntax rules of list parameter functions is called a SHACL SPARQL function expression with the [function name](https://www.w3.org/TR/shacl12-core/#dfn-function-name). |
+| CustomNamedParameterFunction-syntax     | A custom named parameter function is an [IRI](https://www.w3.org/TR/rdf12-concepts/#dfn-iri) in a [shapes graph](https://www.w3.org/TR/shacl12-core/#dfn-shapes-graph) that is a [SHACL instance](https://www.w3.org/TR/shacl12-core/#dfn-shacl-instance) of `sh:NamedParameterExpressionFunction` and a [SHACL subclass](https://www.w3.org/TR/shacl12-core/#dfn-shacl-subclass) of `sh:NamedParameterExpression`. It has a single [value](https://www.w3.org/TR/shacl12-core/#dfn-value) for `sh:bodyExpression` that is a [well-formed](https://www.w3.org/TR/shacl12-core/#dfn-well-formed) [node expression](https://www.w3.org/TR/shacl12-core/#dfn-node-expression). A custom named parameter function declares one or more [parameters](https://www.w3.org/TR/shacl12-core/#dfn-parameter) as [values](https://www.w3.org/TR/shacl12-core/#dfn-value) of `sh:parameter`, where each such [parameter](https://www.w3.org/TR/shacl12-core/#dfn-parameter) has exactly one [value](https://www.w3.org/TR/shacl12-core/#dfn-value) for `sh:path` and that value is an [IRI](https://www.w3.org/TR/rdf12-concepts/#dfn-iri). At least one of the parameters has `sh:keyParameter true`, declaring the key parameters for the function. The key parameters of all [node expression functions](https://www.w3.org/TR/shacl12-core/#dfn-node-expression-function) (including the built-in ones from the `shnex:` namespace) must be disjoint. Custom named parameter functions can reference the declared [parameters](https://www.w3.org/TR/shacl12-core/#dfn-parameter) using an arg expression such as `[ shnex:arg ex:param ]`, where the [value](https://www.w3.org/TR/shacl12-core/#dfn-value) of `shnex:arg` matches the [IRI](https://www.w3.org/TR/rdf12-concepts/#dfn-iri) of the [parameter](https://www.w3.org/TR/shacl12-core/#dfn-parameter)'s `sh:path`. |
+| CustomNamedParameterExpression-syntax | A custom named parameter expression is a [node expression](https://www.w3.org/TR/shacl12-core/#dfn-node-expression) represented by a [blank node](https://www.w3.org/TR/rdf12-concepts/#dfn-blank-node) that has exactly one [value](https://www.w3.org/TR/shacl12-core/#dfn-value) for at least one of the key parameters. |
+| CustomListParameterFunction-syntax       | A custom list parameter function is an [IRI](https://www.w3.org/TR/rdf12-concepts/#dfn-iri) in a [shapes graph](https://www.w3.org/TR/shacl12-core/#dfn-shapes-graph) that is a [SHACL instance](https://www.w3.org/TR/shacl12-core/#dfn-shacl-instance) of `sh:ListParameterExpressionFunction` and a [SHACL subclass](https://www.w3.org/TR/shacl12-core/#dfn-shacl-subclass) of `sh:ListParameterExpression`. The [IRI](https://www.w3.org/TR/rdf12-concepts/#dfn-iri) of a custom list parameter function is its list parameter property. It has a single [value](https://www.w3.org/TR/shacl12-core/#dfn-value) for `sh:bodyExpression` that is a [well-formed](https://www.w3.org/TR/shacl12-core/#dfn-well-formed) [node expression](https://www.w3.org/TR/shacl12-core/#dfn-node-expression). Custom list parameter functions can reference the arguments using an arg expression such as `[ shnex:arg 0 ]` and `[ shnex:arg 1 ]` where the `xsd:integer n` corresponds to the `n`th [member](https://www.w3.org/TR/shacl12-core/#dfn-members) of the arguments list, starting with `0` as the first member. Custom list parameter functions *MAY* document the expected shape of the arguments with [values](https://www.w3.org/TR/shacl12-core/#dfn-value) of `sh:parameter` where the values of `sh:path` are the values `shnex:arg0`, `shnex:arg1` etc. |
+| CustomListParameterExpression-syntax   | A custom list parameter expression is a [node expression](https://www.w3.org/TR/shacl12-core/#dfn-node-expression) represented by a [blank node](https://www.w3.org/TR/rdf12-concepts/#dfn-blank-node) that is the [subject](https://www.w3.org/TR/rdf12-concepts/#dfn-subject) of exactly one [triple](https://www.w3.org/TR/rdf12-concepts/#dfn-rdf-triple) and the [predicate](https://www.w3.org/TR/rdf12-concepts/#dfn-predicate) of that triple is the list parameter property of a custom list parameter function in the [shapes graph](https://www.w3.org/TR/shacl12-core/#dfn-shapes-graph). |
+| ArgExpression-syntax                                   | A [blank node](https://www.w3.org/TR/rdf12-concepts/#dfn-blank-node) that is the [subject](https://www.w3.org/TR/rdf12-concepts/#dfn-subject) of the following properties is called an arg expression with the [function name](https://www.w3.org/TR/shacl12-core/#dfn-function-name) `shnex:ArgExpression`: |
+| expression-scope                                           | The [values](https://www.w3.org/TR/shacl12-core/#dfn-value) of `sh:expression` at a [shape](https://www.w3.org/TR/shacl12-core/#dfn-shape) must be well-formed [node expressions](https://www.w3.org/TR/shacl12-core/#dfn-node-expression). |
+| nodeByExpression-scope                               | The [values](https://www.w3.org/TR/shacl12-core/#dfn-value) of `sh:nodeByExpression` in a shape must be [well-formed](https://www.w3.org/TR/shacl12-core/#dfn-well-formed) [node expressions](https://www.w3.org/TR/shacl12-core/#dfn-node-expression). |
+
+## B. Security and Privacy Considerations
 
 Security considerations of SHACL Node Expressions include all the [security considerations of SHACL Core](https://www.w3.org/TR/shacl12-core/#security).
 
-## B. Index
+## D. Index
 
-### B.1 Terms defined by this specification
+### D.1 Terms defined by this specification
 
 - arg expression §6.3
 - concat expression §4.2.3
@@ -2479,7 +4051,7 @@ Security considerations of SHACL Node Expressions include all the [security cons
 - triple term expression §3.1.3
 - var expression §4.1.2
 
-### B.2 Terms defined by reference
+### D.2 Terms defined by reference
 
 - [RDF12-CONCEPTS] defines the following:
   * blank node
@@ -2494,7 +4066,7 @@ Security considerations of SHACL Node Expressions include all the [security cons
   * RDF triple
   * subject
   * term equality
-  * triple terms
+  * triple term
 - [SHACL12-CORE] defines the following:
   * conformance checking
   * Conformance section of SHACL Core
@@ -2509,6 +4081,7 @@ Security considerations of SHACL Node Expressions include all the [security cons
   * focus graph
   * focus node
   * function name
+  * ill-formed
   * mandatory parameter
   * members
   * node expression
@@ -2538,15 +4111,16 @@ Security considerations of SHACL Node Expressions include all the [security cons
 - [SHACL12-SPARQL] defines the following:
   * select expressions
   * SPARQL-based node expressions
+  * the SHACL-SPARQL spec
 - [SPARQL12-QUERY] defines the following:
   * SPARQL MAX
   * SPARQL MIN
   * SPARQL ORDER BY
   * SPARQL SUM
 
-## D. References
+## F. References
 
-### D.1 Normative references
+### F.1 Normative references
 
 [rdf12-concepts]
 
@@ -2554,7 +4128,7 @@ Security considerations of SHACL Node Expressions include all the [security cons
 
 [rdf12-turtle]
 
-[RDF 1.2 Turtle](https://www.w3.org/TR/rdf12-turtle/). Gregg Kellogg; Andy Seaborne; Dominik Tomaszuk. W3C. 12 June 2026. W3C Working Draft. URL: <https://www.w3.org/TR/rdf12-turtle/>
+[RDF 1.2 Turtle](https://www.w3.org/TR/rdf12-turtle/). Gregg Kellogg; Andy Seaborne; Dominik Tomaszuk. W3C. 7 October 2026. W3C Working Draft. URL: <https://www.w3.org/TR/rdf12-turtle/>
 
 [RFC2119]
 
@@ -2566,21 +4140,44 @@ Security considerations of SHACL Node Expressions include all the [security cons
 
 [shacl12-core]
 
-[SHACL 1.2 Core](https://www.w3.org/TR/shacl12-core/). Holger Knublauch; Thomas Bergwinkl; Yousouf Taghzouti; Jesse Wright. W3C. 20 July 2026. W3C Working Draft. URL: <https://www.w3.org/TR/shacl12-core/>
+[SHACL 1.2 Core](https://www.w3.org/TR/shacl12-core/). Holger Knublauch; Thomas Bergwinkl; Yousouf Taghzouti; Jesse Wright. W3C. 14 October 2026. W3C Working Draft. URL: <https://www.w3.org/TR/shacl12-core/>
 
 [shacl12-sparql]
 
-[SHACL 1.2 SPARQL Extensions](https://www.w3.org/TR/shacl12-sparql/). Holger Knublauch; Matt Goldberg; Scott Henninger; Livio Robaldo. W3C. 17 July 2026. W3C Working Draft. URL: <https://www.w3.org/TR/shacl12-sparql/>
+[SHACL 1.2 SPARQL-Related Features](https://www.w3.org/TR/shacl12-sparql/). Holger Knublauch; Matt Goldberg; Scott Henninger; Livio Robaldo. W3C. 22 October 2026. W3C Working Draft. URL: <https://www.w3.org/TR/shacl12-sparql/>
 
 [sparql12-query]
 
-[SPARQL 1.2 Query Language](https://www.w3.org/TR/sparql12-query/). Olaf Hartig; Andy Seaborne; Ruben Taelman; Gregory Williams; Thomas Pellissier Tanon. W3C. 25 June 2026. W3C Working Draft. URL: <https://www.w3.org/TR/sparql12-query/>
+[SPARQL 1.2 Query Language](https://www.w3.org/TR/sparql12-query/). Olaf Hartig; Andy Seaborne; Ruben Taelman; Gregory Williams; Thomas Pellissier Tanon. W3C. 11 October 2026. W3C Working Draft. URL: <https://www.w3.org/TR/sparql12-query/>
+
+### F.2 Informative references
+
+[shacl12-inference-rules]
+
+[SHACL 1.2 Inference Rules](https://www.w3.org/TR/shacl12-inference-rules/). Holger Knublauch; Simon Steyskal; Scott Henninger; Livio Robaldo; Matt Goldberg. W3C. 17 September 2026. FPWD. URL: <https://www.w3.org/TR/shacl12-inference-rules/>
+
+[shacl12-node-expr]
+
+[SHACL 1.2 Node Expressions](https://www.w3.org/TR/shacl12-node-expr/). Robert David; Holger Knublauch; Simon Steyskal. W3C. 21 July 2026. W3C Working Draft. URL: <https://www.w3.org/TR/shacl12-node-expr/>
+
+[shacl12-profiling]
+
+[SHACL 1.2 Profiling](https://www.w3.org/TR/shacl12-profiling/). Nicholas Car; Scott Henninger; Yousouf Taghzouti; Alexander Nelson; Matt Goldberg. W3C. 2 July 2026. FPWD. URL: <https://www.w3.org/TR/shacl12-profiling/>
+
+[shacl12-ui]
+
+[SHACL 1.2 User Interfaces](https://www.w3.org/TR/shacl12-ui/). Thomas Bergwinkl; Edmond Chuc; Ieben Smessaert; Daniël Beeke. W3C. 26 May 2026. FPWD. URL: <https://www.w3.org/TR/shacl12-ui/>
+
+[sparql12-rl]
+
+[SPARQL 1.2 RL](https://www.w3.org/TR/sparql12-rl/). Robert David; David Habgood; Andy Seaborne; Simon Steyskal. W3C. 21 October 2026. W3C Working Draft. URL: <https://www.w3.org/TR/sparql12-rl/>
 
 Permalink
 
 **Referenced in:**
 
 - § 3. Node Expression Syntax
+- § 4.1.3 List Expressions (2)
 
 Permalink
 
@@ -2589,24 +4186,27 @@ Permalink
 - § 3.1.1 IRI Expressions (2)
 - § 4.1.3 List Expressions
 - § 7.2 sh:nodeByExpression
+- § A. Summary of Syntax Rules
 
 Permalink
 
 **Referenced in:**
 
 - § 3.1.2 Literal Expressions (2)
+- § A. Summary of Syntax Rules
 
 Permalink
 
 **Referenced in:**
 
 - § 3.1.3 Triple Term Expressions (2)
+- § A. Summary of Syntax Rules
 
 Permalink
 
 **Referenced in:**
 
-- § 3. Node Expression Syntax
+- § 3. Node Expression Syntax (2)
 - § 3.2.1 Named Parameter Functions (2) (3) (4)
 - § 3.2.2 List Parameter Functions (2)
 
@@ -2615,43 +4215,53 @@ Permalink
 **Referenced in:**
 
 - § 3. Node Expression Syntax
-- § 3.2.1 Named Parameter Functions
+- § 3.2.1 Named Parameter Functions (2)
 - § 3.2.2 List Parameter Functions
+- § 4. Node Expressions Library
 - § 6.1 Custom Named Parameter Functions (2) (3) (4)
+- § A. Summary of Syntax Rules (2) (3)
+
+Permalink
+
+**Referenced in:**
+
+- § 3. Node Expression Syntax (2)
+- § 3.2.2 List Parameter Functions (2) (3) (4)
+- § 4.5.3 ConformsToShape Expressions
+- § 5. SPARQL Functions
+- § 6.2 Custom List Parameter Functions (2)
+- § A. Summary of Syntax Rules
 
 Permalink
 
 **Referenced in:**
 
 - § 3. Node Expression Syntax
-- § 3.2.2 List Parameter Functions (2) (3) (4)
-- § 4.5.3 ConformsToShape Expressions
-
-Permalink
-
-**Referenced in:**
-
 - § 3.2.2 List Parameter Functions
 - § 6.2 Custom List Parameter Functions (2)
+- § A. Summary of Syntax Rules (2)
 
 Permalink
 
 **Referenced in:**
 
 - § 4.1.1 Empty Expressions
+- § A. Summary of Syntax Rules
 
 Permalink
 
 **Referenced in:**
 
 - § 4.1.2 Var Expressions (2) (3)
-- § 6.3 Arg Expressions
+- § A. Summary of Syntax Rules
 
 Permalink
 
 **Referenced in:**
 
+- § 3.2.2 List Parameter Functions
 - § 4.1.3 List Expressions (2) (3)
+- § A. Summary of Syntax Rules
 
 Permalink
 
@@ -2661,42 +4271,49 @@ Permalink
 - § 4.4.4 Sum Expressions
 - § 7.2 sh:nodeByExpression
 - § 8.2 Example: Dynamic Enumerations
+- § A. Summary of Syntax Rules
 
 Permalink
 
 **Referenced in:**
 
 - § 4.1.5 Exists Expressions (2)
+- § A. Summary of Syntax Rules
 
 Permalink
 
 **Referenced in:**
 
 - § 4.1.6 If Expressions (2)
+- § A. Summary of Syntax Rules
 
 Permalink
 
 **Referenced in:**
 
 - § 4.2.1 Distinct Expressions (2)
+- § A. Summary of Syntax Rules
 
 Permalink
 
 **Referenced in:**
 
 - § 4.2.2 Intersection Expressions (2)
+- § A. Summary of Syntax Rules
 
 Permalink
 
 **Referenced in:**
 
 - § 4.2.3 Concat Expressions (2) (3)
+- § A. Summary of Syntax Rules
 
 Permalink
 
 **Referenced in:**
 
 - § 4.2.4 Remove Expressions (2)
+- § A. Summary of Syntax Rules
 
 Permalink
 
@@ -2704,24 +4321,28 @@ Permalink
 
 - § 2. Getting started with Node Expressions
 - § 4.2.5 Filter Shape Expressions (2)
+- § A. Summary of Syntax Rules
 
 Permalink
 
 **Referenced in:**
 
 - § 4.2.6 Limit Expressions (2)
+- § A. Summary of Syntax Rules
 
 Permalink
 
 **Referenced in:**
 
 - § 4.2.7 Offset Expressions (2)
+- § A. Summary of Syntax Rules
 
 Permalink
 
 **Referenced in:**
 
 - § 4.2.8 OrderBy Expressions (2)
+- § A. Summary of Syntax Rules
 
 Permalink
 
@@ -2729,42 +4350,49 @@ Permalink
 
 - § 4.3.1 FlatMap Expressions (2)
 - § 4.4.4 Sum Expressions
+- § A. Summary of Syntax Rules
 
 Permalink
 
 **Referenced in:**
 
 - § 4.3.2 FindFirst Expressions (2)
+- § A. Summary of Syntax Rules
 
 Permalink
 
 **Referenced in:**
 
 - § 4.3.3 MatchAll Expressions (2)
+- § A. Summary of Syntax Rules
 
 Permalink
 
 **Referenced in:**
 
 - § 4.4.1 Count Expressions (2)
+- § A. Summary of Syntax Rules
 
 Permalink
 
 **Referenced in:**
 
 - § 4.4.2 Min Expressions (2)
+- § A. Summary of Syntax Rules
 
 Permalink
 
 **Referenced in:**
 
 - § 4.4.3 Max Expressions (2)
+- § A. Summary of Syntax Rules
 
 Permalink
 
 **Referenced in:**
 
 - § 4.4.4 Sum Expressions (2) (3)
+- § A. Summary of Syntax Rules
 
 Permalink
 
@@ -2772,56 +4400,67 @@ Permalink
 
 - § 2. Getting started with Node Expressions
 - § 4.5.1 InstancesOf Expressions (2)
+- § A. Summary of Syntax Rules
 
 Permalink
 
 **Referenced in:**
 
 - § 4.5.2 Nodes Matching Expressions (2)
+- § A. Summary of Syntax Rules
 
 Permalink
 
 **Referenced in:**
 
 - § 4.5.3 ConformsToShape Expressions (2) (3)
+- § A. Summary of Syntax Rules
 
 Permalink
 
 **Referenced in:**
 
-- Not referenced in this document.
+- § A. Summary of Syntax Rules
 
 Permalink
 
 **Referenced in:**
 
+- § 3. Node Expression Syntax
 - § 6.1 Custom Named Parameter Functions (2) (3)
+- § A. Summary of Syntax Rules (2) (3)
 
 Permalink
 
 **Referenced in:**
 
 - § 6.1 Custom Named Parameter Functions
+- § 6.3 Arg Expressions
+- § A. Summary of Syntax Rules
 
 Permalink
 
 **Referenced in:**
 
-- § 6.2 Custom List Parameter Functions (2) (3) (4)
+- § 6.2 Custom List Parameter Functions (2) (3) (4) (5)
+- § A. Summary of Syntax Rules (2) (3) (4) (5)
 
 Permalink
 
 **Referenced in:**
 
-- § 6.2 Custom List Parameter Functions
-
-Permalink
-
-**Referenced in:**
-
-- § 6.1 Custom Named Parameter Functions
 - § 6.2 Custom List Parameter Functions
 - § 6.3 Arg Expressions
+- § A. Summary of Syntax Rules
+
+Permalink
+
+**Referenced in:**
+
+- § 6.1 Custom Named Parameter Functions
+- § 6.2 Custom List Parameter Functions
+- § 6.3 Arg Expressions (2)
+- § A. Summary of Syntax Rules (2) (3)
 
 Permalink
 
@@ -2875,6 +4514,7 @@ Permalink
 - § 6.3 Arg Expressions
 - § 7.2 sh:nodeByExpression (2)
 - § 8. Dynamic SHACL
+- § A. Summary of Syntax Rules (2) (3) (4) (5) (6) (7) (8) (9) (10) (11) (12) (13) (14) (15) (16) (17) (18) (19) (20) (21) (22) (23) (24) (25) (26) (27) (28)
 
 Permalink
 
@@ -2887,14 +4527,16 @@ Permalink
 **Referenced in:**
 
 - § 1.1 Terminology
-- § 3. Node Expression Syntax
+- § 3. Node Expression Syntax (2)
 - § 3.1.1 IRI Expressions (2)
 - § 4.1.1 Empty Expressions
-- § 4.1.3 List Expressions (2)
+- § 4.1.3 List Expressions
 - § 4.1.4 Path Values Expressions
+- § 4.5.1 InstancesOf Expressions
 - § 6.1 Custom Named Parameter Functions (2) (3)
 - § 6.2 Custom List Parameter Functions (2)
 - § 7.2 sh:nodeByExpression (2)
+- § A. Summary of Syntax Rules (2) (3) (4) (5) (6)
 
 Permalink
 
@@ -2903,8 +4545,9 @@ Permalink
 - § 1.1 Terminology
 - § 3. Node Expression Syntax
 - § 3.1.2 Literal Expressions (2)
-- § 4.1.3 List Expressions (2)
+- § 4.1.3 List Expressions
 - § 4.4.1 Count Expressions
+- § A. Summary of Syntax Rules
 
 Permalink
 
@@ -2928,6 +4571,7 @@ Permalink
 - § 4.5.3 ConformsToShape Expressions (2)
 - § 6.1 Custom Named Parameter Functions (2)
 - § 6.2 Custom List Parameter Functions (2)
+- § 6.3 Arg Expressions
 - § 8. Dynamic SHACL
 
 Permalink
@@ -2935,7 +4579,9 @@ Permalink
 **Referenced in:**
 
 - § 1.1 Terminology
-- § 3.2.2 List Parameter Functions
+- § 3.2.2 List Parameter Functions (2)
+- § 5. SPARQL Functions
+- § A. Summary of Syntax Rules
 
 Permalink
 
@@ -2944,7 +4590,9 @@ Permalink
 - § 1.1 Terminology
 - § 3.2.1 Named Parameter Functions
 - § 3.2.2 List Parameter Functions
+- § 5. SPARQL Functions
 - § 6.2 Custom List Parameter Functions
+- § A. Summary of Syntax Rules (2)
 
 Permalink
 
@@ -2966,7 +4614,9 @@ Permalink
 - § 1.1 Terminology
 - § 3.2.1 Named Parameter Functions
 - § 3.2.2 List Parameter Functions (2)
+- § 5. SPARQL Functions
 - § 6.2 Custom List Parameter Functions
+- § A. Summary of Syntax Rules (2)
 
 Permalink
 
@@ -2999,8 +4649,10 @@ Permalink
 - § 4.4.4 Sum Expressions
 - § 4.5.1 InstancesOf Expressions
 - § 4.5.2 Nodes Matching Expressions
+- § 5. SPARQL Functions
 - § 6.2 Custom List Parameter Functions
 - § 6.3 Arg Expressions
+- § A. Summary of Syntax Rules (2) (3) (4) (5) (6) (7) (8) (9) (10) (11) (12) (13) (14) (15) (16) (17) (18) (19) (20) (21) (22) (23) (24) (25) (26)
 
 Permalink
 
@@ -3015,8 +4667,11 @@ Permalink
 
 **Referenced in:**
 
+- § 1.1 Terminology
 - § 3. Node Expression Syntax
 - § 3.1.3 Triple Term Expressions (2)
+- § 4.1.3 List Expressions
+- § A. Summary of Syntax Rules
 
 Permalink
 
@@ -3093,18 +4748,21 @@ Permalink
 
 - § 1.1 Terminology
 - § 3.2.1 Named Parameter Functions
-- § 3.2.2 List Parameter Functions (2)
+- § 3.2.2 List Parameter Functions (2) (3)
+- § 3.4 The Shapes Graph
 - § 4.1.4 Path Values Expressions
+- § 4.5.1 InstancesOf Expressions
 - § 4.5.3 ConformsToShape Expressions
-- § 5. SPARQL Functions
-- § 6.2 Custom List Parameter Functions
+- § 5. SPARQL Functions (2) (3) (4) (5)
+- § 6.2 Custom List Parameter Functions (2) (3)
 
 Permalink
 
 **Referenced in:**
 
 - § 1.1 Terminology
-- § 3.3 Handling of Failures (2) (3) (4)
+- § 3.3 Handling of Failures (2) (3) (4) (5)
+- § 3.4 The Shapes Graph
 - § 4.5.3 ConformsToShape Expressions
 - § 7.2 sh:nodeByExpression (2)
 
@@ -3124,10 +4782,15 @@ Permalink
 
 - § 1.1 Terminology
 - § 2. Getting started with Node Expressions (2)
+- § 3.2.2 List Parameter Functions
+- § 4. Node Expressions Library
 - § 4.1.2 Var Expressions
 - § 4.1.4 Path Values Expressions (2)
 - § 4.2.6 Limit Expressions
 - § 4.2.7 Offset Expressions
+- § 4.3.1 FlatMap Expressions
+- § 4.3.2 FindFirst Expressions
+- § 4.3.3 MatchAll Expressions
 - § 7.1 sh:expression
 - § 7.2 sh:nodeByExpression
 - § 8. Dynamic SHACL
@@ -3137,6 +4800,7 @@ Permalink
 **Referenced in:**
 
 - § 1.1 Terminology
+- § 3. Node Expression Syntax (2)
 - § 3.1.1 IRI Expressions
 - § 3.1.2 Literal Expressions
 - § 3.1.3 Triple Term Expressions
@@ -3166,6 +4830,14 @@ Permalink
 - § 4.5.3 ConformsToShape Expressions
 - § 5. SPARQL Functions
 - § 6.3 Arg Expressions
+- § A. Summary of Syntax Rules (2) (3) (4) (5) (6) (7) (8) (9) (10) (11) (12) (13) (14) (15) (16) (17) (18) (19) (20) (21) (22) (23) (24) (25) (26)
+
+Permalink
+
+**Referenced in:**
+
+- § 1.1 Terminology
+- § A. Summary of Syntax Rules
 
 Permalink
 
@@ -3184,6 +4856,7 @@ Permalink
 - § 4.2.3 Concat Expressions (2)
 - § 4.5.3 ConformsToShape Expressions
 - § 6.2 Custom List Parameter Functions
+- § A. Summary of Syntax Rules (2)
 
 Permalink
 
@@ -3195,7 +4868,7 @@ Permalink
 - § 3.1.2 Literal Expressions (2)
 - § 3.1.3 Triple Term Expressions (2)
 - § 3.2.1 Named Parameter Functions
-- § 3.2.2 List Parameter Functions (2) (3) (4)
+- § 3.2.2 List Parameter Functions (2) (3) (4) (5)
 - § 4.1.4 Path Values Expressions
 - § 4.1.5 Exists Expressions
 - § 4.1.6 If Expressions (2) (3) (4) (5)
@@ -3214,13 +4887,16 @@ Permalink
 - § 4.4.2 Min Expressions
 - § 4.4.3 Max Expressions
 - § 4.4.4 Sum Expressions
+- § 4.5.1 InstancesOf Expressions
 - § 5. SPARQL Functions
 - § 6. Custom Node Expressions
 - § 6.1 Custom Named Parameter Functions (2)
 - § 6.2 Custom List Parameter Functions (2)
+- § 6.3 Arg Expressions
 - § 7.1 sh:expression (2) (3) (4)
 - § 7.2 sh:nodeByExpression (2) (3) (4) (5)
 - § 8. Dynamic SHACL (2)
+- § A. Summary of Syntax Rules (2) (3) (4) (5) (6)
 
 Permalink
 
@@ -3235,6 +4911,7 @@ Permalink
 - § 6. Custom Node Expressions
 - § 6.1 Custom Named Parameter Functions (2)
 - § 6.2 Custom List Parameter Functions
+- § A. Summary of Syntax Rules
 
 Permalink
 
@@ -3259,12 +4936,13 @@ Permalink
 - § 3.1.2 Literal Expressions
 - § 3.1.3 Triple Term Expressions
 - § 3.2.1 Named Parameter Functions (2) (3)
-- § 3.2.2 List Parameter Functions (2) (3) (4) (5)
+- § 3.2.2 List Parameter Functions (2) (3) (4) (5) (6) (7)
 - § 3.3 Handling of Failures
+- § 4. Node Expressions Library
 - § 4.1.1 Empty Expressions
 - § 4.1.2 Var Expressions
 - § 4.1.3 List Expressions
-- § 4.1.4 Path Values Expressions (2)
+- § 4.1.4 Path Values Expressions (2) (3)
 - § 4.1.5 Exists Expressions
 - § 4.1.6 If Expressions (2) (3)
 - § 4.2.1 Distinct Expressions (2)
@@ -3282,11 +4960,12 @@ Permalink
 - § 4.4.2 Min Expressions (2)
 - § 4.4.3 Max Expressions (2)
 - § 4.4.4 Sum Expressions (2)
-- § 4.5.1 InstancesOf Expressions (2)
+- § 4.5.1 InstancesOf Expressions (2) (3)
 - § 4.5.2 Nodes Matching Expressions (2)
 - § 4.5.3 ConformsToShape Expressions (2)
+- § 5. SPARQL Functions (2) (3) (4) (5) (6) (7)
 - § 6.1 Custom Named Parameter Functions
-- § 6.2 Custom List Parameter Functions
+- § 6.2 Custom List Parameter Functions (2) (3)
 - § 6.3 Arg Expressions
 - § 7.1 sh:expression
 - § 7.2 sh:nodeByExpression
@@ -3298,6 +4977,7 @@ Permalink
 - § 1.1 Terminology
 - § 6.1 Custom Named Parameter Functions (2) (3) (4) (5) (6)
 - § 8. Dynamic SHACL (2)
+- § A. Summary of Syntax Rules (2) (3) (4)
 
 Permalink
 
@@ -3315,7 +4995,7 @@ Permalink
 
 **Referenced in:**
 
-- § 9. Security and Privacy Considerations
+- § B. Security and Privacy Considerations
 
 Permalink
 
@@ -3332,25 +5012,27 @@ Permalink
 - § 4.5.1 InstancesOf Expressions
 - § 6.1 Custom Named Parameter Functions
 - § 6.2 Custom List Parameter Functions
+- § A. Summary of Syntax Rules (2)
 
 Permalink
 
 **Referenced in:**
 
 - § 1.1 Terminology
-- § 3.2.2 List Parameter Functions (2) (3) (4)
+- § 3.2.2 List Parameter Functions (2) (3) (4) (5)
 - § 4.1.3 List Expressions
 - § 4.2.2 Intersection Expressions
 - § 4.2.3 Concat Expressions
 - § 4.5.3 ConformsToShape Expressions
 - § 8. Dynamic SHACL
+- § A. Summary of Syntax Rules
 
 Permalink
 
 **Referenced in:**
 
 - § 1.1 Terminology
-- § 4.1.4 Path Values Expressions
+- § 4.1.4 Path Values Expressions (2)
 
 Permalink
 
@@ -3359,6 +5041,7 @@ Permalink
 - § 1.1 Terminology
 - § 6.1 Custom Named Parameter Functions
 - § 6.2 Custom List Parameter Functions
+- § A. Summary of Syntax Rules (2)
 
 Permalink
 
@@ -3380,6 +5063,7 @@ Permalink
 - § 4.5.3 ConformsToShape Expressions (2) (3)
 - § 7.1 sh:expression (2) (3)
 - § 7.2 sh:nodeByExpression
+- § A. Summary of Syntax Rules
 
 Permalink
 
@@ -3390,6 +5074,7 @@ Permalink
 - § 3.4 The Shapes Graph (2) (3) (4)
 - § 6.1 Custom Named Parameter Functions (2)
 - § 6.2 Custom List Parameter Functions (2) (3)
+- § A. Summary of Syntax Rules (2) (3) (4)
 
 Permalink
 
@@ -3403,7 +5088,7 @@ Permalink
 **Referenced in:**
 
 - § 1.1 Terminology
-- § 3.4 The Shapes Graph (2)
+- § 3.4 The Shapes Graph (2) (3)
 - § 4.5.3 ConformsToShape Expressions
 - § 8. Dynamic SHACL
 
@@ -3449,10 +5134,11 @@ Permalink
 - § 4.5.2 Nodes Matching Expressions
 - § 4.5.3 ConformsToShape Expressions
 - § 6.1 Custom Named Parameter Functions (2) (3) (4) (5) (6) (7)
-- § 6.2 Custom List Parameter Functions (2)
+- § 6.2 Custom List Parameter Functions (2) (3)
 - § 6.3 Arg Expressions
 - § 7.1 sh:expression (2)
 - § 7.2 sh:nodeByExpression (2) (3)
+- § A. Summary of Syntax Rules (2) (3) (4) (5) (6) (7) (8) (9) (10)
 
 Permalink
 
@@ -3492,11 +5178,13 @@ Permalink
 - § 4.4.2 Min Expressions
 - § 4.4.3 Max Expressions
 - § 4.4.4 Sum Expressions
+- § 4.5.1 InstancesOf Expressions
 - § 4.5.2 Nodes Matching Expressions
 - § 4.5.3 ConformsToShape Expressions
 - § 6.1 Custom Named Parameter Functions
 - § 6.2 Custom List Parameter Functions
 - § 7.2 sh:nodeByExpression
+- § A. Summary of Syntax Rules (2) (3) (4) (5) (6)
 
 Permalink
 
@@ -3509,6 +5197,12 @@ Permalink
 **Referenced in:**
 
 - § 4.4.4 Sum Expressions
+
+Permalink
+
+**Referenced in:**
+
+- § 6.2 Custom List Parameter Functions
 
 Permalink
 

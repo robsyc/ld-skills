@@ -5,7 +5,7 @@ family: sparql
 version: "1.2"
 status: W3C Working Draft
 spec_date: 2026-04-23
-fetched: 2026-10-21
+fetched: 2026-10-26
 ---
 
 # SPARQL 1.2 Service Description

@@ -4,8 +4,8 @@ source: https://www.w3.org/TR/rdf12-turtle/
 family: rdf
 version: "1.2"
 status: W3C Working Draft
-spec_date: 2026-10-07
-fetched: 2026-10-21
+spec_date: 2026-10-23
+fetched: 2026-10-26
 ---
 
 # RDF 1.2 Turtle
@@ -36,6 +36,7 @@ fetched: 2026-10-21
 - 4 Turtle compared to SPARQL
 - 5 Conformance
   - 5.1 Media Type and Content Encoding
+  - 5.2 Future-proofness of Turtle
 - 6 Turtle Grammar
   - 6.1 White Space
   - 6.2 Comments
@@ -1191,6 +1192,15 @@ The IRI that identifies the Turtle language is `http://www.w3.org/ns/formats/Tur
 The media type of Turtle is `text/turtle`.
 The content encoding of Turtle content is always UTF-8 [RFC3629].
 
+### 5.2 Future-proofness of Turtle
+
+Any future evolution of the Turtle format, if it reuses the same media type,
+will require the use of a version directive
+(either `@version` or `VERSION`)
+with a version label greater than `1.2`,
+for any document that is not strictly compliant with Turtle 1.2.
+This will allow parsers to gracefully handle newer features that they do not yet support.
+
 ## 6. Turtle Grammar
 
 A Turtle document is an [RDF string](https://www.w3.org/TR/rdf12-concepts/#dfn-rdf-string) encoded in UTF-8 [RFC3629].
@@ -2164,11 +2174,11 @@ More specifically, the following changes have been made:
 
 [RDF12-N-QUADS]
 
-[RDF 1.2 N-Quads](https://www.w3.org/TR/rdf12-n-quads/). Gregg Kellogg; Dominik Tomaszuk. W3C. 23 July 2026. W3C Working Draft. URL: <https://www.w3.org/TR/rdf12-n-quads/>
+[RDF 1.2 N-Quads](https://www.w3.org/TR/rdf12-n-quads/). Gregg Kellogg; Dominik Tomaszuk. W3C. 10 October 2026. W3C Working Draft. URL: <https://www.w3.org/TR/rdf12-n-quads/>
 
 [RDF12-N-TRIPLES]
 
-[RDF 1.2 N-Triples](https://www.w3.org/TR/rdf12-n-triples/). Gregg Kellogg; Dominik Tomaszuk. W3C. 24 September 2026. W3C Working Draft. URL: <https://www.w3.org/TR/rdf12-n-triples/>
+[RDF 1.2 N-Triples](https://www.w3.org/TR/rdf12-n-triples/). Gregg Kellogg; Dominik Tomaszuk. W3C. 7 October 2026. W3C Working Draft. URL: <https://www.w3.org/TR/rdf12-n-triples/>
 
 [RDF12-NEW]
 
@@ -2180,7 +2190,7 @@ More specifically, the following changes have been made:
 
 [RDF12-SCHEMA]
 
-[RDF 1.2 Schema](https://www.w3.org/TR/rdf12-schema/). Dominik Tomaszuk. W3C. 28 March 2026. W3C Working Draft. URL: <https://www.w3.org/TR/rdf12-schema/>
+[RDF 1.2 Schema](https://www.w3.org/TR/rdf12-schema/). Dominik Tomaszuk. W3C. 22 October 2026. W3C Working Draft. URL: <https://www.w3.org/TR/rdf12-schema/>
 
 [RDF12-SEMANTICS]
 
@@ -2188,11 +2198,11 @@ More specifically, the following changes have been made:
 
 [RDF12-TRIG]
 
-[RDF 1.2 TriG](https://www.w3.org/TR/rdf12-trig/). Gregg Kellogg; Dominik Tomaszuk. W3C. 15 September 2026. W3C Working Draft. URL: <https://www.w3.org/TR/rdf12-trig/>
+[RDF 1.2 TriG](https://www.w3.org/TR/rdf12-trig/). Gregg Kellogg; Dominik Tomaszuk. W3C. 7 October 2026. W3C Working Draft. URL: <https://www.w3.org/TR/rdf12-trig/>
 
 [RDF12-XML]
 
-[RDF 1.2 XML Syntax](https://www.w3.org/TR/rdf12-xml/). Gregg Kellogg; Jerven Bolleman. W3C. 24 September 2026. W3C Working Draft. URL: <https://www.w3.org/TR/rdf12-xml/>
+[RDF 1.2 XML Syntax](https://www.w3.org/TR/rdf12-xml/). Gregg Kellogg; Jerven Bolleman. W3C. 9 October 2026. W3C Working Draft. URL: <https://www.w3.org/TR/rdf12-xml/>
 
 [RFC3023]
 
@@ -2232,11 +2242,11 @@ More specifically, the following changes have been made:
 
 [SPARQL12-QUERY]
 
-[SPARQL 1.2 Query Language](https://www.w3.org/TR/sparql12-query/). Olaf Hartig; Andy Seaborne; Ruben Taelman; Gregory Williams; Thomas Pellissier Tanon. W3C. 4 October 2026. W3C Working Draft. URL: <https://www.w3.org/TR/sparql12-query/>
+[SPARQL 1.2 Query Language](https://www.w3.org/TR/sparql12-query/). Olaf Hartig; Andy Seaborne; Ruben Taelman; Gregory Williams; Thomas Pellissier Tanon. W3C. 11 October 2026. W3C Working Draft. URL: <https://www.w3.org/TR/sparql12-query/>
 
 [SPARQL12-RESULTS-CSV-TSV]
 
-[SPARQL 1.2 Query Results CSV and TSV Formats](https://www.w3.org/TR/sparql12-results-csv-tsv/). Ruben Taelman; Gregory Williams; Thomas Pellissier Tanon. W3C. 23 July 2026. W3C Working Draft. URL: <https://www.w3.org/TR/sparql12-results-csv-tsv/>
+[SPARQL 1.2 Query Results CSV and TSV Formats](https://www.w3.org/TR/sparql12-results-csv-tsv/). Ruben Taelman; Gregory Williams; Thomas Pellissier Tanon. W3C. 22 October 2026. W3C Working Draft. URL: <https://www.w3.org/TR/sparql12-results-csv-tsv/>
 
 [SPARQL12-RESULTS-JSON]
 
@@ -2252,7 +2262,7 @@ More specifically, the following changes have been made:
 
 [SPARQL12-UPDATE]
 
-[SPARQL 1.2 Update](https://www.w3.org/TR/sparql12-update/). Ruben Taelman; Andy Seaborne; Thomas Pellissier Tanon. W3C. 12 June 2026. W3C Working Draft. URL: <https://www.w3.org/TR/sparql12-update/>
+[SPARQL 1.2 Update](https://www.w3.org/TR/sparql12-update/). Ruben Taelman; Andy Seaborne; Thomas Pellissier Tanon. W3C. 12 October 2026. W3C Working Draft. URL: <https://www.w3.org/TR/sparql12-update/>
 
 [TURTLE]
 

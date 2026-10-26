@@ -4,8 +4,8 @@ source: https://www.w3.org/TR/sparql12-results-csv-tsv/
 family: sparql
 version: "1.2"
 status: W3C Working Draft
-spec_date: 2026-07-23
-fetched: 2026-10-21
+spec_date: 2026-10-22
+fetched: 2026-10-26
 ---
 
 # SPARQL 1.2 Query Results CSV and TSV Formats
@@ -146,8 +146,13 @@ binding to the variable in the header line in the same field position.
 
 ### 3.2 Serializing RDF Terms
 
-The entry in each field is the string corresponding to the RDF term value. (cf. SPARQL `STR()`)
+The entry in each field is the string corresponding to the RDF term value
 without syntax to denote what kind of term it is. The encoding quoting rules of CSV format must be used.
+
+IRIs are represented by a string of the characters of the IRI, with escaping only for what the CSV format requires.
+
+Literals are represented by their lexical value alone, without any language tag, base direction, or datatype information,
+and with escaping only for what the CSV format requires.
 
 Blank nodes use the `_:label` form from Turtle and SPARQL. Use of the same label indicates the
 same blank node within the result set but has no significance outside the result set.
@@ -334,7 +339,7 @@ TODO
 
 [RDF12-TURTLE]
 
-[RDF 1.2 Turtle](https://www.w3.org/TR/rdf12-turtle/). Gregg Kellogg; Andy Seaborne; Dominik Tomaszuk. W3C. 12 June 2026. W3C Working Draft. URL: <https://www.w3.org/TR/rdf12-turtle/>
+[RDF 1.2 Turtle](https://www.w3.org/TR/rdf12-turtle/). Gregg Kellogg; Andy Seaborne; Dominik Tomaszuk. W3C. 7 October 2026. W3C Working Draft. URL: <https://www.w3.org/TR/rdf12-turtle/>
 
 [RFC2119]
 
@@ -358,11 +363,11 @@ TODO
 
 [SPARQL12-QUERY]
 
-[SPARQL 1.2 Query Language](https://www.w3.org/TR/sparql12-query/). Olaf Hartig; Andy Seaborne; Ruben Taelman; Gregory Williams; Thomas Pellissier Tanon. W3C. 25 June 2026. W3C Working Draft. URL: <https://www.w3.org/TR/sparql12-query/>
+[SPARQL 1.2 Query Language](https://www.w3.org/TR/sparql12-query/). Olaf Hartig; Andy Seaborne; Ruben Taelman; Gregory Williams; Thomas Pellissier Tanon. W3C. 11 October 2026. W3C Working Draft. URL: <https://www.w3.org/TR/sparql12-query/>
 
 [SPARQL12-RESULTS-JSON]
 
-[SPARQL 1.2 Query Results JSON Format](https://www.w3.org/TR/sparql12-results-json/). Andy Seaborne; Ruben Taelman; Gregory Williams; Thomas Pellissier Tanon. W3C. 28 March 2026. W3C Working Draft. URL: <https://www.w3.org/TR/sparql12-results-json/>
+[SPARQL 1.2 Query Results JSON Format](https://www.w3.org/TR/sparql12-results-json/). Andy Seaborne; Ruben Taelman; Gregory Williams; Thomas Pellissier Tanon. W3C. 13 August 2026. W3C Working Draft. URL: <https://www.w3.org/TR/sparql12-results-json/>
 
 [SPARQL12-RESULTS-XML]
 
@@ -388,7 +393,7 @@ TODO
 
 [SPARQL12-GRAPH-STORE-PROTOCOL]
 
-[SPARQL 1.2 Graph Store Protocol](https://www.w3.org/TR/sparql12-graph-store-protocol/). Andy Seaborne; Thomas Pellissier Tanon. W3C. 19 December 2024. W3C Working Draft. URL: <https://www.w3.org/TR/sparql12-graph-store-protocol/>
+[SPARQL 1.2 Graph Store Protocol](https://www.w3.org/TR/sparql12-graph-store-protocol/). Andy Seaborne; Thomas Pellissier Tanon. W3C. 24 September 2026. W3C Working Draft. URL: <https://www.w3.org/TR/sparql12-graph-store-protocol/>
 
 [SPARQL12-NEW]
 
@@ -396,7 +401,7 @@ TODO
 
 [SPARQL12-PROTOCOL]
 
-[SPARQL 1.2 Protocol](https://www.w3.org/TR/sparql12-protocol/). Andy Seaborne; Ruben Taelman; Gregory Williams; Thomas Pellissier Tanon. W3C. 8 July 2026. W3C Working Draft. URL: <https://www.w3.org/TR/sparql12-protocol/>
+[SPARQL 1.2 Protocol](https://www.w3.org/TR/sparql12-protocol/). Andy Seaborne; Ruben Taelman; Gregory Williams; Thomas Pellissier Tanon. W3C. 23 July 2026. W3C Working Draft. URL: <https://www.w3.org/TR/sparql12-protocol/>
 
 [SPARQL12-SERVICE-DESCRIPTION]
 
@@ -404,7 +409,7 @@ TODO
 
 [SPARQL12-UPDATE]
 
-[SPARQL 1.2 Update](https://www.w3.org/TR/sparql12-update/). Ruben Taelman; Andy Seaborne; Thomas Pellissier Tanon. W3C. 12 June 2026. W3C Working Draft. URL: <https://www.w3.org/TR/sparql12-update/>
+[SPARQL 1.2 Update](https://www.w3.org/TR/sparql12-update/). Ruben Taelman; Andy Seaborne; Thomas Pellissier Tanon. W3C. 12 October 2026. W3C Working Draft. URL: <https://www.w3.org/TR/sparql12-update/>
 
 Permalink
 

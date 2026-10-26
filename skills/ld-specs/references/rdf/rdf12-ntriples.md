@@ -4,8 +4,8 @@ source: https://www.w3.org/TR/rdf12-n-triples/
 family: rdf
 version: "1.2"
 status: W3C Working Draft
-spec_date: 2026-10-07
-fetched: 2026-10-21
+spec_date: 2026-10-23
+fetched: 2026-10-26
 ---
 
 # RDF 1.2 N-Triples
@@ -195,11 +195,13 @@ Note that [triple terms](https://www.w3.org/TR/rdf12-concepts/#dfn-triple-term) 
 
 ### 2.4 IRIs
 
-[IRIs](https://www.w3.org/TR/rdf12-concepts/#dfn-iri) may be written only as [resolved](https://www.rfc-editor.org/info/rfc3986/#section-5) IRIs.
+N-Triples does not resolve [relative IRI references](https://www.rfc-editor.org/info/rfc3986/#section-4.2). [IRIs](https://www.w3.org/TR/rdf12-concepts/#dfn-iri) in N-Triples are written as [resolved](https://www.rfc-editor.org/info/rfc3986/#section-5) IRIs,
+as required by [RDF 1.2 Concepts](https://www.w3.org/TR/rdf12-concepts/#section-IRIs).
+
 IRIs are preceded by `<` and
 followed by `>`,
 and may contain [numeric escape sequences](https://www.w3.org/TR/rdf12-turtle/#dfn-numeric-escape-sequence).
-For example `<http://example.org/#green-goblin>`.
+For example, `<http://example.org/#green-goblin>`.
 
 ### 2.5 RDF Literals
 
@@ -807,6 +809,7 @@ More specifically, the following changes have been made:
   * Literals
   * object type
   * predicate
+  * RDF 1.2 Concepts
   * RDF blank nodes
   * RDF graph
   * RDF string
@@ -821,6 +824,7 @@ More specifically, the following changes have been made:
   * string escape sequences
   * Version Announcement
 - [RFC3986] defines the following:
+  * relative IRI references
   * resolved
   * section 3.3
 - [RFC3987] defines the following:
@@ -850,7 +854,7 @@ More specifically, the following changes have been made:
 
 [RDF12-TURTLE]
 
-[RDF 1.2 Turtle](https://www.w3.org/TR/rdf12-turtle/). Gregg Kellogg; Andy Seaborne; Dominik Tomaszuk. W3C. 14 September 2026. W3C Working Draft. URL: <https://www.w3.org/TR/rdf12-turtle/>
+[RDF 1.2 Turtle](https://www.w3.org/TR/rdf12-turtle/). Gregg Kellogg; Andy Seaborne; Dominik Tomaszuk. W3C. 7 October 2026. W3C Working Draft. URL: <https://www.w3.org/TR/rdf12-turtle/>
 
 [RFC2119]
 
@@ -900,7 +904,7 @@ More specifically, the following changes have been made:
 
 [RDF12-N-QUADS]
 
-[RDF 1.2 N-Quads](https://www.w3.org/TR/rdf12-n-quads/). Gregg Kellogg; Dominik Tomaszuk. W3C. 23 July 2026. W3C Working Draft. URL: <https://www.w3.org/TR/rdf12-n-quads/>
+[RDF 1.2 N-Quads](https://www.w3.org/TR/rdf12-n-quads/). Gregg Kellogg; Dominik Tomaszuk. W3C. 10 October 2026. W3C Working Draft. URL: <https://www.w3.org/TR/rdf12-n-quads/>
 
 [RDF12-NEW]
 
@@ -912,7 +916,7 @@ More specifically, the following changes have been made:
 
 [RDF12-SCHEMA]
 
-[RDF 1.2 Schema](https://www.w3.org/TR/rdf12-schema/). Dominik Tomaszuk. W3C. 28 March 2026. W3C Working Draft. URL: <https://www.w3.org/TR/rdf12-schema/>
+[RDF 1.2 Schema](https://www.w3.org/TR/rdf12-schema/). Dominik Tomaszuk. W3C. 22 October 2026. W3C Working Draft. URL: <https://www.w3.org/TR/rdf12-schema/>
 
 [RDF12-SEMANTICS]
 
@@ -920,11 +924,11 @@ More specifically, the following changes have been made:
 
 [RDF12-TRIG]
 
-[RDF 1.2 TriG](https://www.w3.org/TR/rdf12-trig/). Gregg Kellogg; Dominik Tomaszuk. W3C. 15 September 2026. W3C Working Draft. URL: <https://www.w3.org/TR/rdf12-trig/>
+[RDF 1.2 TriG](https://www.w3.org/TR/rdf12-trig/). Gregg Kellogg; Dominik Tomaszuk. W3C. 7 October 2026. W3C Working Draft. URL: <https://www.w3.org/TR/rdf12-trig/>
 
 [RDF12-XML]
 
-[RDF 1.2 XML Syntax](https://www.w3.org/TR/rdf12-xml/). Gregg Kellogg; Jerven Bolleman. W3C. 24 September 2026. W3C Working Draft. URL: <https://www.w3.org/TR/rdf12-xml/>
+[RDF 1.2 XML Syntax](https://www.w3.org/TR/rdf12-xml/). Gregg Kellogg; Jerven Bolleman. W3C. 9 October 2026. W3C Working Draft. URL: <https://www.w3.org/TR/rdf12-xml/>
 
 [RFC3023]
 
@@ -964,11 +968,11 @@ More specifically, the following changes have been made:
 
 [SPARQL12-QUERY]
 
-[SPARQL 1.2 Query Language](https://www.w3.org/TR/sparql12-query/). Olaf Hartig; Andy Seaborne; Ruben Taelman; Gregory Williams; Thomas Pellissier Tanon. W3C. 4 October 2026. W3C Working Draft. URL: <https://www.w3.org/TR/sparql12-query/>
+[SPARQL 1.2 Query Language](https://www.w3.org/TR/sparql12-query/). Olaf Hartig; Andy Seaborne; Ruben Taelman; Gregory Williams; Thomas Pellissier Tanon. W3C. 11 October 2026. W3C Working Draft. URL: <https://www.w3.org/TR/sparql12-query/>
 
 [SPARQL12-RESULTS-CSV-TSV]
 
-[SPARQL 1.2 Query Results CSV and TSV Formats](https://www.w3.org/TR/sparql12-results-csv-tsv/). Ruben Taelman; Gregory Williams; Thomas Pellissier Tanon. W3C. 23 July 2026. W3C Working Draft. URL: <https://www.w3.org/TR/sparql12-results-csv-tsv/>
+[SPARQL 1.2 Query Results CSV and TSV Formats](https://www.w3.org/TR/sparql12-results-csv-tsv/). Ruben Taelman; Gregory Williams; Thomas Pellissier Tanon. W3C. 22 October 2026. W3C Working Draft. URL: <https://www.w3.org/TR/sparql12-results-csv-tsv/>
 
 [SPARQL12-RESULTS-JSON]
 
@@ -984,7 +988,7 @@ More specifically, the following changes have been made:
 
 [SPARQL12-UPDATE]
 
-[SPARQL 1.2 Update](https://www.w3.org/TR/sparql12-update/). Ruben Taelman; Andy Seaborne; Thomas Pellissier Tanon. W3C. 12 June 2026. W3C Working Draft. URL: <https://www.w3.org/TR/sparql12-update/>
+[SPARQL 1.2 Update](https://www.w3.org/TR/sparql12-update/). Ruben Taelman; Andy Seaborne; Thomas Pellissier Tanon. W3C. 12 October 2026. W3C Working Draft. URL: <https://www.w3.org/TR/sparql12-update/>
 
 [UNICODE-SECURITY]
 
@@ -1135,6 +1139,12 @@ Permalink
 
 **Referenced in:**
 
+- § 2.4 IRIs
+
+Permalink
+
+**Referenced in:**
+
 - § 2.6 RDF Blank Nodes (2)
 - § 6.1 Parser State
 - § 6.2 RDF Term Constructors (2)
@@ -1223,6 +1233,12 @@ Permalink
 **Referenced in:**
 
 - § 2.2 Version Announcement
+
+Permalink
+
+**Referenced in:**
+
+- § 2.4 IRIs
 
 Permalink
 

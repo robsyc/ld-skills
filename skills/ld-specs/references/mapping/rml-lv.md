@@ -3,7 +3,7 @@ title: "RML Logical Views"
 source: https://w3id.org/rml/lv/spec
 family: mapping
 spec_date: 2026-10-12
-fetched: 2026-10-21
+fetched: 2026-10-26
 ---
 
 # RML Logical Views

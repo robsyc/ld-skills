@@ -4,7 +4,7 @@ source: https://www.w3.org/TR/vocab-ssn/
 family: vocabularies
 status: W3C Recommendation
 spec_date: 2017-10-19
-fetched: 2026-10-21
+fetched: 2026-10-26
 ---
 
 # Semantic Sensor Network Ontology
