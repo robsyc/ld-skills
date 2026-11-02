@@ -4,8 +4,8 @@ source: https://www.w3.org/TR/shacl12-rules/
 family: shacl
 version: "1.2"
 status: W3C Working Draft
-spec_date: 2026-10-21
-fetched: 2026-10-26
+spec_date: 2026-10-31
+fetched: 2026-11-02
 ---
 
 # SPARQL 1.2 RL
@@ -405,13 +405,17 @@ each time rule evaluation generates triples.
 > ```
 
 Rules involving assignments, rules that create blank nodes
-from evaluation of the rule head and rules with a template
+from evaluation of the rule head,
+rules involving aggregation (§3.6),
+and rules with a template
 that involves a [triple term](https://www.w3.org/TR/rdf12-concepts/#dfn-triple-term) containing [variables](https://www.w3.org/TR/sparql12-query/#defn_QueryVariable) are run-once rules.
-Such rules are run after all the rules that could produce data that they depend on,
-and before any rules that depend on the data they produce.
+Such rules are run after all the rules that could produce data
+that they depend on, and before any rules that depend on the
+data they produce.
 
 This condition ensures that such rules do not loop back to themselves
-and cause the creation of an unbounded number of RDF terms.
+and cause the creation of an unbounded number of RDF terms, or
+unbounded nesting of [triple terms](https://www.w3.org/TR/rdf12-concepts/#dfn-triple-term).
 > **Note:**
 >
 > > **Note:**
@@ -426,15 +430,60 @@ then the current solution mapping is rejected by the assignment.
 
 ### 3.6 Grouping and Aggregation
 
+Grouping and aggregation allow a rule to collect the solutions of a
+pattern into groups, and then compute summary values for each group.
+The aggregate values are assigned to
+variables that can then be used in the rule head.
 Rules with a group element are run-once rules.
-Such rules are run after all the rules that could produce data that they
-depend on, and before any rules that depend on the data they produce.
-A group element consumes the complete collection of solution sequences of preceding rule elements in the rule body, collects them into groups based on group keys, then evaluates aggregation assignments.
 
-The output is a solution sequence where each [solution mapping](https://www.w3.org/TR/sparql12-query/#defn_sparqlSolutionMapping) is the current solution mapping extended with the group keys and
-the values of the aggregation variables.
+A group element processes each solution sequence
+of preceding rule elements by taking only the bindings
+for the group keys, evaluating the group pattern,
+and then grouping the solution mappings using the group keys.
 
-@@ example
+The output is a solution sequence with one [solution mapping](https://www.w3.org/TR/sparql12-query/#defn_sparqlSolutionMapping) for each group: the input solution mapping extended with the values of
+the group keys and the values of the aggregation variables.
+
+For example, we can count the number of vulnerabilities that each
+component is exposed to:
+> **Example:**
+>
+> Example 8: Grouping and Aggregation
+>
+> ```
+> :frontend rdf:type :Component ;
+>     :exposedTo :vuln1 , :vuln2 .
+>
+> :db rdf:type :Component ;
+>     :exposedTo :vuln1 .
+>
+> :logger rdf:type :Component .
+> ```
+>
+> ```
+> RULE { ?x :vulnerabilityCount ?n }
+> WHERE {
+>     ?x rdf:type :Component .
+>     GROUP BY ?x { ?x :exposedTo ?v } [ ?n := COUNT(*) ]
+> }
+> ```
+>
+> ```
+> :frontend :vulnerabilityCount 2 .
+> :db       :vulnerabilityCount 1 .
+> ```
+
+The group pattern `?x :exposedTo ?v` is matched for each component
+found by the preceding triple pattern. The solutions are collected
+into groups by the group keys, here `?x`. For each group, `COUNT(*)`, the number of solutions in each group, is assigned to the aggregation variable `?n`.
+
+`:logger` is not exposed to any vulnerability, so the group pattern has no solutions for it, there is no group, and
+no `:vulnerabilityCount` triple is inferred for `:logger`.
+
+Variables bound only inside the group pattern, such as `?v`,
+are not in scope after the group element:
+only the group keys and the aggregation variables are
+added to the solution mapping, so `?v` cannot be used in a later rule element or in the rule head.
 
 ### 3.7 Importing Rule Sets
 
@@ -462,7 +511,7 @@ For example, a rule set can ship with known facts asserted
 directly, rather than derived from data:
 > **Example:**
 >
-> Example 8: Include data in a rule set
+> Example 9: Include data in a rule set
 >
 > ```
 > DATA {
@@ -494,7 +543,7 @@ The rule must test whether the base graph already contains a value and, if not,
 the rule can then calculate a default value.
 > **Example:**
 >
-> Example 9: Base Data with NOT
+> Example 10: Base Data with NOT
 >
 > ```
 > :A :distanceMiles 5 .
@@ -521,7 +570,7 @@ using `WHERE DATA`.
 Such rules then only rely on matching from the base graph.
 > **Example:**
 >
-> Example 10: Base Data with WHERE
+> Example 11: Base Data with WHERE
 >
 > ```
 > RULE  { ?x :distanceKilometers ?kilometers }
@@ -658,7 +707,7 @@ Each aggregation assignment is a pair consisting of
 a [variable](https://www.w3.org/TR/sparql12-query/#defn_QueryVariable), called the *aggregation variable*,
 and an *aggregation function*.
 The group pattern is composed
-of a sequence of triple pattern elements and filter elements.
+of a sequence of triple pattern elements, filter elements and assignment elements.
 
 *Rule element*
 
@@ -883,7 +932,7 @@ In this first example, the first rule has an open dependency
 on the second rule.
 > **Example:**
 >
-> Example 11: Open Dependency
+> Example 12: Open Dependency
 >
 > ```
 > RULE { ?x :exposedTo ?v } WHERE { ?x :dependsOn ?y . ?y :hasVulnerability ?v }
@@ -897,7 +946,7 @@ The first rule cannot be evaluated until the second rule
 has generated all its possible output.
 > **Example:**
 >
-> Example 12: Closed Dependency
+> Example 13: Closed Dependency
 >
 > ```
 > RULE { ?x :status :safeToDeploy }
@@ -1738,7 +1787,7 @@ For brevity, the base graph states `:dependsOn` triples directly,
 rather than deriving them from more specific relations as in 3.1 Triple Patterns (§3.1).
 > **Example:**
 >
-> Example 13: Worked example: data and rules
+> Example 14: Worked example: data and rules
 >
 > ```
 > :frontend rdf:type :Component ;
@@ -2141,149 +2190,150 @@ Notes:
 | `[19]`  | `NegationPattern`               | ::= | `BodyTriplesBlock? ( NegationPatternNotTriples '.'? BodyTriplesBlock? )*`                                                                                                                                |
 | `[20]`  | `NegationPatternNotTriples`     | ::= | `Filter`                                                                                                                                                                                                 |
 | `[21]`  | `Assignment`                    | ::= | `'SET' '(' Var ':=' Expression ')'`                                                                                                                                                                      |
-| `[22]`  | `GroupAggregate`                | ::= | `'GROUP' ( 'BY' ListVars )? '{' GroupPattern '}' ( ANON \| '[' AggregationAssignment+ ']' )`                                                                                                             |
+| `[22]`  | `GroupAggregate`                | ::= | `'GROUP' ( 'BY' ListVars )? '{' GroupPattern '}' ( ANON \| '[' AggregationAssignments ']' )`                                                                                                             |
 | `[23]`  | `GroupPattern`                  | ::= | `BodyTriplesBlock? ( GroupPatternNotTriples '.'? BodyTriplesBlock? )*`                                                                                                                                   |
 | `[24]`  | `GroupPatternNotTriples`        | ::= | `Filter \| Assignment`                                                                                                                                                                                   |
 | `[25]`  | `ListVars`                      | ::= | `Var+`                                                                                                                                                                                                   |
-| `[26]`  | `AggregationAssignment`         | ::= | `Var ':=' AggregationFunction`                                                                                                                                                                           |
-| `[27]`  | `AggregationFunction`           | ::= | `( 'COUNT' '(' DISTINCT? VarOrStar ')' \| 'MIN' '(' Var ')' \| 'MAX' '(' Var ')' \| 'SUM' '(' Var ')' )`                                                                                                 |
-| `[28]`  | `VarOrStar`                     | ::= | `Var \| '*'`                                                                                                                                                                                             |
-| `[29]`  | `DataTriplesBlock`              | ::= | `TriplesSameSubjectData ( '.' DataTriplesBlock? )?`                                                                                                                                                      |
-| `[30]`  | `TriplesSameSubjectData`        | ::= | `RDFTermData PropertyListNotEmptyData \| TriplesNodeData PropertyListData \| ReifiedTripleBlockData`                                                                                                     |
-| `[31]`  | `PropertyListData`              | ::= | `PropertyListNotEmptyData?`                                                                                                                                                                              |
-| `[32]`  | `PropertyListNotEmptyData`      | ::= | `VerbData ObjectListData ( ';' ( VerbData ObjectListData )? )*`                                                                                                                                          |
-| `[33]`  | `VerbData`                      | ::= | `iri \| 'a'`                                                                                                                                                                                             |
-| `[34]`  | `ObjectListData`                | ::= | `ObjectData ( ',' ObjectData )*`                                                                                                                                                                         |
-| `[35]`  | `ObjectData`                    | ::= | `GraphNodeData AnnotationData`                                                                                                                                                                           |
-| `[36]`  | `GraphNodeData`                 | ::= | `RDFTermData \| TriplesNodeData \| ReifiedTripleData`                                                                                                                                                    |
-| `[37]`  | `TriplesNodeData`               | ::= | `CollectionData \| BlankNodePropertyListData`                                                                                                                                                            |
-| `[38]`  | `BlankNodePropertyListData`     | ::= | `'[' PropertyListNotEmptyData ']'`                                                                                                                                                                       |
-| `[39]`  | `CollectionData`                | ::= | `'(' GraphNodeData+ ')'`                                                                                                                                                                                 |
-| `[40]`  | `AnnotationData`                | ::= | `( ReifierData \| AnnotationBlockData )*`                                                                                                                                                                |
-| `[41]`  | `AnnotationBlockData`           | ::= | `'{\|' PropertyListNotEmptyData '\|}'`                                                                                                                                                                   |
-| `[42]`  | `ReifierData`                   | ::= | `'~' ReifierIdData?`                                                                                                                                                                                     |
-| `[43]`  | `ReifierIdData`                 | ::= | `iri \| BlankNode`                                                                                                                                                                                       |
-| `[44]`  | `ReifiedTripleBlockData`        | ::= | `ReifiedTripleData PropertyListData`                                                                                                                                                                     |
-| `[45]`  | `ReifiedTripleData`             | ::= | `'<<' ReifiedTripleSubjectData VerbData ReifiedTripleObjectData ReifierData? '>>'`                                                                                                                       |
-| `[46]`  | `ReifiedTripleSubjectData`      | ::= | `iri \| RDFLiteral \| NumericLiteral \| BooleanLiteral \| BlankNode \| ReifiedTripleData \| TripleTermData`                                                                                              |
-| `[47]`  | `ReifiedTripleObjectData`       | ::= | `iri \| RDFLiteral \| NumericLiteral \| BooleanLiteral \| BlankNode \| ReifiedTripleData \| TripleTermData`                                                                                              |
-| `[48]`  | `TripleTermData`                | ::= | `'<<(' TripleTermSubjectData VerbData TripleTermObjectData ')>>'`                                                                                                                                        |
-| `[49]`  | `TripleTermSubjectData`         | ::= | `iri \| RDFLiteral \| NumericLiteral \| BooleanLiteral \| BlankNode \| TripleTermData`                                                                                                                   |
-| `[50]`  | `TripleTermObjectData`          | ::= | `iri \| RDFLiteral \| NumericLiteral \| BooleanLiteral \| BlankNode \| TripleTermData`                                                                                                                   |
-| `[51]`  | `HeadTemplateBlock`             | ::= | `TriplesBlockTemplate`                                                                                                                                                                                   |
-| `[52]`  | `TriplesBlockTemplate`          | ::= | `TriplesSameSubjectTemplate ( '.' TriplesBlockTemplate? )?`                                                                                                                                              |
-| `[53]`  | `TriplesSameSubjectTemplate`    | ::= | `VarOrRDFTerm PropertyListNotEmptyTemplate \| TriplesNodeTemplate PropertyListTemplate \| ReifiedTripleBlockTemplate`                                                                                    |
-| `[54]`  | `PropertyListTemplate`          | ::= | `PropertyListNotEmptyTemplate?`                                                                                                                                                                          |
-| `[55]`  | `PropertyListNotEmptyTemplate`  | ::= | `Verb ObjectListTemplate ( ';' ( Verb ObjectListTemplate )? )*`                                                                                                                                          |
-| `[56]`  | `ObjectListTemplate`            | ::= | `ObjectTemplate ( ',' ObjectTemplate )*`                                                                                                                                                                 |
-| `[57]`  | `ObjectTemplate`                | ::= | `GraphNodeTemplate AnnotationTemplate`                                                                                                                                                                   |
-| `[58]`  | `GraphNodeTemplate`             | ::= | `VarOrRDFTerm \| TriplesNodeTemplate \| ReifiedTriple`                                                                                                                                                   |
-| `[59]`  | `TriplesNodeTemplate`           | ::= | `CollectionTemplate \| BlankNodePropertyListTemplate`                                                                                                                                                    |
-| `[60]`  | `BlankNodePropertyListTemplate` | ::= | `'[' PropertyListNotEmptyTemplate ']'`                                                                                                                                                                   |
-| `[61]`  | `CollectionTemplate`            | ::= | `'(' GraphNodeTemplate+ ')'`                                                                                                                                                                             |
-| `[62]`  | `AnnotationTemplate`            | ::= | `( Reifier \| AnnotationBlockTemplate )*`                                                                                                                                                                |
-| `[63]`  | `AnnotationBlockTemplate`       | ::= | `'{\|' PropertyListNotEmptyTemplate '\|}'`                                                                                                                                                               |
-| `[64]`  | `ReifiedTripleBlockTemplate`    | ::= | `ReifiedTriple PropertyListTemplate`                                                                                                                                                                     |
-| `[65]`  | `BodyTriplesBlock`              | ::= | `TriplesBlockPattern`                                                                                                                                                                                    |
-| `[66]`  | `TriplesBlockPattern`           | ::= | `TriplesSameSubjectPattern ( '.' TriplesBlockPattern? )?`                                                                                                                                                |
-| `[67]`  | `ReifiedTripleBlockPattern`     | ::= | `ReifiedTriple PropertyListPattern`                                                                                                                                                                      |
-| `[68]`  | `TriplesSameSubjectPattern`     | ::= | `VarOrRDFTerm PropertyListNotEmptyPattern \| TriplesNodePattern PropertyListPattern \| ReifiedTripleBlockPattern`                                                                                        |
-| `[69]`  | `PropertyListPattern`           | ::= | `PropertyListNotEmptyPattern?`                                                                                                                                                                           |
-| `[70]`  | `PropertyListNotEmptyPattern`   | ::= | `( VerbPath \| Var ) ObjectListPattern ( ';' ( ( VerbPath \| Var ) ObjectListPattern )? )*`                                                                                                              |
-| `[71]`  | `ObjectListPattern`             | ::= | `ObjectPattern ( ',' ObjectPattern )*`                                                                                                                                                                   |
-| `[72]`  | `ObjectPattern`                 | ::= | `GraphNodePattern AnnotationPattern`                                                                                                                                                                     |
-| `[73]`  | `TriplesNodePattern`            | ::= | `CollectionPattern \| BlankNodePropertyListPattern`                                                                                                                                                      |
-| `[74]`  | `BlankNodePropertyListPattern`  | ::= | `'[' PropertyListNotEmptyPattern ']'`                                                                                                                                                                    |
-| `[75]`  | `CollectionPattern`             | ::= | `'(' GraphNodePattern+ ')'`                                                                                                                                                                              |
-| `[76]`  | `AnnotationPattern`             | ::= | `( Reifier \| AnnotationBlockPattern )*`                                                                                                                                                                 |
-| `[77]`  | `AnnotationBlockPattern`        | ::= | `'{\|' PropertyListNotEmptyPattern '\|}'`                                                                                                                                                                |
-| `[78]`  | `GraphNodePattern`              | ::= | `VarOrRDFTerm \| TriplesNodePattern \| ReifiedTriple`                                                                                                                                                    |
-| `[79]`  | `Reifier`                       | ::= | `'~' ReifierId?`                                                                                                                                                                                         |
-| `[80]`  | `ReifierId`                     | ::= | `Var \| iri \| BlankNode`                                                                                                                                                                                |
-| `[81]`  | `ReifiedTriple`                 | ::= | `'<<' ReifiedTripleSubject Verb ReifiedTripleObject Reifier? '>>'`                                                                                                                                       |
-| `[82]`  | `ReifiedTripleSubject`          | ::= | `Var \| iri \| RDFLiteral \| NumericLiteral \| BooleanLiteral \| BlankNode \| ReifiedTriple \| TripleTerm`                                                                                               |
-| `[83]`  | `ReifiedTripleObject`           | ::= | `Var \| iri \| RDFLiteral \| NumericLiteral \| BooleanLiteral \| BlankNode \| ReifiedTriple \| TripleTerm`                                                                                               |
-| `[84]`  | `TripleTerm`                    | ::= | `'<<(' TripleTermSubject Verb TripleTermObject ')>>'`                                                                                                                                                    |
-| `[85]`  | `TripleTermSubject`             | ::= | `Var \| iri \| RDFLiteral \| NumericLiteral \| BooleanLiteral \| BlankNode \| TripleTerm`                                                                                                                |
-| `[86]`  | `TripleTermObject`              | ::= | `Var \| iri \| RDFLiteral \| NumericLiteral \| BooleanLiteral \| BlankNode \| TripleTerm`                                                                                                                |
-| `[87]`  | `Verb`                          | ::= | `VarOrIri \| 'a'`                                                                                                                                                                                        |
-| `[88]`  | `VerbPath`                      | ::= | `Path`                                                                                                                                                                                                   |
-| `[89]`  | `Path`                          | ::= | `PathSequence`                                                                                                                                                                                           |
-| `[90]`  | `PathSequence`                  | ::= | `PathEltOrInverse ( '/' PathEltOrInverse )*`                                                                                                                                                             |
-| `[91]`  | `PathEltOrInverse`              | ::= | `PathElt \| '^' PathElt`                                                                                                                                                                                 |
-| `[92]`  | `PathElt`                       | ::= | `( iri \| 'a' \| '(' Path ')' )`                                                                                                                                                                         |
-| `[93]`  | `RDFTermData`                   | ::= | `iri \| RDFLiteral \| NumericLiteral \| BooleanLiteral \| BlankNode \| NIL \| TripleTermData`                                                                                                            |
-| `[94]`  | `VarOrRDFTerm`                  | ::= | `Var \| iri \| RDFLiteral \| NumericLiteral \| BooleanLiteral \| BlankNode \| NIL \| TripleTerm`                                                                                                         |
-| `[95]`  | `VarOrIri`                      | ::= | `Var \| iri`                                                                                                                                                                                             |
-| `[96]`  | `Var`                           | ::= | `VAR1 \| VAR2`                                                                                                                                                                                           |
-| `[97]`  | `RDFLiteral`                    | ::= | `String ( LANG_DIR \| '^^' iri )?`                                                                                                                                                                       |
-| `[98]`  | `NumericLiteral`                | ::= | `NumericLiteralUnsigned \| NumericLiteralPositive \| NumericLiteralNegative`                                                                                                                             |
-| `[99]`  | `NumericLiteralUnsigned`        | ::= | `INTEGER \| DECIMAL \| DOUBLE`                                                                                                                                                                           |
-| `[100]` | `NumericLiteralPositive`        | ::= | `INTEGER_POSITIVE \| DECIMAL_POSITIVE \| DOUBLE_POSITIVE`                                                                                                                                                |
-| `[101]` | `NumericLiteralNegative`        | ::= | `INTEGER_NEGATIVE \| DECIMAL_NEGATIVE \| DOUBLE_NEGATIVE`                                                                                                                                                |
-| `[102]` | `BooleanLiteral`                | ::= | `'true' \| 'false'`                                                                                                                                                                                      |
-| `[103]` | `String`                        | ::= | `STRING_LITERAL1 \| STRING_LITERAL2 \| STRING_LITERAL_LONG1 \| STRING_LITERAL_LONG2`                                                                                                                     |
-| `[104]` | `iri`                           | ::= | `IRIREF \| PrefixedName`                                                                                                                                                                                 |
-| `[105]` | `PrefixedName`                  | ::= | `PNAME_LN \| PNAME_NS`                                                                                                                                                                                   |
-| `[106]` | `BlankNode`                     | ::= | `BLANK_NODE_LABEL \| ANON`                                                                                                                                                                               |
-| `[107]` | `Expression`                    | ::= | `ConditionalOrExpression`                                                                                                                                                                                |
-| `[108]` | `ConditionalOrExpression`       | ::= | `ConditionalAndExpression ( '\|\|' ConditionalAndExpression )*`                                                                                                                                          |
-| `[109]` | `ConditionalAndExpression`      | ::= | `ValueLogical ( '&&' ValueLogical )*`                                                                                                                                                                    |
-| `[110]` | `ValueLogical`                  | ::= | `RelationalExpression`                                                                                                                                                                                   |
-| `[111]` | `RelationalExpression`          | ::= | `NumericExpression ( '=' NumericExpression \| '!=' NumericExpression \| '<' NumericExpression \| '>' NumericExpression \| '<=' NumericExpression \| '>=' NumericExpression \| 'IN' ExpressionList \| 'NOT' 'IN' ExpressionList )?` |
-| `[112]` | `NumericExpression`             | ::= | `AdditiveExpression`                                                                                                                                                                                     |
-| `[113]` | `AdditiveExpression`            | ::= | `MultiplicativeExpression ( '+' MultiplicativeExpression \| '-' MultiplicativeExpression \| ( NumericLiteralPositive \| NumericLiteralNegative ) ( ( '*' UnaryExpression ) \| ( '/' UnaryExpression ) )* )*` |
-| `[114]` | `MultiplicativeExpression`      | ::= | `UnaryExpression ( '*' UnaryExpression \| '/' UnaryExpression )*`                                                                                                                                        |
-| `[115]` | `UnaryExpression`               | ::= | `'!' PrimaryExpression \| '+' PrimaryExpression \| '-' PrimaryExpression \| PrimaryExpression`                                                                                                           |
-| `[116]` | `PrimaryExpression`             | ::= | `BrackettedExpression \| BuiltInCall \| iriOrFunction \| RDFLiteral \| NumericLiteral \| BooleanLiteral \| Var \| ExprTripleTerm`                                                                        |
-| `[117]` | `FunctionCall`                  | ::= | `iri ArgList`                                                                                                                                                                                            |
-| `[118]` | `ArgList`                       | ::= | `NIL \| '(' Expression ( ',' Expression )* ')' `                                                                                                                                                         |
-| `[119]` | `ExpressionList`                | ::= | `NIL \| '(' Expression ( ',' Expression )* ')' `                                                                                                                                                         |
-| `[120]` | `iriOrFunction`                 | ::= | `iri ArgList?`                                                                                                                                                                                           |
-| `[121]` | `ExprTripleTerm`                | ::= | `'<<(' ExprTripleTermSubject Verb ExprTripleTermObject ')>>'`                                                                                                                                            |
-| `[122]` | `ExprTripleTermSubject`         | ::= | `iri \| RDFLiteral \| NumericLiteral \| BooleanLiteral \| Var`                                                                                                                                           |
-| `[123]` | `ExprTripleTermObject`          | ::= | `iri \| RDFLiteral \| NumericLiteral \| BooleanLiteral \| Var \| ExprTripleTerm`                                                                                                                         |
-| `[124]` | `BrackettedExpression`          | ::= | `'(' Expression ')'`                                                                                                                                                                                     |
-| `[125]` | `BuiltInCall`                   | ::= | `'STR' '(' Expression ')' \| 'LANG' '(' Expression ')' \| 'LANGMATCHES' '(' Expression ',' Expression ')' \| 'LANGDIR' '(' Expression ')' \| 'DATATYPE' '(' Expression ')' \| 'IRI' '(' Expression ')' \| 'URI' '(' Expression ')' \| 'BNODE' ( '(' Expression ')' \| NIL ) \| 'ABS' '(' Expression ')' \| 'CEIL' '(' Expression ')' \| 'FLOOR' '(' Expression ')' \| 'ROUND' '(' Expression ')' \| 'CONCAT' ExpressionList \| 'SUBSTR' '(' Expression ',' Expression ( ',' Expression )? ')' \| 'STRLEN' '(' Expression ')' \| 'REPLACE' '(' Expression ',' Expression ',' Expression ( ',' Expression )? ')' \| 'UCASE' '(' Expression ')' \| 'LCASE' '(' Expression ')' \| 'ENCODE_FOR_URI' '(' Expression ')' \| 'CONTAINS' '(' Expression ',' Expression ')' \| 'STRSTARTS' '(' Expression ',' Expression ')' \| 'STRENDS' '(' Expression ',' Expression ')' \| 'STRBEFORE' '(' Expression ',' Expression ')' \| 'STRAFTER' '(' Expression ',' Expression ')' \| 'YEAR' '(' Expression ')' \| 'MONTH' '(' Expression ')' \| 'DAY' '(' Expression ')' \| 'HOURS' '(' Expression ')' \| 'MINUTES' '(' Expression ')' \| 'SECONDS' '(' Expression ')' \| 'TIMEZONE' '(' Expression ')' \| 'TZ' '(' Expression ')' \| 'NOW' NIL \| 'UUID' NIL \| 'STRUUID' NIL \| 'IF' '(' Expression ',' Expression ',' Expression ')' \| 'STRLANG' '(' Expression ',' Expression ')' \| 'STRLANGDIR' '(' Expression ',' Expression ',' Expression ')' \| 'STRDT' '(' Expression ',' Expression ')' \| 'sameTerm' '(' Expression ',' Expression ')' \| 'isIRI' '(' Expression ')' \| 'isURI' '(' Expression ')' \| 'isBLANK' '(' Expression ')' \| 'isLITERAL' '(' Expression ')' \| 'isNUMERIC' '(' Expression ')' \| 'hasLANG' '(' Expression ')' \| 'hasLANGDIR' '(' Expression ')' \| 'REGEX' '(' Expression ',' Expression ( ',' Expression )? ')' \| 'isTRIPLE' '(' Expression ')' \| 'TRIPLE' '(' Expression ',' Expression ',' Expression ')' \| 'SUBJECT' '(' Expression ')' \| 'PREDICATE' '(' Expression ')' \| 'OBJECT' '(' Expression ')'` |
+| `[26]`  | `AggregationAssignments`        | ::= | `( AggregationAssignment ( ',' AggregationAssignment )* )?`                                                                                                                                              |
+| `[27]`  | `AggregationAssignment`         | ::= | `Var ':=' AggregationFunction`                                                                                                                                                                           |
+| `[28]`  | `AggregationFunction`           | ::= | `( 'COUNT' '(' DISTINCT? VarOrStar ')' \| 'MIN' '(' Var ')' \| 'MAX' '(' Var ')' \| 'SUM' '(' Var ')' )`                                                                                                 |
+| `[29]`  | `VarOrStar`                     | ::= | `Var \| '*'`                                                                                                                                                                                             |
+| `[30]`  | `DataTriplesBlock`              | ::= | `TriplesSameSubjectData ( '.' DataTriplesBlock? )?`                                                                                                                                                      |
+| `[31]`  | `TriplesSameSubjectData`        | ::= | `RDFTermData PropertyListNotEmptyData \| TriplesNodeData PropertyListData \| ReifiedTripleBlockData`                                                                                                     |
+| `[32]`  | `PropertyListData`              | ::= | `PropertyListNotEmptyData?`                                                                                                                                                                              |
+| `[33]`  | `PropertyListNotEmptyData`      | ::= | `VerbData ObjectListData ( ';' ( VerbData ObjectListData )? )*`                                                                                                                                          |
+| `[34]`  | `VerbData`                      | ::= | `iri \| 'a'`                                                                                                                                                                                             |
+| `[35]`  | `ObjectListData`                | ::= | `ObjectData ( ',' ObjectData )*`                                                                                                                                                                         |
+| `[36]`  | `ObjectData`                    | ::= | `GraphNodeData AnnotationData`                                                                                                                                                                           |
+| `[37]`  | `GraphNodeData`                 | ::= | `RDFTermData \| TriplesNodeData \| ReifiedTripleData`                                                                                                                                                    |
+| `[38]`  | `TriplesNodeData`               | ::= | `CollectionData \| BlankNodePropertyListData`                                                                                                                                                            |
+| `[39]`  | `BlankNodePropertyListData`     | ::= | `'[' PropertyListNotEmptyData ']'`                                                                                                                                                                       |
+| `[40]`  | `CollectionData`                | ::= | `'(' GraphNodeData+ ')'`                                                                                                                                                                                 |
+| `[41]`  | `AnnotationData`                | ::= | `( ReifierData \| AnnotationBlockData )*`                                                                                                                                                                |
+| `[42]`  | `AnnotationBlockData`           | ::= | `'{\|' PropertyListNotEmptyData '\|}'`                                                                                                                                                                   |
+| `[43]`  | `ReifierData`                   | ::= | `'~' ReifierIdData?`                                                                                                                                                                                     |
+| `[44]`  | `ReifierIdData`                 | ::= | `iri \| BlankNode`                                                                                                                                                                                       |
+| `[45]`  | `ReifiedTripleBlockData`        | ::= | `ReifiedTripleData PropertyListData`                                                                                                                                                                     |
+| `[46]`  | `ReifiedTripleData`             | ::= | `'<<' ReifiedTripleSubjectData VerbData ReifiedTripleObjectData ReifierData? '>>'`                                                                                                                       |
+| `[47]`  | `ReifiedTripleSubjectData`      | ::= | `iri \| RDFLiteral \| NumericLiteral \| BooleanLiteral \| BlankNode \| ReifiedTripleData \| TripleTermData`                                                                                              |
+| `[48]`  | `ReifiedTripleObjectData`       | ::= | `iri \| RDFLiteral \| NumericLiteral \| BooleanLiteral \| BlankNode \| ReifiedTripleData \| TripleTermData`                                                                                              |
+| `[49]`  | `TripleTermData`                | ::= | `'<<(' TripleTermSubjectData VerbData TripleTermObjectData ')>>'`                                                                                                                                        |
+| `[50]`  | `TripleTermSubjectData`         | ::= | `iri \| RDFLiteral \| NumericLiteral \| BooleanLiteral \| BlankNode \| TripleTermData`                                                                                                                   |
+| `[51]`  | `TripleTermObjectData`          | ::= | `iri \| RDFLiteral \| NumericLiteral \| BooleanLiteral \| BlankNode \| TripleTermData`                                                                                                                   |
+| `[52]`  | `HeadTemplateBlock`             | ::= | `TriplesBlockTemplate`                                                                                                                                                                                   |
+| `[53]`  | `TriplesBlockTemplate`          | ::= | `TriplesSameSubjectTemplate ( '.' TriplesBlockTemplate? )?`                                                                                                                                              |
+| `[54]`  | `TriplesSameSubjectTemplate`    | ::= | `VarOrRDFTerm PropertyListNotEmptyTemplate \| TriplesNodeTemplate PropertyListTemplate \| ReifiedTripleBlockTemplate`                                                                                    |
+| `[55]`  | `PropertyListTemplate`          | ::= | `PropertyListNotEmptyTemplate?`                                                                                                                                                                          |
+| `[56]`  | `PropertyListNotEmptyTemplate`  | ::= | `Verb ObjectListTemplate ( ';' ( Verb ObjectListTemplate )? )*`                                                                                                                                          |
+| `[57]`  | `ObjectListTemplate`            | ::= | `ObjectTemplate ( ',' ObjectTemplate )*`                                                                                                                                                                 |
+| `[58]`  | `ObjectTemplate`                | ::= | `GraphNodeTemplate AnnotationTemplate`                                                                                                                                                                   |
+| `[59]`  | `GraphNodeTemplate`             | ::= | `VarOrRDFTerm \| TriplesNodeTemplate \| ReifiedTriple`                                                                                                                                                   |
+| `[60]`  | `TriplesNodeTemplate`           | ::= | `CollectionTemplate \| BlankNodePropertyListTemplate`                                                                                                                                                    |
+| `[61]`  | `BlankNodePropertyListTemplate` | ::= | `'[' PropertyListNotEmptyTemplate ']'`                                                                                                                                                                   |
+| `[62]`  | `CollectionTemplate`            | ::= | `'(' GraphNodeTemplate+ ')'`                                                                                                                                                                             |
+| `[63]`  | `AnnotationTemplate`            | ::= | `( Reifier \| AnnotationBlockTemplate )*`                                                                                                                                                                |
+| `[64]`  | `AnnotationBlockTemplate`       | ::= | `'{\|' PropertyListNotEmptyTemplate '\|}'`                                                                                                                                                               |
+| `[65]`  | `ReifiedTripleBlockTemplate`    | ::= | `ReifiedTriple PropertyListTemplate`                                                                                                                                                                     |
+| `[66]`  | `BodyTriplesBlock`              | ::= | `TriplesBlockPattern`                                                                                                                                                                                    |
+| `[67]`  | `TriplesBlockPattern`           | ::= | `TriplesSameSubjectPattern ( '.' TriplesBlockPattern? )?`                                                                                                                                                |
+| `[68]`  | `ReifiedTripleBlockPattern`     | ::= | `ReifiedTriple PropertyListPattern`                                                                                                                                                                      |
+| `[69]`  | `TriplesSameSubjectPattern`     | ::= | `VarOrRDFTerm PropertyListNotEmptyPattern \| TriplesNodePattern PropertyListPattern \| ReifiedTripleBlockPattern`                                                                                        |
+| `[70]`  | `PropertyListPattern`           | ::= | `PropertyListNotEmptyPattern?`                                                                                                                                                                           |
+| `[71]`  | `PropertyListNotEmptyPattern`   | ::= | `( VerbPath \| Var ) ObjectListPattern ( ';' ( ( VerbPath \| Var ) ObjectListPattern )? )*`                                                                                                              |
+| `[72]`  | `ObjectListPattern`             | ::= | `ObjectPattern ( ',' ObjectPattern )*`                                                                                                                                                                   |
+| `[73]`  | `ObjectPattern`                 | ::= | `GraphNodePattern AnnotationPattern`                                                                                                                                                                     |
+| `[74]`  | `TriplesNodePattern`            | ::= | `CollectionPattern \| BlankNodePropertyListPattern`                                                                                                                                                      |
+| `[75]`  | `BlankNodePropertyListPattern`  | ::= | `'[' PropertyListNotEmptyPattern ']'`                                                                                                                                                                    |
+| `[76]`  | `CollectionPattern`             | ::= | `'(' GraphNodePattern+ ')'`                                                                                                                                                                              |
+| `[77]`  | `AnnotationPattern`             | ::= | `( Reifier \| AnnotationBlockPattern )*`                                                                                                                                                                 |
+| `[78]`  | `AnnotationBlockPattern`        | ::= | `'{\|' PropertyListNotEmptyPattern '\|}'`                                                                                                                                                                |
+| `[79]`  | `GraphNodePattern`              | ::= | `VarOrRDFTerm \| TriplesNodePattern \| ReifiedTriple`                                                                                                                                                    |
+| `[80]`  | `Reifier`                       | ::= | `'~' ReifierId?`                                                                                                                                                                                         |
+| `[81]`  | `ReifierId`                     | ::= | `Var \| iri \| BlankNode`                                                                                                                                                                                |
+| `[82]`  | `ReifiedTriple`                 | ::= | `'<<' ReifiedTripleSubject Verb ReifiedTripleObject Reifier? '>>'`                                                                                                                                       |
+| `[83]`  | `ReifiedTripleSubject`          | ::= | `Var \| iri \| RDFLiteral \| NumericLiteral \| BooleanLiteral \| BlankNode \| ReifiedTriple \| TripleTerm`                                                                                               |
+| `[84]`  | `ReifiedTripleObject`           | ::= | `Var \| iri \| RDFLiteral \| NumericLiteral \| BooleanLiteral \| BlankNode \| ReifiedTriple \| TripleTerm`                                                                                               |
+| `[85]`  | `TripleTerm`                    | ::= | `'<<(' TripleTermSubject Verb TripleTermObject ')>>'`                                                                                                                                                    |
+| `[86]`  | `TripleTermSubject`             | ::= | `Var \| iri \| RDFLiteral \| NumericLiteral \| BooleanLiteral \| BlankNode \| TripleTerm`                                                                                                                |
+| `[87]`  | `TripleTermObject`              | ::= | `Var \| iri \| RDFLiteral \| NumericLiteral \| BooleanLiteral \| BlankNode \| TripleTerm`                                                                                                                |
+| `[88]`  | `Verb`                          | ::= | `VarOrIri \| 'a'`                                                                                                                                                                                        |
+| `[89]`  | `VerbPath`                      | ::= | `Path`                                                                                                                                                                                                   |
+| `[90]`  | `Path`                          | ::= | `PathSequence`                                                                                                                                                                                           |
+| `[91]`  | `PathSequence`                  | ::= | `PathEltOrInverse ( '/' PathEltOrInverse )*`                                                                                                                                                             |
+| `[92]`  | `PathEltOrInverse`              | ::= | `PathElt \| '^' PathElt`                                                                                                                                                                                 |
+| `[93]`  | `PathElt`                       | ::= | `( iri \| 'a' \| '(' Path ')' )`                                                                                                                                                                         |
+| `[94]`  | `RDFTermData`                   | ::= | `iri \| RDFLiteral \| NumericLiteral \| BooleanLiteral \| BlankNode \| NIL \| TripleTermData`                                                                                                            |
+| `[95]`  | `VarOrRDFTerm`                  | ::= | `Var \| iri \| RDFLiteral \| NumericLiteral \| BooleanLiteral \| BlankNode \| NIL \| TripleTerm`                                                                                                         |
+| `[96]`  | `VarOrIri`                      | ::= | `Var \| iri`                                                                                                                                                                                             |
+| `[97]`  | `Var`                           | ::= | `VAR1 \| VAR2`                                                                                                                                                                                           |
+| `[98]`  | `RDFLiteral`                    | ::= | `String ( LANG_DIR \| '^^' iri )?`                                                                                                                                                                       |
+| `[99]`  | `NumericLiteral`                | ::= | `NumericLiteralUnsigned \| NumericLiteralPositive \| NumericLiteralNegative`                                                                                                                             |
+| `[100]` | `NumericLiteralUnsigned`        | ::= | `INTEGER \| DECIMAL \| DOUBLE`                                                                                                                                                                           |
+| `[101]` | `NumericLiteralPositive`        | ::= | `INTEGER_POSITIVE \| DECIMAL_POSITIVE \| DOUBLE_POSITIVE`                                                                                                                                                |
+| `[102]` | `NumericLiteralNegative`        | ::= | `INTEGER_NEGATIVE \| DECIMAL_NEGATIVE \| DOUBLE_NEGATIVE`                                                                                                                                                |
+| `[103]` | `BooleanLiteral`                | ::= | `'true' \| 'false'`                                                                                                                                                                                      |
+| `[104]` | `String`                        | ::= | `STRING_LITERAL1 \| STRING_LITERAL2 \| STRING_LITERAL_LONG1 \| STRING_LITERAL_LONG2`                                                                                                                     |
+| `[105]` | `iri`                           | ::= | `IRIREF \| PrefixedName`                                                                                                                                                                                 |
+| `[106]` | `PrefixedName`                  | ::= | `PNAME_LN \| PNAME_NS`                                                                                                                                                                                   |
+| `[107]` | `BlankNode`                     | ::= | `BLANK_NODE_LABEL \| ANON`                                                                                                                                                                               |
+| `[108]` | `Expression`                    | ::= | `ConditionalOrExpression`                                                                                                                                                                                |
+| `[109]` | `ConditionalOrExpression`       | ::= | `ConditionalAndExpression ( '\|\|' ConditionalAndExpression )*`                                                                                                                                          |
+| `[110]` | `ConditionalAndExpression`      | ::= | `ValueLogical ( '&&' ValueLogical )*`                                                                                                                                                                    |
+| `[111]` | `ValueLogical`                  | ::= | `RelationalExpression`                                                                                                                                                                                   |
+| `[112]` | `RelationalExpression`          | ::= | `NumericExpression ( '=' NumericExpression \| '!=' NumericExpression \| '<' NumericExpression \| '>' NumericExpression \| '<=' NumericExpression \| '>=' NumericExpression \| 'IN' ExpressionList \| 'NOT' 'IN' ExpressionList )?` |
+| `[113]` | `NumericExpression`             | ::= | `AdditiveExpression`                                                                                                                                                                                     |
+| `[114]` | `AdditiveExpression`            | ::= | `MultiplicativeExpression ( '+' MultiplicativeExpression \| '-' MultiplicativeExpression \| ( NumericLiteralPositive \| NumericLiteralNegative ) ( ( '*' UnaryExpression ) \| ( '/' UnaryExpression ) )* )*` |
+| `[115]` | `MultiplicativeExpression`      | ::= | `UnaryExpression ( '*' UnaryExpression \| '/' UnaryExpression )*`                                                                                                                                        |
+| `[116]` | `UnaryExpression`               | ::= | `'!' PrimaryExpression \| '+' PrimaryExpression \| '-' PrimaryExpression \| PrimaryExpression`                                                                                                           |
+| `[117]` | `PrimaryExpression`             | ::= | `BrackettedExpression \| BuiltInCall \| iriOrFunction \| RDFLiteral \| NumericLiteral \| BooleanLiteral \| Var \| ExprTripleTerm`                                                                        |
+| `[118]` | `FunctionCall`                  | ::= | `iri ArgList`                                                                                                                                                                                            |
+| `[119]` | `ArgList`                       | ::= | `NIL \| '(' Expression ( ',' Expression )* ')' `                                                                                                                                                         |
+| `[120]` | `ExpressionList`                | ::= | `NIL \| '(' Expression ( ',' Expression )* ')' `                                                                                                                                                         |
+| `[121]` | `iriOrFunction`                 | ::= | `iri ArgList?`                                                                                                                                                                                           |
+| `[122]` | `ExprTripleTerm`                | ::= | `'<<(' ExprTripleTermSubject Verb ExprTripleTermObject ')>>'`                                                                                                                                            |
+| `[123]` | `ExprTripleTermSubject`         | ::= | `iri \| RDFLiteral \| NumericLiteral \| BooleanLiteral \| Var`                                                                                                                                           |
+| `[124]` | `ExprTripleTermObject`          | ::= | `iri \| RDFLiteral \| NumericLiteral \| BooleanLiteral \| Var \| ExprTripleTerm`                                                                                                                         |
+| `[125]` | `BrackettedExpression`          | ::= | `'(' Expression ')'`                                                                                                                                                                                     |
+| `[126]` | `BuiltInCall`                   | ::= | `'STR' '(' Expression ')' \| 'LANG' '(' Expression ')' \| 'LANGMATCHES' '(' Expression ',' Expression ')' \| 'LANGDIR' '(' Expression ')' \| 'DATATYPE' '(' Expression ')' \| 'IRI' '(' Expression ')' \| 'URI' '(' Expression ')' \| 'BNODE' ( '(' Expression ')' \| NIL ) \| 'ABS' '(' Expression ')' \| 'CEIL' '(' Expression ')' \| 'FLOOR' '(' Expression ')' \| 'ROUND' '(' Expression ')' \| 'CONCAT' ExpressionList \| 'SUBSTR' '(' Expression ',' Expression ( ',' Expression )? ')' \| 'STRLEN' '(' Expression ')' \| 'REPLACE' '(' Expression ',' Expression ',' Expression ( ',' Expression )? ')' \| 'UCASE' '(' Expression ')' \| 'LCASE' '(' Expression ')' \| 'ENCODE_FOR_URI' '(' Expression ')' \| 'CONTAINS' '(' Expression ',' Expression ')' \| 'STRSTARTS' '(' Expression ',' Expression ')' \| 'STRENDS' '(' Expression ',' Expression ')' \| 'STRBEFORE' '(' Expression ',' Expression ')' \| 'STRAFTER' '(' Expression ',' Expression ')' \| 'YEAR' '(' Expression ')' \| 'MONTH' '(' Expression ')' \| 'DAY' '(' Expression ')' \| 'HOURS' '(' Expression ')' \| 'MINUTES' '(' Expression ')' \| 'SECONDS' '(' Expression ')' \| 'TIMEZONE' '(' Expression ')' \| 'TZ' '(' Expression ')' \| 'NOW' NIL \| 'UUID' NIL \| 'STRUUID' NIL \| 'IF' '(' Expression ',' Expression ',' Expression ')' \| 'STRLANG' '(' Expression ',' Expression ')' \| 'STRLANGDIR' '(' Expression ',' Expression ',' Expression ')' \| 'STRDT' '(' Expression ',' Expression ')' \| 'sameTerm' '(' Expression ',' Expression ')' \| 'isIRI' '(' Expression ')' \| 'isURI' '(' Expression ')' \| 'isBLANK' '(' Expression ')' \| 'isLITERAL' '(' Expression ')' \| 'isNUMERIC' '(' Expression ')' \| 'hasLANG' '(' Expression ')' \| 'hasLANGDIR' '(' Expression ')' \| 'REGEX' '(' Expression ',' Expression ( ',' Expression )? ')' \| 'isTRIPLE' '(' Expression ')' \| 'TRIPLE' '(' Expression ',' Expression ',' Expression ')' \| 'SUBJECT' '(' Expression ')' \| 'PREDICATE' '(' Expression ')' \| 'OBJECT' '(' Expression ')'` |
 
 Productions for terminals:
 
-| `[126]` | `IRIREF`               | ::= | ``'<' ([^<>"{}\|^`\]-[#x00-#x20] \| UCHAR )* '>'``                                                                                                                                                       |
+| `[127]` | `IRIREF`               | ::= | ``'<' ([^<>"{}\|^`\]-[#x00-#x20] \| UCHAR )* '>'``                                                                                                                                                       |
 | ------- | ---------------------- | --- | -------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
-| `[127]` | `PNAME_NS`             | ::= | `PN_PREFIX? ':'`                                                                                                                                                                                         |
-| `[128]` | `PNAME_LN`             | ::= | `PNAME_NS PN_LOCAL`                                                                                                                                                                                      |
-| `[129]` | `BLANK_NODE_LABEL`     | ::= | `'_:' ( PN_CHARS_U \| [0-9] ) ((PN_CHARS\|'.')* PN_CHARS)?`                                                                                                                                              |
-| `[130]` | `VAR1`                 | ::= | `'?' VARNAME`                                                                                                                                                                                            |
-| `[131]` | `VAR2`                 | ::= | `'$' VARNAME`                                                                                                                                                                                            |
-| `[132]` | `LANG_DIR`             | ::= | `'@' [a-zA-Z]+ ('-' [a-zA-Z0-9]+)* ('--' [a-zA-Z]+)?`                                                                                                                                                    |
-| `[133]` | `INTEGER`              | ::= | `[0-9]+`                                                                                                                                                                                                 |
-| `[134]` | `DECIMAL`              | ::= | `[0-9]* '.' [0-9]+`                                                                                                                                                                                      |
-| `[135]` | `DOUBLE`               | ::= | `( ([0-9]+ ('.'[0-9]*)? ) \| ( '.' ([0-9])+ ) ) [eE][+-]?[0-9]+`                                                                                                                                         |
-| `[136]` | `INTEGER_POSITIVE`     | ::= | `'+' INTEGER`                                                                                                                                                                                            |
-| `[137]` | `DECIMAL_POSITIVE`     | ::= | `'+' DECIMAL`                                                                                                                                                                                            |
-| `[138]` | `DOUBLE_POSITIVE`      | ::= | `'+' DOUBLE`                                                                                                                                                                                             |
-| `[139]` | `INTEGER_NEGATIVE`     | ::= | `'-' INTEGER`                                                                                                                                                                                            |
-| `[140]` | `DECIMAL_NEGATIVE`     | ::= | `'-' DECIMAL`                                                                                                                                                                                            |
-| `[141]` | `DOUBLE_NEGATIVE`      | ::= | `'-' DOUBLE`                                                                                                                                                                                             |
-| `[142]` | `STRING_LITERAL1`      | ::= | `"'" ( ([^#x27#x5C#xA#xD]) \| ECHAR \| UCHAR )* "'"`                                                                                                                                                     |
-| `[143]` | `STRING_LITERAL2`      | ::= | `'"' ( ([^#x22#x5C#xA#xD]) \| ECHAR \| UCHAR )* '"'`                                                                                                                                                     |
-| `[144]` | `STRING_LITERAL_LONG1` | ::= | `"'''" ( ( "'" \| "''" )? ( [^'\] \| ECHAR \| UCHAR ) )* "'''"`                                                                                                                                          |
-| `[145]` | `STRING_LITERAL_LONG2` | ::= | `'"""' ( ( '"' \| '""' )? ( [^"\] \| ECHAR \| UCHAR ) )* '"""'`                                                                                                                                          |
-| `[146]` | `ECHAR`                | ::= | `'\' [tbnrf\"']`                                                                                                                                                                                         |
-| `[147]` | `UCHAR`                | ::= | `('\u' HEX HEX HEX HEX) \| ('\U' HEX HEX HEX HEX HEX HEX HEX HEX)`                                                                                                                                       |
-| `[148]` | `NIL`                  | ::= | `'(' WS* ')'`                                                                                                                                                                                            |
-| `[149]` | `WS`                   | ::= | `#x20 \| #x9 \| #xD \| #xA`                                                                                                                                                                              |
-| `[150]` | `ANON`                 | ::= | `'['  WS* ']'`                                                                                                                                                                                           |
-| `[151]` | `PN_CHARS_BASE`        | ::= | `[A-Z] \| [a-z] \| [#x00C0-#x00D6] \| [#x00D8-#x00F6] \| [#x00F8-#x02FF] \| [#x0370-#x037D] \| [#x037F-#x1FFF] \| [#x200C-#x200D] \| [#x2070-#x218F] \| [#x2C00-#x2FEF] \| [#x3001-#xD7FF] \| [#xF900-#xFDCF] \| [#xFDF0-#xFFFD] \| [#x10000-#xEFFFF]` |
-| `[152]` | `PN_CHARS_U`           | ::= | `PN_CHARS_BASE \| '_'`                                                                                                                                                                                   |
-| `[153]` | `VARNAME`              | ::= | `( PN_CHARS_U  \| [0-9] ) ( PN_CHARS_U \| [0-9] \| #x00B7 \| [#x0300-#x036F] \| [#x203F-#x2040] )*`                                                                                                      |
-| `[154]` | `PN_CHARS`             | ::= | `PN_CHARS_U \| '-' \| [0-9] \| #x00B7 \| [#x0300-#x036F] \| [#x203F-#x2040]`                                                                                                                             |
-| `[155]` | `PN_PREFIX`            | ::= | `PN_CHARS_BASE ((PN_CHARS\|'.')* PN_CHARS)?`                                                                                                                                                             |
-| `[156]` | `PN_LOCAL`             | ::= | `(PN_CHARS_U \| ':' \| [0-9] \| PLX ) ((PN_CHARS \| '.' \| ':' \| PLX)* (PN_CHARS \| ':' \| PLX) )?`                                                                                                     |
-| `[157]` | `PLX`                  | ::= | `PERCENT \| PN_LOCAL_ESC`                                                                                                                                                                                |
-| `[158]` | `PERCENT`              | ::= | `'%' HEX HEX`                                                                                                                                                                                            |
-| `[159]` | `HEX`                  | ::= | `[0-9] \| [A-F] \| [a-f]`                                                                                                                                                                                |
-| `[160]` | `PN_LOCAL_ESC`         | ::= | `'\' ( '_' \| '~' \| '.' \| '-' \| '!' \| '$' \| '&' \| "'" \| '(' \| ')' \| '*' \| '+' \| ',' \| ';' \| '=' \| '/' \| '?' \| '#' \| '@' \| '%' )`                                                       |
+| `[128]` | `PNAME_NS`             | ::= | `PN_PREFIX? ':'`                                                                                                                                                                                         |
+| `[129]` | `PNAME_LN`             | ::= | `PNAME_NS PN_LOCAL`                                                                                                                                                                                      |
+| `[130]` | `BLANK_NODE_LABEL`     | ::= | `'_:' ( PN_CHARS_U \| [0-9] ) ((PN_CHARS\|'.')* PN_CHARS)?`                                                                                                                                              |
+| `[131]` | `VAR1`                 | ::= | `'?' VARNAME`                                                                                                                                                                                            |
+| `[132]` | `VAR2`                 | ::= | `'$' VARNAME`                                                                                                                                                                                            |
+| `[133]` | `LANG_DIR`             | ::= | `'@' [a-zA-Z]+ ('-' [a-zA-Z0-9]+)* ('--' [a-zA-Z]+)?`                                                                                                                                                    |
+| `[134]` | `INTEGER`              | ::= | `[0-9]+`                                                                                                                                                                                                 |
+| `[135]` | `DECIMAL`              | ::= | `[0-9]* '.' [0-9]+`                                                                                                                                                                                      |
+| `[136]` | `DOUBLE`               | ::= | `( ([0-9]+ ('.'[0-9]*)? ) \| ( '.' ([0-9])+ ) ) [eE][+-]?[0-9]+`                                                                                                                                         |
+| `[137]` | `INTEGER_POSITIVE`     | ::= | `'+' INTEGER`                                                                                                                                                                                            |
+| `[138]` | `DECIMAL_POSITIVE`     | ::= | `'+' DECIMAL`                                                                                                                                                                                            |
+| `[139]` | `DOUBLE_POSITIVE`      | ::= | `'+' DOUBLE`                                                                                                                                                                                             |
+| `[140]` | `INTEGER_NEGATIVE`     | ::= | `'-' INTEGER`                                                                                                                                                                                            |
+| `[141]` | `DECIMAL_NEGATIVE`     | ::= | `'-' DECIMAL`                                                                                                                                                                                            |
+| `[142]` | `DOUBLE_NEGATIVE`      | ::= | `'-' DOUBLE`                                                                                                                                                                                             |
+| `[143]` | `STRING_LITERAL1`      | ::= | `"'" ( ([^#x27#x5C#xA#xD]) \| ECHAR \| UCHAR )* "'"`                                                                                                                                                     |
+| `[144]` | `STRING_LITERAL2`      | ::= | `'"' ( ([^#x22#x5C#xA#xD]) \| ECHAR \| UCHAR )* '"'`                                                                                                                                                     |
+| `[145]` | `STRING_LITERAL_LONG1` | ::= | `"'''" ( ( "'" \| "''" )? ( [^'\] \| ECHAR \| UCHAR ) )* "'''"`                                                                                                                                          |
+| `[146]` | `STRING_LITERAL_LONG2` | ::= | `'"""' ( ( '"' \| '""' )? ( [^"\] \| ECHAR \| UCHAR ) )* '"""'`                                                                                                                                          |
+| `[147]` | `ECHAR`                | ::= | `'\' [tbnrf\"']`                                                                                                                                                                                         |
+| `[148]` | `UCHAR`                | ::= | `('\u' HEX HEX HEX HEX) \| ('\U' HEX HEX HEX HEX HEX HEX HEX HEX)`                                                                                                                                       |
+| `[149]` | `NIL`                  | ::= | `'(' WS* ')'`                                                                                                                                                                                            |
+| `[150]` | `WS`                   | ::= | `#x20 \| #x9 \| #xD \| #xA`                                                                                                                                                                              |
+| `[151]` | `ANON`                 | ::= | `'['  WS* ']'`                                                                                                                                                                                           |
+| `[152]` | `PN_CHARS_BASE`        | ::= | `[A-Z] \| [a-z] \| [#x00C0-#x00D6] \| [#x00D8-#x00F6] \| [#x00F8-#x02FF] \| [#x0370-#x037D] \| [#x037F-#x1FFF] \| [#x200C-#x200D] \| [#x2070-#x218F] \| [#x2C00-#x2FEF] \| [#x3001-#xD7FF] \| [#xF900-#xFDCF] \| [#xFDF0-#xFFFD] \| [#x10000-#xEFFFF]` |
+| `[153]` | `PN_CHARS_U`           | ::= | `PN_CHARS_BASE \| '_'`                                                                                                                                                                                   |
+| `[154]` | `VARNAME`              | ::= | `( PN_CHARS_U  \| [0-9] ) ( PN_CHARS_U \| [0-9] \| #x00B7 \| [#x0300-#x036F] \| [#x203F-#x2040] )*`                                                                                                      |
+| `[155]` | `PN_CHARS`             | ::= | `PN_CHARS_U \| '-' \| [0-9] \| #x00B7 \| [#x0300-#x036F] \| [#x203F-#x2040]`                                                                                                                             |
+| `[156]` | `PN_PREFIX`            | ::= | `PN_CHARS_BASE ((PN_CHARS\|'.')* PN_CHARS)?`                                                                                                                                                             |
+| `[157]` | `PN_LOCAL`             | ::= | `(PN_CHARS_U \| ':' \| [0-9] \| PLX ) ((PN_CHARS \| '.' \| ':' \| PLX)* (PN_CHARS \| ':' \| PLX) )?`                                                                                                     |
+| `[158]` | `PLX`                  | ::= | `PERCENT \| PN_LOCAL_ESC`                                                                                                                                                                                |
+| `[159]` | `PERCENT`              | ::= | `'%' HEX HEX`                                                                                                                                                                                            |
+| `[160]` | `HEX`                  | ::= | `[0-9] \| [A-F] \| [a-f]`                                                                                                                                                                                |
+| `[161]` | `PN_LOCAL_ESC`         | ::= | `'\' ( '_' \| '~' \| '.' \| '-' \| '!' \| '$' \| '&' \| "'" \| '(' \| ')' \| '*' \| '+' \| ',' \| ';' \| '=' \| '/' \| '?' \| '#' \| '@' \| '%' )`                                                       |
 
 A text version of this grammar is available in `sparql-rl-grammar.bnf`.
 
@@ -2625,7 +2675,7 @@ particularly whether authorization measures are needed for access to the data.
 
 [RDF12-TURTLE]
 
-[RDF 1.2 Turtle](https://www.w3.org/TR/rdf12-turtle/). Gregg Kellogg; Andy Seaborne; Dominik Tomaszuk. W3C. 7 October 2026. W3C Working Draft. URL: <https://www.w3.org/TR/rdf12-turtle/>
+[RDF 1.2 Turtle](https://www.w3.org/TR/rdf12-turtle/). Gregg Kellogg; Andy Seaborne; Dominik Tomaszuk. W3C. 23 October 2026. W3C Working Draft. URL: <https://www.w3.org/TR/rdf12-turtle/>
 
 [RFC2119]
 
@@ -2653,7 +2703,7 @@ particularly whether authorization measures are needed for access to the data.
 
 [SPARQL12-QUERY]
 
-[SPARQL 1.2 Query Language](https://www.w3.org/TR/sparql12-query/). Olaf Hartig; Andy Seaborne; Ruben Taelman; Gregory Williams; Thomas Pellissier Tanon. W3C. 11 October 2026. W3C Working Draft. URL: <https://www.w3.org/TR/sparql12-query/>
+[SPARQL 1.2 Query Language](https://www.w3.org/TR/sparql12-query/). Olaf Hartig; Andy Seaborne; Ruben Taelman; Gregory Williams; Thomas Pellissier Tanon. W3C. 25 October 2026. W3C Working Draft. URL: <https://www.w3.org/TR/sparql12-query/>
 
 [UNICODE]
 
@@ -2688,6 +2738,7 @@ Permalink
 **Referenced in:**
 
 - § 3.1 Triple Patterns
+- § 3.6 Grouping and Aggregation
 - § 4.1 Elements of the Abstract Syntax (2) (3) (4) (5)
 - § 4.3 Rule Dependency (2) (3) (4) (5) (6) (7) (8) (9)
 - § 6.1 Evaluation Definitions (2) (3) (4) (5)
@@ -2745,7 +2796,7 @@ Permalink
 **Referenced in:**
 
 - § 3.5 Assignment and Creating RDF Terms (2) (3)
-- § 4.1 Elements of the Abstract Syntax (2) (3) (4) (5)
+- § 4.1 Elements of the Abstract Syntax (2) (3) (4) (5) (6)
 - § 4.2 Well-formedness Conditions (2)
 - § 5. Relationship between SPARQL-RL and SPARQL
 - § 6.3 Evaluation of an Expression
@@ -2769,7 +2820,7 @@ Permalink
 
 **Referenced in:**
 
-- § 3.6 Grouping and Aggregation (2)
+- § 3.6 Grouping and Aggregation (2) (3)
 - § 4.1 Elements of the Abstract Syntax (2) (3) (4) (5) (6) (7)
 - § 4.2 Well-formedness Conditions (2)
 - § 4.4 Stratification
@@ -2778,7 +2829,7 @@ Permalink
 
 **Referenced in:**
 
-- § 3.6 Grouping and Aggregation (2)
+- § 3.6 Grouping and Aggregation (2) (3) (4) (5)
 - § 4.1 Elements of the Abstract Syntax
 - § 4.2 Well-formedness Conditions
 
@@ -2786,6 +2837,7 @@ Permalink
 
 **Referenced in:**
 
+- § 3.6 Grouping and Aggregation (2) (3) (4)
 - § 4.1 Elements of the Abstract Syntax (2)
 - § 4.2 Well-formedness Conditions (2)
 - § 4.3 Rule Dependency (2)
@@ -2794,14 +2846,13 @@ Permalink
 
 **Referenced in:**
 
-- § 3.6 Grouping and Aggregation
 - § 4.1 Elements of the Abstract Syntax (2) (3) (4)
 
 Permalink
 
 **Referenced in:**
 
-- § 3.6 Grouping and Aggregation
+- § 3.6 Grouping and Aggregation (2) (3)
 - § 4.1 Elements of the Abstract Syntax
 - § 4.2 Well-formedness Conditions (2) (3) (4)
 
@@ -2825,6 +2876,7 @@ Permalink
 
 - § 3. SPARQL-RL Overview
 - § 3.5 Assignment and Creating RDF Terms (2)
+- § 3.6 Grouping and Aggregation (2)
 - § 4.1 Elements of the Abstract Syntax (2) (3) (4) (5) (6) (7)
 - § 4.2 Well-formedness Conditions (2)
 - § 4.3 Rule Dependency
@@ -2836,7 +2888,6 @@ Permalink
 **Referenced in:**
 
 - § 3. SPARQL-RL Overview
-- § 3.6 Grouping and Aggregation
 - § 3.9 Matching Base Data
 - § 4.1 Elements of the Abstract Syntax (2) (3) (4) (5) (6) (7)
 - § 4.2 Well-formedness Conditions (2)
@@ -3147,7 +3198,7 @@ Permalink
 
 **Referenced in:**
 
-- § 3.6 Grouping and Aggregation (2)
+- § 3.6 Grouping and Aggregation
 - § 4.1 Elements of the Abstract Syntax
 - § 6.1 Evaluation Definitions
 - § 6.4 Evaluation of a Rule (2)
@@ -3298,7 +3349,7 @@ Permalink
 **Referenced in:**
 
 - § 3.1 Triple Patterns
-- § 3.5 Assignment and Creating RDF Terms
+- § 3.5 Assignment and Creating RDF Terms (2)
 - § 4.1 Elements of the Abstract Syntax (2) (3) (4) (5)
 - § 4.3 Rule Dependency
 - § 6.4 Evaluation of a Rule

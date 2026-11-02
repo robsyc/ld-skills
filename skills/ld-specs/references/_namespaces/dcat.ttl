@@ -1608,4 +1608,4 @@ dcat:resource a rdf:Property,
         "Questo è il predicate più generale per indicare l'appartenenza di una risorsa a un catalogo. Si raccomanda l'uso di una proprietà più specifica, quando disponibile."@it,
         "Vd. anche: Le sottoproprietà di dcat:resource, in particolare: dcat:dataset, dcat:catalog, dcat:service."@it .
 
-# fetched: 2026-10-26, resources: 52
+# fetched: 2026-11-02, resources: 52

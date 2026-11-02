@@ -3,7 +3,7 @@ title: "What’s New in RDF 1.2"
 source: https://w3c.github.io/rdf-new/spec/
 family: rdf
 version: "1.2"
-fetched: 2026-10-26
+fetched: 2026-11-02
 ---
 
 # What’s New in RDF 1.2

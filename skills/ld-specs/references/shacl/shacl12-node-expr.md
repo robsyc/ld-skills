@@ -4,8 +4,8 @@ source: https://www.w3.org/TR/shacl12-node-expr/
 family: shacl
 version: "1.2"
 status: W3C Working Draft
-spec_date: 2026-10-22
-fetched: 2026-10-26
+spec_date: 2026-10-28
+fetched: 2026-11-02
 ---
 
 # SHACL 1.2 Node Expressions
@@ -3195,6 +3195,7 @@ TEXTUAL DEFINITION
 Let `$expr` be a [value](https://www.w3.org/TR/shacl12-core/#dfn-value) of `sh:expression`.
 For each [value node](https://www.w3.org/TR/shacl12-core/#dfn-value-node) `v` where `evalExpr($expr, data graph, focusNode, {"value": v})` does not return the list consisting of exactly `true` as its [output nodes](https://www.w3.org/TR/shacl12-core/#dfn-output-nodes),
 there is a [validation result](https://www.w3.org/TR/shacl12-core/#dfn-validation-result) that has `v` as its `sh:value` and a [deep copy](https://www.w3.org/TR/shacl12-core/#dfn-deep-copy) of `$expr` in the results graph as its `sh:sourceConstraint`.
+A [failure](https://www.w3.org/TR/shacl12-core/#dfn-failure) *MUST* be produced if the evaluation of `$expr` produces an [evaluation failure](https://www.w3.org/TR/shacl12-core/#dfn-evaluation-failure).
 
 *The remainder of this section is non-normative.*
 
@@ -3348,8 +3349,9 @@ Parameters:
 TEXTUAL DEFINITION
 
 Let `$expr` be a [value](https://www.w3.org/TR/shacl12-core/#dfn-value) of `sh:nodeByExpression`.
-For each [value node](https://www.w3.org/TR/shacl12-core/#dfn-value-node) `v`: perform a [conformance check](https://www.w3.org/TR/shacl12-core/#dfn-conformance-checking) of `v` against each [output node](https://www.w3.org/TR/shacl12-core/#dfn-output-nodes) `s` of `evalExpr($expr, 						data graph, v, {})`. A [failure](https://www.w3.org/TR/shacl12-core/#dfn-failure) *MUST* be produced if the [conformance check](https://www.w3.org/TR/shacl12-core/#dfn-conformance-checking) of `v` against `s` produces a [failure](https://www.w3.org/TR/shacl12-core/#dfn-failure). Otherwise, if `v` does
-not [conform](https://www.w3.org/TR/shacl12-core/#dfn-conform) to `s`, there is a [validation result](https://www.w3.org/TR/shacl12-core/#dfn-validation-result) with `v` as `sh:value` and a [deep copy](https://www.w3.org/TR/shacl12-core/#dfn-deep-copy) of `s` as `sh:sourceConstraint`.
+For each [value node](https://www.w3.org/TR/shacl12-core/#dfn-value-node) `v`: perform a [conformance check](https://www.w3.org/TR/shacl12-core/#dfn-conformance-checking) of `v` against each [output node](https://www.w3.org/TR/shacl12-core/#dfn-output-nodes) `s` of `evalExpr($expr, 						data graph, v, {})`.
+A [failure](https://www.w3.org/TR/shacl12-core/#dfn-failure) *MUST* be produced if the [conformance check](https://www.w3.org/TR/shacl12-core/#dfn-conformance-checking) of `v` against `s` produces a [failure](https://www.w3.org/TR/shacl12-core/#dfn-failure) or if the evaluation of `$expr` produces an [evaluation failure](https://www.w3.org/TR/shacl12-core/#dfn-evaluation-failure).
+Otherwise, if `v` does not [conform](https://www.w3.org/TR/shacl12-core/#dfn-conform) to `s`, there is a [validation result](https://www.w3.org/TR/shacl12-core/#dfn-validation-result) with `v` as `sh:value` and a [deep copy](https://www.w3.org/TR/shacl12-core/#dfn-deep-copy) of `s` as `sh:sourceConstraint`.
 
 *The remainder of this section is non-normative.*
 
@@ -4128,7 +4130,7 @@ Security considerations of SHACL Node Expressions include all the [security cons
 
 [rdf12-turtle]
 
-[RDF 1.2 Turtle](https://www.w3.org/TR/rdf12-turtle/). Gregg Kellogg; Andy Seaborne; Dominik Tomaszuk. W3C. 7 October 2026. W3C Working Draft. URL: <https://www.w3.org/TR/rdf12-turtle/>
+[RDF 1.2 Turtle](https://www.w3.org/TR/rdf12-turtle/). Gregg Kellogg; Andy Seaborne; Dominik Tomaszuk. W3C. 23 October 2026. W3C Working Draft. URL: <https://www.w3.org/TR/rdf12-turtle/>
 
 [RFC2119]
 
@@ -4140,7 +4142,7 @@ Security considerations of SHACL Node Expressions include all the [security cons
 
 [shacl12-core]
 
-[SHACL 1.2 Core](https://www.w3.org/TR/shacl12-core/). Holger Knublauch; Thomas Bergwinkl; Yousouf Taghzouti; Jesse Wright. W3C. 14 October 2026. W3C Working Draft. URL: <https://www.w3.org/TR/shacl12-core/>
+[SHACL 1.2 Core](https://www.w3.org/TR/shacl12-core/). Holger Knublauch; Thomas Bergwinkl; Yousouf Taghzouti; Jesse Wright. W3C. 25 October 2026. W3C Working Draft. URL: <https://www.w3.org/TR/shacl12-core/>
 
 [shacl12-sparql]
 
@@ -4148,7 +4150,7 @@ Security considerations of SHACL Node Expressions include all the [security cons
 
 [sparql12-query]
 
-[SPARQL 1.2 Query Language](https://www.w3.org/TR/sparql12-query/). Olaf Hartig; Andy Seaborne; Ruben Taelman; Gregory Williams; Thomas Pellissier Tanon. W3C. 11 October 2026. W3C Working Draft. URL: <https://www.w3.org/TR/sparql12-query/>
+[SPARQL 1.2 Query Language](https://www.w3.org/TR/sparql12-query/). Olaf Hartig; Andy Seaborne; Ruben Taelman; Gregory Williams; Thomas Pellissier Tanon. W3C. 25 October 2026. W3C Working Draft. URL: <https://www.w3.org/TR/sparql12-query/>
 
 ### F.2 Informative references
 
@@ -4158,7 +4160,7 @@ Security considerations of SHACL Node Expressions include all the [security cons
 
 [shacl12-node-expr]
 
-[SHACL 1.2 Node Expressions](https://www.w3.org/TR/shacl12-node-expr/). Robert David; Holger Knublauch; Simon Steyskal. W3C. 21 July 2026. W3C Working Draft. URL: <https://www.w3.org/TR/shacl12-node-expr/>
+[SHACL 1.2 Node Expressions](https://www.w3.org/TR/shacl12-node-expr/). Robert David; Holger Knublauch; Simon Steyskal. W3C. 22 October 2026. W3C Working Draft. URL: <https://www.w3.org/TR/shacl12-node-expr/>
 
 [shacl12-profiling]
 
@@ -4166,7 +4168,7 @@ Security considerations of SHACL Node Expressions include all the [security cons
 
 [shacl12-ui]
 
-[SHACL 1.2 User Interfaces](https://www.w3.org/TR/shacl12-ui/). Thomas Bergwinkl; Edmond Chuc; Ieben Smessaert; Daniël Beeke. W3C. 26 May 2026. FPWD. URL: <https://www.w3.org/TR/shacl12-ui/>
+[SHACL 1.2 User Interfaces](https://www.w3.org/TR/shacl12-ui/). Edmond Chuc; Thomas Bergwinkl; Ieben Smessaert; Daniël Beeke. W3C. 27 October 2026. W3C Working Draft. URL: <https://www.w3.org/TR/shacl12-ui/>
 
 [sparql12-rl]
 
@@ -4755,6 +4757,8 @@ Permalink
 - § 4.5.3 ConformsToShape Expressions
 - § 5. SPARQL Functions (2) (3) (4) (5)
 - § 6.2 Custom List Parameter Functions (2) (3)
+- § 7.1 sh:expression
+- § 7.2 sh:nodeByExpression
 
 Permalink
 
@@ -4764,6 +4768,7 @@ Permalink
 - § 3.3 Handling of Failures (2) (3) (4) (5)
 - § 3.4 The Shapes Graph
 - § 4.5.3 ConformsToShape Expressions
+- § 7.1 sh:expression
 - § 7.2 sh:nodeByExpression (2)
 
 Permalink

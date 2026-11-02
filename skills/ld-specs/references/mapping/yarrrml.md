@@ -2,7 +2,7 @@
 title: "YARRRML"
 source: https://w3id.org/yarrrml/spec/
 family: mapping
-fetched: 2026-10-26
+fetched: 2026-11-02
 ---
 
 # YARRRML

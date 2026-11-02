@@ -4,7 +4,7 @@ source: https://www.w3.org/TR/vocab-dcat-3/
 family: vocabularies
 status: W3C Recommendation
 spec_date: 2024-08-22
-fetched: 2026-10-26
+fetched: 2026-11-02
 ---
 
 # Data Catalog Vocabulary (DCAT) - Version 3

@@ -3,7 +3,7 @@ title: "SHACL 1.2 User Interfaces"
 source: https://w3c.github.io/data-shapes/shacl12-ui/
 family: shacl
 version: "1.2"
-fetched: 2026-10-26
+fetched: 2026-11-02
 ---
 
 # SHACL 1.2 User Interfaces
@@ -260,6 +260,7 @@ are used:
 
 | Prefix    | Namespace                                     |
 | --------- | --------------------------------------------- |
+| `foaf:`   | `http://xmlns.com/foaf/0.1/`                  |
 | `rdf:`    | `http://www.w3.org/1999/02/22-rdf-syntax-ns#` |
 | `rdfs:`   | `http://www.w3.org/2000/01/rdf-schema#`       |
 | `schema:` | `http://schema.org/`                          |
@@ -267,6 +268,7 @@ are used:
 | `shnex:`  | `http://www.w3.org/ns/shacl-node-expr#`       |
 | `shui:`   | `http://www.w3.org/ns/shacl-ui/`              |
 | `shuic:`  | `http://www.w3.org/ns/shacl-ui-community/`    |
+| `skos:`   | `http://www.w3.org/2004/02/skos/core#`        |
 | `sparql:` | `http://www.w3.org/ns/sparql#`                |
 | `xsd:`    | `http://www.w3.org/2001/XMLSchema#`           |
 | `ex:`     | `http://example.com/ns#`                      |
@@ -277,6 +279,7 @@ Within this specification, the following JSON-LD context is used:
 ```
 {
   "@context": {
+    "foaf": "http://xmlns.com/foaf/0.1/",
     "rdf": "http://www.w3.org/1999/02/22-rdf-syntax-ns#",
     "rdfs": "http://www.w3.org/2000/01/rdf-schema#",
     "schema": "http://schema.org/",
@@ -284,6 +287,7 @@ Within this specification, the following JSON-LD context is used:
     "shnex": "http://www.w3.org/ns/shacl-node-expr#",
     "shui": "http://www.w3.org/ns/shacl-ui/",
     "shuic": "http://www.w3.org/ns/shacl-ui-community/",
+    "skos": "http://www.w3.org/2004/02/skos/core#",
     "sparql": "http://www.w3.org/ns/sparql#",
     "xsd": "http://www.w3.org/2001/XMLSchema#",
     "ex": "http://example.com/ns#",
@@ -2324,10 +2328,12 @@ represent human-readable labels for resources.
 
 When multiple predicates serve the same role in the data but require a defined precedence, the qualified role annotation should be used.
 
-For property shapes annotated with the same role, user interfaces should prefer the shape with the smallest `sh:order` value. If multiple shapes
-share the same role, they must be sorted and processed in ascending order of their `sh:order` values. This use of `sh:order` determines
-the precedence of property shapes for a role, and is unrelated to the presentation order defined in §10.4 Grouping, Ordering, and Layout Hints. In addition, any property shape
-using a qualified role annotation is always preferred over a shape using a direct, unqualified role annotation.
+If multiple property shapes share the same role, they must be sorted in ascending order of their `sh:order` values, and any
+property shape using a qualified role annotation comes before a shape using a direct, unqualified role annotation. For roles that render
+a single value, such as `shui:LabelRole`, this order determines precedence, and user interfaces should prefer the first shape
+that yields a value. For roles that render all values, such as `shui:ClassificationRole`, all shapes contribute, and this order
+only determines the display order of their values. The order of the values within a single shape is left to the implementation.
+In both cases, this use of `sh:order` is unrelated to the presentation order defined in §10.4 Grouping, Ordering, and Layout Hints.
 > **Example:**
 >
 > ex:PrefLabel a sh:PropertyShape ;
@@ -2366,8 +2372,7 @@ should support the triple annotation syntax in addition to the RDF 1.1-compatibl
 
 #### Built-in Property Roles
 
-The following sections define the instances of `shui:PropertyRole` in the SHUI namespace. These property roles MUST be supported
-by SHACL Renderers. Additional property roles may be defined in other namespaces.
+The following sections define the instances of `shui:PropertyRole` in the SHUI namespace. Additional property roles may be defined in other namespaces.
 
 ##### shui:LabelRole
 
@@ -2382,8 +2387,8 @@ When displaying a resource, SHACL Renderers SHOULD apply Label Resolution to the
 
 Properties marked with the property role `shui:DepictionRole` provide images that depict the individual resource, such as a photo of a person.
 Common examples include `schema:image` and `foaf:depiction`. These depictions SHOULD be distinct for each resource.
-Values SHOULD be IRIs, literals with datatype `xsd:anyURI`, or plain
-literals, with a case-insensitive recognized image file extension ending such as `.png`, `.jpg`, `.jpeg`, `.gif`, or `.svg`.
+Values SHOULD be IRIs or literals with datatype `xsd:anyURI` or `xsd:string` that hold the URL of an image,
+with a case-insensitive recognized image file extension ending such as `.png`, `.jpg`, `.jpeg`, `.gif`, or `.svg`.
 
 SHACL Renderers SHOULD render a single depiction for a resource. When multiple values are available, the selection
 of the depiction to render is left to the implementation.
@@ -2467,10 +2472,9 @@ is left to the implementation.
 
 Properties marked with the property role `shui:IconRole` produce small images that may be displayed next to a resource's label,
 for example in the corner of a card or to the left of a label in a tree view. Instances of the same class often share the same icon, which
-may be computed using a `sh:values` rule or supplied via `sh:defaultValue`.
+may be computed using `sh:values` or supplied via `sh:defaultValue`.
 
-Common examples include `schema:logo` and `foaf:logo`. Values SHOULD be IRIs, literals with datatype `xsd:anyURI`, or plain
-literals, with a case-insensitive recognized image file extension ending such as `.png`, `.jpg`, `.jpeg`, `.gif`, or `.svg`.
+Common examples include `schema:logo` and `foaf:logo`. Values SHOULD be IRIs or literals with datatype `xsd:anyURI` or `xsd:string` that hold the URL of an image, with a case-insensitive recognized image file extension ending such as `.png`, `.jpg`, `.jpeg`, `.gif`, or `.svg`.
 
 SHACL Renderers SHOULD render a single icon for a resource.
 

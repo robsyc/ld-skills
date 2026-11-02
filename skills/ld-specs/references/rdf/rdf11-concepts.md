@@ -5,7 +5,7 @@ family: rdf
 version: "1.1"
 status: W3C Recommendation
 spec_date: 2014-02-25
-fetched: 2026-10-26
+fetched: 2026-11-02
 ---
 
 # RDF 1.1 Concepts and Abstract Syntax

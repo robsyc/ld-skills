@@ -3,7 +3,7 @@ title: "RML-star"
 source: https://w3id.org/rml/star/spec
 family: mapping
 spec_date: 2023-05-10
-fetched: 2026-10-26
+fetched: 2026-11-02
 ---
 
 # RML-star

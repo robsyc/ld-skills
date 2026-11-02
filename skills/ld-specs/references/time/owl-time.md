@@ -4,7 +4,7 @@ source: https://www.w3.org/TR/owl-time/
 family: time
 status: W3C Candidate Recommendation
 spec_date: 2022-11-15
-fetched: 2026-10-26
+fetched: 2026-11-02
 ---
 
 # Time Ontology in OWL

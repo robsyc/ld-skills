@@ -4,8 +4,8 @@ source: https://www.w3.org/TR/sparql12-query/
 family: sparql
 version: "1.2"
 status: W3C Working Draft
-spec_date: 2026-10-25
-fetched: 2026-10-26
+spec_date: 2026-11-01
+fetched: 2026-11-02
 ---
 
 # SPARQL 1.2 Query Language
@@ -7649,7 +7649,7 @@ ppeval(X:var, ZeroOrOnePath(ppe), Y:term) =
 
 ```
 ppeval(X:term, ZeroOrOnePath(ppe), Y:term) =
-    { {} } if X = Y or ppeval(X,ppe,X) is not empty
+    { {} } if X = Y or ppeval(X,ppe,Y) is not empty
     { } otherwise
 ```
 
@@ -9503,11 +9503,11 @@ TODO
 
 [SPARQL12-Query]
 
-[SPARQL 1.2 Query Language](https://www.w3.org/TR/sparql12-query/). Olaf Hartig; Andy Seaborne; Ruben Taelman; Gregory Williams; Thomas Pellissier Tanon. W3C. 11 October 2026. W3C Working Draft. URL: <https://www.w3.org/TR/sparql12-query/>
+[SPARQL 1.2 Query Language](https://www.w3.org/TR/sparql12-query/). Olaf Hartig; Andy Seaborne; Ruben Taelman; Gregory Williams; Thomas Pellissier Tanon. W3C. 25 October 2026. W3C Working Draft. URL: <https://www.w3.org/TR/sparql12-query/>
 
 [SPARQL12-Update]
 
-[SPARQL 1.2 Update](https://www.w3.org/TR/sparql12-update/). Ruben Taelman; Andy Seaborne; Thomas Pellissier Tanon. W3C. 12 October 2026. W3C Working Draft. URL: <https://www.w3.org/TR/sparql12-update/>
+[SPARQL 1.2 Update](https://www.w3.org/TR/sparql12-update/). Ruben Taelman; Andy Seaborne; Thomas Pellissier Tanon. W3C. 25 October 2026. W3C Working Draft. URL: <https://www.w3.org/TR/sparql12-update/>
 
 [TURTLE]
 
@@ -9601,7 +9601,7 @@ TODO
 
 [SPARQL12-SERVICE-DESCRIPTION]
 
-[SPARQL 1.2 Service Description](https://www.w3.org/TR/sparql12-service-description/). Ruben Taelman; Gregory Williams. W3C. 23 April 2026. W3C Working Draft. URL: <https://www.w3.org/TR/sparql12-service-description/>
+[SPARQL 1.2 Service Description](https://www.w3.org/TR/sparql12-service-description/). Ruben Taelman; Gregory Williams. W3C. 29 October 2026. W3C Working Draft. URL: <https://www.w3.org/TR/sparql12-service-description/>
 
 Permalink
 

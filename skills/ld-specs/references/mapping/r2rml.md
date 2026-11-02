@@ -4,7 +4,7 @@ source: https://www.w3.org/TR/r2rml/
 family: mapping
 status: W3C Recommendation
 spec_date: 2012-09-27
-fetched: 2026-10-26
+fetched: 2026-11-02
 ---
 
 # R2RML: RDB to RDF Mapping Language

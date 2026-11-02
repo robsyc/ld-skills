@@ -4,8 +4,8 @@ source: https://www.w3.org/TR/shacl12-core/
 family: shacl
 version: "1.2"
 status: W3C Working Draft
-spec_date: 2026-10-25
-fetched: 2026-10-26
+spec_date: 2026-10-30
+fetched: 2026-11-02
 ---
 
 # SHACL 1.2 Core
@@ -1233,9 +1233,6 @@ into the results graph.
 
 In addition to declaring messages per shape, the property `sh:message` can also be used
 on a [reifier](https://www.w3.org/TR/rdf12-concepts/#dfn-reifier) for a triple where the shape is the [subject](https://www.w3.org/TR/rdf12-concepts/#dfn-subject) and one of the parameters of the constraint is the [predicate](https://www.w3.org/TR/rdf12-concepts/#dfn-predicate).
-
-Let `T` be the set of [triples](https://www.w3.org/TR/rdf12-concepts/#dfn-rdf-triple) that represent a constraint in a shape.
-A shapes graph can specify at most one value for the property `sh:message` in the [reifiers](https://www.w3.org/TR/rdf12-concepts/#dfn-reifier) of the [triples](https://www.w3.org/TR/rdf12-concepts/#dfn-rdf-triple) in `T`.
 
 *The remainder of this section is non-normative.*
 
@@ -4861,7 +4858,6 @@ A few rules, such as those for `sh:incomplete` and `sh:incompleteURIStart`, appl
 | severity-nodeKind                                         | Each value of `sh:severity` is an [IRI](https://www.w3.org/TR/rdf12-concepts/#dfn-iri).                                                                                                                  |
 | severity-reifier-maxCount                         | Let `T` be the set of [triples](https://www.w3.org/TR/rdf12-concepts/#dfn-rdf-triple) that represent a constraint in a shape. A shapes graph can specify at most one value for the property `sh:severity` in the [reifiers](https://www.w3.org/TR/rdf12-concepts/#dfn-reifier) of the [triples](https://www.w3.org/TR/rdf12-concepts/#dfn-rdf-triple) in `T`. |
 | message-datatype                                           | The values of `sh:message xsd:string` are [literals](https://www.w3.org/TR/rdf12-concepts/#dfn-rdf-literal) with [datatype](https://www.w3.org/TR/rdf12-concepts/#dfn-datatype), `rdf:dirLangString`, `rdf:langString`, or `rdf:HTML`. |
-| message-reifier-maxCount                           | Let `T` be the set of [triples](https://www.w3.org/TR/rdf12-concepts/#dfn-rdf-triple) that represent a constraint in a shape. A shapes graph can specify at most one value for the property `sh:message` in the [reifiers](https://www.w3.org/TR/rdf12-concepts/#dfn-reifier) of the [triples](https://www.w3.org/TR/rdf12-concepts/#dfn-rdf-triple) in `T`. |
 | deactivated-maxCount                                   | Shapes can have at most one value for the property `sh:deactivated`.                                                                                                                                     |
 | deactivated-datatype                                   | The value of `sh:deactivated` is a node expression that must have either `true` or `false` as the (only) output node. |
 | deactivated-reifier-maxCount                   | A [triple](https://www.w3.org/TR/rdf12-concepts/#dfn-rdf-triple) that has a shape as [subject](https://www.w3.org/TR/rdf12-concepts/#dfn-subject), a parameter (such as `sh:minCount`) as [predicate](https://www.w3.org/TR/rdf12-concepts/#dfn-predicate) can have at most one [reifier](https://www.w3.org/TR/rdf12-concepts/#dfn-reifier) with a value for the property `sh:deactivated`. |
@@ -5237,7 +5233,7 @@ and verified RDF sources and eliminating the possibility that graphs are dynamic
 
 [shacl12-node-expr]
 
-[SHACL 1.2 Node Expressions](https://www.w3.org/TR/shacl12-node-expr/). Robert David; Holger Knublauch; Simon Steyskal. W3C. 22 October 2026. W3C Working Draft. URL: <https://www.w3.org/TR/shacl12-node-expr/>
+[SHACL 1.2 Node Expressions](https://www.w3.org/TR/shacl12-node-expr/). Robert David; Holger Knublauch; Simon Steyskal. W3C. 28 October 2026. W3C Working Draft. URL: <https://www.w3.org/TR/shacl12-node-expr/>
 
 [shacl12-profiling]
 
@@ -5271,11 +5267,11 @@ and verified RDF sources and eliminating the possibility that graphs are dynamic
 
 [shacl12-core]
 
-[SHACL 1.2 Core](https://www.w3.org/TR/shacl12-core/). Holger Knublauch; Thomas Bergwinkl; Yousouf Taghzouti; Jesse Wright. W3C. 14 October 2026. W3C Working Draft. URL: <https://www.w3.org/TR/shacl12-core/>
+[SHACL 1.2 Core](https://www.w3.org/TR/shacl12-core/). Holger Knublauch; Thomas Bergwinkl; Yousouf Taghzouti; Jesse Wright. W3C. 25 October 2026. W3C Working Draft. URL: <https://www.w3.org/TR/shacl12-core/>
 
 [shacl12-inference-rules]
 
-[SHACL 1.2 Inference Rules](https://www.w3.org/TR/shacl12-inference-rules/). Holger Knublauch; Simon Steyskal; Scott Henninger; Livio Robaldo; Matt Goldberg. W3C. 17 September 2026. FPWD. URL: <https://www.w3.org/TR/shacl12-inference-rules/>
+[SHACL 1.2 Inference Rules](https://www.w3.org/TR/shacl12-inference-rules/). Holger Knublauch; Matt Goldberg; Scott Henninger; Livio Robaldo; Simon Steyskal. W3C. 28 October 2026. W3C Working Draft. URL: <https://www.w3.org/TR/shacl12-inference-rules/>
 
 [shacl12-overview]
 
@@ -5283,7 +5279,7 @@ and verified RDF sources and eliminating the possibility that graphs are dynamic
 
 [shacl12-ui]
 
-[SHACL 1.2 User Interfaces](https://www.w3.org/TR/shacl12-ui/). Thomas Bergwinkl; Edmond Chuc; Ieben Smessaert; Daniël Beeke. W3C. 26 May 2026. FPWD. URL: <https://www.w3.org/TR/shacl12-ui/>
+[SHACL 1.2 User Interfaces](https://www.w3.org/TR/shacl12-ui/). Edmond Chuc; Thomas Bergwinkl; Ieben Smessaert; Daniël Beeke. W3C. 27 October 2026. W3C Working Draft. URL: <https://www.w3.org/TR/shacl12-ui/>
 
 [sparql12-rl]
 
@@ -5317,7 +5313,6 @@ Permalink
 - § 3.1.3.6 Where Targets (sh:targetWhere)
 - § 3.1.3.7 Explicit shape targets (sh:shape) (2)
 - § 3.1.4 Declaring the Severity of a Shape or Constraint (2)
-- § 3.1.5 Declaring Messages for a Shape or Constraint
 - § 3.1.6 Deactivating Shapes and Constraints (2) (3)
 - § 3.2 Node Shapes
 - § 3.3 Property Shapes (2) (3) (4) (5) (6) (7) (8) (9)
@@ -5359,7 +5354,7 @@ Permalink
 - § 8.5 sh:codeType
 - § 8.6 sh:unit
 - § 8.7 sh:order
-- § A. Summary of SHACL Syntax Rules (2) (3) (4) (5) (6) (7) (8) (9) (10) (11) (12) (13) (14) (15) (16) (17) (18) (19) (20) (21) (22) (23) (24) (25) (26) (27) (28)
+- § A. Summary of SHACL Syntax Rules (2) (3) (4) (5) (6) (7) (8) (9) (10) (11) (12) (13) (14) (15) (16) (17) (18) (19) (20) (21) (22) (23) (24) (25) (26) (27)
 - § C. Summary of SHACL Core Validators (2) (3) (4) (5) (6) (7) (8) (9) (10) (11) (12) (13) (14) (15) (16) (17) (18) (19) (20) (21) (22) (23) (24) (25) (26)
 
 Permalink
@@ -5541,7 +5536,7 @@ Permalink
 - § 3.1.3.6 Where Targets (sh:targetWhere)
 - § 3.1.3.7 Explicit shape targets (sh:shape)
 - § 3.1.4 Declaring the Severity of a Shape or Constraint (2)
-- § 3.1.5 Declaring Messages for a Shape or Constraint (2)
+- § 3.1.5 Declaring Messages for a Shape or Constraint
 - § 3.1.6 Deactivating Shapes and Constraints (2) (3)
 - § 3.2 Node Shapes
 - § 3.3 Property Shapes
@@ -5560,7 +5555,7 @@ Permalink
 - § 7.8.3 sh:someValue (2) (3)
 - § 7.8.4 sh:qualifiedValueShape, sh:qualifiedMinCount, sh:qualifiedMaxCount (2) (3) (4)
 - § 7.9.5 sh:uniqueValuesFor (2) (3)
-- § A. Summary of SHACL Syntax Rules (2) (3) (4) (5) (6) (7) (8) (9) (10) (11) (12)
+- § A. Summary of SHACL Syntax Rules (2) (3) (4) (5) (6) (7) (8) (9) (10) (11)
 - § C. Summary of SHACL Core Validators (2)
 
 Permalink
@@ -5616,12 +5611,12 @@ Permalink
 - § 3.1.1 Constraints, Parameters and Constraint Components (2) (3) (4)
 - § 3.1.2 Focus Nodes
 - § 3.1.4 Declaring the Severity of a Shape or Constraint (2)
-- § 3.1.5 Declaring Messages for a Shape or Constraint (2)
+- § 3.1.5 Declaring Messages for a Shape or Constraint
 - § 6.7 Validation (2) (3)
 - § 6.9.2.8 Severity (sh:resultSeverity)
 - § 7.8.2 sh:property
 - § 8.5 sh:codeType
-- § A. Summary of SHACL Syntax Rules (2)
+- § A. Summary of SHACL Syntax Rules
 
 Permalink
 
@@ -5995,7 +5990,6 @@ Permalink
 - § 3.1.3.3 Implicit Class Targets and sh:ShapeClass (2) (3) (4)
 - § 3.1.3.7 Explicit shape targets (sh:shape) (2)
 - § 3.1.4 Declaring the Severity of a Shape or Constraint (2)
-- § 3.1.5 Declaring Messages for a Shape or Constraint
 - § 3.1.6 Deactivating Shapes and Constraints
 - § 3.2 Node Shapes
 - § 3.3 Property Shapes
@@ -6021,7 +6015,7 @@ Permalink
 - § 7.6.5 sh:lessThanOrEquals
 - § 7.8.2 sh:property
 - § 7.8.4 sh:qualifiedValueShape, sh:qualifiedMinCount, sh:qualifiedMaxCount
-- § A. Summary of SHACL Syntax Rules (2) (3) (4) (5) (6)
+- § A. Summary of SHACL Syntax Rules (2) (3) (4) (5)
 - § C. Summary of SHACL Core Validators (2) (3) (4) (5)
 
 Permalink
@@ -6618,7 +6612,6 @@ Permalink
 - § 3.1.3.4 Subjects-of targets (sh:targetSubjectsOf)
 - § 3.1.3.5 Objects-of targets (sh:targetObjectsOf)
 - § 3.1.4 Declaring the Severity of a Shape or Constraint (2)
-- § 3.1.5 Declaring Messages for a Shape or Constraint (2)
 - § 3.1.6 Deactivating Shapes and Constraints (2) (3)
 - § 3.2 Node Shapes
 - § 3.3 Property Shapes
@@ -6634,7 +6627,7 @@ Permalink
 - § 7.8.5 sh:reifierShape, sh:reificationRequired
 - § 7.9.1 sh:closed, sh:ignoredProperties
 - § 8.2 sh:intent
-- § A. Summary of SHACL Syntax Rules (2) (3) (4) (5) (6) (7) (8) (9) (10) (11)
+- § A. Summary of SHACL Syntax Rules (2) (3) (4) (5) (6) (7) (8) (9)
 - § C. Summary of SHACL Core Validators (2)
 
 Permalink
@@ -6643,11 +6636,11 @@ Permalink
 
 - § 1.1 Terminology
 - § 3.1.4 Declaring the Severity of a Shape or Constraint (2)
-- § 3.1.5 Declaring Messages for a Shape or Constraint (2)
+- § 3.1.5 Declaring Messages for a Shape or Constraint
 - § 3.1.6 Deactivating Shapes and Constraints (2)
 - § 6.9.2.8 Severity (sh:resultSeverity)
 - § 7.8.5 sh:reifierShape, sh:reificationRequired
-- § A. Summary of SHACL Syntax Rules (2) (3)
+- § A. Summary of SHACL Syntax Rules (2)
 
 Permalink
 

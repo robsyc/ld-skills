@@ -3,7 +3,7 @@ title: "SKOS Simple Knowledge Organization System Primer"
 source: https://www.w3.org/TR/skos-primer/
 family: skos
 spec_date: 2009-08-18
-fetched: 2026-10-26
+fetched: 2026-11-02
 ---
 
 # SKOS Simple Knowledge Organization System Primer

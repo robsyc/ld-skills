@@ -155,4 +155,4 @@ rdf: a owl:Ontology ;
     dc:description "This is the RDF Schema for the RDF vocabulary terms in the RDF Namespace, defined in RDF 1.1 Concepts." ;
     dc:title "The RDF Concepts Vocabulary (RDF)" .
 
-# fetched: 2026-10-26, resources: 22
+# fetched: 2026-11-02, resources: 22

@@ -4,7 +4,7 @@ source: https://www.w3.org/TR/rdfa-core/
 family: web
 status: W3C Recommendation
 spec_date: 2015-03-17
-fetched: 2026-10-26
+fetched: 2026-11-02
 ---
 
 # RDFa Core 1.1 - Third Edition
