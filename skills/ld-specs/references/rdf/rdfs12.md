@@ -5,7 +5,7 @@ family: rdf
 version: "1.2"
 status: W3C Working Draft
 spec_date: 2026-10-23
-fetched: 2026-11-02
+fetched: 2026-11-09
 ---
 
 # RDF 1.2 Schema
@@ -496,8 +496,6 @@ identified by a datatype IRI [RDF12-CONCEPTS].
 
 RDF 1.2 recognizes both RDF‑native datatypes (e.g., `rdf:langString`, `rdf:dirLangString`, `rdf:HTML`, `rdf:XMLLiteral`, `rdf:JSON`) and the RDF‑compatible subset of XML Schema 1.1
 datatypes, which are enumerated below.
-
-[https://www.w3.org/TR/rdf12-schema/datatypes.svg](https://www.w3.org/TR/rdf12-schema/datatypes.svg)
 
 *Figure 1 Built-in datatypes hierarchy illustrating the relationships among primitive and derived data types defined in XML Schema and RDF.*
 

@@ -2,7 +2,7 @@
 title: "OGC GeoSPARQL - A Geographic Query Language for RDF Data"
 source: https://docs.ogc.org/is/22-047r1/22-047r1.html
 family: vocabularies
-fetched: 2026-11-02
+fetched: 2026-11-09
 ---
 
 # OGC GeoSPARQL - A Geographic Query Language for RDF Data

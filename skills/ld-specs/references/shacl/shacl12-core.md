@@ -4,8 +4,8 @@ source: https://www.w3.org/TR/shacl12-core/
 family: shacl
 version: "1.2"
 status: W3C Working Draft
-spec_date: 2026-10-30
-fetched: 2026-11-02
+spec_date: 2026-11-02
+fetched: 2026-11-09
 ---
 
 # SHACL 1.2 Core
@@ -66,79 +66,39 @@ fetched: 2026-11-02
   - 6.9 Validation Report
     - 6.9.1 Validation Report (sh:ValidationReport)
     - 6.9.2 Validation Result (sh:ValidationResult)
-    - 6.9.3 Incomplete Data
-  - 6.10 Value Nodes
-    - 6.10.1 Value Nodes of Node Shapes
-    - 6.10.2 Value Nodes of Property Shapes
-- 7 Core Constraint Components
-  - 7.1 Value Type Constraint Components
-    - 7.1.1 sh:class
-    - 7.1.2 sh:datatype
-    - 7.1.3 sh:nodeKind
-  - 7.2 Cardinality Constraint Components
-    - 7.2.1 sh:minCount
-    - 7.2.2 sh:maxCount
-  - 7.3 Value Range Constraint Components
-    - 7.3.1 sh:minExclusive
-    - 7.3.2 sh:minInclusive
-    - 7.3.3 sh:maxExclusive
-    - 7.3.4 sh:maxInclusive
-  - 7.4 String-based Constraint Components
-    - 7.4.1 sh:minLength
-    - 7.4.2 sh:maxLength
-    - 7.4.3 sh:pattern
-    - 7.4.4 sh:singleLine
-    - 7.4.5 sh:languageIn
-    - 7.4.6 sh:uniqueLang
-  - 7.5 List Constraint Components
-    - 7.5.1 sh:memberShape
-    - 7.5.2 sh:minListLength
-    - 7.5.3 sh:maxListLength
-    - 7.5.4 sh:uniqueMembers
-  - 7.6 Property Pair Constraint Components
-    - 7.6.1 sh:equals
-    - 7.6.2 sh:disjoint
-    - 7.6.3 sh:subsetOf
-    - 7.6.4 sh:lessThan
-    - 7.6.5 sh:lessThanOrEquals
-  - 7.7 Logical Constraint Components
-    - 7.7.1 sh:not
-    - 7.7.2 sh:and
-    - 7.7.3 sh:or
-    - 7.7.4 sh:xone
-  - 7.8 Shape-based Constraint Components
-    - 7.8.1 sh:node
-    - 7.8.2 sh:property
-    - 7.8.3 sh:someValue
-    - 7.8.4 sh:qualifiedValueShape, sh:qualifiedMinCount, sh:qualifiedMaxCount
-    - 7.8.5 sh:reifierShape, sh:reificationRequired
-  - 7.9 Other Constraint Components
-    - 7.9.1 sh:closed, sh:ignoredProperties
-    - 7.9.2 sh:hasValue
-    - 7.9.3 sh:in
-    - 7.9.4 sh:rootClass
-    - 7.9.5 sh:uniqueValuesFor
-- 8 Non-Validating Shape Characteristics
-  - 8.1 sh:name and sh:description
-  - 8.2 sh:intent
-  - 8.3 sh:agentInstruction
-  - 8.4 sh:codeIdentifier
-  - 8.5 sh:codeType
-  - 8.6 sh:unit
-  - 8.7 sh:order
-  - 8.8 sh:group
-- 9 Appendix
-- A Summary of SHACL Syntax Rules
-- B SHACL Shapes to Validate Shapes Graphs
-- C Summary of SHACL Core Validators
-- D Security and Privacy Considerations
-- E Index
-  - E.1 Terms defined by this specification
-  - E.2 Terms defined by reference
-- G Changes between the original SHACL Core and SHACL 1.2 Core
-- H References
-  - H.1 Normative references
-  - H.2 Informative references
+    - 6.9.3 Validation Details (sh:ShapeAssignment)
+    - 6.9.4 Value Nodes
+  - 6.10 Core Constraint Components
+    - 6.10.1 Value Type Constraint Components
+    - 6.10.2 Cardinality Constraint Components
+    - 6.10.3 Value Range Constraint Components
+    - 6.10.4 String-based Constraint Components
+    - 6.10.5 List Constraint Components
+    - 6.10.6 Property Pair Constraint Components
+    - 6.10.7 Logical Constraint Components
+    - 6.10.8 Shape-based Constraint Components
+    - 6.10.9 Other Constraint Components
+  - 6.11 Non-Validating Shape Characteristics
+    - 6.11.1 sh:name and sh:description
+    - 6.11.2 sh:intent
+    - 6.11.3 sh:agentInstruction
+    - 6.11.4 sh:codeIdentifier
+    - 6.11.5 sh:codeType
+    - 6.11.6 sh:unit
+    - 6.11.7 sh:order
+    - 6.11.8 sh:group
+- 6.12 Appendix
+  - 6.12 Summary of SHACL Syntax Rules
+  - 6.13 SHACL Shapes to Validate Shapes Graphs
+  - 6.14 Summary of SHACL Core Validators
+  - 6.15 Security and Privacy Considerations
+  - 6.16 Index
+    - 6.16.1 Terms defined by this specification
+    - 6.16.2 Terms defined by reference
+  - 6.18 Changes between the original SHACL Core and SHACL 1.2 Core
+- A References
+  - A.1 Normative references
+  - A.2 Informative references
 
 ---
 
@@ -223,7 +183,7 @@ The introduction includes a §1.1 Terminology section.
 
 5. Node Expressions (§5) introduces node expressions, while 6. Validation and Graphs (§6) defines validation in SHACL.
 
-7. Core Constraint Components (§7) defines the built-in SHACL Core constraint components, and 8. Non-Validating Shape Characteristics (§8) discusses non-validating properties.
+6.10 Core Constraint Components (§6.10) defines the built-in SHACL Core constraint components, and 6.11 Non-Validating Shape Characteristics (§6.11) discusses non-validating properties.
 
 The syntax of SHACL is RDF.
 The examples in this document use Turtle [rdf12-turtle] and JSON-LD [json-ld].
@@ -413,7 +373,7 @@ This specification describes conformance criteria for:
 
 This document includes syntactic rules that shapes and other nodes need to fulfill in the shapes graph (and, for a few properties such as `sh:shapesGraph`, in the data graph).
 These rules are typically of the form *A shape must have...* or *The values of X are literals* or *All objects of triples with predicate P must be IRIs*.
-The complete list of these rules can be found in the appendix (§A).
+The complete list of these rules can be found in the appendix (§6.12).
 Nodes that violate any of these rules are called *ill-formed*.
 Nodes that violate none of these rules are called *well-formed*.
 
@@ -692,7 +652,7 @@ sh:targetObjectsOf (§3.1.3.5) : rdf:Property
 
 sh:targetSubjectsOf (§3.1.3.4) : rdf:Property
 
-sh:name (§8.1) : xsd:string or rdf:dirLangString or rdf:langString
+sh:name (§6.11.1) : xsd:string or rdf:dirLangString or rdf:langString
 
 sh:description : text
 
@@ -708,31 +668,31 @@ sh:NodeShape (§3.2)
 
 **Constraint parameters (§3.1.1)**, for example:
 
-sh:closed (§7.9.1) : xsd:boolean or sh:ByTypes
+sh:closed (§6.10.9.1) : xsd:boolean or sh:ByTypes
 
-§7.7.3 sh:or, §7.7.2 sh:and, §7.7.4 sh:xone : rdf:List
+§6.10.7.3 sh:or, §6.10.7.2 sh:and, §6.10.7.4 sh:xone : rdf:List
 
-§7.7.1 sh:not : sh:Shape
+§6.10.7.1 sh:not : sh:Shape
 
-§7.8.2 sh:property : sh:PropertyShape
+§6.10.8.2 sh:property : sh:PropertyShape
 
 sh:PropertyShape (§3.3)
 
 **Constraint parameters (§3.1.1)**, for example:
 
-§7.2.1 sh:minCount, §7.2.2 sh:maxCount : xsd:integer
+§6.10.2.1 sh:minCount, §6.10.2.2 sh:maxCount : xsd:integer
 
-§7.4.1 sh:minLength, §7.4.2 sh:maxLength : xsd:integer
+§6.10.4.1 sh:minLength, §6.10.4.2 sh:maxLength : xsd:integer
 
-§7.1.1 sh:class, §7.1.2 sh:datatype : rdfs:Resource or rdf:List of rdfs:Resources
+§6.10.1.1 sh:class, §6.10.1.2 sh:datatype : rdfs:Resource or rdf:List of rdfs:Resources
 
-§7.8.1 sh:node : sh:NodeShape
+§6.10.8.1 sh:node : sh:NodeShape
 
 sh:defaultValue : any
 
 sh:values : any
 
-§8.8 sh:group : sh:PropertyGroup
+§6.11.8 sh:group : sh:PropertyGroup
 
 sh:path (§3.3) : rdfs:Resource
 
@@ -749,7 +709,7 @@ A *shape* is an [IRI](https://www.w3.org/TR/rdf12-concepts/#dfn-iri) or [blank n
   or a member of a SHACL list that is a value of a shape-expecting and list-taking parameter such as `sh:or`.
 
 Note that the definition above does not include all of the syntax rules of well-formed shapes.
-Those are found throughout the document and summarized in Appendix A. Summary of SHACL Syntax Rules (§A).
+Those are found throughout the document and summarized in Appendix 6.12 Summary of SHACL Syntax Rules (§6.12).
 For example, shapes that have [literals](https://www.w3.org/TR/rdf12-concepts/#dfn-rdf-literal) as values for `sh:targetClass` are ill-formed.
 
 Informally, a shape determines how to validate a focus node based on the values of properties and other characteristics of the focus node.
@@ -780,7 +740,7 @@ a shape `s` in a shapes graph `SG` *declares* a *constraint* that has *kind* `C`
 For constraint components with optional parameters, the constraint declaration consists of the values that the shape has for all mandatory and optional parameters of that component.
 
 Some constraint components declare only a single parameter.
-For example `sh:ClassConstraintComponent` (§7.1.1) has the single parameter `sh:class`.
+For example `sh:ClassConstraintComponent` (§6.10.1.1) has the single parameter `sh:class`.
 These parameters may be used multiple times in the same shape,
 and each value of such a parameter declares an individual constraint.
 The interpretation of such declarations is conjunction, i.e. all constraints apply.
@@ -800,7 +760,7 @@ The following example specifies that the values of `ex:customer` have to be SHAC
 > sh:class ex:Person ;
 > .
 
-Some constraint components such as `sh:PatternConstraintComponent` (§7.4.3) declare more than one parameter.
+Some constraint components such as `sh:PatternConstraintComponent` (§6.10.4.3) declare more than one parameter.
 Shapes that have more than one value for any of the parameters of such components are ill-formed.
 
 One way to bypass this syntax rule is to spread the constraints across multiple (property) shapes, as illustrated in the following example.
@@ -826,7 +786,7 @@ Validating an [RDF term](https://www.w3.org/TR/rdf12-concepts/#dfn-rdf-term) aga
 shape has values for all mandatory parameters of the component of the constraint,
 using the validators associated with the respective component.
 
-The list of constraint components included in SHACL Core is described in 7. Core Constraint Components (§7).
+The list of constraint components included in SHACL Core is described in 6.10 Core Constraint Components (§6.10).
 SHACL-SPARQL can be used to declare additional [constraint components based on SPARQL](https://www.w3.org/TR/shacl12-sparql/#sparql-constraint-components).
 
 ##### 3.1.2 Focus Nodes
@@ -1345,7 +1305,7 @@ A property shape has at most one value for the property `sh:values` and this val
 Informally, property shapes specify constraints that need to be met with respect to the [nodes](https://www.w3.org/TR/rdf12-concepts/#dfn-rdf-node) that can be reached from the focus node by following the property or other SHACL property path specified using `sh:path`,
 together with the nodes produced by evaluating the node expression specified using `sh:values`.
 If there are no such nodes, the node expression specified using `sh:defaultValue` is evaluated instead.
-See 6.10.2 Value Nodes of Property Shapes (§6.10.2) for the exact definition.
+See 6.9.4.2 Value Nodes of Property Shapes (§6.9.4.2) for the exact definition.
 
 Note that SHACL Core only defines constant node expressions ([IRIs](https://www.w3.org/TR/rdf12-concepts/#dfn-iri) and [literals](https://www.w3.org/TR/rdf12-concepts/#dfn-rdf-literal)),
 so that in SHACL Core, `sh:values` and `sh:defaultValue` can only produce constant values.
@@ -1729,7 +1689,7 @@ A results graph *MUST* contain a validation report and *MAY* contain other eleme
 
 #### 6.4 Graph for rdfs:subClassOf Triples
 
-Some features of SHACL (such as 7.1.1 sh:class (§7.1.1), 3.1.3.2 Class-based Targets (sh:targetClass) (§3.1.3.2), and 3.1.3.3 Implicit Class Targets and sh:ShapeClass (§3.1.3.3)) rely on the notion
+Some features of SHACL (such as 6.10.1.1 sh:class (§6.10.1.1), 3.1.3.2 Class-based Targets (sh:targetClass) (§3.1.3.2), and 3.1.3.3 Implicit Class Targets and sh:ShapeClass (§3.1.3.3)) rely on the notion
 of SHACL type to determine whether a [node](https://www.w3.org/TR/rdf12-concepts/#dfn-rdf-node) is a SHACL instance of a given class.
 By default, this is determined by looking up `rdfs:subClassOf` and `rdf:type` [triples](https://www.w3.org/TR/rdf12-concepts/#dfn-rdf-triple) in the data graph.
 However, this is insufficient in some cases, as `rdfs:subClassOf` triples are often stored as part
@@ -1816,25 +1776,25 @@ See also 6.9.1.4 Syntax Checking of Shapes Graph (sh:shapesGraphWellFormed) (§6
 
 The following properties are the so-called *shape-expecting constraint parameters* in SHACL Core:
 
-- §7.7.2 sh:and
-- §7.7.1 sh:not
-- §7.7.3 sh:or
-- §7.8.2 sh:property
-- sh:qualifiedValueShape (§7.8.4)
-- §7.8.1 sh:node
-- §7.5.1 sh:memberShape
-- sh:reifierShape (§7.8.5)
-- §7.8.3 sh:someValue
-- §7.7.4 sh:xone
+- §6.10.7.2 sh:and
+- §6.10.7.1 sh:not
+- §6.10.7.3 sh:or
+- §6.10.8.2 sh:property
+- sh:qualifiedValueShape (§6.10.8.4)
+- §6.10.8.1 sh:node
+- §6.10.5.1 sh:memberShape
+- sh:reifierShape (§6.10.8.5)
+- §6.10.8.3 sh:someValue
+- §6.10.7.4 sh:xone
 
 The following properties are the so-called *list-taking constraint parameters* in SHACL Core:
 
-- §7.7.2 sh:and
-- sh:ignoredProperties (§7.9.1)
-- §7.9.3 sh:in
-- §7.4.5 sh:languageIn
-- §7.7.3 sh:or
-- §7.7.4 sh:xone
+- §6.10.7.2 sh:and
+- sh:ignoredProperties (§6.10.9.1)
+- §6.10.9.3 sh:in
+- §6.10.4.5 sh:languageIn
+- §6.10.7.3 sh:or
+- §6.10.7.4 sh:xone
 
 In addition, `sh:class`, `sh:datatype`, `sh:nodeKind`, `sh:rootClass` and `sh:uniqueValuesFor` are list-taking constraint parameters when their value is a SHACL list.
 
@@ -1948,6 +1908,22 @@ Note that the specific value of `sh:resultMessage` is not mandated by SHACL and 
 > ]
 > ] .
 
+A validation report *MAY* optionally provide information on shape assignments to focus nodes.
+The following graph represents an example of a validation report for the validation of a data graph that provides shape assignment information.
+> **Example:**
+>
+> Example 28: Example of a validation report providing shape assignment information
+>
+> [ a sh:ValidationReport ;
+> sh:conforms true ;
+> sh:nodeAssignmentCount 1 ;
+> sh:assignment [
+> a sh:ShapeAssignment ;
+> sh:focusNode ex:Bob ;
+> sh:sourceShape ex:PersonShape-age ;
+> ]
+> ] .
+
 SHACL-compliant processors *MAY* be capable of returning a results graph containing a validation report linked to additional items described in [SHACL 1.2 Profiling's vocabulary](https://www.w3.org/TR/shacl12-profiling/#vocabulary).
 
 ##### 6.9.1 Validation Report (sh:ValidationReport)
@@ -2028,6 +2004,20 @@ The properties of `sh:ProcessorConfiguration` instances are not defined by this 
 > Implementations are free to define whatever properties they need on instances of this class, such as processor name, processor version,
 > maximum recursion depth, or other runtime parameters.
 
+###### 6.9.1.9 Node Assignment Count (sh:nodeAssignmentCount)
+
+A validation report *MAY* contain one value for the property `sh:nodeAssignmentCount`.
+The value *MUST* be equal to the total number of shape assignments of a shape to a focus node declared or produced by a target declaration (§3.1.3).
+
+For example, target declarations of `sh:targetNode` (§3.1.3.1) directly specify the target nodes,
+whereas the target nodes of a `sh:targetClass` (§3.1.3.2) target declaration are the SHACL instances of the specified class.
+
+###### 6.9.1.10 Assignment (sh:assignment)
+
+A validation report *MAY* contain values for the property `sh:assignment`.
+If it does, it *MUST* provide one value for every pair of shape and focus node declared or produced by a target declaration (§3.1.3).
+Each value of `sh:assignment` is a SHACL instance of the class `sh:ShapeAssignment`.
+
 ##### 6.9.2 Validation Result (sh:ValidationResult)
 
 SHACL defines `sh:ValidationResult` as a subclass of `sh:AbstractResult` to report individual SHACL validation results.
@@ -2092,7 +2082,12 @@ The value is determined by the following rules (in order):
 2. the value of `sh:severity` (§3.1.4) of the shape in the shapes graph that caused the result
 3. defaulting to `sh:Violation` if no `sh:severity` has been specified for the shape or constraint.
 
-##### 6.9.3 Incomplete Data
+##### 6.9.3 Validation Details (sh:ShapeAssignment)
+
+SHACL defines `sh:ShapeAssignment` to report individual assigmments of a focus node to a shape.
+Each instance of `sh:ShapeAssignment` *MUST* have exactly one value for the property `sh:focusNode` and exactly one value for the property `sh:sourceShape`. `sh:ShapeAssignment` is disjoint with `sh:ValidationResult`.
+
+###### 6.9.3.1 Incomplete Data
 
 A data graph may intentionally contain only part of the information about some of its [nodes](https://www.w3.org/TR/rdf12-concepts/#dfn-rdf-node),
 for example when it links to "external" resources that are outside of the domain of interest,
@@ -2105,7 +2100,7 @@ SHACL defines two properties that can be used in the data graph to declare such 
 
 The *incompleteness values* of a [node](https://www.w3.org/TR/rdf12-concepts/#dfn-rdf-node) `n` are the values of `sh:incomplete` for `n` in the data graph, together with the value nodes for `n` as focus node of each property shape `p` in the shapes graph that has `sh:incomplete` as its value for `sh:path`,
 where `n` is in the target of the shape `p` or in the target of the shape of a shape that has `p` as a value for `sh:property`.
-This makes it possible to declare [nodes](https://www.w3.org/TR/rdf12-concepts/#dfn-rdf-node) as incomplete in the shapes graph, using `sh:values` or `sh:defaultValue` (see 6.10.2 Value Nodes of Property Shapes (§6.10.2)).
+This makes it possible to declare [nodes](https://www.w3.org/TR/rdf12-concepts/#dfn-rdf-node) as incomplete in the shapes graph, using `sh:values` or `sh:defaultValue` (see 6.9.4.2 Value Nodes of Property Shapes (§6.9.4.2)).
 
 A [node](https://www.w3.org/TR/rdf12-concepts/#dfn-rdf-node) `n` is *incomplete* if `false` is not among the incompleteness values of `n` and at least one of the following conditions is met:
 
@@ -2136,7 +2131,7 @@ because his email address has not been entered yet.
 Both `ex:Bob` and `ex:Carla` violate the `sh:minCount` constraint, but a tool may elect to hide the violation for `ex:Bob` while the one for `ex:Carla` gets rendered normally.
 > **Example:**
 >
-> Example 28: Example of the use of sh:incomplete
+> Example 29: Example of the use of sh:incomplete
 >
 > ex:PersonShape
 > a sh:NodeShape ;
@@ -2163,7 +2158,7 @@ The violation for `ex:Alice` may therefore be hidden.
 The violation for `ex:Bob` is displayed normally, because his employer has been declared as complete using `sh:incomplete false`. `ex:Carla` conforms, because her employer is stated to be an `ex:Company`.
 > **Example:**
 >
-> Example 29: Example of the use of sh:incompleteURIStart
+> Example 30: Example of the use of sh:incompleteURIStart
 >
 > ex:PersonShape
 > a sh:NodeShape ;
@@ -2213,7 +2208,7 @@ The property shape with `sh:path sh:incomplete` has no constraints, but its `sh:
 Both `ex:Dave` and `ex:Erin` violate the `sh:minCount` constraint, but a tool may elect to hide the violation for `ex:Dave`.
 > **Example:**
 >
-> Example 30: Example of declaring incomplete nodes in the shapes graph
+> Example 31: Example of declaring incomplete nodes in the shapes graph
 >
 > ex:PersonShape
 > a sh:NodeShape ;
@@ -2250,15 +2245,15 @@ Both `ex:Dave` and `ex:Erin` violate the `sh:minCount` constraint, but a tool ma
 > Using `sh:defaultValue true` instead would add `true` only for focus nodes that have no value for `sh:incomplete` in the data graph.
 > Declaring incompleteness in the shapes graph requires that the SHACL processor supports `sh:values` and `sh:defaultValue`.
 
-#### 6.10 Value Nodes
+##### 6.9.4 Value Nodes
 
 The validators of most constraint components use the concept of *value nodes*, which is defined by the following two sub-sections.
 
-##### 6.10.1 Value Nodes of Node Shapes
+###### 6.9.4.1 Value Nodes of Node Shapes
 
 For node shapes the value nodes are the individual focus nodes, forming a set with exactly one member.
 
-##### 6.10.2 Value Nodes of Property Shapes
+###### 6.9.4.2 Value Nodes of Property Shapes
 
 For property shapes with a value for `sh:path` `p` the
 set of value nodes is produced by the following steps:
@@ -2269,7 +2264,7 @@ set of value nodes is produced by the following steps:
 3. If the set is still empty and `d` is the value of `sh:defaultValue` at the property shape,
    then add the output nodes of `evalExpr(d, data graph, focus node, {})`.
 
-### 7. Core Constraint Components
+#### 6.10 Core Constraint Components
 
 This section defines the built-in SHACL Core constraint components that *MUST* be supported by all SHACL Core processors.
 The definition of each constraint component contains its IRI as well as a table of its parameters.
@@ -2311,12 +2306,12 @@ Unless stated otherwise, the Core constraint components can be used both in prop
 Some constraint parameters have syntax rules attached to them that would make node shapes that use these parameters ill-formed.
 Examples of this include `sh:minCount` which is only supported for property shapes.
 
-#### 7.1 Value Type Constraint Components
+##### 6.10.1 Value Type Constraint Components
 
 The constraint components in this section have in common that they can be used to restrict the type of value nodes.
-Note that it is possible to represent multiple value type alternatives using §7.7.3 sh:or.
+Note that it is possible to represent multiple value type alternatives using §6.10.7.3 sh:or.
 
-##### 7.1.1 sh:class
+###### 6.10.1.1 sh:class
 
 The condition specified by `sh:class` is that each value node is a SHACL instance of the given type(s).
 
@@ -2346,7 +2341,7 @@ i.e., the values need to be SHACL instances of all of them.
 Use lists for union semantics.
 > **Example:**
 >
-> Example 31: Example of the use of sh:class
+> Example 32: Example of the use of sh:class
 >
 > ex:ClassExampleShape
 > a sh:NodeShape ;
@@ -2366,7 +2361,7 @@ The following example illustrates the list-based syntax for `sh:class`,
 meaning that the values of the property `ex:pet` must be either cats or dogs.
 > **Example:**
 >
-> Example 32: Example of the use of sh:class with a list value
+> Example 33: Example of the use of sh:class with a list value
 >
 > ex:ClassListExampleShape
 > a sh:NodeShape ;
@@ -2386,7 +2381,7 @@ meaning that the values of the property `ex:pet` must be either cats or dogs.
 > ex:Alice a ex:Person ; ex:pet ex:Tessie, ex:Rusty .
 > ex:Bob a ex:Person ; ex:pet ex:Fluffy .
 
-##### 7.1.2 sh:datatype
+###### 6.10.1.2 sh:datatype
 
 `sh:datatype` specifies a condition to be satisfied with regards to the datatype of each value node.
 
@@ -2417,7 +2412,7 @@ A [literal](https://www.w3.org/TR/rdf12-concepts/#dfn-rdf-literal) matches a dat
 The values of `sh:datatype` are typically [datatypes](https://www.w3.org/TR/rdf12-concepts/#dfn-datatype), such as `xsd:string`.
 > **Example:**
 >
-> Example 33: Shape with an IRI as sh:datatype property constraint
+> Example 34: Shape with an IRI as sh:datatype property constraint
 >
 > ex:DatatypeExampleShape
 > a sh:NodeShape ;
@@ -2435,7 +2430,7 @@ The values of `sh:datatype` are typically [datatypes](https://www.w3.org/TR/rdf1
 The following example illustrates the list-based syntax, meaning that all values of `rdfs:label` must be either `xsd:string` or `rdf:langString`.
 > **Example:**
 >
-> Example 34: Shape with a list of IRIs as sh:datatype property constraint
+> Example 35: Shape with a list of IRIs as sh:datatype property constraint
 >
 > ex:TextExampleShape
 > a sh:NodeShape ;
@@ -2450,7 +2445,7 @@ The following example illustrates the list-based syntax, meaning that all values
 >
 > ex:Estonia rdfs:label "Estonia", "Estland"@de . ex:GreatBritain rdfs:label "Great Britain", "<b>Great</b> Britain"^^rdf:HTML .
 
-##### 7.1.3 sh:nodeKind
+###### 6.10.1.3 sh:nodeKind
 
 `sh:nodeKind` specifies a condition to be satisfied by the RDF node kind of each value node.
 
@@ -2482,7 +2477,7 @@ Any [triple term](https://www.w3.org/TR/rdf12-concepts/#dfn-triple-term) matches
 The following example states that all values of `ex:knows` need to be IRIs, at any subject.
 > **Example:**
 >
-> Example 35: Example of the use of sh:nodeKind with an IRI value
+> Example 36: Example of the use of sh:nodeKind with an IRI value
 >
 > ex:NodeKindExampleShape
 > a sh:NodeShape ;
@@ -2495,7 +2490,7 @@ The following example states that all values of `ex:knows` need to be IRIs, at a
 The following example illustrates the list-based syntax, meaning that all values of `ex:knows` need to be IRIs or blank nodes, at any subject.
 > **Example:**
 >
-> Example 36: Example of the use of sh:nodeKind with a list of IRIs as value
+> Example 37: Example of the use of sh:nodeKind with a list of IRIs as value
 >
 > ex:NodeKindExampleShape
 > a sh:NodeShape ;
@@ -2506,11 +2501,11 @@ The following example illustrates the list-based syntax, meaning that all values
 > ex:Bob ex:knows _:john .
 > ex:Alice ex:knows "Bob" .
 
-#### 7.2 Cardinality Constraint Components
+##### 6.10.2 Cardinality Constraint Components
 
 The following constraint components represent restrictions on the number of value nodes for the given focus node.
 
-##### 7.2.1 sh:minCount
+###### 6.10.2.1 sh:minCount
 
 `sh:minCount` specifies the minimum number of value nodes that satisfy the condition.
 If the minimum cardinality value is 0 then this constraint is always satisfied and so may be omitted.
@@ -2532,7 +2527,7 @@ there is a validation result.
 *The remainder of this section is non-normative.*
 > **Example:**
 >
-> Example 37: Example of the use of sh:minCount
+> Example 38: Example of the use of sh:minCount
 >
 > ex:MinCountExampleShape
 > a sh:PropertyShape ;
@@ -2542,7 +2537,7 @@ there is a validation result.
 >
 > ex:Alice ex:name "Alice" . ex:Bob ex:givenName "Bob"@en .
 
-##### 7.2.2 sh:maxCount
+###### 6.10.2.2 sh:maxCount
 
 `sh:maxCount` specifies the maximum number of value nodes that satisfy the condition.
 
@@ -2563,7 +2558,7 @@ there is a validation result.
 *The remainder of this section is non-normative.*
 > **Example:**
 >
-> Example 38: Example of the use of sh:maxCount
+> Example 39: Example of the use of sh:maxCount
 >
 > ex:MaxCountExampleShape
 > a sh:NodeShape ;
@@ -2578,14 +2573,14 @@ there is a validation result.
 >
 > ex:Bob ex:birthDate "May 5th 1990" . ex:Alice ex:birthDate "July 1st 1992", "1992-07-01" .
 
-#### 7.3 Value Range Constraint Components
+##### 6.10.3 Value Range Constraint Components
 
 The following constraint components specify value range conditions to be satisfied by value nodes that are comparable
 via operators such as `<`, `<=`, `>` and `>=`.
 The following example illustrates a typical use case of these constraint components.
 > **Example:**
 >
-> Example 39: Example of a numeric range constraint
+> Example 40: Example of a numeric range constraint
 >
 > ex:NumericRangeExampleShape
 > a sh:NodeShape ;
@@ -2601,7 +2596,7 @@ The following example illustrates a typical use case of these constraint compone
 >
 > ex:Bob ex:age 23 . ex:Alice ex:age 220 . ex:Ted ex:age "twenty one"@en .
 
-##### 7.3.1 sh:minExclusive
+###### 6.10.3.1 sh:minExclusive
 
 `sh:minExclusive` specifies the minimum exclusive value that each value node must be greater than.
 
@@ -2624,7 +2619,7 @@ there is a validation result with `v` as `sh:value`.
 There is a validation result if the value node cannot be compared to the specified range,
 for example when someone compares a string with an integer.
 
-##### 7.3.2 sh:minInclusive
+###### 6.10.3.2 sh:minInclusive
 
 `sh:minInclusive` specifies the minimum inclusive value that each value node must be greater than or equal to.
 
@@ -2642,7 +2637,7 @@ Let `$minInclusive` be a parameter value for `sh:minInclusive`.
 For each value node `v` where the SPARQL expression `$minInclusive <= v` does not return `true`,
 there is a validation result with `v` as `sh:value`.
 
-##### 7.3.3 sh:maxExclusive
+###### 6.10.3.3 sh:maxExclusive
 
 `sh:maxExclusive` specifies the maximum exclusive value that each value node must be less than.
 
@@ -2660,7 +2655,7 @@ Let `$maxExclusive` be a parameter value for `sh:maxExclusive`.
 For each value node `v` where the SPARQL expression `$maxExclusive > v` does not return `true`,
 there is a validation result with `v` as `sh:value`.
 
-##### 7.3.4 sh:maxInclusive
+###### 6.10.3.4 sh:maxInclusive
 
 `sh:maxInclusive` specifies the maximum inclusive value that each value node must be less than or equal to.
 
@@ -2678,12 +2673,12 @@ Let `$maxInclusive` be a parameter value for `sh:maxInclusive`.
 For each value node `v` where the SPARQL expression `$maxInclusive >= v` does not return `true`,
 there is a validation result with `v` as `sh:value`.
 
-#### 7.4 String-based Constraint Components
+##### 6.10.4 String-based Constraint Components
 
 The constraint components in this section have in common that they specify conditions
 on the string representation of value nodes.
 
-##### 7.4.1 sh:minLength
+###### 6.10.4.1 sh:minLength
 
 `sh:minLength` specifies the minimum string length of each value node that satisfies the condition.
 This can be applied to any [literals](https://www.w3.org/TR/rdf12-concepts/#dfn-rdf-literal) and [IRIs](https://www.w3.org/TR/rdf12-concepts/#dfn-iri), but not to [blank nodes](https://www.w3.org/TR/rdf12-concepts/#dfn-blank-node).
@@ -2709,7 +2704,7 @@ there is a validation result with `v` as `sh:value`.
 Note that if the value of `sh:minLength` is 0 then there is no restriction on the
 string length but the constraint is still violated if the value node is a blank node.
 
-##### 7.4.2 sh:maxLength
+###### 6.10.4.2 sh:maxLength
 
 `sh:maxLength` specifies the maximum string length of each value node that satisfies the condition.
 This can be applied to any [literals](https://www.w3.org/TR/rdf12-concepts/#dfn-rdf-literal) and [IRIs](https://www.w3.org/TR/rdf12-concepts/#dfn-iri), but not to [blank nodes](https://www.w3.org/TR/rdf12-concepts/#dfn-blank-node).
@@ -2733,7 +2728,7 @@ there is a validation result with `v` as `sh:value`.
 *The remainder of this section is non-normative.*
 > **Example:**
 >
-> Example 40: Example of the use of sh:minLength and sh:maxLength
+> Example 41: Example of the use of sh:minLength and sh:maxLength
 >
 > ex:PasswordExampleShape
 > a sh:NodeShape ;
@@ -2749,7 +2744,7 @@ there is a validation result with `v` as `sh:value`.
 >
 > ex:Bob ex:password "123456789" . ex:Alice ex:password "1234567890ABC" .
 
-##### 7.4.3 sh:pattern
+###### 6.10.4.3 sh:pattern
 
 `sh:pattern` specifies a regular expression that each value node matches to satisfy the condition.
 
@@ -2775,7 +2770,7 @@ If `$flags` has a value then the matching *MUST* follow the definition of the 3-
 *The remainder of this section is non-normative.*
 > **Example:**
 >
-> Example 41: Example of the use of sh:pattern and sh:flags
+> Example 42: Example of the use of sh:pattern and sh:flags
 >
 > ex:PatternExampleShape
 > a sh:NodeShape ;
@@ -2792,7 +2787,7 @@ If `$flags` has a value then the matching *MUST* follow the definition of the 3-
 > ex:Bob ex:bCode "b101" .
 > ex:Alice ex:bCode "B102" . ex:Carol ex:bCode "C103" .
 
-##### 7.4.4 sh:singleLine
+###### 6.10.4.4 sh:singleLine
 > **Issue:**
 >
 > > **Issue:**
@@ -2824,7 +2819,7 @@ there is a validation result.
 *The remainder of this section is non-normative.*
 > **Example:**
 >
-> Example 42: Example of the use of sh:singleLine
+> Example 43: Example of the use of sh:singleLine
 >
 > In this example, the valid target nodes of the shape can only contain single-lined values for `rdfs:label`.
 > The values of `rdfs:comment` are explicitly allowed to contain line breaks, indicating to form builders that
@@ -2848,7 +2843,7 @@ there is a validation result.
 > sh:singleLine false ;
 > .
 
-##### 7.4.5 sh:languageIn
+###### 6.10.4.5 sh:languageIn
 
 The condition specified by `sh:languageIn` is that the allowed language tags for each value node are limited by a given list of language tags.
 
@@ -2872,7 +2867,7 @@ there is a validation result with the value node as `sh:value`.
 The following example shape states that all values of `ex:prefLabel` can be either in English or Māori.
 > **Example:**
 >
-> Example 43: Example of the use of sh:languageIn
+> Example 44: Example of the use of sh:languageIn
 >
 > ex:NewZealandLanguagesShape
 > a sh:NodeShape ;
@@ -2897,7 +2892,7 @@ The following example shape states that all values of `ex:prefLabel` can be eith
 > ex:prefLabel "Berg"@de ;
 > ex:prefLabel ex:BergLabel .
 
-##### 7.4.6 sh:uniqueLang
+###### 6.10.4.6 sh:uniqueLang
 
 The property `sh:uniqueLang` is set to `true` to specify that no pair of value nodes may use the same language tag, including considering the text direction, if present.
 
@@ -2922,7 +2917,7 @@ as is the pair `"1"@ar--rtl` and `"1"@ar`.
 *The remainder of this section is non-normative.*
 > **Example:**
 >
-> Example 44: Example of the use of sh:uniqueLang
+> Example 45: Example of the use of sh:uniqueLang
 >
 > ex:UniqueLangExampleShape
 > a sh:NodeShape ;
@@ -2943,12 +2938,12 @@ as is the pair `"1"@ar--rtl` and `"1"@ar`.
 > ex:Bob ex:label "Bob"@en ;
 > ex:label "Bobby"@en .
 
-#### 7.5 List Constraint Components
+##### 6.10.5 List Constraint Components
 
 The constraint components in this section apply to value nodes that are SHACL lists.
 They specify conditions on the structure, length, and members of SHACL lists.
 
-##### 7.5.1 sh:memberShape
+###### 6.10.5.1 sh:memberShape
 
 `sh:memberShape` specifies that all members of SHACL list value nodes must conform to the given node shape.
 
@@ -2976,7 +2971,7 @@ Examples of how to generate `sh:detail`s in validation results can be found in t
 In the following example, all values of the property `ex:speakerOrder` must be SHACL lists with members that are IRIs.
 > **Example:**
 >
-> Example 45: Example of the use of sh:memberShape
+> Example 46: Example of the use of sh:memberShape
 >
 > ex:AgendaShape
 > a sh:NodeShape ;
@@ -2997,7 +2992,7 @@ In the following example, all values of the property `ex:speakerOrder` must be S
 > ex:agenda2 a ex:Agenda ;
 > ex:speakerOrder ( ex:Alice ex:Bob "Charlie" ) .
 
-##### 7.5.2 sh:minListLength
+###### 6.10.5.2 sh:minListLength
 
 `sh:minListLength` specifies the minimum number of members that SHACL list value nodes must have.
 
@@ -3022,7 +3017,7 @@ In the following example, all values of the property `ex:skills` must be SHACL l
 Additional test cases for `sh:minListLength` can be found in the SHACL test suite: [minListLength-001.ttl](https://w3c.github.io/data-shapes/shacl12-test-suite/tests/core/node/minListLength-001.ttl).
 > **Example:**
 >
-> Example 46: Example of the use of sh:minListLength
+> Example 47: Example of the use of sh:minListLength
 >
 > ex:PersonShape
 > a sh:NodeShape ;
@@ -3041,7 +3036,7 @@ Additional test cases for `sh:minListLength` can be found in the SHACL test suit
 > ex:person2 a ex:Person ;
 > ex:skills () .
 
-##### 7.5.3 sh:maxListLength
+###### 6.10.5.3 sh:maxListLength
 
 `sh:maxListLength` specifies the maximum number of members that SHACL list value nodes must have.
 
@@ -3066,7 +3061,7 @@ In the following example, all values of the property `ex:hobbies` must be SHACL 
 Additional test cases for `sh:maxListLength` can be found in the SHACL test suite: [maxListLength-001.ttl](https://w3c.github.io/data-shapes/shacl12-test-suite/tests/core/node/maxListLength-001.ttl).
 > **Example:**
 >
-> Example 47: Example of the use of sh:maxListLength
+> Example 48: Example of the use of sh:maxListLength
 >
 > ex:PersonShape
 > a sh:NodeShape ;
@@ -3085,7 +3080,7 @@ Additional test cases for `sh:maxListLength` can be found in the SHACL test suit
 > ex:person2 a ex:Person ;
 > ex:hobbies ( "reading" "writing" "swimming" ) .
 
-##### 7.5.4 sh:uniqueMembers
+###### 6.10.5.4 sh:uniqueMembers
 
 `sh:uniqueMembers` specifies whether SHACL list value nodes must have unique members.
 
@@ -3114,7 +3109,7 @@ Examples of how to generate `sh:detail`s in validation results can be found in t
 In the following example, all values of the property `ex:preferences` must be SHACL lists with members that have unique values within each SHACL list.
 > **Example:**
 >
-> Example 48: Example of the use of sh:uniqueMembers
+> Example 49: Example of the use of sh:uniqueMembers
 >
 > ex:PersonShape
 > a sh:NodeShape ;
@@ -3133,11 +3128,11 @@ In the following example, all values of the property `ex:preferences` must be SH
 > ex:person2 a ex:Person ;
 > ex:preferences ( "coffee" "tea" "coffee" "tea" "tea" ) .
 
-#### 7.6 Property Pair Constraint Components
+##### 6.10.6 Property Pair Constraint Components
 
 The constraint components in this section specify conditions on the sets of value nodes in relation to other properties or property paths. `sh:lessThan` and `sh:lessThanOrEquals` can only be used by property shapes.
 
-##### 7.6.1 sh:equals
+###### 6.10.6.1 sh:equals
 
 `sh:equals` specifies the condition that the set of all value nodes is equal to the set of [nodes](https://www.w3.org/TR/rdf12-concepts/#dfn-rdf-node) that can be reached from the focus node via the SHACL property path that is specified using `sh:equals`.
 
@@ -3164,7 +3159,7 @@ The following example illustrates the use of `sh:equals` in a shape to specify
 that certain focus nodes need to have the same set of values for `ex:firstName` and `ex:givenName`.
 > **Example:**
 >
-> Example 49: Shape with sh:equals between two IRI properties
+> Example 50: Shape with sh:equals between two IRI properties
 >
 > ex:EqualExampleShape
 > a sh:NodeShape ;
@@ -3188,7 +3183,7 @@ The following example shows that SHACL property paths can be used both as values
 of `sh:path` and `sh:equals`.
 > **Example:**
 >
-> Example 50: Shape with sh:equals between two paths
+> Example 51: Shape with sh:equals between two paths
 >
 > ex:Person
 > a sh:ShapeClass ;
@@ -3219,7 +3214,7 @@ of `sh:path` and `sh:equals`.
 > No warning would be produced if Bob has neither spouse nor tattoo, or
 > has both and their names and texts match exactly the same set of nodes.
 
-##### 7.6.2 sh:disjoint
+###### 6.10.6.2 sh:disjoint
 
 `sh:disjoint` specifies the condition that the set of value nodes is disjoint with the set of [nodes](https://www.w3.org/TR/rdf12-concepts/#dfn-rdf-node) that can be reached from the focus node via the SHACL property path that is the value of `sh:disjoint`.
 
@@ -3244,7 +3239,7 @@ The following example illustrates the use of `sh:disjoint` in a shape to specify
 that certain focus nodes cannot share any values for `ex:prefLabel` and `ex:altLabel`.
 > **Example:**
 >
-> Example 51: Shape with sh:disjoint between two IRI properties
+> Example 52: Shape with sh:disjoint between two IRI properties
 >
 > ex:DisjointExampleShape
 > a sh:NodeShape ;
@@ -3264,7 +3259,7 @@ that certain focus nodes cannot share any values for `ex:prefLabel` and `ex:altL
 > ex:Germany ex:prefLabel "Germany" ;
 > ex:altLabel "Germany" .
 
-##### 7.6.3 sh:subsetOf
+###### 6.10.6.3 sh:subsetOf
 
 `sh:subsetOf` specifies the condition that all value nodes must *also* be reachable
 from the focus node via the SHACL property path that is specified using `sh:subsetOf`.
@@ -3290,7 +3285,7 @@ The following example illustrates the use of `sh:subsetOf` in a shape to specify
 that the favorite child of a person must be among the actual children.
 > **Example:**
 >
-> Example 52: Shape with sh:subsetOf between two IRI properties
+> Example 53: Shape with sh:subsetOf between two IRI properties
 >
 > ex:ParentShape
 > a sh:NodeShape ;
@@ -3311,7 +3306,7 @@ that the favorite child of a person must be among the actual children.
 > ex:Carol ex:child "Emma" ;
 > ex:favoriteChild "Frank" .
 
-##### 7.6.4 sh:lessThan
+###### 6.10.6.4 sh:lessThan
 
 `sh:lessThan` specifies the condition that each value node is smaller than all
 the [nodes](https://www.w3.org/TR/rdf12-concepts/#dfn-rdf-node) that can be reached from the focus node via the SHACL property path that is the value of `sh:lessThan`.
@@ -3338,7 +3333,7 @@ The following example illustrates the use of `sh:lessThan` in a shape to specify
 that all values of `ex:startDate` are "before" the values of `ex:endDate`.
 > **Example:**
 >
-> Example 53: Shape with sh:lessThan between two IRI properties
+> Example 54: Shape with sh:lessThan between two IRI properties
 >
 > ex:LessThanExampleShape
 > a sh:NodeShape ;
@@ -3358,7 +3353,7 @@ that all values of `ex:startDate` are "before" the values of `ex:endDate`.
 > ex:Project2 ex:startDate "2024-09-01"^^xsd:date ;
 > ex:endDate "2024-09-01"^^xsd:date .
 
-##### 7.6.5 sh:lessThanOrEquals
+###### 6.10.6.5 sh:lessThanOrEquals
 
 `sh:lessThanOrEquals` specifies the condition that each value node is smaller than or equal to
 all the [nodes](https://www.w3.org/TR/rdf12-concepts/#dfn-rdf-node) that can be reached from the focus node via the SHACL property path that is the value of `sh:lessThanOrEquals`.
@@ -3386,7 +3381,7 @@ that the values of `ex:startDate` are not after the values of `ex:endDate`.
 Unlike with `sh:lessThan`, a project may end on the day it starts.
 > **Example:**
 >
-> Example 54: Shape with sh:lessThanOrEquals between two IRI properties
+> Example 55: Shape with sh:lessThanOrEquals between two IRI properties
 >
 > ex:LessThanOrEqualsExampleShape
 > a sh:NodeShape ;
@@ -3406,11 +3401,11 @@ Unlike with `sh:lessThan`, a project may end on the day it starts.
 > ex:Project3 ex:startDate "2024-12-01"^^xsd:date ;
 > ex:endDate "2024-11-01"^^xsd:date .
 
-#### 7.7 Logical Constraint Components
+##### 6.10.7 Logical Constraint Components
 
 The constraint components in this section implement the common logical operators *and*, *or* and *not*, as well as a variation of *exclusive or*.
 
-##### 7.7.1 sh:not
+###### 6.10.7.1 sh:not
 
 `sh:not` specifies the condition that each value node cannot conform to a given shape.
 This is comparable to negation and the logical "not" operator.
@@ -3438,7 +3433,7 @@ The following example illustrates the use of `sh:not` in a shape to specify the 
 that certain focus nodes cannot have any value of `ex:property`.
 > **Example:**
 >
-> Example 55: Shape with sh:not to specify that certain focus nodes cannot have any value of a property
+> Example 56: Shape with sh:not to specify that certain focus nodes cannot have any value of a property
 >
 > ex:NotExampleShape
 > a sh:NodeShape ;
@@ -3451,7 +3446,7 @@ that certain focus nodes cannot have any value of `ex:property`.
 >
 > ex:InvalidInstance1 ex:property "Some value" .
 
-##### 7.7.2 sh:and
+###### 6.10.7.2 sh:and
 
 `sh:and` specifies the condition that each value node conforms to all provided shapes.
 This is comparable to conjunction and the logical "and" operator.
@@ -3486,7 +3481,7 @@ the minimum count, and a property shape that additionally specifies the maximum 
 As shown here, `sh:and` can be used to implement a specialization mechanism between shapes.
 > **Example:**
 >
-> Example 56: Example of the use of sh:and
+> Example 57: Example of the use of sh:and
 >
 > ex:SuperShape
 > a sh:NodeShape ;
@@ -3514,7 +3509,7 @@ As shown here, `sh:and` can be used to implement a specialization mechanism betw
 > ex:InvalidInstance ex:property "One" ;
 > ex:property "Two" .
 
-##### 7.7.3 sh:or
+###### 6.10.7.3 sh:or
 
 `sh:or` specifies the condition that each value node conforms to at least one of the provided shapes.
 This is comparable to disjunction and the logical "or" operator.
@@ -3545,7 +3540,7 @@ The following example illustrates the use of `sh:or` in a shape to specify the c
 that certain focus nodes have at least one value of `ex:firstName` or at least one value of `ex:givenName`.
 > **Example:**
 >
-> Example 57: Example of the use of sh:or
+> Example 58: Example of the use of sh:or
 >
 > ex:OrConstraintExampleShape
 > a sh:NodeShape ;
@@ -3568,7 +3563,7 @@ The next example shows how `sh:or` can be used in a property shape to state that
 the given property `ex:address` may be either literals with datatype `xsd:string` or SHACL instances of the class `ex:Address`.
 > **Example:**
 >
-> Example 58: Example of the use of sh:or in a property shape
+> Example 59: Example of the use of sh:or in a property shape
 >
 > ex:PersonAddressShape
 > a sh:NodeShape ;
@@ -3593,7 +3588,7 @@ the given property `ex:address` may be either literals with datatype `xsd:string
 Note that all constraints in SHACL get ANDed for execution. Consider the following example:
 > **Example:**
 >
-> Example 59: Example of the use of sh:or to specify a condition that is a conjunction of disjunctions
+> Example 60: Example of the use of sh:or to specify a condition that is a conjunction of disjunctions
 >
 > ex:shapeRoot a sh:NodeShape;
 > sh:or
@@ -3603,7 +3598,7 @@ Note that all constraints in SHACL get ANDed for execution. Consider the followi
 The correct interpretation is (`shapeA` OR `shapeB`) AND (`shapeC` OR `shapeD`).
 The target nodes need to conform to `shapeA` or `shapeB`, and then also `shapeC` or `shapeD`.
 
-##### 7.7.4 sh:xone
+###### 6.10.7.4 sh:xone
 
 `sh:xone` specifies the condition that each value node conforms to *exactly one* of the provided shapes.
 
@@ -3632,7 +3627,7 @@ The following example illustrates the use of `sh:xone` in a shape to specify the
 that certain focus nodes must either have a value for `ex:fullName` or values for `ex:firstName` and `ex:lastName`, but not both.
 > **Example:**
 >
-> Example 60: Example of the use of sh:xone to specify that exactly one of two alternatives must hold
+> Example 61: Example of the use of sh:xone to specify that exactly one of two alternatives must hold
 >
 > ex:XoneConstraintExampleShape
 > a sh:NodeShape ;
@@ -3669,12 +3664,12 @@ that certain focus nodes must either have a value for `ex:fullName` or values fo
 > ex:lastName "Dunce" ;
 > ex:fullName "Dory Dunce" .
 
-#### 7.8 Shape-based Constraint Components
+##### 6.10.8 Shape-based Constraint Components
 
 The constraint components in this section can be used to specify complex conditions
 by validating the value nodes against certain shapes.
 
-##### 7.8.1 sh:node
+###### 6.10.8.1 sh:node
 
 `sh:node` specifies the condition that each value node conforms to the given node shape.
 
@@ -3701,7 +3696,7 @@ All values of the property `ex:address` must fulfill the
 constraints expressed by the shape `ex:AddressShape`.
 > **Example:**
 >
-> Example 61: Example of sh:node in a property shape
+> Example 62: Example of sh:node in a property shape
 >
 > ex:AddressShape
 > a sh:NodeShape ;
@@ -3756,7 +3751,7 @@ constraints expressed by the shape `ex:AddressShape`.
 The following example illustrates the use of `sh:node` in node shapes.
 > **Example:**
 >
-> Example 62: Example of sh:node in node shapes
+> Example 63: Example of sh:node in node shapes
 >
 > ex:PostalCodeShape
 > a sh:NodeShape ;
@@ -3792,7 +3787,7 @@ The following example illustrates the use of `sh:node` in node shapes.
 
 See 6.7.3 Handling of Recursive Shapes (§6.7.3) on the handling of recursive shapes in SHACL.
 
-##### 7.8.2 sh:property
+###### 6.10.8.2 sh:property
 
 `sh:property` can be used to specify that each value node has a given property shape.
 
@@ -3823,7 +3818,7 @@ Like with all other validation results, each time a property shape is reached vi
 a validation engine *MUST* produce *fresh* validation result nodes.
 This includes cases where the same focus node is validated against the same property shape although it is reached via different paths in the shapes graph.
 
-##### 7.8.3 sh:someValue
+###### 6.10.8.3 sh:someValue
 
 `sh:someValue` specifies the condition that at least one value node conforms to the given shape.
 
@@ -3853,7 +3848,7 @@ In the following example, any nodes that conform to `ex:DuckFarmerShape` need to
 for `ex:tendsAnimal` that is a SHACL instance of `ex:Duck`.
 > **Example:**
 >
-> Example 63: Example of the use of sh:someValue
+> Example 64: Example of the use of sh:someValue
 >
 > ex:DuckFarmerShape
 > a sh:NodeShape ;
@@ -3872,7 +3867,7 @@ for `ex:tendsAnimal` that is a SHACL instance of `ex:Duck`.
 Also note that `sh:someValue` mostly makes sense when used in property shapes.
 In node shapes, `sh:someValue` is equivalent to using `sh:node` or `sh:property`.
 
-##### 7.8.4 sh:qualifiedValueShape, sh:qualifiedMinCount, sh:qualifiedMaxCount
+###### 6.10.8.4 sh:qualifiedValueShape, sh:qualifiedMinCount, sh:qualifiedMaxCount
 
 `sh:qualifiedValueShape` specifies the condition that a specified number of value nodes conforms to the given shape.
 Each `sh:qualifiedValueShape` can have: one value for `sh:qualifiedMinCount`, one value for `sh:qualifiedMaxCount`, or one value for each, at the same [subject](https://www.w3.org/TR/rdf12-concepts/#dfn-subject).
@@ -3921,7 +3916,7 @@ The following example shape can be used to specify the condition that the proper
 and at least one of them is female.
 > **Example:**
 >
-> Example 64: Example of the use of sh:qualifiedValueShape, sh:qualifiedMinCount and sh:qualifiedMaxCount to specify qualified cardinality constraints
+> Example 65: Example of the use of sh:qualifiedValueShape, sh:qualifiedMinCount and sh:qualifiedMaxCount to specify qualified cardinality constraints
 >
 > ex:QualifiedValueShapeExampleShape
 > a sh:NodeShape ;
@@ -3955,7 +3950,7 @@ and exactly one of them must be an instance of `ex:Thumb` while exactly 4 of the
 In other words, on a hand, none of the fingers can also be counted as the thumb.
 > **Example:**
 >
-> Example 65: Example of the use of sh:qualifiedValueShapesDisjoint
+> Example 66: Example of the use of sh:qualifiedValueShapesDisjoint
 >
 > ex:HandShape
 > a sh:NodeShape ;
@@ -3980,7 +3975,7 @@ In other words, on a hand, none of the fingers can also be counted as the thumb.
 > ] ;
 > .
 
-##### 7.8.5 sh:reifierShape, sh:reificationRequired
+###### 6.10.8.5 sh:reifierShape, sh:reificationRequired
 
 `sh:reifierShape` can be used to link a property shape with one or more node shapes.
 Any [reifier](https://www.w3.org/TR/rdf12-concepts/#dfn-reifier) must conform to these node shapes.
@@ -4012,7 +4007,7 @@ there is a validation result with `v` as `sh:value`.
 *The remainder of this section is non-normative.*
 > **Example:**
 >
-> Example 66: Example of sh:reifierShape and sh:reificationRequired
+> Example 67: Example of sh:reifierShape and sh:reificationRequired
 >
 > ex:PersonShape
 > a sh:NodeShape ;
@@ -4059,11 +4054,11 @@ there is a validation result with `v` as `sh:value`.
 > |}
 > .
 
-#### 7.9 Other Constraint Components
+##### 6.10.9 Other Constraint Components
 
 This section enumerates Core constraint components that do not fit into the other categories.
 
-##### 7.9.1 sh:closed, sh:ignoredProperties
+###### 6.10.9.1 sh:closed, sh:ignoredProperties
 
 The RDF data model offers a huge amount of flexibility.
 Any node can in principle have values for any property.
@@ -4125,7 +4120,7 @@ that certain focus nodes only have values for `ex:firstName` and `ex:lastName`.
 The "ignored" property `rdf:type` would also be allowed.
 > **Example:**
 >
-> Example 67: Example of the use of sh:closed and sh:ignoredProperties
+> Example 68: Example of the use of sh:closed and sh:ignoredProperties
 >
 > ex:ClosedShapeExampleShape
 > a sh:NodeShape ;
@@ -4152,7 +4147,7 @@ as well as other shapes that are linked to those types via `sh:targetClass` and
 the shapes that can be reached from one node shape to the other via `sh:node`.
 Examples for `sh:ByTypes` can be found in the test case library: [closed-003.ttl](https://w3c.github.io/data-shapes/shacl12-test-suite/tests/core/node/closed-003.ttl), [closed-004.ttl](https://w3c.github.io/data-shapes/shacl12-test-suite/tests/core/node/closed-004.ttl).
 
-##### 7.9.2 sh:hasValue
+###### 6.10.9.2 sh:hasValue
 
 `sh:hasValue` specifies the condition that at least one value node is equal to the given RDF term.
 
@@ -4173,7 +4168,7 @@ there is a validation result.
 *The remainder of this section is non-normative.*
 > **Example:**
 >
-> Example 68: Example of the use of sh:hasValue
+> Example 69: Example of the use of sh:hasValue
 >
 > ex:StanfordGraduate
 > a sh:NodeShape ;
@@ -4192,7 +4187,7 @@ there is a validation result.
 >
 > ex:Bob ex:alumniOf ex:Harvard .
 
-##### 7.9.3 sh:in
+###### 6.10.9.3 sh:in
 
 `sh:in` specifies the condition that each value node is a member of a provided SHACL list.
 
@@ -4215,7 +4210,7 @@ there is a validation result with the value node as `sh:value`.
 Note that matching of literals needs to be exact, e.g. `"04"^^xsd:byte` does not match `"4"^^xsd:integer`.
 > **Example:**
 >
-> Example 69: Example of the use of sh:in
+> Example 70: Example of the use of sh:in
 >
 > ex:InExampleShape
 > a sh:NodeShape ;
@@ -4230,7 +4225,7 @@ Note that matching of literals needs to be exact, e.g. `"04"^^xsd:byte` does not
 >
 > ex:RainbowPony ex:color ex:Pink . ex:GrayPony ex:color ex:Gray .
 
-##### 7.9.4 sh:rootClass
+###### 6.10.9.4 sh:rootClass
 
 The condition specified by `sh:rootClass` is that each value node is the given class or a (transitive) subclass of that class.
 
@@ -4261,7 +4256,7 @@ to restrict the allowed subclass hierarchy of value nodes.
 The given class acts as the upper boundary of the permitted class hierarchy.
 > **Example:**
 >
-> Example 70: Example of the use of sh:rootClass
+> Example 71: Example of the use of sh:rootClass
 >
 > ex:RootClassExampleShape
 > a sh:NodeShape ;
@@ -4284,7 +4279,7 @@ The given class acts as the upper boundary of the permitted class hierarchy.
 > ex:holds ex:Animal ;
 > ex:holds ex:Plant .
 
-##### 7.9.5 sh:uniqueValuesFor
+###### 6.10.9.5 sh:uniqueValuesFor
 
 `sh:uniqueValuesFor` specifies the condition that the values of one or more specified properties of a value node must be unique within all target nodes of the current shape.
 
@@ -4315,7 +4310,7 @@ Also note that `sh:uniqueValuesFor` does not prescribe the existence of these va
 often combined with a `sh:minCount 1` constraint.
 > **Example:**
 >
-> Example 71: Example of sh:uniqueValuesFor on a single property
+> Example 72: Example of sh:uniqueValuesFor on a single property
 >
 > ex:SingleIdExampleShape
 > a sh:NodeShape ;
@@ -4352,7 +4347,7 @@ Note that the computation of the target nodes depends only on the definition of 
 the `sh:targetClass` declaration of the shape that also holds the `sh:uniqueValuesFor` constraint.
 > **Example:**
 >
-> Example 72: Example of sh:uniqueValuesFor on a pair of two properties
+> Example 73: Example of sh:uniqueValuesFor on a pair of two properties
 >
 > ex:CombinedIdExampleShape
 > a sh:NodeShape ;
@@ -4373,7 +4368,7 @@ the `sh:targetClass` declaration of the shape that also holds the `sh:uniqueValu
 > In the example above, no violations are reported because none of the focus nodes of the shape
 > have the same combination of the two specified properties.
 
-### 8. Non-Validating Shape Characteristics
+#### 6.11 Non-Validating Shape Characteristics
 
 *This section is non-normative.*
 
@@ -4382,7 +4377,7 @@ this section covers properties that are ignored by SHACL processors.
 The use of these so-called *non-validating properties* is entirely optional and is not subject to formal interpretation contracts.
 They may be used for purposes such as form building, code generation or predictable printing of RDF files.
 
-#### 8.1 sh:name and sh:description
+##### 6.11.1 sh:name and sh:description
 
 Shapes may have one or more values for `sh:name` to provide a human-readable name for the shape's defining characteristic,
 i.e. the property path in the case of a property shape,
@@ -4394,7 +4389,7 @@ or the kind of resource targeted by a node shape:
 
 > **Example:**
 >
-> Example 73: A simple example of sh:name
+> Example 74: A simple example of sh:name
 >
 > ex:PersonShape
 > a sh:NodeShape ;
@@ -4412,7 +4407,7 @@ or the kind of resource targeted by a node shape:
 > the shape's defining characteristic, as described above.
 > **Example:**
 >
-> Example 74: An example distinguishing rdfs:label for the shape from sh:name for what it characterizes
+> Example 75: An example distinguishing rdfs:label for the shape from sh:name for what it characterizes
 >
 > ex:SocialNetworkParticipantShape
 > a sh:NodeShape ;
@@ -4442,7 +4437,7 @@ The values of `sh:description` are [literals](https://www.w3.org/TR/rdf12-concep
 Both `sh:name` and `sh:description` may have
 multiple values, but should only have one value per language tag.
 
-#### 8.2 sh:intent
+##### 6.11.2 sh:intent
 
 Shapes may have values for `sh:intent` and those values should be [literals](https://www.w3.org/TR/rdf12-concepts/#dfn-rdf-literal) with [datatype](https://www.w3.org/TR/rdf12-concepts/#dfn-datatype) `xsd:string`, `rdf:langString` or `rdf:dirLangString`.
 
@@ -4460,7 +4455,7 @@ shapes graph, the [triple](https://www.w3.org/TR/rdf12-concepts/#dfn-rdf-triple)
 However, like all non-validating properties, the presence or content of `sh:intent` does not affect SHACL validation or conformance.
 > **Example:**
 >
-> Example 75: Examples of sh:intent at a node shape about parents
+> Example 76: Examples of sh:intent at a node shape about parents
 >
 > ex:ParentShape
 > a sh:NodeShape ;
@@ -4473,7 +4468,7 @@ However, like all non-validating properties, the presence or content of `sh:inte
 > .
 > **Example:**
 >
-> Example 76: Examples of sh:intent at a birth date property shape
+> Example 77: Examples of sh:intent at a birth date property shape
 >
 > ex:Person-birthDate
 > a sh:PropertyShape ;
@@ -4494,7 +4489,7 @@ However, like all non-validating properties, the presence or content of `sh:inte
 > (without, for example, using the SPARQL function `NOW`).
 > The third `sh:intent` is impossible for a SHACL engine to verify.
 
-#### 8.3 sh:agentInstruction
+##### 6.11.3 sh:agentInstruction
 
 Shapes may have values for `sh:agentInstruction` and those values should be [literals](https://www.w3.org/TR/rdf12-concepts/#dfn-rdf-literal) with [datatype](https://www.w3.org/TR/rdf12-concepts/#dfn-datatype) `xsd:string`, `rdf:langString`, or `rdf:dirLangString`.
 
@@ -4502,7 +4497,7 @@ This property can be used to represent textual instructions that can be sent to 
 that understands natural language.
 > **Example:**
 >
-> Example 77: Examples of sh:agentInstruction
+> Example 78: Examples of sh:agentInstruction
 >
 > ex:FootballPlayer
 > a sh:ShapeClass ;
@@ -4519,7 +4514,7 @@ that understands natural language.
 > This property may be used, together with similar textual descriptions from `rdfs:comment`, `sh:description`, `rdfs:label`, `sh:name`, `sh:intent`, as well as `sh:message`,
 > to instruct a software agent about the semantic interpretation of shapes.
 
-#### 8.4 sh:codeIdentifier
+##### 6.11.4 sh:codeIdentifier
 
 Shapes may have one value for `sh:codeIdentifier` to suggest a name that can be used for a representation of the shape in APIs, query languages
 and similar programmatic access.
@@ -4536,7 +4531,7 @@ The value of `sh:codeIdentifier` is a [literal](https://www.w3.org/TR/rdf12-conc
 > In the case of complex paths an explicit `sh:codeIdentifier` is strongly recommended.
 > Similar requirements exist for API generators, for example in Java, JavaScript or Python.
 
-#### 8.5 sh:codeType
+##### 6.11.5 sh:codeType
 
 Shapes may have one value for `sh:codeType` to suggest the type of the value nodes in a representation of the shape in APIs, query languages
 and similar programmatic access.
@@ -4564,7 +4559,7 @@ whether a single value or a collection of values is expected.
 > Which native type represents a given datatype, and how a value node is converted into it,
 > is left to the implementation.
 
-#### 8.6 sh:unit
+##### 6.11.6 sh:unit
 
 Shapes may have values for the property `sh:unit` to indicate a unit of
 measure, currency or similar information about the value nodes.
@@ -4592,7 +4587,7 @@ Depending on a user's locale such tools may even automatically convert between u
 or even allow data entry in units different than those that the actual values will be stored as.
 > **Example:**
 >
-> Example 78: Example unit declarations in property shapes
+> Example 79: Example unit declarations in property shapes
 >
 > ex:Fridge
 > a sh:ShapeClass ;
@@ -4640,7 +4635,7 @@ a reusable definition of "price in Euros" that includes the unit but also constr
 such as the minimum value.
 > **Example:**
 >
-> Example 79: A node shape with a unit declaration
+> Example 80: A node shape with a unit declaration
 >
 > ex:PriceEUR
 > a sh:NodeShape ;
@@ -4654,7 +4649,7 @@ such as the minimum value.
 > sh:node ex:PriceEUR ;
 > .
 
-#### 8.7 sh:order
+##### 6.11.7 sh:order
 
 Property shapes may have one value for the property `sh:order` to indicate the relative order of the property shape for purposes such as form building.
 The values of `sh:order` are [literals](https://www.w3.org/TR/rdf12-concepts/#dfn-rdf-literal) with [datatype](https://www.w3.org/TR/rdf12-concepts/#dfn-datatype) `xsd:decimal` or `xsd:integer`. `sh:order` is not used for validation purposes.
@@ -4671,7 +4666,7 @@ placed above or to the start (left in left-to-right languages) of properties wit
 > Although `sh:order` does not impact SHACL validation, it may be used with any type of
 > subjects and carry stronger semantics in other specifications.
 
-#### 8.8 sh:group
+##### 6.11.8 sh:group
 
 Property shapes may link to a SHACL instance of the class `sh:PropertyGroup` using the property `sh:group` to indicate that
 the shape belongs to a group of related property shapes.
@@ -4683,7 +4678,7 @@ the relative ordering of groups within the same form.
 The following example illustrates the use of these various features together.
 > **Example:**
 >
-> Example 80: Example of sh:order and sh:group for form building
+> Example 81: Example of sh:order and sh:group for form building
 >
 > ex:PersonFormShape
 > a sh:NodeShape ;
@@ -4766,7 +4761,7 @@ Note that the same information would be generated by the following example,
 which changes the order of the triples but not the `sh:order` values:
 > **Example:**
 >
-> Example 81: Example of the use of sh:order and sh:group for form building
+> Example 82: Example of the use of sh:order and sh:group for form building
 >
 > ex:PersonFormShape
 > a sh:NodeShape ;
@@ -4828,9 +4823,9 @@ which changes the order of the triples but not the `sh:order` values:
 > For predicates that accept literals of type `xsd:string`, `rdf:langString`, `rdf:dirLangString`, or `rdf:HTML`, users should avoid `xsd:string` in favor of `rdf:langString` or `rdf:dirLangString`.
 > Using language tags and, where appropriate, directionality markers is recommended to support internationalization and correctly handle bidirectional text.
 
-## Appendix
+### Appendix
 
-### A. Summary of SHACL Syntax Rules
+#### 6.12 Summary of SHACL Syntax Rules
 
 This section enumerates all normative syntax rules of SHACL.
 This section is automatically generated from other parts of this spec and hyperlinks are provided back
@@ -4846,7 +4841,7 @@ A few rules, such as those for `sh:incomplete` and `sh:incompleteURIStart`, appl
 | SHACL-list                                                       | A SHACL list in an RDF graph `G` is an [IRI](https://www.w3.org/TR/rdf12-concepts/#dfn-iri) or a [blank node](https://www.w3.org/TR/rdf12-concepts/#dfn-blank-node) that is either `rdf:nil` (provided that `rdf:nil` has no value for either `rdf:first` or `rdf:rest`), or has exactly one value for the property `rdf:first` in `G` and exactly one value for the property `rdf:rest` in `G` that is also a SHACL list in `G`, and the list does not have itself as a value of the property path `rdf:rest+` in `G`. |
 | entailment-nodeKind                                     | The values of the property `sh:entailment` are IRIs.                                                                                                    |
 | shape                                                                 | A shape is an [IRI](https://www.w3.org/TR/rdf12-concepts/#dfn-iri) or [blank node](https://www.w3.org/TR/rdf12-concepts/#dfn-blank-node) `s` that fulfills at least one of the following conditions in the shapes graph: `s` is a SHACL instance of `sh:NodeShape` or `sh:PropertyShape`. `s` is [subject](https://www.w3.org/TR/rdf12-concepts/#dfn-subject) of a triple that has `sh:targetClass`, `sh:targetNode`, `sh:targetObjectsOf`, `sh:targetSubjectsOf` or `sh:targetWhere` as [predicate](https://www.w3.org/TR/rdf12-concepts/#dfn-predicate). `s` is [subject](https://www.w3.org/TR/rdf12-concepts/#dfn-subject) of a triple that has a parameter as [predicate](https://www.w3.org/TR/rdf12-concepts/#dfn-predicate). `s` is a value of a shape-expecting, non-list-taking parameter such as `sh:node`, or a member of a SHACL list that is a value of a shape-expecting and list-taking parameter such as `sh:or`. |
-| multiple-parameters                                     | Some constraint components such as `sh:PatternConstraintComponent` (§7.4.3) declare more than one parameter. Shapes that have more than one value for any of the parameters of such components are ill-formed. |
+| multiple-parameters                                     | Some constraint components such as `sh:PatternConstraintComponent` (§6.10.4.3) declare more than one parameter. Shapes that have more than one value for any of the parameters of such components are ill-formed. |
 | targetNode-nodeKind                                     | Each value of `sh:targetNode` in a shape is a well-formed node expression.                   |
 | targetClass-nodeKind                                   | Each value of `sh:targetClass` in a shape is an [IRI](https://www.w3.org/TR/rdf12-concepts/#dfn-iri).                                                                                                    |
 | implicit-targetClass-nodeKind                 | If `s` is a SHACL instance of `sh:NodeShape` or `sh:PropertyShape` in an RDF graph `G` and `s` is also a SHACL instance of `rdfs:Class` in `G` and `s` is not an [IRI](https://www.w3.org/TR/rdf12-concepts/#dfn-iri) then `s` is an ill-formed shape in `G`. |
@@ -4963,7 +4958,7 @@ A few rules, such as those for `sh:incomplete` and `sh:incompleteURIStart`, appl
 | rootClass-nodeKind                                       | The values of `sh:rootClass` in a shape are either [IRIs](https://www.w3.org/TR/rdf12-concepts/#dfn-iri) or [blank nodes](https://www.w3.org/TR/rdf12-concepts/#dfn-blank-node) that are well-formed SHACL lists where all members are [IRIs](https://www.w3.org/TR/rdf12-concepts/#dfn-iri). |
 | uniqueValuesFor-node                                   | An [IRI](https://www.w3.org/TR/rdf12-concepts/#dfn-iri) of a property, or a SHACL list where each member is an [IRI](https://www.w3.org/TR/rdf12-concepts/#dfn-iri) of a property. |
 
-### B. SHACL Shapes to Validate Shapes Graphs
+#### 6.13 SHACL Shapes to Validate Shapes Graphs
 
 *This section is non-normative.*
 
@@ -4974,7 +4969,7 @@ constraints related to RDF data aiming to conform to the various SHACL specifica
 The SHACL-SHACL shapes graphs are available per specification and also as a bundled 'union'	at [http://www.w3.org/ns/shacl-shacl](https://www.w3.org/ns/shacl-shacl), as indicated in
 the Overview's appendix.
 
-### C. Summary of SHACL Core Validators
+#### 6.14 Summary of SHACL Core Validators
 
 This section enumerates all normative validators of SHACL Core.
 This section is automatically generated from other parts of this spec and hyperlinks are provided back
@@ -5022,7 +5017,7 @@ into the prose if the context of the validator is unclear.
 | sh:RootClassConstraintComponent: Let `$rootClass` be a parameter value for `sh:rootClass`. Let `classes` be a set of [IRIs](https://www.w3.org/TR/rdf12-concepts/#dfn-iri) so that when `$rootClass` is an [IRI](https://www.w3.org/TR/rdf12-concepts/#dfn-iri) then the set only consists of exactly that IRI, and when `$rootClass` is a [blank node](https://www.w3.org/TR/rdf12-concepts/#dfn-blank-node) SHACL list then the set consists of exactly the members of the list. For each value node that is either not an [IRI](https://www.w3.org/TR/rdf12-concepts/#dfn-iri), or an [IRI](https://www.w3.org/TR/rdf12-concepts/#dfn-iri) that is neither equal to nor a SHACL subclass in the data graph of any of the `classes`, there is a validation result with the value node as `sh:value`. |
 | sh:UniqueValuesForConstraintComponent: Let `$uniqueValuesFor` be a value of `sh:uniqueValuesFor S` in shape. Let `$properties` be the set as follows: If `$uniqueValuesFor` is an `IRI` then `$properties = { $uniqueValuesFor }`. If `$uniqueValuesFor` is a SHACL list, then `$properties` is the set of the members of that list. Let `$targetNodes` be the target nodes of `S`. These are determined from the targets of `S` even if the focus node has been provided directly, for example because `S` is a value of `sh:node V`. For each value node for which there exists another [node](https://www.w3.org/TR/rdf12-concepts/#dfn-rdf-node) in `$targetNodes` that has exactly the same values for all properties in `$properties` as `V` there is a validation result. No result is produced if `V` has no values for any of the properties in `$properties`. |
 
-### D. Security and Privacy Considerations
+#### 6.15 Security and Privacy Considerations
 
 *This section is non-normative.*
 
@@ -5034,9 +5029,9 @@ intended semantics of shape definitions or nodes in a data graph and thus lead t
 Protection against this scenario can be achieved by only using trusted
 and verified RDF sources and eliminating the possibility that graphs are dynamically added via `owl:imports` and `sh:shapesGraph`.
 
-### E. Index
+#### 6.16 Index
 
-#### E.1 Terms defined by this specification
+##### 6.16.1 Terms defined by this specification
 
 - alternative path §4.3
 - class target §3.1.3.2
@@ -5058,8 +5053,8 @@ and verified RDF sources and eliminating the possibility that graphs are dynamic
 - focus node §3.1.2
 - function name §5.
 - ill-formed §1.3
-- incomplete §6.9.3
-- incompleteness values §6.9.3
+- incomplete §6.9.3.1
+- incompleteness values §6.9.3.1
 - input focus node §5.
 - inverse path §4.4
 - IRI expression §5.1
@@ -5073,12 +5068,12 @@ and verified RDF sources and eliminating the possibility that graphs are dynamic
 - node expression function §5.
 - node shape §3.2
 - node target §3.1.3.1
-- non-validating properties §8.
+- non-validating properties §6.11
 - objects-of target §3.1.3.5
 - one-or-more path §4.6
 - optional parameters §3.1.1
 - output nodes §5.
-- parameter value §7.
+- parameter value §6.10
 - parameters §3.1.1
 - path mapping §4.
 - predicate path §4.1
@@ -5101,7 +5096,7 @@ and verified RDF sources and eliminating the possibility that graphs are dynamic
 - shape §3.1
 - shape-expecting constraint parameters §6.7.3
 - shapes graph §6.1
-- sibling shapes §7.8.4
+- sibling shapes §6.10.8.4
 - SPARQL property paths §1.1
 - subjects-of target §3.1.3.4
 - target §3.1.3
@@ -5117,13 +5112,13 @@ and verified RDF sources and eliminating the possibility that graphs are dynamic
 - validation results §6.9
 - validators §3.1.1
 - value §1.1
-- value nodes §6.10
+- value nodes §6.9.4
 - well-formed §1.3
 - where target §3.1.3.6
 - zero-or-more path §4.5
 - zero-or-one path §4.7
 
-#### E.2 Terms defined by reference
+##### 6.16.2 Terms defined by reference
 
 - [OWL2-MAPPING-TO-RDF] defines the following:
   * OWL 2 Web Ontology Language Mapping to RDF Graphs, Section 3.1.1
@@ -5164,48 +5159,48 @@ and verified RDF sources and eliminating the possibility that graphs are dynamic
   * SPARQL str function
   * SPARQL STRLEN function
 
-### G. Changes between the original SHACL Core and SHACL 1.2 Core
+#### 6.18 Changes between the original SHACL Core and SHACL 1.2 Core
 
 *This section is non-normative.*
 
 - Introduced node expressions as an extension point to dynamically compute lists of nodes. Generalized `sh:targetNode`, `sh:deactivated` and `sh:defaultValue`, and introduced `sh:values` to support node expressions.
-- Added the new constraint component `sh:singleLine` (§7.4.4), see [Issue 177](https://github.com/w3c/data-shapes/issues/177)
-- Added the new constraint component `sh:someValue` (§7.8.3), see [Issue 178](https://github.com/w3c/data-shapes/issues/178)
+- Added the new constraint component `sh:singleLine` (§6.10.4.4), see [Issue 177](https://github.com/w3c/data-shapes/issues/177)
+- Added the new constraint component `sh:someValue` (§6.10.8.3), see [Issue 178](https://github.com/w3c/data-shapes/issues/178)
 - Added the new class `sh:ShapeClass` for implicit class targets; see [Issue 212](https://github.com/w3c/data-shapes/issues/212)
 - Moved SPARQL-based validators from Core to an Appendix of SHACL-SPARQL; see [Issue 271](https://github.com/w3c/data-shapes/issues/271)
-- The §7.6 Property Pair Constraint Components now also support property paths as parameters; see [Issue 281](https://github.com/w3c/data-shapes/issues/281)
-- Added new §7.5 List Constraint Components, see [Issue 391](https://github.com/w3c/data-shapes/issues/391) and [Issue 414](https://github.com/w3c/data-shapes/issues/414)
-- Added the new value `sh:ByTypes` for `sh:closed` (§7.9.1); see [Issue 172](https://github.com/w3c/data-shapes/issues/172)
-- The values of `sh:class` (§7.1.1) and `sh:datatype` (§7.1.2) can now also be lists, indicating a union of choices; see [Issue 160](https://github.com/w3c/data-shapes/issues/160)
-- The values of `sh:nodeKind` (§7.1.3) can now also be lists, indicating a union of choices; see [Issue 407](https://github.com/w3c/data-shapes/issues/407)
-- Added the new constraint component `sh:reifierShape` (§7.8.5); see [Issue 300](https://github.com/w3c/data-shapes/issues/300)
+- The §6.10.6 Property Pair Constraint Components now also support property paths as parameters; see [Issue 281](https://github.com/w3c/data-shapes/issues/281)
+- Added new §6.10.5 List Constraint Components, see [Issue 391](https://github.com/w3c/data-shapes/issues/391) and [Issue 414](https://github.com/w3c/data-shapes/issues/414)
+- Added the new value `sh:ByTypes` for `sh:closed` (§6.10.9.1); see [Issue 172](https://github.com/w3c/data-shapes/issues/172)
+- The values of `sh:class` (§6.10.1.1) and `sh:datatype` (§6.10.1.2) can now also be lists, indicating a union of choices; see [Issue 160](https://github.com/w3c/data-shapes/issues/160)
+- The values of `sh:nodeKind` (§6.10.1.3) can now also be lists, indicating a union of choices; see [Issue 407](https://github.com/w3c/data-shapes/issues/407)
+- Added the new constraint component `sh:reifierShape` (§6.10.8.5); see [Issue 300](https://github.com/w3c/data-shapes/issues/300)
 - Added parameter 6.4 Graph for rdfs:subClassOf Triples (§6.4) to look up rdfs:subClassOf triples in the union of the shapes graph and the data graph; see [Issue 185](https://github.com/w3c/data-shapes/issues/185)
-- Generalized 8.7 sh:order (§8.7) to also allow xsd:integers; see [Issue 479](https://github.com/w3c/data-shapes/issues/479)
+- Generalized 6.11.7 sh:order (§6.11.7) to also allow xsd:integers; see [Issue 479](https://github.com/w3c/data-shapes/issues/479)
 - Added new `sh:conformanceDisallows` property (§6.9.1.2) to the validation report; see [Issue 453](https://github.com/w3c/data-shapes/issues/453)
-- Added annotation property 8.4 sh:codeIdentifier (§8.4); see [Issue 559](https://github.com/w3c/data-shapes/issues/559)
+- Added annotation property 6.11.4 sh:codeIdentifier (§6.11.4); see [Issue 559](https://github.com/w3c/data-shapes/issues/559)
 - Added the target types 3.1.3.6 Where Targets (sh:targetWhere) (§3.1.3.6) and 3.1.3.7 Explicit shape targets (sh:shape) (§3.1.3.7); see [Issue 517](https://github.com/w3c/data-shapes/issues/517)
-- Added support for units and currencies 8.6 sh:unit (§8.6); see [Issue 709](https://github.com/w3c/data-shapes/issues/709)
-- Added support for 8.3 sh:agentInstruction (§8.3) and 8.2 sh:intent (§8.2), see [Issue 725](https://github.com/w3c/data-shapes/issues/725)
-- Added support for `rdf:dirLangString` to 7.4.6 sh:uniqueLang (§7.4.6), see [Issue 737](https://github.com/w3c/data-shapes/issues/737)
-- Added the new constraint component `sh:rootClass` (§7.9.4), see [Issue 792](https://github.com/w3c/data-shapes/issues/792)
-- Added the new constraint component `sh:subsetOf` (§7.6.3), see [Issue 786](https://github.com/w3c/data-shapes/issues/786)
+- Added support for units and currencies 6.11.6 sh:unit (§6.11.6); see [Issue 709](https://github.com/w3c/data-shapes/issues/709)
+- Added support for 6.11.3 sh:agentInstruction (§6.11.3) and 6.11.2 sh:intent (§6.11.2), see [Issue 725](https://github.com/w3c/data-shapes/issues/725)
+- Added support for `rdf:dirLangString` to 6.10.4.6 sh:uniqueLang (§6.10.4.6), see [Issue 737](https://github.com/w3c/data-shapes/issues/737)
+- Added the new constraint component `sh:rootClass` (§6.10.9.4), see [Issue 792](https://github.com/w3c/data-shapes/issues/792)
+- Added the new constraint component `sh:subsetOf` (§6.10.6.3), see [Issue 786](https://github.com/w3c/data-shapes/issues/786)
 - Added the graph types `sh:DataGraph` and `sh:ShapesGraph`; see [Issue 169](https://github.com/w3c/data-shapes/issues/169)
-- Added the new constraint component `sh:uniqueValuesFor` (§7.9.5), see [Issue 661](https://github.com/w3c/data-shapes/issues/661)
+- Added the new constraint component `sh:uniqueValuesFor` (§6.10.9.5), see [Issue 661](https://github.com/w3c/data-shapes/issues/661)
 - Added support for [`owl:versionIRI`](https://www.w3.org/TR/owl2-syntax/#Ontology_IRI_and_Version_IRI) in §6.1 Shapes Graph imports, and expanded the definition of well-formed shapes graphs to include import closure constraints from [owl2-syntax]; see [Issue 830](https://github.com/w3c/data-shapes/issues/830)
 - Added the severities `sh:Trace` and `sh:Debug`, see 3.1.4 Declaring the Severity of a Shape or Constraint (§3.1.4)
 - Individual constraints can now declare their own `sh:severity` (§3.1.4), `sh:message` (§3.1.5) and `sh:deactivated` (§3.1.6) using reification of the triples that hold their parameters
 - Added the properties `sh:usedDataGraph` (§6.9.1.5), `sh:usedShapesGraph` (§6.9.1.6) and `sh:usedConfiguration` (§6.9.1.7) and the class `sh:ProcessorConfiguration` (§6.9.1.8) to the validation report
 - Added the property `sh:conformsToShapesGraph` (§6.8.1) for data graphs
 - Added the property `sh:dataGraph` (§6.6) to link shapes graphs to the data graphs they are intended to validate
-- Added the node kind `sh:TripleTerm` to `sh:nodeKind` (§7.1.3)
-- Added the new constraint component `sh:memberShape` (§7.5.1)
-- Changed the meaning of `sh:name` and `sh:description` (§8.1): they now name and describe the defining characteristic of a shape, i.e. the property path of a property shape or the kind of resource targeted by a node shape, rather than the shape itself
-- Added annotation property 8.5 sh:codeType (§8.5); see [Issue 1295](https://github.com/w3c/data-shapes/issues/1295)
-- Added support for 6.9.3 Incomplete Data (§6.9.3); see [Issue 1299](https://github.com/w3c/data-shapes/issues/1299)
+- Added the node kind `sh:TripleTerm` to `sh:nodeKind` (§6.10.1.3)
+- Added the new constraint component `sh:memberShape` (§6.10.5.1)
+- Changed the meaning of `sh:name` and `sh:description` (§6.11.1): they now name and describe the defining characteristic of a shape, i.e. the property path of a property shape or the kind of resource targeted by a node shape, rather than the shape itself
+- Added annotation property 6.11.5 sh:codeType (§6.11.5); see [Issue 1295](https://github.com/w3c/data-shapes/issues/1295)
+- Added support for 6.9.3.1 Incomplete Data (§6.9.3.1); see [Issue 1299](https://github.com/w3c/data-shapes/issues/1299)
 
-### H. References
+### A. References
 
-#### H.1 Normative references
+#### A.1 Normative references
 
 [BCP47]
 
@@ -5249,9 +5244,9 @@ and verified RDF sources and eliminating the possibility that graphs are dynamic
 
 [sparql12-query]
 
-[SPARQL 1.2 Query Language](https://www.w3.org/TR/sparql12-query/). Olaf Hartig; Andy Seaborne; Ruben Taelman; Gregory Williams; Thomas Pellissier Tanon. W3C. 25 October 2026. W3C Working Draft. URL: <https://www.w3.org/TR/sparql12-query/>
+[SPARQL 1.2 Query Language](https://www.w3.org/TR/sparql12-query/). Olaf Hartig; Andy Seaborne; Ruben Taelman; Gregory Williams; Thomas Pellissier Tanon. W3C. 1 November 2026. W3C Working Draft. URL: <https://www.w3.org/TR/sparql12-query/>
 
-#### H.2 Informative references
+#### A.2 Informative references
 
 [json-ld]
 
@@ -5263,11 +5258,11 @@ and verified RDF sources and eliminating the possibility that graphs are dynamic
 
 [rdf12-turtle]
 
-[RDF 1.2 Turtle](https://www.w3.org/TR/rdf12-turtle/). Gregg Kellogg; Andy Seaborne; Dominik Tomaszuk. W3C. 23 October 2026. W3C Working Draft. URL: <https://www.w3.org/TR/rdf12-turtle/>
+[RDF 1.2 Turtle](https://www.w3.org/TR/rdf12-turtle/). Gregg Kellogg; Andy Seaborne; Dominik Tomaszuk. W3C. 1 November 2026. W3C Working Draft. URL: <https://www.w3.org/TR/rdf12-turtle/>
 
 [shacl12-core]
 
-[SHACL 1.2 Core](https://www.w3.org/TR/shacl12-core/). Holger Knublauch; Thomas Bergwinkl; Yousouf Taghzouti; Jesse Wright. W3C. 25 October 2026. W3C Working Draft. URL: <https://www.w3.org/TR/shacl12-core/>
+[SHACL 1.2 Core](https://www.w3.org/TR/shacl12-core/). Holger Knublauch; Thomas Bergwinkl; Yousouf Taghzouti; Jesse Wright. W3C. 30 October 2026. W3C Working Draft. URL: <https://www.w3.org/TR/shacl12-core/>
 
 [shacl12-inference-rules]
 
@@ -5283,7 +5278,7 @@ and verified RDF sources and eliminating the possibility that graphs are dynamic
 
 [sparql12-rl]
 
-[SPARQL 1.2 RL](https://www.w3.org/TR/sparql12-rl/). Robert David; David Habgood; Andy Seaborne; Simon Steyskal. W3C. 21 October 2026. W3C Working Draft. URL: <https://www.w3.org/TR/sparql12-rl/>
+[SPARQL 1.2 RL](https://www.w3.org/TR/sparql12-rl/). Robert David; David Habgood; Andy Seaborne; Simon Steyskal. W3C. 31 October 2026. W3C Working Draft. URL: <https://www.w3.org/TR/sparql12-rl/>
 
 Permalink
 
@@ -5326,36 +5321,36 @@ Permalink
 - § 6.9.2.3 Value (sh:value)
 - § 6.9.2.4 Source (sh:sourceShape)
 - § 6.9.2.8 Severity (sh:resultSeverity) (2) (3)
-- § 6.9.3 Incomplete Data (2) (3) (4) (5)
-- § 6.10.2 Value Nodes of Property Shapes (2) (3)
-- § 7. Core Constraint Components (2)
-- § 7.4.5 sh:languageIn
-- § 7.6.1 sh:equals
-- § 7.6.2 sh:disjoint
-- § 7.6.3 sh:subsetOf
-- § 7.6.4 sh:lessThan (2) (3) (4)
-- § 7.6.5 sh:lessThanOrEquals (2) (3) (4)
-- § 7.7.1 sh:not
-- § 7.7.2 sh:and
-- § 7.7.3 sh:or
-- § 7.7.4 sh:xone
-- § 7.8.1 sh:node
-- § 7.8.2 sh:property
-- § 7.8.3 sh:someValue
-- § 7.8.4 sh:qualifiedValueShape, sh:qualifiedMinCount, sh:qualifiedMaxCount (2) (3) (4) (5)
-- § 7.8.5 sh:reifierShape, sh:reificationRequired (2) (3)
-- § 7.9.1 sh:closed, sh:ignoredProperties (2)
-- § 7.9.3 sh:in
-- § 7.9.5 sh:uniqueValuesFor (2) (3) (4)
-- § 8.1 sh:name and sh:description (2) (3) (4) (5)
-- § 8.2 sh:intent
-- § 8.3 sh:agentInstruction
-- § 8.4 sh:codeIdentifier
-- § 8.5 sh:codeType
-- § 8.6 sh:unit
-- § 8.7 sh:order
-- § A. Summary of SHACL Syntax Rules (2) (3) (4) (5) (6) (7) (8) (9) (10) (11) (12) (13) (14) (15) (16) (17) (18) (19) (20) (21) (22) (23) (24) (25) (26) (27)
-- § C. Summary of SHACL Core Validators (2) (3) (4) (5) (6) (7) (8) (9) (10) (11) (12) (13) (14) (15) (16) (17) (18) (19) (20) (21) (22) (23) (24) (25) (26)
+- § 6.9.3.1 Incomplete Data (2) (3) (4) (5)
+- § 6.9.4.2 Value Nodes of Property Shapes (2) (3)
+- § 6.10 Core Constraint Components (2)
+- § 6.10.4.5 sh:languageIn
+- § 6.10.6.1 sh:equals
+- § 6.10.6.2 sh:disjoint
+- § 6.10.6.3 sh:subsetOf
+- § 6.10.6.4 sh:lessThan (2) (3) (4)
+- § 6.10.6.5 sh:lessThanOrEquals (2) (3) (4)
+- § 6.10.7.1 sh:not
+- § 6.10.7.2 sh:and
+- § 6.10.7.3 sh:or
+- § 6.10.7.4 sh:xone
+- § 6.10.8.1 sh:node
+- § 6.10.8.2 sh:property
+- § 6.10.8.3 sh:someValue
+- § 6.10.8.4 sh:qualifiedValueShape, sh:qualifiedMinCount, sh:qualifiedMaxCount (2) (3) (4) (5)
+- § 6.10.8.5 sh:reifierShape, sh:reificationRequired (2) (3)
+- § 6.10.9.1 sh:closed, sh:ignoredProperties (2)
+- § 6.10.9.3 sh:in
+- § 6.10.9.5 sh:uniqueValuesFor (2) (3) (4)
+- § 6.11.1 sh:name and sh:description (2) (3) (4) (5)
+- § 6.11.2 sh:intent
+- § 6.11.3 sh:agentInstruction
+- § 6.11.4 sh:codeIdentifier
+- § 6.11.5 sh:codeType
+- § 6.11.6 sh:unit
+- § 6.11.7 sh:order
+- § 6.12 Summary of SHACL Syntax Rules (2) (3) (4) (5) (6) (7) (8) (9) (10) (11) (12) (13) (14) (15) (16) (17) (18) (19) (20) (21) (22) (23) (24) (25) (26) (27)
+- § 6.14 Summary of SHACL Core Validators (2) (3) (4) (5) (6) (7) (8) (9) (10) (11) (12) (13) (14) (15) (16) (17) (18) (19) (20) (21) (22) (23) (24) (25) (26)
 
 Permalink
 
@@ -5363,7 +5358,7 @@ Permalink
 
 - § 1.1 Terminology
 - § 4. SHACL Property Paths
-- § 7.8.4 sh:qualifiedValueShape, sh:qualifiedMinCount, sh:qualifiedMaxCount
+- § 6.10.8.4 sh:qualifiedValueShape, sh:qualifiedMinCount, sh:qualifiedMaxCount
 
 Permalink
 
@@ -5373,19 +5368,19 @@ Permalink
 - § 4.2 Sequence Paths (2)
 - § 4.3 Alternative Paths
 - § 6.7.3 Handling of Recursive Shapes
-- § 7.1.1 sh:class (2)
-- § 7.1.2 sh:datatype (2)
-- § 7.1.3 sh:nodeKind (2)
-- § 7.4.5 sh:languageIn
-- § 7.7.2 sh:and (2) (3)
-- § 7.7.3 sh:or (2) (3)
-- § 7.7.4 sh:xone (2) (3)
-- § 7.9.1 sh:closed, sh:ignoredProperties (2) (3)
-- § 7.9.3 sh:in (2) (3)
-- § 7.9.4 sh:rootClass (2)
-- § 7.9.5 sh:uniqueValuesFor (2)
-- § A. Summary of SHACL Syntax Rules (2) (3) (4) (5) (6) (7) (8) (9) (10) (11) (12) (13) (14) (15)
-- § C. Summary of SHACL Core Validators (2) (3) (4) (5) (6)
+- § 6.10.1.1 sh:class (2)
+- § 6.10.1.2 sh:datatype (2)
+- § 6.10.1.3 sh:nodeKind (2)
+- § 6.10.4.5 sh:languageIn
+- § 6.10.7.2 sh:and (2) (3)
+- § 6.10.7.3 sh:or (2) (3)
+- § 6.10.7.4 sh:xone (2) (3)
+- § 6.10.9.1 sh:closed, sh:ignoredProperties (2) (3)
+- § 6.10.9.3 sh:in (2) (3)
+- § 6.10.9.4 sh:rootClass (2)
+- § 6.10.9.5 sh:uniqueValuesFor (2)
+- § 6.12 Summary of SHACL Syntax Rules (2) (3) (4) (5) (6) (7) (8) (9) (10) (11) (12) (13) (14) (15)
+- § 6.14 Summary of SHACL Core Validators (2) (3) (4) (5) (6)
 
 Permalink
 
@@ -5395,19 +5390,19 @@ Permalink
 - § 4.2 Sequence Paths (2)
 - § 4.3 Alternative Paths
 - § 6.7.3 Handling of Recursive Shapes
-- § 7.1.1 sh:class
-- § 7.1.2 sh:datatype
-- § 7.1.3 sh:nodeKind
-- § 7.4.5 sh:languageIn (2)
-- § 7.7.2 sh:and (2) (3)
-- § 7.7.3 sh:or (2) (3)
-- § 7.7.4 sh:xone (2) (3) (4)
-- § 7.9.1 sh:closed, sh:ignoredProperties (2)
-- § 7.9.3 sh:in (2) (3) (4)
-- § 7.9.4 sh:rootClass
-- § 7.9.5 sh:uniqueValuesFor (2)
-- § A. Summary of SHACL Syntax Rules (2) (3) (4) (5) (6) (7) (8) (9) (10) (11) (12) (13) (14) (15)
-- § C. Summary of SHACL Core Validators (2) (3) (4) (5) (6) (7) (8) (9) (10)
+- § 6.10.1.1 sh:class
+- § 6.10.1.2 sh:datatype
+- § 6.10.1.3 sh:nodeKind
+- § 6.10.4.5 sh:languageIn (2)
+- § 6.10.7.2 sh:and (2) (3)
+- § 6.10.7.3 sh:or (2) (3)
+- § 6.10.7.4 sh:xone (2) (3) (4)
+- § 6.10.9.1 sh:closed, sh:ignoredProperties (2)
+- § 6.10.9.3 sh:in (2) (3) (4)
+- § 6.10.9.4 sh:rootClass
+- § 6.10.9.5 sh:uniqueValuesFor (2)
+- § 6.12 Summary of SHACL Syntax Rules (2) (3) (4) (5) (6) (7) (8) (9) (10) (11) (12) (13) (14) (15)
+- § 6.14 Summary of SHACL Core Validators (2) (3) (4) (5) (6) (7) (8) (9) (10)
 
 Permalink
 
@@ -5415,8 +5410,8 @@ Permalink
 
 - § 1.1 Terminology (2)
 - § 6.9.2 Validation Result (sh:ValidationResult)
-- § 7.9.4 sh:rootClass
-- § C. Summary of SHACL Core Validators
+- § 6.10.9.4 sh:rootClass
+- § 6.14 Summary of SHACL Core Validators
 
 Permalink
 
@@ -5455,12 +5450,14 @@ Permalink
 - § 6.4 Graph for rdfs:subClassOf Triples
 - § 6.9.1 Validation Report (sh:ValidationReport)
 - § 6.9.1.3 Result (sh:result)
-- § 7.1.1 sh:class (2)
-- § 7.7.3 sh:or
-- § 7.8.3 sh:someValue
-- § 8.8 sh:group
-- § A. Summary of SHACL Syntax Rules (2) (3) (4) (5)
-- § C. Summary of SHACL Core Validators
+- § 6.9.1.9 Node Assignment Count (sh:nodeAssignmentCount)
+- § 6.9.1.10 Assignment (sh:assignment)
+- § 6.10.1.1 sh:class (2)
+- § 6.10.7.3 sh:or
+- § 6.10.8.3 sh:someValue
+- § 6.11.8 sh:group
+- § 6.12 Summary of SHACL Syntax Rules (2) (3) (4) (5)
+- § 6.14 Summary of SHACL Core Validators
 
 Permalink
 
@@ -5478,8 +5475,8 @@ Permalink
 - § 3.1.3.3 Implicit Class Targets and sh:ShapeClass
 - § 6.1 Shapes Graph
 - § 6.7.2 Handling of Ill-formed Shapes Graphs
-- § 7. Core Constraint Components (2)
-- § A. Summary of SHACL Syntax Rules (2) (3) (4)
+- § 6.10 Core Constraint Components (2)
+- § 6.12 Summary of SHACL Syntax Rules (2) (3) (4)
 
 Permalink
 
@@ -5501,27 +5498,27 @@ Permalink
 - § 6.1 Shapes Graph
 - § 6.9.1.4 Syntax Checking of Shapes Graph (sh:shapesGraphWellFormed) (2)
 - § 6.9.2.2 Path (sh:resultPath)
-- § 7.1.1 sh:class
-- § 7.1.2 sh:datatype
-- § 7.1.3 sh:nodeKind
-- § 7.5.1 sh:memberShape
-- § 7.6.1 sh:equals
-- § 7.6.2 sh:disjoint
-- § 7.6.3 sh:subsetOf
-- § 7.6.4 sh:lessThan
-- § 7.6.5 sh:lessThanOrEquals
-- § 7.7.1 sh:not
-- § 7.7.2 sh:and
-- § 7.7.3 sh:or
-- § 7.7.4 sh:xone
-- § 7.8.1 sh:node
-- § 7.8.2 sh:property
-- § 7.8.3 sh:someValue
-- § 7.8.4 sh:qualifiedValueShape, sh:qualifiedMinCount, sh:qualifiedMaxCount
-- § 7.8.5 sh:reifierShape, sh:reificationRequired
-- § 7.9.4 sh:rootClass
-- § A. Summary of SHACL Syntax Rules (2) (3) (4) (5) (6) (7) (8) (9) (10) (11) (12) (13) (14) (15) (16) (17) (18) (19) (20) (21) (22) (23) (24) (25) (26) (27) (28) (29) (30) (31) (32) (33)
-- § G. Changes between the original SHACL Core and SHACL 1.2 Core
+- § 6.10.1.1 sh:class
+- § 6.10.1.2 sh:datatype
+- § 6.10.1.3 sh:nodeKind
+- § 6.10.5.1 sh:memberShape
+- § 6.10.6.1 sh:equals
+- § 6.10.6.2 sh:disjoint
+- § 6.10.6.3 sh:subsetOf
+- § 6.10.6.4 sh:lessThan
+- § 6.10.6.5 sh:lessThanOrEquals
+- § 6.10.7.1 sh:not
+- § 6.10.7.2 sh:and
+- § 6.10.7.3 sh:or
+- § 6.10.7.4 sh:xone
+- § 6.10.8.1 sh:node
+- § 6.10.8.2 sh:property
+- § 6.10.8.3 sh:someValue
+- § 6.10.8.4 sh:qualifiedValueShape, sh:qualifiedMinCount, sh:qualifiedMaxCount
+- § 6.10.8.5 sh:reifierShape, sh:reificationRequired
+- § 6.10.9.4 sh:rootClass
+- § 6.12 Summary of SHACL Syntax Rules (2) (3) (4) (5) (6) (7) (8) (9) (10) (11) (12) (13) (14) (15) (16) (17) (18) (19) (20) (21) (22) (23) (24) (25) (26) (27) (28) (29) (30) (31) (32) (33)
+- § 6.18 Changes between the original SHACL Core and SHACL 1.2 Core
 
 Permalink
 
@@ -5543,20 +5540,23 @@ Permalink
 - § 6.1 Shapes Graph
 - § 6.7 Validation (2) (3) (4) (5) (6) (7)
 - § 6.8 Conformance Checking (2) (3)
+- § 6.9.1.9 Node Assignment Count (sh:nodeAssignmentCount)
+- § 6.9.1.10 Assignment (sh:assignment)
 - § 6.9.2.4 Source (sh:sourceShape)
 - § 6.9.2.8 Severity (sh:resultSeverity)
-- § 6.9.3 Incomplete Data
-- § 7. Core Constraint Components
-- § 7.7.1 sh:not (2)
-- § 7.7.2 sh:and
-- § 7.7.3 sh:or
-- § 7.7.4 sh:xone (2)
-- § 7.8.1 sh:node
-- § 7.8.3 sh:someValue (2) (3)
-- § 7.8.4 sh:qualifiedValueShape, sh:qualifiedMinCount, sh:qualifiedMaxCount (2) (3) (4)
-- § 7.9.5 sh:uniqueValuesFor (2) (3)
-- § A. Summary of SHACL Syntax Rules (2) (3) (4) (5) (6) (7) (8) (9) (10) (11)
-- § C. Summary of SHACL Core Validators (2)
+- § 6.9.3 Validation Details (sh:ShapeAssignment)
+- § 6.9.3.1 Incomplete Data
+- § 6.10 Core Constraint Components
+- § 6.10.7.1 sh:not (2)
+- § 6.10.7.2 sh:and
+- § 6.10.7.3 sh:or
+- § 6.10.7.4 sh:xone (2)
+- § 6.10.8.1 sh:node
+- § 6.10.8.3 sh:someValue (2) (3)
+- § 6.10.8.4 sh:qualifiedValueShape, sh:qualifiedMinCount, sh:qualifiedMaxCount (2) (3) (4)
+- § 6.10.9.5 sh:uniqueValuesFor (2) (3)
+- § 6.12 Summary of SHACL Syntax Rules (2) (3) (4) (5) (6) (7) (8) (9) (10) (11)
+- § 6.14 Summary of SHACL Core Validators (2)
 
 Permalink
 
@@ -5567,26 +5567,26 @@ Permalink
 - § 6. Validation and Graphs
 - § 6.7 Validation
 - § 6.9.2.5 Constraint Component (sh:sourceConstraintComponent)
-- § 7. Core Constraint Components (2)
-- § 7.2 Cardinality Constraint Components
-- § 7.8.4 sh:qualifiedValueShape, sh:qualifiedMinCount, sh:qualifiedMaxCount (2)
-- § C. Summary of SHACL Core Validators (2)
+- § 6.10 Core Constraint Components (2)
+- § 6.10.2 Cardinality Constraint Components
+- § 6.10.8.4 sh:qualifiedValueShape, sh:qualifiedMinCount, sh:qualifiedMaxCount (2)
+- § 6.14 Summary of SHACL Core Validators (2)
 
 Permalink
 
 **Referenced in:**
 
 - § 3.1.1 Constraints, Parameters and Constraint Components (2) (3)
-- § 7. Core Constraint Components
-- § 7.8.4 sh:qualifiedValueShape, sh:qualifiedMinCount, sh:qualifiedMaxCount (2) (3)
+- § 6.10 Core Constraint Components
+- § 6.10.8.4 sh:qualifiedValueShape, sh:qualifiedMinCount, sh:qualifiedMaxCount (2) (3)
 
 Permalink
 
 **Referenced in:**
 
 - § 3.1.1 Constraints, Parameters and Constraint Components
-- § 7.8.4 sh:qualifiedValueShape, sh:qualifiedMinCount, sh:qualifiedMaxCount
-- § 7.8.5 sh:reifierShape, sh:reificationRequired
+- § 6.10.8.4 sh:qualifiedValueShape, sh:qualifiedMinCount, sh:qualifiedMaxCount
+- § 6.10.8.5 sh:reifierShape, sh:reificationRequired
 
 Permalink
 
@@ -5600,8 +5600,8 @@ Permalink
 - § 3.1.6 Deactivating Shapes and Constraints (2)
 - § 6.7 Validation
 - § 6.9.2.8 Severity (sh:resultSeverity)
-- § 7. Core Constraint Components (2)
-- § A. Summary of SHACL Syntax Rules (2) (3)
+- § 6.10 Core Constraint Components (2)
+- § 6.12 Summary of SHACL Syntax Rules (2) (3)
 
 Permalink
 
@@ -5614,9 +5614,9 @@ Permalink
 - § 3.1.5 Declaring Messages for a Shape or Constraint
 - § 6.7 Validation (2) (3)
 - § 6.9.2.8 Severity (sh:resultSeverity)
-- § 7.8.2 sh:property
-- § 8.5 sh:codeType
-- § A. Summary of SHACL Syntax Rules
+- § 6.10.8.2 sh:property
+- § 6.11.5 sh:codeType
+- § 6.12 Summary of SHACL Syntax Rules
 
 Permalink
 
@@ -5630,9 +5630,9 @@ Permalink
 
 - § 6. Validation and Graphs
 - § 6.7 Validation (2)
-- § 6.10 Value Nodes
-- § 7. Core Constraint Components
-- § C. Summary of SHACL Core Validators
+- § 6.9.4 Value Nodes
+- § 6.10 Core Constraint Components
+- § 6.14 Summary of SHACL Core Validators
 
 Permalink
 
@@ -5648,20 +5648,23 @@ Permalink
 - § 3.3 Property Shapes
 - § 6.7 Validation (2) (3) (4) (5)
 - § 6.8 Conformance Checking (2) (3)
+- § 6.9.1.9 Node Assignment Count (sh:nodeAssignmentCount)
+- § 6.9.1.10 Assignment (sh:assignment)
 - § 6.9.2.1 Focus node (sh:focusNode) (2)
-- § 6.9.3 Incomplete Data (2) (3) (4)
-- § 6.10.1 Value Nodes of Node Shapes
-- § 6.10.2 Value Nodes of Property Shapes (2) (3)
-- § 7.2 Cardinality Constraint Components
-- § 7.6.1 sh:equals (2)
-- § 7.6.2 sh:disjoint (2)
-- § 7.6.3 sh:subsetOf (2)
-- § 7.6.4 sh:lessThan (2)
-- § 7.6.5 sh:lessThanOrEquals (2)
-- § 7.8.2 sh:property (2) (3)
-- § 7.8.5 sh:reifierShape, sh:reificationRequired (2)
-- § 7.9.5 sh:uniqueValuesFor
-- § C. Summary of SHACL Core Validators (2) (3) (4) (5) (6) (7) (8) (9) (10)
+- § 6.9.3 Validation Details (sh:ShapeAssignment)
+- § 6.9.3.1 Incomplete Data (2) (3) (4)
+- § 6.9.4.1 Value Nodes of Node Shapes
+- § 6.9.4.2 Value Nodes of Property Shapes (2) (3)
+- § 6.10.2 Cardinality Constraint Components
+- § 6.10.6.1 sh:equals (2)
+- § 6.10.6.2 sh:disjoint (2)
+- § 6.10.6.3 sh:subsetOf (2)
+- § 6.10.6.4 sh:lessThan (2)
+- § 6.10.6.5 sh:lessThanOrEquals (2)
+- § 6.10.8.2 sh:property (2) (3)
+- § 6.10.8.5 sh:reifierShape, sh:reificationRequired (2)
+- § 6.10.9.5 sh:uniqueValuesFor
+- § 6.14 Summary of SHACL Core Validators (2) (3) (4) (5) (6) (7) (8) (9) (10)
 
 Permalink
 
@@ -5684,15 +5687,15 @@ Permalink
 - § 3.1.3.6 Where Targets (sh:targetWhere)
 - § 3.1.3.7 Explicit shape targets (sh:shape)
 - § 6.7 Validation
-- § 7.9.5 sh:uniqueValuesFor (2) (3) (4)
-- § C. Summary of SHACL Core Validators
+- § 6.10.9.5 sh:uniqueValuesFor (2) (3) (4)
+- § 6.14 Summary of SHACL Core Validators
 
 Permalink
 
 **Referenced in:**
 
 - § 3.1.3 Targets
-- § 6.9.3 Incomplete Data (2)
+- § 6.9.3.1 Incomplete Data (2)
 
 Permalink
 
@@ -5756,21 +5759,21 @@ Permalink
 - § 3.1 Shapes
 - § 3.2 Node Shapes
 - § 3.3 Property Shapes
-- § 6.10.1 Value Nodes of Node Shapes
-- § 7. Core Constraint Components (2)
-- § 7.2.1 sh:minCount
-- § 7.2.2 sh:maxCount
-- § 7.4.6 sh:uniqueLang
-- § 7.5.1 sh:memberShape (2)
-- § 7.6.4 sh:lessThan
-- § 7.6.5 sh:lessThanOrEquals
-- § 7.8.1 sh:node (2) (3)
-- § 7.8.3 sh:someValue
-- § 7.8.4 sh:qualifiedValueShape, sh:qualifiedMinCount, sh:qualifiedMaxCount
-- § 7.8.5 sh:reifierShape, sh:reificationRequired (2) (3) (4)
-- § 8.6 sh:unit
-- § A. Summary of SHACL Syntax Rules (2) (3) (4) (5) (6) (7) (8) (9)
-- § C. Summary of SHACL Core Validators
+- § 6.9.4.1 Value Nodes of Node Shapes
+- § 6.10 Core Constraint Components (2)
+- § 6.10.2.1 sh:minCount
+- § 6.10.2.2 sh:maxCount
+- § 6.10.4.6 sh:uniqueLang
+- § 6.10.5.1 sh:memberShape (2)
+- § 6.10.6.4 sh:lessThan
+- § 6.10.6.5 sh:lessThanOrEquals
+- § 6.10.8.1 sh:node (2) (3)
+- § 6.10.8.3 sh:someValue
+- § 6.10.8.4 sh:qualifiedValueShape, sh:qualifiedMinCount, sh:qualifiedMaxCount
+- § 6.10.8.5 sh:reifierShape, sh:reificationRequired (2) (3) (4)
+- § 6.11.6 sh:unit
+- § 6.12 Summary of SHACL Syntax Rules (2) (3) (4) (5) (6) (7) (8) (9)
+- § 6.14 Summary of SHACL Core Validators
 
 Permalink
 
@@ -5782,26 +5785,26 @@ Permalink
 - § 3.2 Node Shapes
 - § 3.3 Property Shapes (2) (3) (4) (5)
 - § 6.9.2.2 Path (sh:resultPath)
-- § 6.9.3 Incomplete Data (2)
-- § 6.10.2 Value Nodes of Property Shapes (2) (3)
-- § 7. Core Constraint Components (2)
-- § 7.2.1 sh:minCount
-- § 7.2.2 sh:maxCount
-- § 7.6 Property Pair Constraint Components
-- § 7.7.3 sh:or
-- § 7.8.2 sh:property (2) (3) (4) (5) (6)
-- § 7.8.3 sh:someValue
-- § 7.8.5 sh:reifierShape, sh:reificationRequired (2)
-- § 7.9.1 sh:closed, sh:ignoredProperties
-- § A. Summary of SHACL Syntax Rules (2) (3) (4) (5) (6) (7)
-- § C. Summary of SHACL Core Validators
+- § 6.9.3.1 Incomplete Data (2)
+- § 6.9.4.2 Value Nodes of Property Shapes (2) (3)
+- § 6.10 Core Constraint Components (2)
+- § 6.10.2.1 sh:minCount
+- § 6.10.2.2 sh:maxCount
+- § 6.10.6 Property Pair Constraint Components
+- § 6.10.7.3 sh:or
+- § 6.10.8.2 sh:property (2) (3) (4) (5) (6)
+- § 6.10.8.3 sh:someValue
+- § 6.10.8.5 sh:reifierShape, sh:reificationRequired (2)
+- § 6.10.9.1 sh:closed, sh:ignoredProperties
+- § 6.12 Summary of SHACL Syntax Rules (2) (3) (4) (5) (6) (7)
+- § 6.14 Summary of SHACL Core Validators
 
 Permalink
 
 **Referenced in:**
 
 - § 4.2 Sequence Paths
-- § 6.10.2 Value Nodes of Property Shapes
+- § 6.9.4.2 Value Nodes of Property Shapes
 
 Permalink
 
@@ -5813,7 +5816,7 @@ Permalink
 
 **Referenced in:**
 
-- § 8.4 sh:codeIdentifier
+- § 6.11.4 sh:codeIdentifier
 
 Permalink
 
@@ -5822,13 +5825,13 @@ Permalink
 - § 3.3 Property Shapes (2)
 - § 4. SHACL Property Paths
 - § 6.9.2.2 Path (sh:resultPath) (2)
-- § 7.6.1 sh:equals (2) (3) (4)
-- § 7.6.2 sh:disjoint (2) (3)
-- § 7.6.3 sh:subsetOf (2) (3)
-- § 7.6.4 sh:lessThan (2) (3)
-- § 7.6.5 sh:lessThanOrEquals (2) (3)
-- § A. Summary of SHACL Syntax Rules (2) (3) (4) (5) (6) (7)
-- § C. Summary of SHACL Core Validators (2) (3) (4) (5)
+- § 6.10.6.1 sh:equals (2) (3) (4)
+- § 6.10.6.2 sh:disjoint (2) (3)
+- § 6.10.6.3 sh:subsetOf (2) (3)
+- § 6.10.6.4 sh:lessThan (2) (3)
+- § 6.10.6.5 sh:lessThanOrEquals (2) (3)
+- § 6.12 Summary of SHACL Syntax Rules (2) (3) (4) (5) (6) (7)
+- § 6.14 Summary of SHACL Core Validators (2) (3) (4) (5)
 
 Permalink
 
@@ -5836,49 +5839,49 @@ Permalink
 
 - § 4. SHACL Property Paths
 - § 4.1 Predicate Paths
-- § A. Summary of SHACL Syntax Rules
+- § 6.12 Summary of SHACL Syntax Rules
 
 Permalink
 
 **Referenced in:**
 
 - § 4.2 Sequence Paths
-- § A. Summary of SHACL Syntax Rules
+- § 6.12 Summary of SHACL Syntax Rules
 
 Permalink
 
 **Referenced in:**
 
 - § 4.3 Alternative Paths
-- § A. Summary of SHACL Syntax Rules
+- § 6.12 Summary of SHACL Syntax Rules
 
 Permalink
 
 **Referenced in:**
 
 - § 4.4 Inverse Paths
-- § A. Summary of SHACL Syntax Rules
+- § 6.12 Summary of SHACL Syntax Rules
 
 Permalink
 
 **Referenced in:**
 
 - § 4.5 Zero-Or-More Paths
-- § A. Summary of SHACL Syntax Rules
+- § 6.12 Summary of SHACL Syntax Rules
 
 Permalink
 
 **Referenced in:**
 
 - § 4.6 One-Or-More Paths
-- § A. Summary of SHACL Syntax Rules
+- § 6.12 Summary of SHACL Syntax Rules
 
 Permalink
 
 **Referenced in:**
 
 - § 4.7 Zero-Or-One Paths
-- § A. Summary of SHACL Syntax Rules
+- § 6.12 Summary of SHACL Syntax Rules
 
 Permalink
 
@@ -5890,9 +5893,9 @@ Permalink
 - § 5. Node Expressions (2) (3)
 - § 5.1 IRI Expressions (2)
 - § 5.2 Literal Expressions (2)
-- § 7. Core Constraint Components (2)
-- § A. Summary of SHACL Syntax Rules (2) (3) (4)
-- § G. Changes between the original SHACL Core and SHACL 1.2 Core
+- § 6.10 Core Constraint Components (2)
+- § 6.12 Summary of SHACL Syntax Rules (2) (3) (4)
+- § 6.18 Changes between the original SHACL Core and SHACL 1.2 Core
 
 Permalink
 
@@ -5933,8 +5936,8 @@ Permalink
 - § 3.1.6 Deactivating Shapes and Constraints (2) (3)
 - § 5.1 IRI Expressions
 - § 5.2 Literal Expressions
-- § 6.10.2 Value Nodes of Property Shapes (2)
-- § A. Summary of SHACL Syntax Rules
+- § 6.9.4.2 Value Nodes of Property Shapes (2)
+- § 6.12 Summary of SHACL Syntax Rules
 
 Permalink
 
@@ -5947,14 +5950,14 @@ Permalink
 **Referenced in:**
 
 - § 5.1 IRI Expressions (2)
-- § A. Summary of SHACL Syntax Rules
+- § 6.12 Summary of SHACL Syntax Rules
 
 Permalink
 
 **Referenced in:**
 
 - § 5.2 Literal Expressions (2)
-- § A. Summary of SHACL Syntax Rules
+- § 6.12 Summary of SHACL Syntax Rules
 
 Permalink
 
@@ -6006,17 +6009,17 @@ Permalink
 - § 6.9.1.4 Syntax Checking of Shapes Graph (sh:shapesGraphWellFormed) (2)
 - § 6.9.1.6 Used Shapes Graph (sh:usedShapesGraph)
 - § 6.9.2.8 Severity (sh:resultSeverity)
-- § 6.9.3 Incomplete Data (2) (3) (4)
-- § 7. Core Constraint Components
-- § 7.6.1 sh:equals
-- § 7.6.2 sh:disjoint
-- § 7.6.3 sh:subsetOf
-- § 7.6.4 sh:lessThan
-- § 7.6.5 sh:lessThanOrEquals
-- § 7.8.2 sh:property
-- § 7.8.4 sh:qualifiedValueShape, sh:qualifiedMinCount, sh:qualifiedMaxCount
-- § A. Summary of SHACL Syntax Rules (2) (3) (4) (5)
-- § C. Summary of SHACL Core Validators (2) (3) (4) (5)
+- § 6.9.3.1 Incomplete Data (2) (3) (4)
+- § 6.10 Core Constraint Components
+- § 6.10.6.1 sh:equals
+- § 6.10.6.2 sh:disjoint
+- § 6.10.6.3 sh:subsetOf
+- § 6.10.6.4 sh:lessThan
+- § 6.10.6.5 sh:lessThanOrEquals
+- § 6.10.8.2 sh:property
+- § 6.10.8.4 sh:qualifiedValueShape, sh:qualifiedMinCount, sh:qualifiedMaxCount
+- § 6.12 Summary of SHACL Syntax Rules (2) (3) (4) (5)
+- § 6.14 Summary of SHACL Core Validators (2) (3) (4) (5)
 
 Permalink
 
@@ -6041,14 +6044,14 @@ Permalink
 - § 6.7 Validation (2) (3) (4) (5) (6) (7)
 - § 6.8.1 Conforms To Shapes Graph (sh:conformsToShapesGraph)
 - § 6.9.1.5 Used Data Graph (sh:usedDataGraph)
-- § 6.9.3 Incomplete Data (2) (3) (4) (5) (6) (7)
-- § 6.10.2 Value Nodes of Property Shapes (2) (3)
-- § 7.1.1 sh:class
-- § 7.8.5 sh:reifierShape, sh:reificationRequired (2)
-- § 7.9.4 sh:rootClass
-- § 8.5 sh:codeType
-- § A. Summary of SHACL Syntax Rules (2)
-- § C. Summary of SHACL Core Validators (2) (3)
+- § 6.9.3.1 Incomplete Data (2) (3) (4) (5) (6) (7)
+- § 6.9.4.2 Value Nodes of Property Shapes (2) (3)
+- § 6.10.1.1 sh:class
+- § 6.10.8.5 sh:reifierShape, sh:reificationRequired (2)
+- § 6.10.9.4 sh:rootClass
+- § 6.11.5 sh:codeType
+- § 6.12 Summary of SHACL Syntax Rules (2)
+- § 6.14 Summary of SHACL Core Validators (2) (3)
 
 Permalink
 
@@ -6057,7 +6060,7 @@ Permalink
 - § 6. Validation and Graphs
 - § 6.3 Results Graph
 - § 6.9 Validation Report (2)
-- § 7. Core Constraint Components
+- § 6.10 Core Constraint Components
 
 Permalink
 
@@ -6079,8 +6082,8 @@ Permalink
 - § 6.9.1.3 Result (sh:result)
 - § 6.9.1.4 Syntax Checking of Shapes Graph (sh:shapesGraphWellFormed)
 - § 6.9.1.6 Used Shapes Graph (sh:usedShapesGraph)
-- § 7.8.2 sh:property
-- § C. Summary of SHACL Core Validators
+- § 6.10.8.2 sh:property
+- § 6.14 Summary of SHACL Core Validators
 
 Permalink
 
@@ -6113,16 +6116,16 @@ Permalink
 - § 1.4 Relationship between SHACL and RDFS inferencing
 - § 6.7.2 Handling of Ill-formed Shapes Graphs
 - § 6.8 Conformance Checking
-- § 7.7.1 sh:not (2)
-- § 7.7.2 sh:and (2)
-- § 7.7.3 sh:or (2)
-- § 7.7.4 sh:xone (2)
-- § 7.8.1 sh:node (2)
-- § 7.8.2 sh:property (2)
-- § 7.8.3 sh:someValue (2)
-- § 7.8.4 sh:qualifiedValueShape, sh:qualifiedMinCount, sh:qualifiedMaxCount (2) (3) (4)
-- § 7.8.5 sh:reifierShape, sh:reificationRequired (2)
-- § C. Summary of SHACL Core Validators (2) (3) (4) (5) (6) (7) (8) (9) (10) (11) (12) (13) (14) (15) (16) (17) (18) (19) (20)
+- § 6.10.7.1 sh:not (2)
+- § 6.10.7.2 sh:and (2)
+- § 6.10.7.3 sh:or (2)
+- § 6.10.7.4 sh:xone (2)
+- § 6.10.8.1 sh:node (2)
+- § 6.10.8.2 sh:property (2)
+- § 6.10.8.3 sh:someValue (2)
+- § 6.10.8.4 sh:qualifiedValueShape, sh:qualifiedMinCount, sh:qualifiedMaxCount (2) (3) (4)
+- § 6.10.8.5 sh:reifierShape, sh:reificationRequired (2)
+- § 6.14 Summary of SHACL Core Validators (2) (3) (4) (5) (6) (7) (8) (9) (10) (11) (12) (13) (14) (15) (16) (17) (18) (19) (20)
 
 Permalink
 
@@ -6131,14 +6134,14 @@ Permalink
 - § 3.1 Shapes (2)
 - § 3.1.2 Focus Nodes
 - § 3.1.3 Targets
-- § A. Summary of SHACL Syntax Rules (2)
+- § 6.12 Summary of SHACL Syntax Rules (2)
 
 Permalink
 
 **Referenced in:**
 
 - § 3.1 Shapes (2)
-- § A. Summary of SHACL Syntax Rules (2)
+- § 6.12 Summary of SHACL Syntax Rules (2)
 
 Permalink
 
@@ -6160,16 +6163,16 @@ Permalink
 - § 6.8 Conformance Checking
 - § 6.8.1 Conforms To Shapes Graph (sh:conformsToShapesGraph)
 - § 6.9 Validation Report
-- § 7.5.1 sh:memberShape
-- § 7.7.1 sh:not (2)
-- § 7.7.2 sh:and
-- § 7.7.3 sh:or
-- § 7.7.4 sh:xone
-- § 7.8.1 sh:node
-- § 7.8.3 sh:someValue
-- § 7.8.4 sh:qualifiedValueShape, sh:qualifiedMinCount, sh:qualifiedMaxCount (2)
-- § 7.8.5 sh:reifierShape, sh:reificationRequired
-- § C. Summary of SHACL Core Validators (2) (3) (4) (5) (6) (7) (8) (9) (10)
+- § 6.10.5.1 sh:memberShape
+- § 6.10.7.1 sh:not (2)
+- § 6.10.7.2 sh:and
+- § 6.10.7.3 sh:or
+- § 6.10.7.4 sh:xone
+- § 6.10.8.1 sh:node
+- § 6.10.8.3 sh:someValue
+- § 6.10.8.4 sh:qualifiedValueShape, sh:qualifiedMinCount, sh:qualifiedMaxCount (2)
+- § 6.10.8.5 sh:reifierShape, sh:reificationRequired
+- § 6.14 Summary of SHACL Core Validators (2) (3) (4) (5) (6) (7) (8) (9) (10)
 
 Permalink
 
@@ -6179,13 +6182,13 @@ Permalink
 - § 6. Validation and Graphs
 - § 6.7.1 Failures
 - § 6.9.1.1 Conforms (sh:conforms)
-- § 7.7.1 sh:not
-- § 7.7.2 sh:and
-- § 7.7.3 sh:or
-- § 7.7.4 sh:xone
-- § 7.8.1 sh:node
-- § 7.8.3 sh:someValue
-- § C. Summary of SHACL Core Validators (2) (3) (4) (5) (6)
+- § 6.10.7.1 sh:not
+- § 6.10.7.2 sh:and
+- § 6.10.7.3 sh:or
+- § 6.10.7.4 sh:xone
+- § 6.10.8.1 sh:node
+- § 6.10.8.3 sh:someValue
+- § 6.14 Summary of SHACL Core Validators (2) (3) (4) (5) (6)
 
 Permalink
 
@@ -6194,7 +6197,7 @@ Permalink
 - § 6. Validation and Graphs
 - § 6.3 Results Graph
 - § 6.9 Validation Report
-- § 6.9.3 Incomplete Data
+- § 6.9.3.1 Incomplete Data
 
 Permalink
 
@@ -6205,43 +6208,43 @@ Permalink
 - § 6.8 Conformance Checking (2)
 - § 6.9 Validation Report
 - § 6.9.2 Validation Result (sh:ValidationResult)
-- § 7.1.1 sh:class
-- § 7.1.2 sh:datatype
-- § 7.1.3 sh:nodeKind
-- § 7.2.1 sh:minCount
-- § 7.2.2 sh:maxCount
-- § 7.3.1 sh:minExclusive
-- § 7.3.2 sh:minInclusive
-- § 7.3.3 sh:maxExclusive
-- § 7.3.4 sh:maxInclusive
-- § 7.4.1 sh:minLength
-- § 7.4.2 sh:maxLength
-- § 7.4.3 sh:pattern
-- § 7.4.5 sh:languageIn
-- § 7.4.6 sh:uniqueLang
-- § 7.5.1 sh:memberShape (2) (3) (4)
-- § 7.5.2 sh:minListLength (2)
-- § 7.5.3 sh:maxListLength (2)
-- § 7.5.4 sh:uniqueMembers (2) (3) (4)
-- § 7.6.1 sh:equals (2)
-- § 7.6.2 sh:disjoint
-- § 7.6.3 sh:subsetOf
-- § 7.6.4 sh:lessThan
-- § 7.6.5 sh:lessThanOrEquals
-- § 7.7.1 sh:not
-- § 7.7.2 sh:and
-- § 7.7.3 sh:or
-- § 7.7.4 sh:xone
-- § 7.8.1 sh:node
-- § 7.8.3 sh:someValue
-- § 7.8.4 sh:qualifiedValueShape, sh:qualifiedMinCount, sh:qualifiedMaxCount (2)
-- § 7.8.5 sh:reifierShape, sh:reificationRequired (2)
-- § 7.9.1 sh:closed, sh:ignoredProperties (2)
-- § 7.9.2 sh:hasValue
-- § 7.9.3 sh:in
-- § 7.9.4 sh:rootClass
-- § 7.9.5 sh:uniqueValuesFor
-- § C. Summary of SHACL Core Validators (2) (3) (4) (5) (6) (7) (8) (9) (10) (11) (12) (13) (14) (15) (16) (17) (18) (19) (20) (21) (22) (23) (24) (25) (26) (27) (28) (29) (30) (31) (32) (33) (34) (35) (36) (37) (38) (39) (40) (41) (42) (43) (44)
+- § 6.10.1.1 sh:class
+- § 6.10.1.2 sh:datatype
+- § 6.10.1.3 sh:nodeKind
+- § 6.10.2.1 sh:minCount
+- § 6.10.2.2 sh:maxCount
+- § 6.10.3.1 sh:minExclusive
+- § 6.10.3.2 sh:minInclusive
+- § 6.10.3.3 sh:maxExclusive
+- § 6.10.3.4 sh:maxInclusive
+- § 6.10.4.1 sh:minLength
+- § 6.10.4.2 sh:maxLength
+- § 6.10.4.3 sh:pattern
+- § 6.10.4.5 sh:languageIn
+- § 6.10.4.6 sh:uniqueLang
+- § 6.10.5.1 sh:memberShape (2) (3) (4)
+- § 6.10.5.2 sh:minListLength (2)
+- § 6.10.5.3 sh:maxListLength (2)
+- § 6.10.5.4 sh:uniqueMembers (2) (3) (4)
+- § 6.10.6.1 sh:equals (2)
+- § 6.10.6.2 sh:disjoint
+- § 6.10.6.3 sh:subsetOf
+- § 6.10.6.4 sh:lessThan
+- § 6.10.6.5 sh:lessThanOrEquals
+- § 6.10.7.1 sh:not
+- § 6.10.7.2 sh:and
+- § 6.10.7.3 sh:or
+- § 6.10.7.4 sh:xone
+- § 6.10.8.1 sh:node
+- § 6.10.8.3 sh:someValue
+- § 6.10.8.4 sh:qualifiedValueShape, sh:qualifiedMinCount, sh:qualifiedMaxCount (2)
+- § 6.10.8.5 sh:reifierShape, sh:reificationRequired (2)
+- § 6.10.9.1 sh:closed, sh:ignoredProperties (2)
+- § 6.10.9.2 sh:hasValue
+- § 6.10.9.3 sh:in
+- § 6.10.9.4 sh:rootClass
+- § 6.10.9.5 sh:uniqueValuesFor
+- § 6.14 Summary of SHACL Core Validators (2) (3) (4) (5) (6) (7) (8) (9) (10) (11) (12) (13) (14) (15) (16) (17) (18) (19) (20) (21) (22) (23) (24) (25) (26) (27) (28) (29) (30) (31) (32) (33) (34) (35) (36) (37) (38) (39) (40) (41) (42) (43) (44)
 
 Permalink
 
@@ -6253,13 +6256,13 @@ Permalink
 
 **Referenced in:**
 
-- § 6.9.3 Incomplete Data (2) (3) (4) (5)
+- § 6.9.3.1 Incomplete Data (2) (3) (4) (5)
 
 Permalink
 
 **Referenced in:**
 
-- § 6.9.3 Incomplete Data (2) (3) (4) (5) (6) (7) (8)
+- § 6.9.3.1 Incomplete Data (2) (3) (4) (5) (6) (7) (8)
 
 Permalink
 
@@ -6269,97 +6272,97 @@ Permalink
 - § 6.7 Validation
 - § 6.8 Conformance Checking
 - § 6.9.2.3 Value (sh:value)
-- § 6.9.3 Incomplete Data (2) (3)
-- § 6.10.1 Value Nodes of Node Shapes
-- § 6.10.2 Value Nodes of Property Shapes
-- § 7.1.1 sh:class (2) (3)
-- § 7.1.2 sh:datatype (2) (3)
-- § 7.1.3 sh:nodeKind (2) (3)
-- § 7.2 Cardinality Constraint Components
-- § 7.2.1 sh:minCount (2)
-- § 7.2.2 sh:maxCount (2)
-- § 7.3.1 sh:minExclusive (2)
-- § 7.3.2 sh:minInclusive (2)
-- § 7.3.3 sh:maxExclusive (2)
-- § 7.3.4 sh:maxInclusive (2)
-- § 7.4 String-based Constraint Components
-- § 7.4.1 sh:minLength (2)
-- § 7.4.2 sh:maxLength (2)
-- § 7.4.3 sh:pattern (2) (3)
-- § 7.4.4 sh:singleLine (2)
-- § 7.4.5 sh:languageIn (2) (3)
-- § 7.4.6 sh:uniqueLang (2) (3)
-- § 7.5 List Constraint Components
-- § 7.5.1 sh:memberShape (2)
-- § 7.5.2 sh:minListLength (2)
-- § 7.5.3 sh:maxListLength (2)
-- § 7.5.4 sh:uniqueMembers (2)
-- § 7.6 Property Pair Constraint Components
-- § 7.6.1 sh:equals (2) (3) (4)
-- § 7.6.2 sh:disjoint (2) (3)
-- § 7.6.3 sh:subsetOf (2) (3)
-- § 7.6.4 sh:lessThan (2) (3)
-- § 7.6.5 sh:lessThanOrEquals (2) (3)
-- § 7.7.1 sh:not (2)
-- § 7.7.2 sh:and (2)
-- § 7.7.3 sh:or (2)
-- § 7.7.4 sh:xone (2)
-- § 7.8.1 sh:node (2)
-- § 7.8.2 sh:property (2)
-- § 7.8.3 sh:someValue (2) (3) (4) (5)
-- § 7.8.4 sh:qualifiedValueShape, sh:qualifiedMinCount, sh:qualifiedMaxCount (2)
-- § 7.8.5 sh:reifierShape, sh:reificationRequired
-- § 7.9.1 sh:closed, sh:ignoredProperties (2)
-- § 7.9.2 sh:hasValue (2)
-- § 7.9.3 sh:in (2) (3)
-- § 7.9.4 sh:rootClass (2) (3)
-- § 7.9.5 sh:uniqueValuesFor (2)
-- § 8.5 sh:codeType
-- § 8.6 sh:unit
-- § C. Summary of SHACL Core Validators (2) (3) (4) (5) (6) (7) (8) (9) (10) (11) (12) (13) (14) (15) (16) (17) (18) (19) (20) (21) (22) (23) (24) (25) (26) (27) (28) (29) (30) (31) (32) (33) (34) (35) (36) (37) (38) (39) (40) (41) (42) (43) (44) (45) (46) (47) (48) (49) (50) (51) (52) (53) (54) (55)
+- § 6.9.3.1 Incomplete Data (2) (3)
+- § 6.9.4.1 Value Nodes of Node Shapes
+- § 6.9.4.2 Value Nodes of Property Shapes
+- § 6.10.1.1 sh:class (2) (3)
+- § 6.10.1.2 sh:datatype (2) (3)
+- § 6.10.1.3 sh:nodeKind (2) (3)
+- § 6.10.2 Cardinality Constraint Components
+- § 6.10.2.1 sh:minCount (2)
+- § 6.10.2.2 sh:maxCount (2)
+- § 6.10.3.1 sh:minExclusive (2)
+- § 6.10.3.2 sh:minInclusive (2)
+- § 6.10.3.3 sh:maxExclusive (2)
+- § 6.10.3.4 sh:maxInclusive (2)
+- § 6.10.4 String-based Constraint Components
+- § 6.10.4.1 sh:minLength (2)
+- § 6.10.4.2 sh:maxLength (2)
+- § 6.10.4.3 sh:pattern (2) (3)
+- § 6.10.4.4 sh:singleLine (2)
+- § 6.10.4.5 sh:languageIn (2) (3)
+- § 6.10.4.6 sh:uniqueLang (2) (3)
+- § 6.10.5 List Constraint Components
+- § 6.10.5.1 sh:memberShape (2)
+- § 6.10.5.2 sh:minListLength (2)
+- § 6.10.5.3 sh:maxListLength (2)
+- § 6.10.5.4 sh:uniqueMembers (2)
+- § 6.10.6 Property Pair Constraint Components
+- § 6.10.6.1 sh:equals (2) (3) (4)
+- § 6.10.6.2 sh:disjoint (2) (3)
+- § 6.10.6.3 sh:subsetOf (2) (3)
+- § 6.10.6.4 sh:lessThan (2) (3)
+- § 6.10.6.5 sh:lessThanOrEquals (2) (3)
+- § 6.10.7.1 sh:not (2)
+- § 6.10.7.2 sh:and (2)
+- § 6.10.7.3 sh:or (2)
+- § 6.10.7.4 sh:xone (2)
+- § 6.10.8.1 sh:node (2)
+- § 6.10.8.2 sh:property (2)
+- § 6.10.8.3 sh:someValue (2) (3) (4) (5)
+- § 6.10.8.4 sh:qualifiedValueShape, sh:qualifiedMinCount, sh:qualifiedMaxCount (2)
+- § 6.10.8.5 sh:reifierShape, sh:reificationRequired
+- § 6.10.9.1 sh:closed, sh:ignoredProperties (2)
+- § 6.10.9.2 sh:hasValue (2)
+- § 6.10.9.3 sh:in (2) (3)
+- § 6.10.9.4 sh:rootClass (2) (3)
+- § 6.10.9.5 sh:uniqueValuesFor (2)
+- § 6.11.5 sh:codeType
+- § 6.11.6 sh:unit
+- § 6.14 Summary of SHACL Core Validators (2) (3) (4) (5) (6) (7) (8) (9) (10) (11) (12) (13) (14) (15) (16) (17) (18) (19) (20) (21) (22) (23) (24) (25) (26) (27) (28) (29) (30) (31) (32) (33) (34) (35) (36) (37) (38) (39) (40) (41) (42) (43) (44) (45) (46) (47) (48) (49) (50) (51) (52) (53) (54) (55)
 
 Permalink
 
 **Referenced in:**
 
-- § 7. Core Constraint Components (2)
-- § 7.1.1 sh:class
-- § 7.1.2 sh:datatype
-- § 7.1.3 sh:nodeKind
-- § 7.2.1 sh:minCount
-- § 7.2.2 sh:maxCount
-- § 7.3.1 sh:minExclusive
-- § 7.3.2 sh:minInclusive
-- § 7.3.3 sh:maxExclusive
-- § 7.3.4 sh:maxInclusive
-- § 7.4.1 sh:minLength
-- § 7.4.2 sh:maxLength
-- § 7.4.3 sh:pattern (2)
-- § 7.4.4 sh:singleLine
-- § 7.4.6 sh:uniqueLang
-- § 7.5.1 sh:memberShape
-- § 7.5.2 sh:minListLength
-- § 7.5.3 sh:maxListLength
-- § 7.5.4 sh:uniqueMembers
-- § 7.6.2 sh:disjoint
-- § 7.8.4 sh:qualifiedValueShape, sh:qualifiedMinCount, sh:qualifiedMaxCount (2)
-- § 7.9.1 sh:closed, sh:ignoredProperties
-- § 7.9.2 sh:hasValue
-- § 7.9.4 sh:rootClass
-- § C. Summary of SHACL Core Validators (2) (3) (4) (5) (6) (7) (8) (9) (10) (11) (12) (13) (14) (15) (16) (17) (18) (19) (20) (21) (22) (23) (24) (25)
+- § 6.10 Core Constraint Components (2)
+- § 6.10.1.1 sh:class
+- § 6.10.1.2 sh:datatype
+- § 6.10.1.3 sh:nodeKind
+- § 6.10.2.1 sh:minCount
+- § 6.10.2.2 sh:maxCount
+- § 6.10.3.1 sh:minExclusive
+- § 6.10.3.2 sh:minInclusive
+- § 6.10.3.3 sh:maxExclusive
+- § 6.10.3.4 sh:maxInclusive
+- § 6.10.4.1 sh:minLength
+- § 6.10.4.2 sh:maxLength
+- § 6.10.4.3 sh:pattern (2)
+- § 6.10.4.4 sh:singleLine
+- § 6.10.4.6 sh:uniqueLang
+- § 6.10.5.1 sh:memberShape
+- § 6.10.5.2 sh:minListLength
+- § 6.10.5.3 sh:maxListLength
+- § 6.10.5.4 sh:uniqueMembers
+- § 6.10.6.2 sh:disjoint
+- § 6.10.8.4 sh:qualifiedValueShape, sh:qualifiedMinCount, sh:qualifiedMaxCount (2)
+- § 6.10.9.1 sh:closed, sh:ignoredProperties
+- § 6.10.9.2 sh:hasValue
+- § 6.10.9.4 sh:rootClass
+- § 6.14 Summary of SHACL Core Validators (2) (3) (4) (5) (6) (7) (8) (9) (10) (11) (12) (13) (14) (15) (16) (17) (18) (19) (20) (21) (22) (23) (24) (25)
 
 Permalink
 
 **Referenced in:**
 
-- § 7.8.4 sh:qualifiedValueShape, sh:qualifiedMinCount, sh:qualifiedMaxCount (2)
-- § C. Summary of SHACL Core Validators
+- § 6.10.8.4 sh:qualifiedValueShape, sh:qualifiedMinCount, sh:qualifiedMaxCount (2)
+- § 6.14 Summary of SHACL Core Validators
 
 Permalink
 
 **Referenced in:**
 
-- § 8.2 sh:intent
+- § 6.11.2 sh:intent
 
 Permalink
 
@@ -6381,15 +6384,15 @@ Permalink
 - § 1.3 Conformance
 - § 6.1 Shapes Graph
 - § 6.5 Linking data graphs to shapes graphs (sh:shapesGraph)
-- § G. Changes between the original SHACL Core and SHACL 1.2 Core
+- § 6.18 Changes between the original SHACL Core and SHACL 1.2 Core
 
 Permalink
 
 **Referenced in:**
 
 - § 1.1 Terminology
-- § 7.4.6 sh:uniqueLang
-- § C. Summary of SHACL Core Validators
+- § 6.10.4.6 sh:uniqueLang
+- § 6.14 Summary of SHACL Core Validators
 
 Permalink
 
@@ -6407,14 +6410,14 @@ Permalink
 - § 4.7 Zero-Or-One Paths
 - § 5. Node Expressions
 - § 6.9.2.2 Path (sh:resultPath)
-- § 7.1.1 sh:class (2)
-- § 7.1.2 sh:datatype (2)
-- § 7.1.3 sh:nodeKind (2) (3)
-- § 7.4.1 sh:minLength (2)
-- § 7.4.2 sh:maxLength (2)
-- § 7.9.4 sh:rootClass (2)
-- § A. Summary of SHACL Syntax Rules (2) (3) (4) (5) (6) (7) (8) (9) (10) (11) (12)
-- § C. Summary of SHACL Core Validators (2) (3) (4) (5) (6) (7)
+- § 6.10.1.1 sh:class (2)
+- § 6.10.1.2 sh:datatype (2)
+- § 6.10.1.3 sh:nodeKind (2) (3)
+- § 6.10.4.1 sh:minLength (2)
+- § 6.10.4.2 sh:maxLength (2)
+- § 6.10.9.4 sh:rootClass (2)
+- § 6.12 Summary of SHACL Syntax Rules (2) (3) (4) (5) (6) (7) (8) (9) (10) (11) (12)
+- § 6.14 Summary of SHACL Core Validators (2) (3) (4) (5) (6) (7)
 
 Permalink
 
@@ -6422,24 +6425,24 @@ Permalink
 
 - § 1.1 Terminology
 - § 3.1.5 Declaring Messages for a Shape or Constraint
-- § 7.1.2 sh:datatype
-- § 7.4.6 sh:uniqueLang
-- § 8.1 sh:name and sh:description (2)
-- § 8.2 sh:intent
-- § 8.3 sh:agentInstruction
-- § 8.4 sh:codeIdentifier
-- § 8.5 sh:codeType
-- § 8.6 sh:unit
-- § 8.7 sh:order
-- § A. Summary of SHACL Syntax Rules
-- § C. Summary of SHACL Core Validators
+- § 6.10.1.2 sh:datatype
+- § 6.10.4.6 sh:uniqueLang
+- § 6.11.1 sh:name and sh:description (2)
+- § 6.11.2 sh:intent
+- § 6.11.3 sh:agentInstruction
+- § 6.11.4 sh:codeIdentifier
+- § 6.11.5 sh:codeType
+- § 6.11.6 sh:unit
+- § 6.11.7 sh:order
+- § 6.12 Summary of SHACL Syntax Rules
+- § 6.14 Summary of SHACL Core Validators
 
 Permalink
 
 **Referenced in:**
 
-- § 7.1.2 sh:datatype
-- § C. Summary of SHACL Core Validators
+- § 6.10.1.2 sh:datatype
+- § 6.14 Summary of SHACL Core Validators
 
 Permalink
 
@@ -6470,20 +6473,20 @@ Permalink
 - § 6.9.1.6 Used Shapes Graph (sh:usedShapesGraph)
 - § 6.9.2.5 Constraint Component (sh:sourceConstraintComponent)
 - § 6.9.2.8 Severity (sh:resultSeverity)
-- § 6.9.3 Incomplete Data (2) (3) (4) (5)
-- § 7. Core Constraint Components
-- § 7.1.1 sh:class (2) (3) (4)
-- § 7.1.2 sh:datatype (2) (3) (4) (5)
-- § 7.1.3 sh:nodeKind (2) (3) (4) (5)
-- § 7.4.1 sh:minLength
-- § 7.4.2 sh:maxLength
-- § 7.9.1 sh:closed, sh:ignoredProperties (2) (3) (4)
-- § 7.9.4 sh:rootClass (2) (3) (4) (5) (6)
-- § 7.9.5 sh:uniqueValuesFor (2)
-- § 8.5 sh:codeType (2)
-- § 8.6 sh:unit (2)
-- § A. Summary of SHACL Syntax Rules (2) (3) (4) (5) (6) (7) (8) (9) (10) (11) (12) (13) (14) (15) (16) (17) (18) (19) (20) (21) (22) (23) (24) (25)
-- § C. Summary of SHACL Core Validators (2) (3) (4) (5) (6) (7) (8) (9) (10) (11) (12) (13) (14)
+- § 6.9.3.1 Incomplete Data (2) (3) (4) (5)
+- § 6.10 Core Constraint Components
+- § 6.10.1.1 sh:class (2) (3) (4)
+- § 6.10.1.2 sh:datatype (2) (3) (4) (5)
+- § 6.10.1.3 sh:nodeKind (2) (3) (4) (5)
+- § 6.10.4.1 sh:minLength
+- § 6.10.4.2 sh:maxLength
+- § 6.10.9.1 sh:closed, sh:ignoredProperties (2) (3) (4)
+- § 6.10.9.4 sh:rootClass (2) (3) (4) (5) (6)
+- § 6.10.9.5 sh:uniqueValuesFor (2)
+- § 6.11.5 sh:codeType (2)
+- § 6.11.6 sh:unit (2)
+- § 6.12 Summary of SHACL Syntax Rules (2) (3) (4) (5) (6) (7) (8) (9) (10) (11) (12) (13) (14) (15) (16) (17) (18) (19) (20) (21) (22) (23) (24) (25)
+- § 6.14 Summary of SHACL Core Validators (2) (3) (4) (5) (6) (7) (8) (9) (10) (11) (12) (13) (14)
 
 Permalink
 
@@ -6494,26 +6497,26 @@ Permalink
 - § 3.1.5 Declaring Messages for a Shape or Constraint
 - § 3.3 Property Shapes
 - § 5.2 Literal Expressions (2)
-- § 6.9.3 Incomplete Data (2) (3)
-- § 7.1.1 sh:class
-- § 7.1.2 sh:datatype (2) (3) (4)
-- § 7.1.3 sh:nodeKind
-- § 7.3.1 sh:minExclusive
-- § 7.3.2 sh:minInclusive
-- § 7.3.3 sh:maxExclusive
-- § 7.3.4 sh:maxInclusive
-- § 7.4.1 sh:minLength
-- § 7.4.2 sh:maxLength
-- § 7.4.5 sh:languageIn
-- § 8.1 sh:name and sh:description (2)
-- § 8.2 sh:intent
-- § 8.3 sh:agentInstruction
-- § 8.4 sh:codeIdentifier
-- § 8.5 sh:codeType
-- § 8.6 sh:unit (2) (3)
-- § 8.7 sh:order
-- § A. Summary of SHACL Syntax Rules (2) (3) (4) (5) (6) (7) (8)
-- § C. Summary of SHACL Core Validators (2) (3) (4) (5) (6) (7)
+- § 6.9.3.1 Incomplete Data (2) (3)
+- § 6.10.1.1 sh:class
+- § 6.10.1.2 sh:datatype (2) (3) (4)
+- § 6.10.1.3 sh:nodeKind
+- § 6.10.3.1 sh:minExclusive
+- § 6.10.3.2 sh:minInclusive
+- § 6.10.3.3 sh:maxExclusive
+- § 6.10.3.4 sh:maxInclusive
+- § 6.10.4.1 sh:minLength
+- § 6.10.4.2 sh:maxLength
+- § 6.10.4.5 sh:languageIn
+- § 6.11.1 sh:name and sh:description (2)
+- § 6.11.2 sh:intent
+- § 6.11.3 sh:agentInstruction
+- § 6.11.4 sh:codeIdentifier
+- § 6.11.5 sh:codeType
+- § 6.11.6 sh:unit (2) (3)
+- § 6.11.7 sh:order
+- § 6.12 Summary of SHACL Syntax Rules (2) (3) (4) (5) (6) (7) (8)
+- § 6.14 Summary of SHACL Core Validators (2) (3) (4) (5) (6) (7)
 
 Permalink
 
@@ -6527,16 +6530,16 @@ Permalink
 - § 4.2 Sequence Paths
 - § 5. Node Expressions (2) (3)
 - § 6.4 Graph for rdfs:subClassOf Triples
-- § 6.9.3 Incomplete Data (2) (3) (4) (5)
-- § 6.10.2 Value Nodes of Property Shapes
-- § 7.6.1 sh:equals (2) (3) (4)
-- § 7.6.2 sh:disjoint (2)
-- § 7.6.3 sh:subsetOf
-- § 7.6.4 sh:lessThan (2)
-- § 7.6.5 sh:lessThanOrEquals (2)
-- § 7.8.5 sh:reifierShape, sh:reificationRequired
-- § 7.9.5 sh:uniqueValuesFor
-- § C. Summary of SHACL Core Validators (2) (3) (4) (5) (6) (7) (8) (9)
+- § 6.9.3.1 Incomplete Data (2) (3) (4) (5)
+- § 6.9.4.2 Value Nodes of Property Shapes
+- § 6.10.6.1 sh:equals (2) (3) (4)
+- § 6.10.6.2 sh:disjoint (2)
+- § 6.10.6.3 sh:subsetOf
+- § 6.10.6.4 sh:lessThan (2)
+- § 6.10.6.5 sh:lessThanOrEquals (2)
+- § 6.10.8.5 sh:reifierShape, sh:reificationRequired
+- § 6.10.9.5 sh:uniqueValuesFor
+- § 6.14 Summary of SHACL Core Validators (2) (3) (4) (5) (6) (7) (8) (9)
 
 Permalink
 
@@ -6550,10 +6553,10 @@ Permalink
 - § 4.5 Zero-Or-More Paths
 - § 4.6 One-Or-More Paths
 - § 4.7 Zero-Or-One Paths
-- § 7. Core Constraint Components
-- § 7.9.1 sh:closed, sh:ignoredProperties
-- § A. Summary of SHACL Syntax Rules (2) (3) (4)
-- § C. Summary of SHACL Core Validators
+- § 6.10 Core Constraint Components
+- § 6.10.9.1 sh:closed, sh:ignoredProperties
+- § 6.12 Summary of SHACL Syntax Rules (2) (3) (4)
+- § 6.14 Summary of SHACL Core Validators
 
 Permalink
 
@@ -6573,10 +6576,10 @@ Permalink
 - § 4.5 Zero-Or-More Paths
 - § 4.6 One-Or-More Paths
 - § 4.7 Zero-Or-One Paths
-- § 7. Core Constraint Components
-- § 7.9.1 sh:closed, sh:ignoredProperties (2)
-- § A. Summary of SHACL Syntax Rules (2) (3) (4) (5) (6) (7)
-- § C. Summary of SHACL Core Validators (2)
+- § 6.10 Core Constraint Components
+- § 6.10.9.1 sh:closed, sh:ignoredProperties (2)
+- § 6.12 Summary of SHACL Syntax Rules (2) (3) (4) (5) (6) (7)
+- § 6.14 Summary of SHACL Core Validators (2)
 
 Permalink
 
@@ -6600,7 +6603,7 @@ Permalink
 - § 3.1.1 Constraints, Parameters and Constraint Components
 - § 3.1.2 Focus Nodes
 - § 5. Node Expressions (2)
-- § 8.5 sh:codeType
+- § 6.11.5 sh:codeType
 
 Permalink
 
@@ -6622,13 +6625,13 @@ Permalink
 - § 5. Node Expressions
 - § 6.4 Graph for rdfs:subClassOf Triples
 - § 6.9.2.8 Severity (sh:resultSeverity)
-- § 6.9.3 Incomplete Data (2) (3)
-- § 7. Core Constraint Components
-- § 7.8.5 sh:reifierShape, sh:reificationRequired
-- § 7.9.1 sh:closed, sh:ignoredProperties
-- § 8.2 sh:intent
-- § A. Summary of SHACL Syntax Rules (2) (3) (4) (5) (6) (7) (8) (9)
-- § C. Summary of SHACL Core Validators (2)
+- § 6.9.3.1 Incomplete Data (2) (3)
+- § 6.10 Core Constraint Components
+- § 6.10.8.5 sh:reifierShape, sh:reificationRequired
+- § 6.10.9.1 sh:closed, sh:ignoredProperties
+- § 6.11.2 sh:intent
+- § 6.12 Summary of SHACL Syntax Rules (2) (3) (4) (5) (6) (7) (8) (9)
+- § 6.14 Summary of SHACL Core Validators (2)
 
 Permalink
 
@@ -6639,8 +6642,8 @@ Permalink
 - § 3.1.5 Declaring Messages for a Shape or Constraint
 - § 3.1.6 Deactivating Shapes and Constraints (2)
 - § 6.9.2.8 Severity (sh:resultSeverity)
-- § 7.8.5 sh:reifierShape, sh:reificationRequired
-- § A. Summary of SHACL Syntax Rules (2)
+- § 6.10.8.5 sh:reifierShape, sh:reificationRequired
+- § 6.12 Summary of SHACL Syntax Rules (2)
 
 Permalink
 
@@ -6660,27 +6663,27 @@ Permalink
 - § 4.5 Zero-Or-More Paths
 - § 4.6 One-Or-More Paths
 - § 4.7 Zero-Or-One Paths
-- § 6.9.3 Incomplete Data (2) (3)
-- § 7. Core Constraint Components
-- § 7.8.4 sh:qualifiedValueShape, sh:qualifiedMinCount, sh:qualifiedMaxCount
-- § 7.9.1 sh:closed, sh:ignoredProperties
-- § A. Summary of SHACL Syntax Rules (2) (3) (4) (5) (6) (7) (8) (9)
-- § C. Summary of SHACL Core Validators
+- § 6.9.3.1 Incomplete Data (2) (3)
+- § 6.10 Core Constraint Components
+- § 6.10.8.4 sh:qualifiedValueShape, sh:qualifiedMinCount, sh:qualifiedMaxCount
+- § 6.10.9.1 sh:closed, sh:ignoredProperties
+- § 6.12 Summary of SHACL Syntax Rules (2) (3) (4) (5) (6) (7) (8) (9)
+- § 6.14 Summary of SHACL Core Validators
 
 Permalink
 
 **Referenced in:**
 
 - § 1.1 Terminology
-- § 7.1.3 sh:nodeKind
-- § 7.8.5 sh:reifierShape, sh:reificationRequired
-- § C. Summary of SHACL Core Validators (2)
+- § 6.10.1.3 sh:nodeKind
+- § 6.10.8.5 sh:reifierShape, sh:reificationRequired
+- § 6.14 Summary of SHACL Core Validators (2)
 
 Permalink
 
 **Referenced in:**
 
-- § B. SHACL Shapes to Validate Shapes Graphs
+- § 6.13 SHACL Shapes to Validate Shapes Graphs
 
 Permalink
 
@@ -6711,8 +6714,8 @@ Permalink
 
 **Referenced in:**
 
-- § 7.1.2 sh:datatype
-- § C. Summary of SHACL Core Validators
+- § 6.10.1.2 sh:datatype
+- § 6.14 Summary of SHACL Core Validators
 
 Permalink
 
@@ -6731,30 +6734,30 @@ Permalink
 
 **Referenced in:**
 
-- § 7.4.5 sh:languageIn
-- § C. Summary of SHACL Core Validators
+- § 6.10.4.5 sh:languageIn
+- § 6.14 Summary of SHACL Core Validators
 
 Permalink
 
 **Referenced in:**
 
-- § 7.4.3 sh:pattern (2) (3)
-- § A. Summary of SHACL Syntax Rules
-- § C. Summary of SHACL Core Validators
+- § 6.10.4.3 sh:pattern (2) (3)
+- § 6.12 Summary of SHACL Syntax Rules
+- § 6.14 Summary of SHACL Core Validators
 
 Permalink
 
 **Referenced in:**
 
-- § 7.4.1 sh:minLength
-- § 7.4.2 sh:maxLength
-- § 7.4.3 sh:pattern
-- § C. Summary of SHACL Core Validators (2) (3)
+- § 6.10.4.1 sh:minLength
+- § 6.10.4.2 sh:maxLength
+- § 6.10.4.3 sh:pattern
+- § 6.14 Summary of SHACL Core Validators (2) (3)
 
 Permalink
 
 **Referenced in:**
 
-- § 7.4.1 sh:minLength
-- § 7.4.2 sh:maxLength
-- § C. Summary of SHACL Core Validators (2)
+- § 6.10.4.1 sh:minLength
+- § 6.10.4.2 sh:maxLength
+- § 6.14 Summary of SHACL Core Validators (2)

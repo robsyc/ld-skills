@@ -5,7 +5,7 @@ family: shacl
 version: "1.1"
 status: W3C Recommendation
 spec_date: 2017-07-20
-fetched: 2026-11-02
+fetched: 2026-11-09
 ---
 
 # Shapes Constraint Language (SHACL)

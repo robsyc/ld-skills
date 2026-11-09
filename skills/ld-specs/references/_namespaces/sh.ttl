@@ -1659,4 +1659,4 @@ sh: a owl:Ontology ;
             sh:prefix "sh" ] ;
     sh:suggestedShapesGraph <http://www.w3.org/ns/shacl-shacl#> .
 
-# fetched: 2026-11-02, resources: 278
+# fetched: 2026-11-09, resources: 278

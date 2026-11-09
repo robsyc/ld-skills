@@ -4,8 +4,8 @@ source: https://www.w3.org/TR/rdf12-trig/
 family: rdf
 version: "1.2"
 status: W3C Working Draft
-spec_date: 2026-10-23
-fetched: 2026-11-02
+spec_date: 2026-11-05
+fetched: 2026-11-09
 ---
 
 # RDF 1.2 TriG
@@ -70,7 +70,7 @@ Turtle [RDF12-TURTLE] format.
 RDF 1.2 TriG shares [triple terms](https://www.w3.org/TR/rdf12-concepts/#dfn-triple-term) with [RDF12-TURTLE]
 as a fourth kind of [RDF term](https://www.w3.org/TR/rdf12-concepts/#dfn-rdf-term) which can be used as the [object](https://www.w3.org/TR/rdf12-concepts/#dfn-object) of another [triple](https://www.w3.org/TR/rdf12-concepts/#dfn-rdf-triple),
 making it possible to make statements about other statements.
-RDF 1.2 TriG also adds shares [directional language-tagged strings](https://www.w3.org/TR/rdf12-concepts/#dfn-dir-lang-string) with [RDF12-TURTLE].
+RDF 1.2 TriG also shares [directional language-tagged strings](https://www.w3.org/TR/rdf12-concepts/#dfn-dir-lang-string) with [RDF12-TURTLE].
 
 In addition, RDF 1.2 TriG shares the [reifying triples](https://www.w3.org/TR/rdf12-turtle/#reifying-triples) and [annotation syntax](https://www.w3.org/TR/rdf12-turtle/#annotation-syntax) extensions with [RDF12-TURTLE] which allows [triple terms](https://www.w3.org/TR/rdf12-concepts/#dfn-triple-term) to also be [asserted](https://www.w3.org/TR/rdf12-concepts/#dfn-asserted-triple).
 
@@ -566,8 +566,7 @@ Parsing TriG requires a state of ten items:
   per the `PNAME_NS` production: `PN_PREFIX? ":"`.
 - Map[string -> [blank node](https://www.w3.org/TR/rdf12-concepts/#dfn-blank-node)] *bnodeLabels* — A mapping from a string to a blank node.
 - [RDF Term](https://www.w3.org/TR/rdf12-concepts/#dfn-rdf-term) *curSubject* — The *curSubject* is bound to the `subject`, `rtSubject`, `ttSubject`, `blankNodePropertyList`, `collection`, `tripleTerm`, and `annotationBlock` productions.
-- RDF_Term *curPredicate* — The *curPredicate* is bound to the
-  the `verb` production.
+- RDF_Term *curPredicate* — The *curPredicate* is bound to the `verb` production.
   If token matched was `a`, *curPredicate* is bound to the IRI `http://www.w3.org/1999/02/22-rdf-syntax-ns#type`.
 - [RDF Term](https://www.w3.org/TR/rdf12-concepts/#dfn-rdf-term) *curObject* —
   The *curObject* is bound to the `object`, `rtObject`, and `ttObject` productions.
@@ -679,7 +678,7 @@ Each object *N* in the document produces an RDF triple: *curSubject* *curPredica
 
 Beginning the `reifier` production,
 the *curReifier* is taken from the `reifier` term constructor.
-Then yield the the RDF triple *curReifier* `rdf:reifies` *curTripleTerm*.
+Then yield the RDF triple *curReifier* `rdf:reifies` *curTripleTerm*.
 
 #### 5.3.5 Reified Triples
 
@@ -691,7 +690,7 @@ Finishing the `reifiedTriple` production,
 if the *curReifier* is not set, it is assigned a fresh RDF [blank node](https://www.w3.org/TR/rdf12-concepts/#dfn-blank-node);
 it next yields the RDF triple *curReifier* `rdf:reifies` *curTripleTerm*,
 and then restores the recorded value of the *curTripleTerm*.
-The node produced by matching `reifiedTriple` is the the *curReifier*.
+The node produced by matching `reifiedTriple` is the *curReifier*.
 
 #### 5.3.6 Annotations
 
@@ -1088,11 +1087,11 @@ More specifically, the following changes have been made:
 
 [RDF12-N-QUADS]
 
-[RDF 1.2 N-Quads](https://www.w3.org/TR/rdf12-n-quads/). Gregg Kellogg; Dominik Tomaszuk. W3C. 10 October 2026. W3C Working Draft. URL: <https://www.w3.org/TR/rdf12-n-quads/>
+[RDF 1.2 N-Quads](https://www.w3.org/TR/rdf12-n-quads/). Gregg Kellogg; Dominik Tomaszuk. W3C. 23 October 2026. W3C Working Draft. URL: <https://www.w3.org/TR/rdf12-n-quads/>
 
 [RDF12-N-TRIPLES]
 
-[RDF 1.2 N-Triples](https://www.w3.org/TR/rdf12-n-triples/). Gregg Kellogg; Dominik Tomaszuk. W3C. 7 October 2026. W3C Working Draft. URL: <https://www.w3.org/TR/rdf12-n-triples/>
+[RDF 1.2 N-Triples](https://www.w3.org/TR/rdf12-n-triples/). Gregg Kellogg; Dominik Tomaszuk. W3C. 23 October 2026. W3C Working Draft. URL: <https://www.w3.org/TR/rdf12-n-triples/>
 
 [RDF12-NEW]
 
@@ -1104,7 +1103,7 @@ More specifically, the following changes have been made:
 
 [RDF12-SCHEMA]
 
-[RDF 1.2 Schema](https://www.w3.org/TR/rdf12-schema/). Dominik Tomaszuk. W3C. 22 October 2026. W3C Working Draft. URL: <https://www.w3.org/TR/rdf12-schema/>
+[RDF 1.2 Schema](https://www.w3.org/TR/rdf12-schema/). Dominik Tomaszuk. W3C. 23 October 2026. W3C Working Draft. URL: <https://www.w3.org/TR/rdf12-schema/>
 
 [RDF12-SEMANTICS]
 
@@ -1112,11 +1111,11 @@ More specifically, the following changes have been made:
 
 [RDF12-TURTLE]
 
-[RDF 1.2 Turtle](https://www.w3.org/TR/rdf12-turtle/). Gregg Kellogg; Andy Seaborne; Dominik Tomaszuk. W3C. 7 October 2026. W3C Working Draft. URL: <https://www.w3.org/TR/rdf12-turtle/>
+[RDF 1.2 Turtle](https://www.w3.org/TR/rdf12-turtle/). Gregg Kellogg; Andy Seaborne; Dominik Tomaszuk. W3C. 1 November 2026. W3C Working Draft. URL: <https://www.w3.org/TR/rdf12-turtle/>
 
 [RDF12-XML]
 
-[RDF 1.2 XML Syntax](https://www.w3.org/TR/rdf12-xml/). Gregg Kellogg; Jerven Bolleman. W3C. 9 October 2026. W3C Working Draft. URL: <https://www.w3.org/TR/rdf12-xml/>
+[RDF 1.2 XML Syntax](https://www.w3.org/TR/rdf12-xml/). Gregg Kellogg; Jerven Bolleman. W3C. 25 October 2026. W3C Working Draft. URL: <https://www.w3.org/TR/rdf12-xml/>
 
 [RFC3023]
 
@@ -1156,7 +1155,7 @@ More specifically, the following changes have been made:
 
 [SPARQL12-QUERY]
 
-[SPARQL 1.2 Query Language](https://www.w3.org/TR/sparql12-query/). Olaf Hartig; Andy Seaborne; Ruben Taelman; Gregory Williams; Thomas Pellissier Tanon. W3C. 11 October 2026. W3C Working Draft. URL: <https://www.w3.org/TR/sparql12-query/>
+[SPARQL 1.2 Query Language](https://www.w3.org/TR/sparql12-query/). Olaf Hartig; Andy Seaborne; Ruben Taelman; Gregory Williams; Thomas Pellissier Tanon. W3C. 1 November 2026. W3C Working Draft. URL: <https://www.w3.org/TR/sparql12-query/>
 
 [SPARQL12-RESULTS-CSV-TSV]
 
@@ -1172,11 +1171,11 @@ More specifically, the following changes have been made:
 
 [SPARQL12-SERVICE-DESCRIPTION]
 
-[SPARQL 1.2 Service Description](https://www.w3.org/TR/sparql12-service-description/). Ruben Taelman; Gregory Williams. W3C. 23 April 2026. W3C Working Draft. URL: <https://www.w3.org/TR/sparql12-service-description/>
+[SPARQL 1.2 Service Description](https://www.w3.org/TR/sparql12-service-description/). Ruben Taelman; Gregory Williams. W3C. 29 October 2026. W3C Working Draft. URL: <https://www.w3.org/TR/sparql12-service-description/>
 
 [SPARQL12-UPDATE]
 
-[SPARQL 1.2 Update](https://www.w3.org/TR/sparql12-update/). Ruben Taelman; Andy Seaborne; Thomas Pellissier Tanon. W3C. 12 October 2026. W3C Working Draft. URL: <https://www.w3.org/TR/sparql12-update/>
+[SPARQL 1.2 Update](https://www.w3.org/TR/sparql12-update/). Ruben Taelman; Andy Seaborne; Thomas Pellissier Tanon. W3C. 25 October 2026. W3C Working Draft. URL: <https://www.w3.org/TR/sparql12-update/>
 
 [TRIG]
 

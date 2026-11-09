@@ -5,7 +5,7 @@ family: sparql
 version: "1.1"
 status: W3C Recommendation
 spec_date: 2013-03-21
-fetched: 2026-11-02
+fetched: 2026-11-09
 ---
 
 # SPARQL Query Results XML Format (Second Edition)

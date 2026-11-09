@@ -276,4 +276,4 @@ skos:note a rdf:Property,
     skos:definition "A general note, for any purpose."@en ;
     skos:scopeNote "This property may be used directly, or as a super-property for more specific note types."@en .
 
-# fetched: 2026-11-02, resources: 32
+# fetched: 2026-11-09, resources: 32

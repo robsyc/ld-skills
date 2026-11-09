@@ -5,7 +5,7 @@ family: rdf
 version: "1.2"
 status: W3C Candidate Recommendation
 spec_date: 2026-04-07
-fetched: 2026-11-02
+fetched: 2026-11-09
 ---
 
 # RDF 1.2 Concepts and Abstract Data Model
@@ -123,8 +123,6 @@ an RDF graph. An RDF graph can be visualized as a node and
 directed-arc diagram, in which each triple is represented as a
 node-arc-node link.
 
-[https://www.w3.org/TR/rdf12-concepts/rdf-graph.svg](https://www.w3.org/TR/rdf12-concepts/rdf-graph.svg)
-
 *Figure 1 An RDF graph with two nodes (Subject and Object) and an arc (Predicate) connecting them.*
 
 There are four kinds of nodes that can be in an RDF graph: IRIs, literals, blank nodes, and triple terms.
@@ -143,8 +141,6 @@ the term R3 is the same single term used twice, and there are five terms
 in total. This is more readily shown in two-dimensional graph diagrams,
 where one single node can simply be connected from or to multiple other
 nodes using labelled arcs.
-
-[https://www.w3.org/TR/rdf12-concepts/rdf-graph-arcs.svg](https://www.w3.org/TR/rdf12-concepts/rdf-graph-arcs.svg)
 
 *Figure 2 An RDF graph with three nodes (R1, R2, and R3) and two arcs (P1 and P2), the arcs respectively connecting R1 and R2 to R3.*
 
@@ -277,8 +273,6 @@ For more examples, refer to the [RDF 1.2 Primer](https://www.w3.org/TR/rdf12-pri
 For example, the following diagram represents a reifying triple of a triple term, together with a triple that includes the reifier as the subject.
 The latter describes the reifier as a claim, made by `:Bob`, that the proposition denoted by the reified triple term holds. In other words, `:Bob` claims that `:Alice`'s family name is "Liddell".
 
-[https://www.w3.org/TR/rdf12-concepts/triple-term.svg](https://www.w3.org/TR/rdf12-concepts/triple-term.svg)
-
 *Figure 3 An RDF graph containing a reifying triple that references a triple term (which is unasserted, depicted using a grey, dashed arc) from a reifier; and a triple describing this reifier.*
 
 In this example, the proposition denoted by the triple term (i.e., the proposition that `:Alice`'s family name is `"Liddell"`) is not claimed to be true.
@@ -292,8 +286,6 @@ where an asserted triple corresponds to the triple term object of a reifying tri
 In this case,
 the subset of triples including the reifier as subject—as illustrated in these examples—
 is called a *triple annotation*.
-
-[https://www.w3.org/TR/rdf12-concepts/asserted-triple-term.svg](https://www.w3.org/TR/rdf12-concepts/asserted-triple-term.svg)
 
 *Figure 4 An RDF graph containing a triple annotation, where the triple term of a reifying triple corresponds to an asserted triple.
 Due to the asserted triple, the diagram represents the proposition as a fact, meaning that the relationship holds.*

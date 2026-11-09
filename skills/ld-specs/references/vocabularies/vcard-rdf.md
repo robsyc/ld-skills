@@ -3,7 +3,7 @@ title: "vCard Ontology - for describing People and Organizations"
 source: https://www.w3.org/TR/vcard-rdf/
 family: vocabularies
 spec_date: 2014-05-22
-fetched: 2026-11-02
+fetched: 2026-11-09
 ---
 
 # vCard Ontology - for describing People and Organizations

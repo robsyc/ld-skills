@@ -108,4 +108,4 @@ rdfs: a owl:Ontology ;
     dc:title "The RDF Schema vocabulary (RDFS)" ;
     rdfs:seeAlso <http://www.w3.org/2000/01/rdf-schema-more> .
 
-# fetched: 2026-11-02, resources: 15
+# fetched: 2026-11-09, resources: 15

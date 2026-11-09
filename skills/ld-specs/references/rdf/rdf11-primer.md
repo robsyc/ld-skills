@@ -4,7 +4,7 @@ source: https://www.w3.org/TR/rdf11-primer/
 family: rdf
 version: "1.1"
 spec_date: 2014-06-24
-fetched: 2026-11-02
+fetched: 2026-11-09
 ---
 
 # RDF 1.1 Primer

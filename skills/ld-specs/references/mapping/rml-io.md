@@ -3,7 +3,7 @@ title: "RML-IO"
 source: https://w3id.org/rml/io/spec/
 family: mapping
 spec_date: 2026-03-16
-fetched: 2026-11-02
+fetched: 2026-11-09
 ---
 
 # RML-IO

@@ -4,7 +4,7 @@ source: https://www.w3.org/TR/ldp/
 family: web
 status: W3C Recommendation
 spec_date: 2015-02-26
-fetched: 2026-11-02
+fetched: 2026-11-09
 ---
 
 # Linked Data Platform 1.0

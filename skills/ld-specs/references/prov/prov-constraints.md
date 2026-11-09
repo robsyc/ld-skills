@@ -4,7 +4,7 @@ source: https://www.w3.org/TR/prov-constraints/
 family: prov
 status: W3C Recommendation
 spec_date: 2013-04-30
-fetched: 2026-11-02
+fetched: 2026-11-09
 ---
 
 # Constraints of the PROV Data Model
@@ -1944,14 +1944,14 @@ Constraint 50 (typing)
 9. IF wasInvalidatedBy(id; e,a,t,attrs) THEN 'entity' ∈ typeOf(e) AND 'activity' ∈ typeOf(a).
 
 10. IF wasDerivedFrom(id; e2, e1, a, g2, u1, attrs) THEN 'entity' ∈ typeOf(e2) AND 'entity' ∈ typeOf(e1) AND 'activity' ∈ typeOf(a).
-    In this constraint, a, g2, and u1 *MUST NOT*be placeholders.
+    In this constraint, a, g2, and u1 *MUST NOT* be placeholders.
 
 11. IF wasDerivedFrom(id; e2, e1, -, -, -, attrs) THEN 'entity' ∈ typeOf(e2) AND 'entity' ∈ typeOf(e1).
 
 12. IF wasAttributedTo(id; e,ag,attr) THEN 'entity' ∈ typeOf(e) AND 'agent' ∈ typeOf(ag).
 
 13. IF wasAssociatedWith(id; a,ag,pl,attrs) THEN 'activity' ∈ typeOf(a) AND 'agent' ∈ typeOf(ag) AND 'entity' ∈ typeOf(pl). In this
-    constraint, pl *MUST NOT*be a placeholder.
+    constraint, pl *MUST NOT* be a placeholder.
 
 14. IF wasAssociatedWith(id; a,ag,-,attrs) THEN 'activity' ∈ typeOf(a) AND 'agent' ∈ typeOf(ag).
 

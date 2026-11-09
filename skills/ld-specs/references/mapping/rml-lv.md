@@ -2,8 +2,8 @@
 title: "RML Logical Views"
 source: https://w3id.org/rml/lv/spec
 family: mapping
-spec_date: 2026-10-12
-fetched: 2026-11-02
+spec_date: 2026-11-06
+fetched: 2026-11-09
 ---
 
 # RML Logical Views
@@ -36,12 +36,12 @@ fetched: 2026-11-02
     - 5.2.3 Two left joins
 - 6 Structural Annotations
   - 6.1 Invariance Principle
-  - 6.2 IriSafe
+  - 6.2 IRISafe
   - 6.3 PrimaryKey
   - 6.4 Unique
   - 6.5 NotNull
   - 6.6 ForeignKey
-  - 6.7 Inclusion
+  - 6.7 InclusionDependency
 - A References
   - A.1 Normative references
 
@@ -837,9 +837,9 @@ Following structural annotations *MAY* be defined:
 - Unique annotation (`rml:UniqueAnnotation`)
 - ForeignKey annotation (`rml:ForeignKeyAnnotation`)
 - NotNull annotation (`rml:NotNullAnnotation`)
-- IriSafe annotation (`rml:IriSafeAnnotation`)
+- IRISafe annotation (`rml:IRISafeAnnotation`)
 - PrimaryKey annotation (`rml:PrimaryKeyAnnotation`)
-- Inclusion annotation (`rml:InclusionAnnotation`)
+- InclusionDependency annotation (`rml:InclusionDependencyAnnotation`)
 
 All structural annotations of a logical view *lv* *MUST* have an *on fields* property (`rml:onFields`), linking the structural annotation to a list of field names occurring in *lv*. Intuitively, property on fields specifies the fields in *lv* that are involved by the structural annotation. The semantics of this involvement depends on the specific annotation.
 
@@ -855,9 +855,9 @@ Structural annotations provide additional information about the data that might 
 
 We emphasize that RML engines might exploit structural annotations, as they could totally ignore them. It is responsibility of the user to make sure that the annotations provided are indeed correct (that is, the data complies with the annotations). Sanity checks *MAY* be provided by the RML engines themselves, but this is not mandatory. Note that providing wrong annotations to an engine that takes annotations into account, for instance for applying optimizations, could result in a violation of the invariance principle, with unpredictable results.
 
-### 6.2 IriSafe
+### 6.2 IRISafe
 
-An *IriSafe structural annotation* (`rml:IriSafeAnnotation`) on fields *F* indicates that the content of each field in *F* is [IRI safe](https://www.w3.org/TR/r2rml/#dfn-iri-safe), that is, each field in *F* does not contain any character that is not in the [`iunreserved` production](http://tools.ietf.org/html/rfc3987#section-2.2) in [RFC3987](http://tools.ietf.org/html/rfc3987).
+An *IRISafe structural annotation* (`rml:IRISafeAnnotation`) on fields *F* indicates that the content of each field in *F* is [IRI safe](https://www.w3.org/TR/r2rml/#dfn-iri-safe), that is, each field in *F* does not contain any character that is not in the [`iunreserved` production](http://tools.ietf.org/html/rfc3987#section-2.2) in [RFC3987](http://tools.ietf.org/html/rfc3987).
 
 ### 6.3 PrimaryKey
 
@@ -1069,15 +1069,15 @@ Therefore, each ForeignKey annotation *MUST* specify (additionally to the inheri
 >   ].
 > ```
 
-### 6.7 Inclusion
+### 6.7 InclusionDependency
 
-The *Inclusion structural annotation* (`rml:InclusionAnnotation`) is analogous to the notion of *inclusion dependency* in databases. Specifically, an Inclusion annotation on fields *(f1, ..., fn)* , target view *lv*, and target fields *(tf1,...,tfn)* imposes the following condition:
+The *InclusionDependency structural annotation* (`rml:InclusionDependencyAnnotation`) is analogous to the notion of *inclusion dependency* in databases. Specifically, an InclusionDependency annotation on fields *(f1, ..., fn)* , target view *lv*, and target fields *(tf1,...,tfn)* imposes the following condition:
 
 - each NULL-free record sequence over the list of fields *(f1, ..., fn)* occurs also as a record sequence in *(tf1,...,tfn)*;
 
 As for ForeignKey annotation, the target view *MUST* be a logical view specified through the property `rml:targetView`, whereas the target fields *MUST* be an RDF list of field names specified through the property `rml:targetFields`.
 
-Therefore, each inclusion annotation *MUST* specify (additionally to the inherited `rml:onFields` property):
+Therefore, each InclusionDependency annotation *MUST* specify (additionally to the inherited `rml:onFields` property):
 
 - Exactly one `rml:targetView` property
 - Exactly one `rml:targetFields` property.
@@ -1088,7 +1088,7 @@ Therefore, each inclusion annotation *MUST* specify (additionally to the inherit
 > >
 > > Note
 >
-> Note that every ForeignKey annotation is also an Inclusion annotation.
+> Note that every ForeignKey annotation is also an InclusionDependency annotation.
 
 ## A. References
 
@@ -1135,7 +1135,7 @@ Permalink
 - § 6. Structural Annotations
 - § 6.3 PrimaryKey
 - § 6.6 ForeignKey
-- § 6.7 Inclusion
+- § 6.7 InclusionDependency
 
 Permalink
 
@@ -1332,12 +1332,12 @@ Permalink
 **Referenced in:**
 
 - § 6. Structural Annotations
-- § 6.2 IriSafe
+- § 6.2 IRISafe
 - § 6.3 PrimaryKey
 - § 6.4 Unique
 - § 6.5 NotNull
 - § 6.6 ForeignKey (2)
-- § 6.7 Inclusion
+- § 6.7 InclusionDependency
 
 Permalink
 
@@ -1375,25 +1375,25 @@ Permalink
 
 - § 6. Structural Annotations
 - § 6.6 ForeignKey
-- § 6.7 Inclusion (2)
+- § 6.7 InclusionDependency (2)
 
 Permalink
 
 **Referenced in:**
 
 - § 6.6 ForeignKey
-- § 6.7 Inclusion (2)
+- § 6.7 InclusionDependency (2)
 
 Permalink
 
 **Referenced in:**
 
 - § 6.6 ForeignKey
-- § 6.7 Inclusion
+- § 6.7 InclusionDependency
 
 Permalink
 
 **Referenced in:**
 
 - § 6. Structural Annotations
-- § 6.7 Inclusion (2)
+- § 6.7 InclusionDependency (2)

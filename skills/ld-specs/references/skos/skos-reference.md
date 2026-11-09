@@ -4,7 +4,7 @@ source: https://www.w3.org/TR/skos-reference/
 family: skos
 status: W3C Recommendation
 spec_date: 2009-08-18
-fetched: 2026-11-02
+fetched: 2026-11-09
 ---
 
 # SKOS Simple Knowledge Organization System Reference

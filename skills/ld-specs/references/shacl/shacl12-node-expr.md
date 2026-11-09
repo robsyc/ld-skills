@@ -5,7 +5,7 @@ family: shacl
 version: "1.2"
 status: W3C Working Draft
 spec_date: 2026-10-28
-fetched: 2026-11-02
+fetched: 2026-11-09
 ---
 
 # SHACL 1.2 Node Expressions

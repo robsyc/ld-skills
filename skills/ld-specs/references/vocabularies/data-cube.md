@@ -4,7 +4,7 @@ source: https://www.w3.org/TR/vocab-data-cube/
 family: vocabularies
 status: W3C Recommendation
 spec_date: 2014-01-16
-fetched: 2026-11-02
+fetched: 2026-11-09
 ---
 
 # The RDF Data Cube Vocabulary

@@ -2,7 +2,7 @@
 
 # Specification catalog
 
-Snapshots built 2026-11-02. Each entry is a single markdown file:
+Snapshots built 2026-11-09. Each entry is a single markdown file:
 open it and search (case-insensitive) for the term you need.
 
 ## RDF

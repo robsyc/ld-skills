@@ -282,4 +282,4 @@ qb:componentProperty a rdf:Property,
     rdfs:isDefinedBy <http://purl.org/linked-data/cube> ;
     rdfs:range qb:ComponentProperty .
 
-# fetched: 2026-11-02, resources: 36
+# fetched: 2026-11-09, resources: 36

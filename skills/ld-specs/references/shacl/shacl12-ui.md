@@ -3,7 +3,7 @@ title: "SHACL 1.2 User Interfaces"
 source: https://w3c.github.io/data-shapes/shacl12-ui/
 family: shacl
 version: "1.2"
-fetched: 2026-11-02
+fetched: 2026-11-09
 ---
 
 # SHACL 1.2 User Interfaces
@@ -73,54 +73,56 @@ fetched: 2026-11-02
 - 11 Search Query
   - 11.1 shui:searchQuery
   - 11.2 Validation of Search Query Results
-- 12 Built-in Widgets
-  - 12.1 Editors
-    - 12.1.1 shui:AutoCompleteEditor
-    - 12.1.2 shui:BlankNodeEditor
-    - 12.1.3 shui:BooleanEditor
-    - 12.1.4 shui:DatePickerEditor
-    - 12.1.5 shui:DateTimePickerEditor
-    - 12.1.6 shui:DetailsEditor
-    - 12.1.7 shui:EnumSelectEditor
-    - 12.1.8 shui:InstancesSelectEditor
-    - 12.1.9 shui:IRIEditor
-    - 12.1.10 shui:NumberFieldEditor
-    - 12.1.11 shui:RichTextEditor
-    - 12.1.12 shui:SubClassEditor
-    - 12.1.13 shui:TextAreaEditor
-    - 12.1.14 shui:TextAreaWithLangEditor
-    - 12.1.15 shui:TextFieldEditor
-    - 12.1.16 shui:TextFieldWithLangEditor
-  - 12.2 Viewers
-    - 12.2.1 shui:BlankNodeViewer
-    - 12.2.2 shui:DetailsViewer
-    - 12.2.3 shui:HTMLViewer
-    - 12.2.4 shui:HyperlinkViewer
-    - 12.2.5 shui:ImageViewer
-    - 12.2.6 shui:IRIViewer
-    - 12.2.7 shui:LabelViewer
-    - 12.2.8 shui:LangStringViewer
-    - 12.2.9 shui:LiteralViewer
-    - 12.2.10 shui:ValueTableViewer
-- 13 Property Roles
-  - 13.1 Direct Role Annotation
-  - 13.2 Qualified Role Annotation
-  - 13.3 Built-in Property Roles
-    - 13.3.1 shui:LabelRole
-    - 13.3.2 shui:DepictionRole
-    - 13.3.3 shui:ClassificationRole
-    - 13.3.4 shui:DescriptionRole
-    - 13.3.5 shui:IconRole
-  - 13.4 Definitions
-    - 13.4.1 shui:PropertyRole Class
-    - 13.4.2 shui:propertyRole Property
-- 14 Registries
-  - 14.1 Community Widget Registry
-- 15 Summary of Syntax Rules from this Specification
-- 16 Security Considerations
-- 17 Privacy Considerations
-- 18 Internationalization Considerations
-- 19 Summary of SHACL Core Syntax to SHACL UI Index
+- 12 Suggested Values
+  - 12.1 shui:suggestedValues
+- 13 Built-in Widgets
+  - 13.1 Editors
+    - 13.1.1 shui:AutoCompleteEditor
+    - 13.1.2 shui:BlankNodeEditor
+    - 13.1.3 shui:BooleanEditor
+    - 13.1.4 shui:DatePickerEditor
+    - 13.1.5 shui:DateTimePickerEditor
+    - 13.1.6 shui:DetailsEditor
+    - 13.1.7 shui:EnumSelectEditor
+    - 13.1.8 shui:InstancesSelectEditor
+    - 13.1.9 shui:IRIEditor
+    - 13.1.10 shui:NumberFieldEditor
+    - 13.1.11 shui:RichTextEditor
+    - 13.1.12 shui:SubClassEditor
+    - 13.1.13 shui:TextAreaEditor
+    - 13.1.14 shui:TextAreaWithLangEditor
+    - 13.1.15 shui:TextFieldEditor
+    - 13.1.16 shui:TextFieldWithLangEditor
+  - 13.2 Viewers
+    - 13.2.1 shui:BlankNodeViewer
+    - 13.2.2 shui:DetailsViewer
+    - 13.2.3 shui:HTMLViewer
+    - 13.2.4 shui:HyperlinkViewer
+    - 13.2.5 shui:ImageViewer
+    - 13.2.6 shui:IRIViewer
+    - 13.2.7 shui:LabelViewer
+    - 13.2.8 shui:LangStringViewer
+    - 13.2.9 shui:LiteralViewer
+    - 13.2.10 shui:ValueTableViewer
+- 14 Property Roles
+  - 14.1 Direct Role Annotation
+  - 14.2 Qualified Role Annotation
+  - 14.3 Built-in Property Roles
+    - 14.3.1 shui:LabelRole
+    - 14.3.2 shui:DepictionRole
+    - 14.3.3 shui:ClassificationRole
+    - 14.3.4 shui:DescriptionRole
+    - 14.3.5 shui:IconRole
+  - 14.4 Definitions
+    - 14.4.1 shui:PropertyRole Class
+    - 14.4.2 shui:propertyRole Property
+- 15 Registries
+  - 15.1 Community Widget Registry
+- 16 Summary of Syntax Rules from this Specification
+- 17 Security Considerations
+- 18 Privacy Considerations
+- 19 Internationalization Considerations
+- 20 Summary of SHACL Core Syntax to SHACL UI Index
 
 ---
 
@@ -418,7 +420,7 @@ Renderer to generate a simple editable form.
 There are a few SHACL UI concepts working together to render this
 form. First, the labels in the form for the resource name and its
 properties use Label Resolution to generate human-readable
-labels. Second, the §5 Scoring System determines the most suitable editor widgets to render, selecting `shui:DatePickerEditor` (§12.1.4) for the birth date field and `shui:TextFieldEditor` (§12.1.15) for
+labels. Second, the §5 Scoring System determines the most suitable editor widgets to render, selecting `shui:DatePickerEditor` (§13.1.4) for the birth date field and `shui:TextFieldEditor` (§13.1.15) for
 the remaining fields.
 
 Here is how the SHACL Renderer applies the SHACL UI concepts in this
@@ -579,7 +581,7 @@ When rendering the form for the resource `ex:TimBL`, a
 property shape for `schema:affiliation` can identify the
 value as an IRI using `sh:nodeKind sh:IRI`. Without an
 explicit details-editor preference, the Scoring System can then render
-the value using a `shui:IRIEditor` (§12.1.9), allowing the
+the value using a `shui:IRIEditor` (§13.1.9), allowing the
 user to reference another resource without displaying its properties.
 However, it can be useful to show the `ex:W3C` resource
 nested in the same view. To do this, we can configure the same
@@ -642,7 +644,7 @@ property shape to prefer the details editor.
 > .
 >
 > This shapes graph now contains a new property shape for `schema:affiliation` with an IRI node kind constraint and
-> a preference for the `shui:DetailsEditor` (§12.1.6) widget.
+> a preference for the `shui:DetailsEditor` (§13.1.6) widget.
 
 With the new property shape, the SHACL Renderer now nests the `ex:W3C` resource in the same form as the `ex:TimBL` resource.
 
@@ -817,7 +819,7 @@ Steps:
 1. Initialize the **prepared scoring graph** as a copy of the **scoring graph**.
 2. Let `D` be the value of the global configuration property `shui:defaultWidgetScore`.
    If no such value is given, let `D` be `40`, which is the score conventionally used by the
-   `shui:WidgetScore` instances of the §12 Built-in Widgets that match an explicitly
+   `shui:WidgetScore` instances of the §13 Built-in Widgets that match an explicitly
    declared widget.
 3. For each property `P` in `shui:editor` and `shui:viewer`
    1. Collect the set of IRI values `W` of the property `P` of the shapes in the **shapes graph**. These are the widgets that are explicitly declared on a shape. A value of `P` at a node that is not a shape does not declare a widget and is ignored. A value of `P` that is not an IRI is also ignored: a widget is identified by an IRI, and a non-IRI value
@@ -1067,7 +1069,7 @@ If no such value has been specified, the system should pick a suitable default v
 Most viewers render a single RDF value on the screen, typically as a single widget.
 Form editors offer buttons to edit individual values and to add or delete values.
 However, some viewers need to take more complete control over how multiple values of a property at a focus node are rendered.
-The only example of such a viewer in SHACL UI is `shui:ValueTableViewer` (§12.2.10), which displays
+The only example of such a viewer in SHACL UI is `shui:ValueTableViewer` (§13.2.10), which displays
 all values of a property as an HTML table.
 In such cases, the notions of generic add and delete buttons do not apply.
 Such viewers are called *Multi Viewers* and are declared instances of `shui:MultiViewer` instead of `shui:SingleViewer`.
@@ -1449,6 +1451,10 @@ Add a pattern for select widgets. This should cover common sources for option li
 SKOS concepts, node expressions, and implementation-provided query services. It should distinguish static enumerations from dynamic lookups.
 
 Some of the UI meetings have discussed using node expressions, dynamic SHACL, and SPARQL with the SERVICE clause.
+
+Static enumerations based on `sh:in` are rendered by the EnumSelectEditor (§13.1.7),
+while dynamic lookups of class instances are rendered by the AutoCompleteEditor (§13.1.1).
+Non-constraining suggestions can be provided with `shui:suggestedValues` (§12).
 > **Issue:**
 
 ##### Fetching values from named graphs
@@ -1571,7 +1577,7 @@ runs or how an applications prevents malformed submissions.
 ### Search Query
 
 This section defines `shui:searchQuery`, an optional property of a property shape that lets shape authors provide a dedicated SPARQL `SELECT` query for retrieving candidate
-value nodes from live, user-provided search input, for example within an AutoCompleteEditor (§12.1.1).
+value nodes from live, user-provided search input, for example within an AutoCompleteEditor (§13.1.1).
 
 #### shui:searchQuery
 
@@ -1579,31 +1585,33 @@ A well-formed value of `shui:searchQuery` is a literal of datatype `xsd:string`,
 one value for `shui:searchQuery`.
 
 When an end user enters or changes search input for a property rendered with a widget that consumes
-candidate value nodes, a SHACL Renderer that supports this extension MAY evaluate the query given by `shui:searchQuery` to retrieve the candidate value nodes offered to the user.
+candidate value nodes, a SHACL Renderer that supports `shui:searchQuery` MUST evaluate the query given by `shui:searchQuery` to retrieve the candidate value nodes offered to the user, except where a
+fallback to `sh:in` is permitted as described below.
 
-The query MUST expect the following variables to be pre-bound by the renderer before evaluation:
+Prior to evaluating `shui:searchQuery`, a SHACL Renderer MUST *substitute* each occurrence of the following variables in the query string with a SPARQL string literal holding the variable's value, escaped
+according to the SPARQL grammar so that the value cannot alter the structure of the query.
+Substitution, rather than pre-binding, is used so that the values also reach query patterns
+that are evaluated elsewhere, such as inside a `SERVICE` clause.
 
 | Variable      | Description                                                                                                                                                                                              |
 | ------------- | -------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
 | `$searchTerm` | An `xsd:string` literal containing the current search input entered by the end user.                                                                                                                     |
-| `$uiLanguage` | An `xsd:string` literal containing the BCP47 language tag identifying the user's current UI language preference, as determined by §9.1 Language Resolution. |
+| `$language`   | An `xsd:string` literal containing the BCP47 language tag identifying the user's current language preference, as determined by the language resolution mechanism (§9.1). Only the first entry of the language preference list is considered. If the language preference list is empty, the value is the empty string `""`. |
 
-Implementations MAY pre-bind additional implementation-specific variables.
+Implementations MAY substitute additional implementation-specific variables in the same way. Queries MAY
+also provide additional projected bindings.
 
 Using the [prefix handling rules](https://w3c.github.io/data-shapes/shacl12-sparql/#sparql-prefixes), the SPARQL query derived
-from the value of `shui:searchQuery` MUST project at least one variable in its `SELECT` clause. A SHACL Renderer only depends on the first variable of the `SELECT` clause's projection,
-which represents the matching IRIs or literals for each candidate value node. The query MAY project
-additional variables beyond the first, and a SHACL Renderer MAY add bindings for such additional variables
-to the candidate value nodes it offers to the end user, for example to carry a label or other data
-associated with each candidate value node. The query MAY include a `LIMIT` or `OFFSET` solution modifier; if present, the renderer MAY use it to limit the number of candidate value nodes
+from the value of `shui:searchQuery` MUST project at least one variable in its `SELECT` clause. A SHACL Renderer depends on the first variable of the `SELECT` clause's projection,
+which represents the matching IRIs or literals for each candidate value node. The query MAY include a `LIMIT` or `OFFSET` solution modifier; if present, the renderer MAY use it to limit the number of candidate value nodes
 returned to the user.
 
 A property shape with a `shui:searchQuery` signals that a live search widget is
 appropriate for that property, even without an explicit `shui:editor` statement. Accordingly, the
-presence of `shui:searchQuery` raises the AutoCompleteEditor (§12.1.1)'s
+presence of `shui:searchQuery` raises the AutoCompleteEditor (§13.1.1)'s
 score, as described in its Score rules.
 
-This specification does not define how §13 Property Roles, such as `shui:LabelRole`, are resolved or auto-injected into the search query. Renderers MAY combine
+This specification does not define how §14 Property Roles, such as `shui:LabelRole`, are resolved or auto-injected into the search query. Renderers MAY combine
 value filtering and label retrieval in a single query, using the additional bindings beyond the first
 described above, or retrieve them via different mechanisms.
 > **Example:**
@@ -1616,22 +1624,30 @@ described above, or retrieve them via different mechanisms.
 > sh:path ex:assignee ;
 > sh:class ex:Person ; shui:searchQuery """
 > PREFIX ex: <http://example.com/>
+> PREFIX rdfs: <http://www.w3.org/2000/01/rdf-schema#>
 > PREFIX text: <http://jena.apache.org/text#>
-> SELECT ?value WHERE {
-> ?value text:query ($searchTerm $uiLanguage) .
-> ?value a ex:Person .
+> SELECT DISTINCT ?value WHERE {
+> ?value text:query (rdfs:label $searchTerm) .
+> ?value a ex:Person ;
+> rdfs:label ?label .
+> FILTER (langMatches(lang(?label), $language))
 > }
 > """ ;
 > ] .
 >
-> As the user types into the AutoCompleteEditor (§12.1.1) rendered for `ex:TaskShape`'s `Assignee` property, the renderer binds the typed text to `$searchTerm` and the current UI language to `$uiLanguage`, then evaluates `shui:searchQuery` to query a local full-text index of `ex:Person` instances.
+> As the user types into the AutoCompleteEditor (§13.1.1) rendered for `ex:TaskShape`'s `Assignee` property, the renderer substitutes the typed text for `$searchTerm` and the current language for `$language`, then evaluates `shui:searchQuery` to query a local full-text index of `ex:Person` instances
+> by their `rdfs:label`, keeping only persons that have a label in the user's language.
 
-A property shape's permissible value nodes can also be computed dynamically using a [select expression](https://w3c.github.io/data-shapes/shacl12-sparql/#SelectExpression) (`sh:select`) inside `sh:in`, including a SPARQL `SERVICE` clause against an external endpoint, as
-described in [Dynamic SHACL](https://w3c.github.io/data-shapes/shacl12-node-expr/#dfn-dynamic-shacl). Such a query resolves the
-full candidate set and cannot be parameterized with a user's live search input, nor can it take advantage
-of vendor-specific full-text search (FTS) extensions. When a property shape combines `sh:in` with `shui:searchQuery`, a renderer that supports `shui:searchQuery` evaluates it in place of the `sh:in`-derived query while the user is searching. A renderer that
-does not support `shui:searchQuery` but does support Dynamic SHACL MAY fall back to the
-baseline query given by `sh:in`'s `sh:select` instead.
+A property shape's permissible value nodes can also be computed dynamically using a [select expression](https://w3c.github.io/data-shapes/shacl12-sparql/#SelectExpression) (`sh:select`) inside `sh:in`, possibly including a SPARQL `SERVICE` clause against an external endpoint, as
+described in [Dynamic SHACL](https://w3c.github.io/data-shapes/shacl12-node-expr/#dfn-dynamic-shacl). Such a [select expression](https://w3c.github.io/data-shapes/shacl12-sparql/#SelectExpression) resolves the
+full candidate set and cannot be parameterized with a user's live search input. A `shui:searchQuery`, by contrast, receives the search input and can use vendor-specific full-text
+search extensions to match it.
+
+When a property shape combines `sh:in` with `shui:searchQuery`, a SHACL Renderer
+that supports `shui:searchQuery` evaluates `shui:searchQuery` instead of the `sh:in` [select expression](https://w3c.github.io/data-shapes/shacl12-sparql/#SelectExpression) while the user is searching.
+Before the user has entered any search input, the renderer MAY offer the candidates given by `sh:in` instead of evaluating `shui:searchQuery` with an empty `$searchTerm`.
+The renderer MAY also fall back to the `sh:in` select expression when evaluation of `shui:searchQuery` fails. A renderer that does not support `shui:searchQuery` but does
+support Dynamic SHACL uses the `sh:in` select expression as usual.
 > **Example:**
 >
 > ex:BookShape
@@ -1651,47 +1667,92 @@ baseline query given by `sh:in`'s `sh:select` instead.
 > """ ;
 > ] ; shui:searchQuery """
 > PREFIX ex: <http://example.com/>
+> PREFIX rdfs: <http://www.w3.org/2000/01/rdf-schema#>
 > PREFIX text: <http://jena.apache.org/text#>
-> SELECT ?value WHERE {
+> SELECT DISTINCT ?value WHERE {
 > SERVICE <http://example.com/sparql> {
-> ?value text:query ($searchTerm $uiLanguage) .
-> ?value a ex:Person .
+> ?value text:query (rdfs:label $searchTerm) .
+> ?value a ex:Person ;
+> rdfs:label ?label .
+> FILTER (langMatches(lang(?label), $language))
 > }
 > }
 > """ ;
 > ] .
 >
-> As the user types into the AutoCompleteEditor (§12.1.1) rendered for `ex:BookShape`'s `Author` property, the renderer binds the typed text to `$searchTerm` and the current UI language to `$uiLanguage`, then evaluates `shui:searchQuery` to query the Apache Jena Text index via the `SERVICE` clause.
+> As the user types into the AutoCompleteEditor (§13.1.1) rendered for `ex:BookShape`'s `Author` property, the renderer substitutes the typed text for `$searchTerm` and the current language for `$language`, then evaluates `shui:searchQuery` to query the Apache Jena Text index via the `SERVICE` clause.
 > If the renderer does not support `shui:searchQuery` but does support Dynamic SHACL,
 > the baseline `sh:select` query is used instead, returning all instances of `ex:Person`.
 
 #### Validation of Search Query Results
 
-Shape authors SHOULD write `shui:searchQuery` so that its result set, for any given `$searchTerm`, is a subset of the value nodes permitted by the other constraints on the property shape (such as `sh:class`, `sh:node`, or `sh:in`), or
-exactly that same set. A `shui:searchQuery` that returns value nodes outside that set risks
+Shape authors SHOULD write `shui:searchQuery` so that its result set, for any given `$searchTerm`, is a subset of the value nodes permitted by the constraints on the property shape. A `shui:searchQuery` that returns value nodes outside that set risks
 offering end users candidate values that do not conform to the property shape.
 
-Because a value node returned by `shui:searchQuery` is offered to the end user as though it
-were drawn from `sh:in`, implementations MAY apply SHACL validation to the outcomes of `shui:searchQuery`, where the outcomes are value nodes of the property shape.
+A SHACL Renderer MAY validate the value nodes returned by `shui:searchQuery` against the
+constraints of the property shape before offering them to the end user, for example using one of the
+approaches described below. Value nodes that pass validation are offered as candidates; value nodes that
+fail it MUST NOT be offered. If no validation is performed, or it cannot be completed, all returned value
+nodes are offered. A value node selected by the end user
+becomes a value of the property and is subject to the same validation as any other value, so any
+non-conformance is reported through the regular validation results.
 
-Such validation runs the property shape in isolation once for each value node returned by the
-query, using that value node as the sole value for the property shape's property path, and checks
-whether the result conforms to the surrounding property shape.
+When `shui:searchQuery` retrieves value nodes from a remote endpoint, for example through a `SERVICE` clause, the triples about those value nodes are often not in the local data graph. Constraints that depend on such triples, such as `sh:class`, can then report
+violations for value nodes that are in fact permitted. In that case, shape authors SHOULD express the
+permitted value nodes using `sh:in` with a [select expression](https://w3c.github.io/data-shapes/shacl12-sparql/#SelectExpression) that queries the same endpoint, as in
+the federated example above, instead of such constraints. A SHACL Renderer can then validate the returned
+value nodes by evaluating that select expression with an added `VALUES` clause that restricts
+its projected variable to those value nodes, together with the constraints that do not depend on remote
+triples, such as `sh:nodeKind` or `sh:pattern`. Otherwise, the renderer can validate
+the returned value nodes directly against the constraints of the property shape.
 
-For a property shape such as `ex:BookShape`'s `Author` property above, where `sh:in` itself contains a `sh:select` [select expression](https://w3c.github.io/data-shapes/shacl12-sparql/#SelectExpression) with a SPARQL `SERVICE` clause, checking whether a value node conforms to the surrounding property shape requires
-re-evaluating that `sh:in` constraint. This requires a SHACL validation engine that supports
-federated SHACL validation — at minimum, the piece of [Dynamic SHACL](https://w3c.github.io/data-shapes/shacl12-node-expr/#dfn-dynamic-shacl) that allows `sh:in` to contain
-a `sh:select` [select expression](https://w3c.github.io/data-shapes/shacl12-sparql/#SelectExpression).
+### Suggested Values
 
-For such federated validation, the isolated property shape used to check a value node SHOULD
-contain only the `sh:in` constraint, and no other constraints from the surrounding property shape. A value node retrieved via `SERVICE` generally has no corresponding
-triples in the local data graph, so a validation engine evaluating any other constraint (such as `sh:class` or `sh:node`) as part of the same isolated run would evaluate it against
-the local data graph and likely report a spurious violation.
+This section defines `shui:suggestedValues`, an optional property of a property shape that lets shape authors provide suggested values to be offered to the end user by a widget.
+Suggested values help users fill in common or recommended values quickly, without restricting
+the set of values that may be entered.
+
+#### shui:suggestedValues
+
+A well-formed value of `shui:suggestedValues` is a SHACL list, appearing directly on a property shape, whose members are IRIs or literals. Each member represents one
+suggested value. A property shape has at most one value for `shui:suggestedValues`.
+SHACL Renderers SHOULD ignore ill-formed values of `shui:suggestedValues` and list members that
+are neither IRIs nor literals.
+
+Support for `shui:suggestedValues` is optional. When rendering a widget for a property whose property shape has a value for `shui:suggestedValues`, a SHACL Renderer SHOULD offer the
+members of the list to the end user as suggestions. A renderer that offers suggestions SHOULD present them
+in the order of the list. A suggestion does not constrain the values that may be entered: `shui:suggestedValues` has no effect on validation, and the end user remains free to enter
+values that are not among the suggestions.
+
+When displaying a suggested value that is an IRI, a SHACL Renderer SHOULD display a label determined
+by §9.2 Label Resolution rather than the IRI itself. When the suggested values
+include language-tagged literals, a SHACL Renderer SHOULD use §9.1 Language Resolution to determine which of them to offer.
+
+Shape authors SHOULD choose suggested values that are a subset of the value nodes permitted by the other
+constraints on the property shape (such as `sh:class`, `sh:datatype`, or `sh:in`). A suggested value outside that set risks offering end users values that do not
+conform to the property shape. A suggestion does not relax any constraint of the property shape. When an end user selects a suggested value that does not conform, it leads to the
+same validation results as any other value that does not conform. A SHACL Renderer MAY leave out
+suggestions that it knows would violate the constraints of the property shape, for example because `sh:maxCount` has already been reached.
+
+Suggested values can be used with any widget that lets end users choose or enter values. For example, an AutoCompleteEditor (§13.1.1) could list the suggested values before the end user
+has entered any search input, and a text field editor (§13.1.15) could offer them as quick choices. These widgets
+are only examples; this specification does not limit which widgets may use suggested values.
+> **Example:**
+>
+> ex:Person-nationality
+> a sh:PropertyShape ;
+> sh:path ex:nationality ;
+> sh:class ex:Country ;
+> sh:nodeKind sh:IRI ;
+> shui:editor shui:AutoCompleteEditor ; shui:suggestedValues ( ex:Netherlands ex:Belgium ex:Germany ) .
+>
+> A renderer that supports `shui:suggestedValues` could offer `ex:Netherlands`, `ex:Belgium`, and `ex:Germany`, in that order, as quick choices for the nationality of a person,
+> while still allowing the end user to search for and select any other instance of `ex:Country`.
 
 ### Built-in Widgets
 
 This section enumerates the *built-in* widgets defined in the SHACL UI namespace. Additional
-widgets may be defined by the community; see §14 Registries.
+widgets may be defined by the community; see §15 Registries.
 
 #### Editors
 
@@ -1746,7 +1807,7 @@ ex:Person-bornIn
 - `40` if the property indicates its preference for `shui:BlankNodeEditor` using a `shui:editor` statement, and the value is a blank node.
 - `1` if the value is a blank node.
 
-**Rendering:** A read-only editor that displays the blank node, similar to §12.2.1 shui:BlankNodeViewer,
+**Rendering:** A read-only editor that displays the blank node, similar to §13.2.1 shui:BlankNodeViewer,
 yet allows the surrounding user interface to at least provide a delete button.
 
 ##### shui:BooleanEditor
@@ -2516,7 +2577,7 @@ resource that itself declares a `shui:propertyRole` and an associated `sh:order`
 
 ### Registries
 
-SHACL UI is designed to be extensible. Beyond the §12 Built-in Widgets,
+SHACL UI is designed to be extensible. Beyond the §13 Built-in Widgets,
 additional widgets may be published in community-maintained *registries* that continue to
 evolve after this specification has been published and the Working Group's charter has ended.
 
@@ -2527,7 +2588,7 @@ hosted in the `shacl-ui/` directory of the [w3c/shacl-resources](https://github.
 documented and maintained independently of this specification. Registered widgets are instances
 of the widget classes (§6) defined here, identified in the `shuic` namespace (`http://www.w3.org/ns/shacl-ui-community/`) to keep them separate from the built-in `shui` namespace. Adding a widget requires no change to this specification.
 
-Other extension points, such as §13 Property Roles, may be organized
+Other extension points, such as §14 Property Roles, may be organized
 into registries following the same approach.
 
 ### Summary of Syntax Rules from this Specification

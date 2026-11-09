@@ -5,7 +5,7 @@ family: sparql
 version: "1.2"
 status: W3C Working Draft
 spec_date: 2026-10-22
-fetched: 2026-11-02
+fetched: 2026-11-09
 ---
 
 # SPARQL 1.2 Query Results CSV and TSV Formats

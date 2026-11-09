@@ -5,7 +5,7 @@ family: rdf
 version: "1.2"
 status: W3C Group Note
 spec_date: 2026-09-17
-fetched: 2026-11-02
+fetched: 2026-11-09
 ---
 
 # RDF 1.2 Primer
@@ -324,8 +324,6 @@ As the basic unit of description in RDF, a triple states a simple,
 directed relationship between two resources. Sometimes, we need to describe
 more detailed circumstances underlying such relationships. Conceptually, we
 can *annotate* a statement with something more detailed:
-
-[https://www.w3.org/TR/rdf12-primer/example-triple-annotation.svg](https://www.w3.org/TR/rdf12-primer/example-triple-annotation.svg)
 
 *Figure 3 Informal triple annotation example: a concretization of a
 statement described with its own characteristics.*

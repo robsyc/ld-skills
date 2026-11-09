@@ -3,7 +3,7 @@ title: "SHACL 1.2 Overview"
 source: https://w3c.github.io/data-shapes/shacl12-overview/
 family: shacl
 version: "1.2"
-fetched: 2026-11-02
+fetched: 2026-11-09
 ---
 
 # SHACL 1.2 Overview

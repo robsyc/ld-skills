@@ -4,7 +4,7 @@ source: https://www.w3.org/TR/owl2-syntax/
 family: owl
 status: W3C Recommendation
 spec_date: 2012-12-11
-fetched: 2026-11-02
+fetched: 2026-11-09
 ---
 
 # OWL 2 Web Ontology Language Structural Specification and Functional-Style Syntax (Second Edition)

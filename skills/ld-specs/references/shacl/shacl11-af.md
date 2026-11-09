@@ -4,7 +4,7 @@ source: https://www.w3.org/TR/shacl-af/
 family: shacl
 version: "1.1"
 spec_date: 2017-06-08
-fetched: 2026-11-02
+fetched: 2026-11-09
 ---
 
 # SHACL Advanced Features

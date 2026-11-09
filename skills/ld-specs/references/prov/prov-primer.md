@@ -3,7 +3,7 @@ title: "PROV Model Primer"
 source: https://www.w3.org/TR/prov-primer/
 family: prov
 spec_date: 2013-04-30
-fetched: 2026-11-02
+fetched: 2026-11-09
 ---
 
 # PROV Model Primer

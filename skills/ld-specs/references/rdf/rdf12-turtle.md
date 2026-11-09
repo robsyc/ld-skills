@@ -4,8 +4,8 @@ source: https://www.w3.org/TR/rdf12-turtle/
 family: rdf
 version: "1.2"
 status: W3C Working Draft
-spec_date: 2026-11-01
-fetched: 2026-11-02
+spec_date: 2026-11-05
+fetched: 2026-11-09
 ---
 
 # RDF 1.2 Turtle
@@ -1459,7 +1459,7 @@ table describes specific characters and sequences used throughout this document.
 | `U+002E` | `.`   | Full stop              |
 | `U+0030` | `0`   | Digit zero             |
 | `U+0039` | `9`   | Digit nine             |
-| `U+003B` | `:`   | Colon                  |
+| `U+003A` | `:`   | Colon                  |
 | `U+003B` | `;`   | Semicolon              |
 | `U+003C` | `<`   | Less-than sign         |
 | `U+003E` | `>`   | Greater-than sign      |
@@ -1506,7 +1506,7 @@ followed by a left parenthesis character, having the code point `U+0028`
 
 `)>>`
 
-a left parenthesis character, having the code point `U+0029` followed by two concatenated greater-than sign characters, each having the code point `U+003E`
+a right parenthesis character, having the code point `U+0029` followed by two concatenated greater-than sign characters, each having the code point `U+003E`
 
 `^^`
 

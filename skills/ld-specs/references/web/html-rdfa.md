@@ -4,7 +4,7 @@ source: https://www.w3.org/TR/html-rdfa/
 family: web
 status: W3C Recommendation
 spec_date: 2015-03-17
-fetched: 2026-11-02
+fetched: 2026-11-09
 ---
 
 # HTML+RDFa 1.1 - Second Edition

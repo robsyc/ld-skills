@@ -3,7 +3,7 @@ title: "PROV-Dictionary: Modeling Provenance for Dictionary Data Structures"
 source: https://www.w3.org/TR/prov-dictionary/
 family: prov
 spec_date: 2013-04-30
-fetched: 2026-11-02
+fetched: 2026-11-09
 ---
 
 # PROV-Dictionary: Modeling Provenance for Dictionary Data Structures

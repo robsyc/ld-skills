@@ -4,8 +4,8 @@ source: https://www.w3.org/TR/shacl12-rules/
 family: shacl
 version: "1.2"
 status: W3C Working Draft
-spec_date: 2026-10-31
-fetched: 2026-11-02
+spec_date: 2026-11-09
+fetched: 2026-11-09
 ---
 
 # SPARQL 1.2 RL
@@ -45,12 +45,13 @@ fetched: 2026-11-02
   - 6.1 Evaluation Definitions
   - 6.2 Preparation for Evaluation
   - 6.3 Evaluation of an Expression
-  - 6.4 Evaluation of a Rule
-  - 6.5 Evaluation of a Rule Set
-  - 6.6 Worked Example
-    - 6.6.1 Determining the Dependencies
-    - 6.6.2 Calculating the Stratification
-    - 6.6.3 Evaluating the Strata
+  - 6.4 Evaluation of an Aggregate Function
+  - 6.5 Evaluation of a Rule
+  - 6.6 Evaluation of a Rule Set
+  - 6.7 Worked Example
+    - 6.7.1 Determining the Dependencies
+    - 6.7.2 Calculating the Stratification
+    - 6.7.3 Evaluating the Strata
 - 7 SPARQL-RL Grammar
   - 7.1 Version Announcement
   - 7.2 White Space
@@ -436,8 +437,8 @@ The aggregate values are assigned to
 variables that can then be used in the rule head.
 Rules with a group element are run-once rules.
 
-A group element processes each solution sequence
-of preceding rule elements by taking only the bindings
+A group element processes each solution of the solution sequence
+of the preceding rule elements by taking only the bindings
 for the group keys, evaluating the group pattern,
 and then grouping the solution mappings using the group keys.
 
@@ -587,7 +588,7 @@ Such rules then only rely on matching from the base graph.
 > > Note
 >
 > The matching in this section is on the base graph.
-> It does not include triples added by rule set evaluation (§6.5) from the rule set `DATA` blocks
+> It does not include triples added by rule set evaluation (§6.6) from the rule set `DATA` blocks
 > (3.8 Data Blocks (§3.8)).
 
 ### 3.10 Evaluating a Rule Set
@@ -699,15 +700,25 @@ a pair consisting
 of a [variable](https://www.w3.org/TR/sparql12-query/#defn_QueryVariable), called the *assignment variable*,
 and an expression, called the *assignment expression*.
 
+*Aggregation assignment*
+
+An aggregation assignment is used in a group element.
+It is a pair consisting of
+a [variable](https://www.w3.org/TR/sparql12-query/#defn_QueryVariable), called the *aggregation variable*,
+and an *aggregation function*.
+An aggregation function is a triple consisting of
+a name, an *aggregation argument* which is either a [variable](https://www.w3.org/TR/sparql12-query/#defn_QueryVariable) or `*`,
+and a *distinct flag*, which is a boolean.
+
+Only the aggregation function named `COUNT` can have an aggregation argument of `*`,
+or have a distinct flag with value *true*.
+
 *Group element*
 
 A group element is a rule element with a set of variables, called the *group keys*,
-a *group pattern*, and a set of *aggregation assignments*.
-Each aggregation assignment is a pair consisting of
-a [variable](https://www.w3.org/TR/sparql12-query/#defn_QueryVariable), called the *aggregation variable*,
-and an *aggregation function*.
+a *group pattern*, and a set of aggregation assignments.
 The group pattern is composed
-of a sequence of triple pattern elements, filter elements and assignment elements.
+of a sequence of triple pattern elements, filter elements, and assignment elements.
 
 *Rule element*
 
@@ -847,6 +858,9 @@ The following notation is used for the various components of rule sets and rules
 | `group.aggregations`   | The aggregation assignments of a group element.               |
 | `aggregation.variable` | The aggregation variable of an aggregation assignment. |
 | `aggregation.function` | The aggregation function of an aggregation assignment. |
+| `aggfunc.name`         | The name of an aggregation function: `COUNT`, `MIN`, `MAX` or `SUM`.                                                    |
+| `aggfunc.argument`     | The aggregation argument of an aggregation function.     |
+| `aggfunc.distinct`     | The distinct flag of an aggregation function.                   |
 
 ### 4.2 Well-formedness Conditions
 
@@ -854,22 +868,25 @@ The following notation is used for the various components of rule sets and rules
 a rule set. Together, these conditions ensure
 that a [variable](https://www.w3.org/TR/sparql12-query/#defn_QueryVariable) in the head of a rule has a value defined in the body of the rule;
 that each variable in a filter element or assignment expression has a value at the point of evaluation;
-and that each assignment variable and aggregation variable in a rule is new and has not been used earlier in the rule body.
+and that each assignment variable and aggregation variable in a rule is new and is not in use at that point.
+
+In a well-formed rule, the set of [variables](https://www.w3.org/TR/sparql12-query/#defn_QueryVariable) in-scope
+as calculated by *vars* is the same as the domain of every [solution mapping](https://www.w3.org/TR/sparql12-query/#defn_sparqlSolutionMapping) that arises during evaluation.
 
 Let *S* be a sequence of rule elements.
 
-Let *elti* be the i-th element of *S*,
+Let *elti* be the *i*-th element of *S*,
 and let *N* be the length of the sequence.
 
 Let *V0* be a set of variables, called the initial
 variables of the sequence *S*.
 
 Define *vars(S, i, V0)* as the set of variables
-that are in scope after the i-th element of the sequence *S*,
+that are in-scope after the *i*-th element of the sequence *S*,
 given the initial variables *V0*. *vars(S, i, V0)* is defined inductively:
 
 - Let *vars(S, 0, V0)* be *V0*.
-- Let *vars(S, i, V0)*, for each i from 1 to *N* be
+- Let *vars(S, i, V0)*, for each *i* from 1 to *N* be
   * if *elti* is a triple pattern element and *X* is the set of variables that occur in the triple pattern element then
     + *vars(S, i, V0)* is the set *X* ∪ *vars(S, i-1, V0)*.
   * if *elti* is an assignment element with assignment variable *avar* then
@@ -897,14 +914,13 @@ from 1 to *N*:
 - if *elti* is a negation element with negation element body *P* then
   * the sequence of rule elements in the negation element body is a well-formed sequence,
     with initial variables *vars(S, i-1, V0)*.
-- if *elti* is a group element, where *P* is the group pattern of the group element *elti* then
-  * the sequence of rule elements in the group pattern given initial variables *vars(S, i-1, V0)* is a well-formed sequence.
-  * each member of the group keys is an element of *vars(S, i-1, V0)* ∪ *vars(P, vars(S, i-1, V0))*.
-  * none of the aggregation variables occur in the set of
-    variables *vars(P, vars(S, i-1, V0))*.
-  * the aggregation variables are distinct.
-  * the [variables](https://www.w3.org/TR/sparql12-query/#defn_QueryVariable) in aggregation functions appear
-    in *vars(P, vars(S, i-1, V0))*.
+- if *elti* is a group element, *GRP*, where *Vin* is *vars(S, i-1, V0)* and *GKin* is *GRP.keys ∩ Vin*,
+  then
+  * the sequence of rule elements in the group pattern given initial variables *GKin* is a well-formed sequence.
+  * each member of the group keys is an element of *vars(GRP.pattern, GKin)*.
+  * none of the aggregation variables is an element of the set of variables *vars(GRP.pattern, GKin) ∪ Vin*.
+  * no two aggregation assignments of *GRP* have the same aggregation variable.
+  * each aggregation argument that is a [variable](https://www.w3.org/TR/sparql12-query/#defn_QueryVariable) is an element of *vars(GRP.pattern, GKin)*.
 
 A rule is a *well-formed rule* if the sequence of rule elements of the rule body is a well-formed sequence, starting with *V0* being the empty set,
 and if each variable in a triple template of the rule head is an element of *vars(S, V0)*.
@@ -1051,8 +1067,9 @@ define buildDependencyGraph(ruleSet):
         let bodyDependencies = {}
 
         if R1.evaldata then:
-            # Classify each triple pattern TP in the rule as requiring "open" or "closed"
-            # depending on whether it is in a negation element or a group pattern, or not.
+            # Classify each triple pattern TP in the rule as requiring
+            # "open" or "closed" depending on whether it is in a
+            # negation element or a group pattern, or not.
             foreach rule element RBE in R1.body:
                 if RBE is a triple pattern element of triple pattern TP:
                     let item be a pair (TP, "open")
@@ -1268,13 +1285,13 @@ enddefine
 > >
 > > Note
 >
-> A consequence of the stratification condition is that once a run-once rule is evaluated (§6.4),
+> A consequence of the stratification condition is that once a run-once rule is evaluated (§6.5),
 > the data used to determine the outcome of the rule will not
 > change during further evaluation.
 
 A step-by-step application of dependency analysis and
 stratification to a complete rule set, followed through to
-evaluation, is given in 6.6 Worked Example (§6.6).
+evaluation, is given in 6.7 Worked Example (§6.7).
 
 ### 4.5 Processing Imports
 
@@ -1425,9 +1442,9 @@ graphMatch(G, TP) = { μ | dom(μ) = V and subst(μ, TP) is a triple in G }
 
 *Solution compatible*
 
-Two solutions S1 and S2 are compatible if they agree on the variables in common.
+Two solutions are compatible if they agree on the variables in common.
 
-Let S1 and S2 be solutions.
+Let *μ1* and *μ2* be solution mappings.
 
 ```
 compatible(μ1, μ2) = true
@@ -1438,7 +1455,7 @@ compatible(μ1, μ2) = false otherwise
 
 *Solution sequence*
 
-A solution sequence is a multi-set of solutions.
+A solution sequence is a multiset of solutions.
 There is no defined order to the sequence.
 It is equivalent to an unordered list and it can contain duplicates.
 
@@ -1447,7 +1464,7 @@ It is equivalent to an unordered list and it can contain duplicates.
 If two solutions are compatible, the merge of two solutions is the solution
 that maps variables of each solution to the [RDF term](https://www.w3.org/TR/rdf12-concepts/#dfn-rdf-term) from one or other of the solutions.
 
-Let *μ*1, *μ*2 be solution mappings, and S1 and S2 be solution sequences.
+Let *μ1*, *μ2* be solution mappings, and S1 and S2 be solution sequences.
 
 ```
 merge(μ1, μ2) = μ such that
@@ -1470,7 +1487,7 @@ merge(S1, S2) = { μ |
 > The domain of `merge(μ1, μ2)` is `domain(μ1) ∪ domain(μ2)`.
 >
 > If the two solutions have no variables in common, then they are compatible,
-> and the merge of the two solutions is the union of *μ*1 and *μ*2.
+> and the merge of the two solutions is the union of *μ1* and *μ2*.
 
 *[Effective boolean value](https://www.w3.org/TR/sparql12-query/#ebv)*
 
@@ -1527,37 +1544,70 @@ define evalFunction(F, μ):
 enddefine
 ```
 
+### 6.4 Evaluation of an Aggregate Function
+
+An aggregation function is evaluated with respect to the solution sequence of one group and it returns an [RDF term](https://www.w3.org/TR/rdf12-concepts/#dfn-rdf-term), or an error.
+
+Each aggregation function is calculated by the corresponding [SPARQL set function](https://www.w3.org/TR/sparql12-query/#setFunctions),
+as given in the table below. `evalAggregate` builds the argument to the set function by
+applying the aggregation argument to each [solution mapping](https://www.w3.org/TR/sparql12-query/#defn_sparqlSolutionMapping) of the group, using `evalFunction` of 6.3 Evaluation of an Expression (§6.3),
+and then applies the distinct flag, following the [SPARQL `Aggregation`](https://www.w3.org/TR/sparql12-query/#defn_algAggregation) definition.
+
+A SPARQL set function takes a sequence of lists, whereas a solution sequence has no defined order.
+Any order of the [solution mappings](https://www.w3.org/TR/sparql12-query/#defn_sparqlSolutionMapping) of the group may be used.
+
 ```
 define evalAggregate(AGGF, SEQ):
-@@
-    # AGGF is an aggregation function, which has an argument of a variable
-    # and a solution sequence. It returns an RDF term value.
+    # AGGF is an aggregation function: a name, an aggregation argument,
+    #   which is a variable or *, and a distinct flag.
+    #   The aggregation argument is * only for COUNT,
+    #   and the distinct flag is true only for COUNT.
+    # SEQ is the solution sequence of one group.
+    # It returns an RDF term, or an error.
 
-    # Noting that DISTINCT is only permitted for COUNT
-    # Special case COUNT(*).
+    if AGGF.argument is *:
+        # COUNT(*) and COUNT(DISTINCT *) count solution mappings.
+        # There is no argument value to calculate.
+        if AGGF.distinct:
+            let n = the number of distinct solution mappings in SEQ
+        else:
+            let n = the number of solution mappings in SEQ
+        endif
+        return n as an xsd:integer
+    endif
+
+    # AGGF.argument is a variable.
+    # Apply the aggregation argument to each solution mapping of SEQ,
+    # retaining duplicates. A SPARQL set function takes a sequence of
+    # lists, so each element of M is a list of one value.
+    let M = empty sequence
+    foreach solution μ in SEQ:
+        # By well-formedness, AGGF.argument ∈ dom(μ).
+        let x = evalFunction(AGGF.argument, μ)
+        add the one element list (x) to M
+    endfor
+    if AGGF.distinct:
+        M = the sequence M with duplicate lists removed
+    endif
+    let F = the SPARQL set function for AGGF.name
+    return F(M)
 enddefine
 ```
 
 *Aggregation functions*
 
-| Aggregation Function | SPARQL equivalent                                                                          |
-| -------------------- | ------------------------------------------------------------------------------------------ |
-| `COUNT`              | [SPARQL COUNT](https://www.w3.org/TR/sparql12-query/#aggCount) with *distinct* set `false` |
-| `COUNT DISTINCT`     | [SPARQL COUNT](https://www.w3.org/TR/sparql12-query/#aggCount) with *distinct* set `true`  |
-| `MIN`                | [SPARQL MIN](https://www.w3.org/TR/sparql12-query/#aggMin)                                 |
-| `MAX`                | [SPARQL MAX](https://www.w3.org/TR/sparql12-query/#aggMax)                                 |
-| `SUM`                | [SPARQL SUM](https://www.w3.org/TR/sparql12-query/#aggSum)                                 |
+| Aggregation function name | SPARQL set function                                                   |
+| ------------------------- | --------------------------------------------------------------------- |
+| `COUNT`                   | [SPARQL `Count`](https://www.w3.org/TR/sparql12-query/#defn_aggCount) |
+| `MIN`                     | [SPARQL `Min`](https://www.w3.org/TR/sparql12-query/#defn_aggMin)     |
+| `MAX`                     | [SPARQL `Max`](https://www.w3.org/TR/sparql12-query/#defn_aggMax)     |
+| `SUM`                     | [SPARQL `Sum`](https://www.w3.org/TR/sparql12-query/#defn_aggSum)     |
 
-> **Note:**
->
-> > **Note:**
-> >
-> > Editor's note
->
-> Any error in calculating an aggregate function causes an
-> evaluation error and that group is not added to the results.
+Any error in calculating an aggregation function causes an
+evaluation error and that group is not added to the results.
+See 6.5 Evaluation of a Rule (§6.5).
 
-### 6.4 Evaluation of a Rule
+### 6.5 Evaluation of a Rule
 
 A rule is evaluated by calculating a solution sequence from the rule body and then using each [solution mapping](https://www.w3.org/TR/sparql12-query/#defn_sparqlSolutionMapping) of the solution sequence to
 generate triples using the rule head.
@@ -1638,14 +1688,20 @@ define evalRuleElements(B, SEQ, G, GD):
             endfor
         endif
 
-        ## What about COUNT(*)?
         if rElt is a group element GRP:
             SEQ1 = {}
             foreach solution μ in SEQ:
                 let μp be the restriction of μ to GRP.keys
                 let SEQX = evalRuleElements(GRP.pattern, { μp }, G, GD)
+
                 # Allocate solution mappings to groups.
                 let KGRP = empty map of solution mappings to solution sequences
+                # The case of no BY. There is always one group key which
+                # is the empty solution mapping, μ0.
+                if GRP.keys is empty:
+                    KGRP[μ0] = empty solution sequence
+                endif
+                # Accumulate groups
                 foreach solution μx in SEQX:
                     let μk be the restriction of μx to GRP.keys
                     if KGRP[μk] is defined:
@@ -1654,19 +1710,29 @@ define evalRuleElements(B, SEQ, G, GD):
                         KGRP[μk] = solution sequence of one element μx
                     endif
                 endfor
-                # For each group, calculate the aggregate functions and extend
+
+                # For each group, calculate the aggregate functions, then extend
                 # the current solution mapping μ with the group keys
                 # and the results of the aggregation assignments.
                 foreach key K of map KGRP:
                     let X be the solution sequence of KGRP[K]
                     let Z be an empty solution mapping
-                    foreach aggregation function F in GRP.aggregations:
-                        let V = calculate F.function(X)
-                        add solution mapping (F.var, V) to Z
+                    let errorInGroup = false
+                    foreach aggregation assignment A in GRP.aggregations:
+                        let V = evalAggregate(A.function, X)
+                        if V is an error:
+                            errorInGroup = true
+                        else:
+                            add solution mapping (A.variable, V) to Z
+                        endif
                     endfor
-                    Z = merge(Z, K)
-                    Z = merge(Z, μ)
-                    add Z to SEQ1
+                    if errorInGroup:
+                        # Error: drop the group
+                    else:
+                        Z = merge(Z, K)
+                        Z = merge(Z, μ)
+                        add Z to SEQ1
+                    endif
                 endfor
             endfor
         endif
@@ -1715,7 +1781,7 @@ enddefine
 >
 > `OUT` may contain triples that are also in the base graph.
 
-### 6.5 Evaluation of a Rule Set
+### 6.6 Evaluation of a Rule Set
 
 Evaluation of a rule set is defined as the execution of each stratum of a stratification of the rule set, where each stratum is executed completely
 and in order before moving on to the next stratum.
@@ -1762,7 +1828,7 @@ endfor
 the result is GI
 ```
 
-### 6.6 Worked Example
+### 6.7 Worked Example
 
 *This section is non-normative.*
 
@@ -1770,7 +1836,7 @@ This section steps through the evaluation of a complete rule set: determining th
 (4.3 Rule Dependency (§4.3)),
 calculating a stratification
 (4.4 Stratification (§4.4)),
-and evaluating each stratum in turn to produce the inference graph (6.5 Evaluation of a Rule Set (§6.5)).
+and evaluating each stratum in turn to produce the inference graph (6.6 Evaluation of a Rule Set (§6.6)).
 
 The example describes software components and their dependencies:
 a frontend depends on an application server, which depends on a
@@ -1828,7 +1894,7 @@ The rule set has no `IMPORTS`, so import processing
 leaves it unchanged, and no `DATA` blocks, so evaluation starts
 from the base graph alone.
 
-#### 6.6.1 Determining the Dependencies
+#### 6.7.1 Determining the Dependencies
 
 Each triple pattern in each rule body is compared with the
 triple templates in every rule head, to determine which rules
@@ -1880,7 +1946,7 @@ which is an open dependency. No cycle involves a closed
 dependency, so the stratification condition is satisfied
 and the rule set has a well-defined outcome.
 
-#### 6.6.2 Calculating the Stratification
+#### 6.7.2 Calculating the Stratification
 
 Following the §4.4.2 Stratification Algorithm,
 every rule starts in stratum 0. The edges are then inspected
@@ -1911,9 +1977,9 @@ components need a notification, can only be decided after *all* `:status :critic
 stratum below, together with the rules `R1` and `R2` that
 feed it.
 
-#### 6.6.3 Evaluating the Strata
+#### 6.7.3 Evaluating the Strata
 
-Evaluation follows the algorithm of 6.5 Evaluation of a Rule Set (§6.5).
+Evaluation follows the algorithm of 6.6 Evaluation of a Rule Set (§6.6).
 The evaluation graph `GE` starts as the base graph and the
 inference graph `GI` starts empty. Each stratum is evaluated to
 completion in order: the rules of the stratum are evaluated in
@@ -2196,7 +2262,7 @@ Notes:
 | `[25]`  | `ListVars`                      | ::= | `Var+`                                                                                                                                                                                                   |
 | `[26]`  | `AggregationAssignments`        | ::= | `( AggregationAssignment ( ',' AggregationAssignment )* )?`                                                                                                                                              |
 | `[27]`  | `AggregationAssignment`         | ::= | `Var ':=' AggregationFunction`                                                                                                                                                                           |
-| `[28]`  | `AggregationFunction`           | ::= | `( 'COUNT' '(' DISTINCT? VarOrStar ')' \| 'MIN' '(' Var ')' \| 'MAX' '(' Var ')' \| 'SUM' '(' Var ')' )`                                                                                                 |
+| `[28]`  | `AggregationFunction`           | ::= | `( 'COUNT' '(' 'DISTINCT'? VarOrStar ')' \| 'MIN' '(' Var ')' \| 'MAX' '(' Var ')' \| 'SUM' '(' Var ')' )`                                                                                               |
 | `[29]`  | `VarOrStar`                     | ::= | `Var \| '*'`                                                                                                                                                                                             |
 | `[30]`  | `DataTriplesBlock`              | ::= | `TriplesSameSubjectData ( '.' DataTriplesBlock? )?`                                                                                                                                                      |
 | `[31]`  | `TriplesSameSubjectData`        | ::= | `RDFTermData PropertyListNotEmptyData \| TriplesNodeData PropertyListData \| ReifiedTripleBlockData`                                                                                                     |
@@ -2548,7 +2614,8 @@ particularly whether authorization measures are needed for access to the data.
 
 ### G.1 Terms defined by this specification
 
-- aggregation assignments §4.1
+- aggregation argument §4.1
+- Aggregation assignment §4.1
 - aggregation function §4.1
 - aggregation variable §4.1
 - Assignment element §4.1
@@ -2562,6 +2629,7 @@ particularly whether authorization measures are needed for access to the data.
 - depends on
   * definition of §4.3
   * definition of §4.3
+- distinct flag §4.1
 - Evaluation graph §6.1
 - Expression §4.1
 - Filter element §4.1
@@ -2606,7 +2674,7 @@ particularly whether authorization measures are needed for access to the data.
 - Substitution function §6.1
 - Template instance function §6.1
 - Transitive rule dependency §4.3.1
-- Treating blank nodes as variables §6.4
+- Treating blank nodes as variables §6.5
 - Triple pattern §4.1
 - Triple pattern dependency §4.3
 - Triple pattern element §4.1
@@ -2649,12 +2717,14 @@ particularly whether authorization measures are needed for access to the data.
   * Effective boolean value
   * FILTER operation of SPARQL
   * solution mapping
-  * SPARQL COUNT
+  * SPARQL Aggregation
+  * SPARQL Count
   * SPARQL expressions
   * SPARQL graph pattern matching
-  * SPARQL MAX
-  * SPARQL MIN
-  * SPARQL SUM
+  * SPARQL Max
+  * SPARQL Min
+  * SPARQL set function
+  * SPARQL Sum
   * variables
 
 ## I. References
@@ -2675,7 +2745,7 @@ particularly whether authorization measures are needed for access to the data.
 
 [RDF12-TURTLE]
 
-[RDF 1.2 Turtle](https://www.w3.org/TR/rdf12-turtle/). Gregg Kellogg; Andy Seaborne; Dominik Tomaszuk. W3C. 23 October 2026. W3C Working Draft. URL: <https://www.w3.org/TR/rdf12-turtle/>
+[RDF 1.2 Turtle](https://www.w3.org/TR/rdf12-turtle/). Gregg Kellogg; Andy Seaborne; Dominik Tomaszuk. W3C. 5 November 2026. W3C Working Draft. URL: <https://www.w3.org/TR/rdf12-turtle/>
 
 [RFC2119]
 
@@ -2703,7 +2773,7 @@ particularly whether authorization measures are needed for access to the data.
 
 [SPARQL12-QUERY]
 
-[SPARQL 1.2 Query Language](https://www.w3.org/TR/sparql12-query/). Olaf Hartig; Andy Seaborne; Ruben Taelman; Gregory Williams; Thomas Pellissier Tanon. W3C. 25 October 2026. W3C Working Draft. URL: <https://www.w3.org/TR/sparql12-query/>
+[SPARQL 1.2 Query Language](https://www.w3.org/TR/sparql12-query/). Olaf Hartig; Andy Seaborne; Ruben Taelman; Gregory Williams; Thomas Pellissier Tanon. W3C. 1 November 2026. W3C Working Draft. URL: <https://www.w3.org/TR/sparql12-query/>
 
 [UNICODE]
 
@@ -2742,7 +2812,7 @@ Permalink
 - § 4.1 Elements of the Abstract Syntax (2) (3) (4) (5)
 - § 4.3 Rule Dependency (2) (3) (4) (5) (6) (7) (8) (9)
 - § 6.1 Evaluation Definitions (2) (3) (4) (5)
-- § 6.4 Evaluation of a Rule (2)
+- § 6.5 Evaluation of a Rule (2)
 
 Permalink
 
@@ -2762,7 +2832,7 @@ Permalink
 - § 4.2 Well-formedness Conditions (2)
 - § 4.3 Rule Dependency (2)
 - § 5. Relationship between SPARQL-RL and SPARQL
-- § 6.6.1 Determining the Dependencies (2)
+- § 6.7.1 Determining the Dependencies (2)
 
 Permalink
 
@@ -2782,7 +2852,7 @@ Permalink
 - § 4.2 Well-formedness Conditions
 - § 4.3 Rule Dependency (2) (3) (4) (5)
 - § 4.4 Stratification
-- § 6.6.1 Determining the Dependencies (2)
+- § 6.7.1 Determining the Dependencies (2)
 
 Permalink
 
@@ -2820,8 +2890,45 @@ Permalink
 
 **Referenced in:**
 
+- § 4.1 Elements of the Abstract Syntax (2) (3) (4) (5)
+- § 4.2 Well-formedness Conditions
+
+Permalink
+
+**Referenced in:**
+
 - § 3.6 Grouping and Aggregation (2) (3)
-- § 4.1 Elements of the Abstract Syntax (2) (3) (4) (5) (6) (7)
+- § 4.1 Elements of the Abstract Syntax
+- § 4.2 Well-formedness Conditions (2) (3) (4)
+
+Permalink
+
+**Referenced in:**
+
+- § 4.1 Elements of the Abstract Syntax (2) (3) (4) (5) (6)
+- § 6.4 Evaluation of an Aggregate Function (2) (3)
+
+Permalink
+
+**Referenced in:**
+
+- § 4.1 Elements of the Abstract Syntax (2)
+- § 4.2 Well-formedness Conditions
+- § 6.4 Evaluation of an Aggregate Function
+
+Permalink
+
+**Referenced in:**
+
+- § 4.1 Elements of the Abstract Syntax (2)
+- § 6.4 Evaluation of an Aggregate Function
+
+Permalink
+
+**Referenced in:**
+
+- § 3.6 Grouping and Aggregation (2) (3)
+- § 4.1 Elements of the Abstract Syntax (2) (3) (4) (5) (6) (7) (8)
 - § 4.2 Well-formedness Conditions (2)
 - § 4.4 Stratification
 
@@ -2839,28 +2946,8 @@ Permalink
 
 - § 3.6 Grouping and Aggregation (2) (3) (4)
 - § 4.1 Elements of the Abstract Syntax (2)
-- § 4.2 Well-formedness Conditions (2)
+- § 4.2 Well-formedness Conditions
 - § 4.3 Rule Dependency (2)
-
-Permalink
-
-**Referenced in:**
-
-- § 4.1 Elements of the Abstract Syntax (2) (3) (4)
-
-Permalink
-
-**Referenced in:**
-
-- § 3.6 Grouping and Aggregation (2) (3)
-- § 4.1 Elements of the Abstract Syntax
-- § 4.2 Well-formedness Conditions (2) (3) (4)
-
-Permalink
-
-**Referenced in:**
-
-- § 4.1 Elements of the Abstract Syntax
 
 Permalink
 
@@ -2881,7 +2968,7 @@ Permalink
 - § 4.2 Well-formedness Conditions (2)
 - § 4.3 Rule Dependency
 - § 5. Relationship between SPARQL-RL and SPARQL
-- § 6.4 Evaluation of a Rule
+- § 6.5 Evaluation of a Rule
 
 Permalink
 
@@ -2892,7 +2979,7 @@ Permalink
 - § 4.1 Elements of the Abstract Syntax (2) (3) (4) (5) (6) (7)
 - § 4.2 Well-formedness Conditions (2)
 - § 5. Relationship between SPARQL-RL and SPARQL
-- § 6.4 Evaluation of a Rule (2)
+- § 6.5 Evaluation of a Rule (2)
 
 Permalink
 
@@ -2910,7 +2997,7 @@ Permalink
 - § 4.2 Well-formedness Conditions
 - § 4.3.1 Dependency Graph
 - § 4.4 Stratification (2)
-- § 6.4 Evaluation of a Rule
+- § 6.5 Evaluation of a Rule
 
 Permalink
 
@@ -2923,18 +3010,18 @@ Permalink
 - § 4.3 Rule Dependency
 - § 4.4 Stratification (2)
 - § 4.4.2 Stratification Algorithm
-- § 6.5 Evaluation of a Rule Set
-- § 6.6.1 Determining the Dependencies
-- § 6.6.2 Calculating the Stratification (2) (3)
-- § 6.6.3 Evaluating the Strata
+- § 6.6 Evaluation of a Rule Set
+- § 6.7.1 Determining the Dependencies
+- § 6.7.2 Calculating the Stratification (2) (3)
+- § 6.7.3 Evaluating the Strata
 
 Permalink
 
 **Referenced in:**
 
 - § 4.1 Elements of the Abstract Syntax
-- § 6.5 Evaluation of a Rule Set
-- § 6.6.2 Calculating the Stratification
+- § 6.6 Evaluation of a Rule Set
+- § 6.7.2 Calculating the Stratification
 
 Permalink
 
@@ -2951,8 +3038,8 @@ Permalink
 - § 4.4 Stratification (2) (3) (4) (5) (6) (7)
 - § 4.4.1 Stratification Condition (2) (3) (4)
 - § 4.5 Processing Imports (2)
-- § 6.5 Evaluation of a Rule Set
-- § 6.6 Worked Example
+- § 6.6 Evaluation of a Rule Set
+- § 6.7 Worked Example
 - § D. Security Considerations (2)
 
 Permalink
@@ -2976,7 +3063,7 @@ Permalink
 - § 4.4 Stratification (2)
 - § 6. Rule Set Evaluation
 - § 6.1 Evaluation Definitions
-- § 6.4 Evaluation of a Rule
+- § 6.5 Evaluation of a Rule
 
 Permalink
 
@@ -2985,8 +3072,8 @@ Permalink
 - § 3. SPARQL-RL Overview
 - § 3.10 Evaluating a Rule Set
 - § 4.1 Elements of the Abstract Syntax (2) (3) (4)
-- § 6.6 Worked Example
-- § 6.6.3 Evaluating the Strata
+- § 6.7 Worked Example
+- § 6.7.3 Evaluating the Strata
 
 Permalink
 
@@ -3038,7 +3125,7 @@ Permalink
 **Referenced in:**
 
 - § 3.10 Evaluating a Rule Set
-- § 4.2 Well-formedness Conditions
+- § 4.2 Well-formedness Conditions (2)
 - § 5. Relationship between SPARQL-RL and SPARQL
 - § 6.2 Preparation for Evaluation
 
@@ -3115,14 +3202,14 @@ Permalink
 - § 4.4 Stratification
 - § 4.4.1 Stratification Condition (2)
 - § 6.2 Preparation for Evaluation
-- § 6.6.1 Determining the Dependencies
+- § 6.7.1 Determining the Dependencies
 
 Permalink
 
 **Referenced in:**
 
 - § 4.3.1 Dependency Graph
-- § 6.6.1 Determining the Dependencies
+- § 6.7.1 Determining the Dependencies
 
 Permalink
 
@@ -3137,7 +3224,7 @@ Permalink
 
 - § 3.10 Evaluating a Rule Set
 - § 4.4 Stratification (2) (3) (4) (5) (6) (7) (8) (9) (10)
-- § 6.5 Evaluation of a Rule Set (2) (3)
+- § 6.6 Evaluation of a Rule Set (2) (3)
 
 Permalink
 
@@ -3148,7 +3235,7 @@ Permalink
 - § 4.4 Stratification (2) (3) (4) (5) (6)
 - § 4.4.1 Stratification Condition (2) (3)
 - § 6.2 Preparation for Evaluation (2)
-- § 6.5 Evaluation of a Rule Set
+- § 6.6 Evaluation of a Rule Set
 
 Permalink
 
@@ -3162,7 +3249,7 @@ Permalink
 
 - § 4.4.1 Stratification Condition (2)
 - § 4.4.2 Stratification Algorithm
-- § 6.6.1 Determining the Dependencies
+- § 6.7.1 Determining the Dependencies
 
 Permalink
 
@@ -3201,20 +3288,21 @@ Permalink
 - § 3.6 Grouping and Aggregation
 - § 4.1 Elements of the Abstract Syntax
 - § 6.1 Evaluation Definitions
-- § 6.4 Evaluation of a Rule (2)
+- § 6.4 Evaluation of an Aggregate Function (2)
+- § 6.5 Evaluation of a Rule (2)
 
 Permalink
 
 **Referenced in:**
 
-- Not referenced in this document.
+- § 6.1 Evaluation Definitions
 
 Permalink
 
 **Referenced in:**
 
 - § 4.3 Rule Dependency
-- § 6.4 Evaluation of a Rule
+- § 6.5 Evaluation of a Rule
 
 Permalink
 
@@ -3328,6 +3416,7 @@ Permalink
 - § 3.5 Assignment and Creating RDF Terms
 - § 4.1 Elements of the Abstract Syntax (2) (3) (4) (5) (6)
 - § 6.1 Evaluation Definitions (2) (3) (4) (5)
+- § 6.4 Evaluation of an Aggregate Function
 - § 7.5 Escape Sequences
 
 Permalink
@@ -3352,7 +3441,7 @@ Permalink
 - § 3.5 Assignment and Creating RDF Terms (2)
 - § 4.1 Elements of the Abstract Syntax (2) (3) (4) (5)
 - § 4.3 Rule Dependency
-- § 6.4 Evaluation of a Rule
+- § 6.5 Evaluation of a Rule
 
 Permalink
 
@@ -3394,7 +3483,7 @@ Permalink
 
 **Referenced in:**
 
-- § 6.1 Evaluation Definitions
+- § 6.1 Evaluation Definitions (2)
 
 Permalink
 
@@ -3408,15 +3497,23 @@ Permalink
 
 - § 3.6 Grouping and Aggregation
 - § 4.1 Elements of the Abstract Syntax (2)
+- § 4.2 Well-formedness Conditions
 - § 6.1 Evaluation Definitions (2) (3) (4) (5) (6) (7)
 - § 6.3 Evaluation of an Expression
-- § 6.4 Evaluation of a Rule
+- § 6.4 Evaluation of an Aggregate Function (2)
+- § 6.5 Evaluation of a Rule
 
 Permalink
 
 **Referenced in:**
 
-- § 6.3 Evaluation of an Expression (2)
+- § 6.4 Evaluation of an Aggregate Function
+
+Permalink
+
+**Referenced in:**
+
+- § 6.4 Evaluation of an Aggregate Function
 
 Permalink
 
@@ -3428,30 +3525,36 @@ Permalink
 
 **Referenced in:**
 
-- § 6.4 Evaluation of a Rule
+- § 6.5 Evaluation of a Rule
 
 Permalink
 
 **Referenced in:**
 
-- § 6.3 Evaluation of an Expression
+- § 6.4 Evaluation of an Aggregate Function
 
 Permalink
 
 **Referenced in:**
 
-- § 6.3 Evaluation of an Expression
+- § 6.4 Evaluation of an Aggregate Function
 
 Permalink
 
 **Referenced in:**
 
-- § 6.3 Evaluation of an Expression
+- § 6.4 Evaluation of an Aggregate Function
+
+Permalink
+
+**Referenced in:**
+
+- § 6.4 Evaluation of an Aggregate Function
 
 Permalink
 
 **Referenced in:**
 
 - § 3.5 Assignment and Creating RDF Terms
-- § 4.1 Elements of the Abstract Syntax (2) (3) (4) (5) (6) (7) (8) (9) (10) (11) (12) (13)
-- § 4.2 Well-formedness Conditions (2) (3)
+- § 4.1 Elements of the Abstract Syntax (2) (3) (4) (5) (6) (7) (8) (9) (10) (11) (12) (13) (14)
+- § 4.2 Well-formedness Conditions (2) (3) (4)

@@ -4,7 +4,7 @@ source: https://www.w3.org/TR/rdb-direct-mapping/
 family: mapping
 status: W3C Recommendation
 spec_date: 2012-09-27
-fetched: 2026-11-02
+fetched: 2026-11-09
 ---
 
 # A Direct Mapping of Relational Data to RDF
