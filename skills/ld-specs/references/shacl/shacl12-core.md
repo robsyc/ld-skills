@@ -4,8 +4,8 @@ source: https://www.w3.org/TR/shacl12-core/
 family: shacl
 version: "1.2"
 status: W3C Working Draft
-spec_date: 2026-11-02
-fetched: 2026-11-09
+spec_date: 2026-11-16
+fetched: 2026-11-16
 ---
 
 # SHACL 1.2 Core
@@ -1520,7 +1520,7 @@ Only SHACL implementations that can produce all the mandatory properties of the 
 A *shapes graph* is an [RDF graph](https://www.w3.org/TR/rdf12-concepts/#dfn-rdf-graph) in the role of providing shapes and related information
 to a SHACL validation process so that a data graph can be validated against the shapes.
 
-The `sh:ShapesGraph` class *MAY* be used as an `rdf:type` of the [IRI](https://www.w3.org/TR/rdf12-concepts/#dfn-iri) of a graph that typically acts in the role of a shapes graph.
+The `sh:ShapesGraph` class *MAY* be used as an `rdf:type` of the [IRI](https://www.w3.org/TR/rdf12-concepts/#dfn-iri) of a graph that is acting in the role of a shapes graph.
 The graph type classes (such as `sh:DataGraph` and `sh:ShapesGraph`)
 represent roles that are not mutually exclusive; a single graph *MAY* be typed with more than one of these classes.
 
@@ -1639,7 +1639,7 @@ In addition to shape declarations, the shapes graph may contain additional infor
 
 Any RDF graph can be a *data graph*.
 
-The `sh:DataGraph` class *MAY* be used as an `rdf:type` of the [IRI](https://www.w3.org/TR/rdf12-concepts/#dfn-iri) of a graph that is typically used as a data graph.
+The `sh:DataGraph` class *MAY* be used as an `rdf:type` of the [IRI](https://www.w3.org/TR/rdf12-concepts/#dfn-iri) of a graph that is acting as a data graph.
 The graph type classes (such as `sh:DataGraph` and `sh:ShapesGraph`)
 represent roles that are not mutually exclusive; a single graph *MAY* be typed with more than one of these classes.
 For example, a shapes graph *MAY* also play the role of a data graph when the shapes themselves will be validated.
@@ -5029,6 +5029,9 @@ intended semantics of shape definitions or nodes in a data graph and thus lead t
 Protection against this scenario can be achieved by only using trusted
 and verified RDF sources and eliminating the possibility that graphs are dynamically added via `owl:imports` and `sh:shapesGraph`.
 
+In cases where users can access SHACL validation tools but not the underlying graphs, the validation
+report may expose content that is considered private (e.g., as values of `sh:value` and `sh:resultMessage`).
+
 #### 6.16 Index
 
 ##### 6.16.1 Terms defined by this specification
@@ -5212,7 +5215,7 @@ and verified RDF sources and eliminating the possibility that graphs are dynamic
 
 [rdf12-concepts]
 
-[RDF 1.2 Concepts and Abstract Data Model](https://www.w3.org/TR/rdf12-concepts/). Andy Seaborne; Gregg Kellogg; Olaf Hartig; Pierre-Antoine Champin. W3C. 7 April 2026. W3C Candidate Recommendation. URL: <https://www.w3.org/TR/rdf12-concepts/>
+[RDF 1.2 Concepts and Abstract Data Model](https://www.w3.org/TR/rdf12-concepts/). Gregg Kellogg; Olaf Hartig; Pierre-Antoine Champin; Andy Seaborne. W3C. 16 November 2026. CRD. URL: <https://www.w3.org/TR/rdf12-concepts/>
 
 [RFC2119]
 
@@ -5244,7 +5247,7 @@ and verified RDF sources and eliminating the possibility that graphs are dynamic
 
 [sparql12-query]
 
-[SPARQL 1.2 Query Language](https://www.w3.org/TR/sparql12-query/). Olaf Hartig; Andy Seaborne; Ruben Taelman; Gregory Williams; Thomas Pellissier Tanon. W3C. 1 November 2026. W3C Working Draft. URL: <https://www.w3.org/TR/sparql12-query/>
+[SPARQL 1.2 Query Language](https://www.w3.org/TR/sparql12-query/). Olaf Hartig; Andy Seaborne; Ruben Taelman; Gregory Williams; Thomas Pellissier Tanon. W3C. 16 November 2026. W3C Working Draft. URL: <https://www.w3.org/TR/sparql12-query/>
 
 #### A.2 Informative references
 
@@ -5258,15 +5261,15 @@ and verified RDF sources and eliminating the possibility that graphs are dynamic
 
 [rdf12-turtle]
 
-[RDF 1.2 Turtle](https://www.w3.org/TR/rdf12-turtle/). Gregg Kellogg; Andy Seaborne; Dominik Tomaszuk. W3C. 1 November 2026. W3C Working Draft. URL: <https://www.w3.org/TR/rdf12-turtle/>
+[RDF 1.2 Turtle](https://www.w3.org/TR/rdf12-turtle/). Gregg Kellogg; Andy Seaborne; Dominik Tomaszuk. W3C. 11 November 2026. W3C Working Draft. URL: <https://www.w3.org/TR/rdf12-turtle/>
 
 [shacl12-core]
 
-[SHACL 1.2 Core](https://www.w3.org/TR/shacl12-core/). Holger Knublauch; Thomas Bergwinkl; Yousouf Taghzouti; Jesse Wright. W3C. 30 October 2026. W3C Working Draft. URL: <https://www.w3.org/TR/shacl12-core/>
+[SHACL 1.2 Core](https://www.w3.org/TR/shacl12-core/). Holger Knublauch; Thomas Bergwinkl; Yousouf Taghzouti; Jesse Wright. W3C. 10 November 2026. W3C Working Draft. URL: <https://www.w3.org/TR/shacl12-core/>
 
 [shacl12-inference-rules]
 
-[SHACL 1.2 Inference Rules](https://www.w3.org/TR/shacl12-inference-rules/). Holger Knublauch; Matt Goldberg; Scott Henninger; Livio Robaldo; Simon Steyskal. W3C. 28 October 2026. W3C Working Draft. URL: <https://www.w3.org/TR/shacl12-inference-rules/>
+[SHACL 1.2 Inference Rules](https://www.w3.org/TR/shacl12-inference-rules/). Holger Knublauch; Matt Goldberg; Scott Henninger; Livio Robaldo; Simon Steyskal. W3C. 10 November 2026. W3C Working Draft. URL: <https://www.w3.org/TR/shacl12-inference-rules/>
 
 [shacl12-overview]
 
@@ -5274,11 +5277,11 @@ and verified RDF sources and eliminating the possibility that graphs are dynamic
 
 [shacl12-ui]
 
-[SHACL 1.2 User Interfaces](https://www.w3.org/TR/shacl12-ui/). Edmond Chuc; Thomas Bergwinkl; Ieben Smessaert; Daniël Beeke. W3C. 27 October 2026. W3C Working Draft. URL: <https://www.w3.org/TR/shacl12-ui/>
+[SHACL 1.2 User Interfaces](https://www.w3.org/TR/shacl12-ui/). Edmond Chuc; Thomas Bergwinkl; Ieben Smessaert; Daniël Beeke. W3C. 11 November 2026. W3C Working Draft. URL: <https://www.w3.org/TR/shacl12-ui/>
 
 [sparql12-rl]
 
-[SPARQL 1.2 RL](https://www.w3.org/TR/sparql12-rl/). Robert David; David Habgood; Andy Seaborne; Simon Steyskal. W3C. 31 October 2026. W3C Working Draft. URL: <https://www.w3.org/TR/sparql12-rl/>
+[SPARQL 1.2 RL](https://www.w3.org/TR/sparql12-rl/). Robert David; David Habgood; Andy Seaborne; Simon Steyskal. W3C. 15 November 2026. W3C Working Draft. URL: <https://www.w3.org/TR/sparql12-rl/>
 
 Permalink
 

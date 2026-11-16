@@ -4,8 +4,8 @@ source: https://www.w3.org/TR/rdf12-turtle/
 family: rdf
 version: "1.2"
 status: W3C Working Draft
-spec_date: 2026-11-05
-fetched: 2026-11-09
+spec_date: 2026-11-11
+fetched: 2026-11-16
 ---
 
 # RDF 1.2 Turtle
@@ -1467,7 +1467,7 @@ table describes specific characters and sequences used throughout this document.
 | `U+0045` | `E`   | Latin capital letter E |
 | `U+005B` | `[`   | Left square bracket    |
 | `U+005C` | `\`   | Backslash              |
-| `U+005D` | `[`   | Right square bracket   |
+| `U+005D` | `]`   | Right square bracket   |
 | `U+005F` | `_`   | Underscore             |
 | `U+0061` | `a`   | Latin small letter A   |
 | `U+0065` | `e`   | Latin small letter E   |
@@ -2174,11 +2174,11 @@ More specifically, the following changes have been made:
 
 [RDF12-N-QUADS]
 
-[RDF 1.2 N-Quads](https://www.w3.org/TR/rdf12-n-quads/). Gregg Kellogg; Dominik Tomaszuk. W3C. 23 October 2026. W3C Working Draft. URL: <https://www.w3.org/TR/rdf12-n-quads/>
+[RDF 1.2 N-Quads](https://www.w3.org/TR/rdf12-n-quads/). Gregg Kellogg; Dominik Tomaszuk. W3C. 5 November 2026. W3C Working Draft. URL: <https://www.w3.org/TR/rdf12-n-quads/>
 
 [RDF12-N-TRIPLES]
 
-[RDF 1.2 N-Triples](https://www.w3.org/TR/rdf12-n-triples/). Gregg Kellogg; Dominik Tomaszuk. W3C. 23 October 2026. W3C Working Draft. URL: <https://www.w3.org/TR/rdf12-n-triples/>
+[RDF 1.2 N-Triples](https://www.w3.org/TR/rdf12-n-triples/). Gregg Kellogg; Dominik Tomaszuk. W3C. 5 November 2026. W3C Working Draft. URL: <https://www.w3.org/TR/rdf12-n-triples/>
 
 [RDF12-NEW]
 
@@ -2198,7 +2198,7 @@ More specifically, the following changes have been made:
 
 [RDF12-TRIG]
 
-[RDF 1.2 TriG](https://www.w3.org/TR/rdf12-trig/). Gregg Kellogg; Dominik Tomaszuk. W3C. 23 October 2026. W3C Working Draft. URL: <https://www.w3.org/TR/rdf12-trig/>
+[RDF 1.2 TriG](https://www.w3.org/TR/rdf12-trig/). Gregg Kellogg; Dominik Tomaszuk. W3C. 5 November 2026. W3C Working Draft. URL: <https://www.w3.org/TR/rdf12-trig/>
 
 [RDF12-XML]
 

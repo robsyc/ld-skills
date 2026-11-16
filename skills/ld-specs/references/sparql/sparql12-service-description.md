@@ -4,8 +4,8 @@ source: https://www.w3.org/TR/sparql12-service-description/
 family: sparql
 version: "1.2"
 status: W3C Working Draft
-spec_date: 2026-10-29
-fetched: 2026-11-09
+spec_date: 2026-11-12
+fetched: 2026-11-16
 ---
 
 # SPARQL 1.2 Service Description
@@ -101,11 +101,11 @@ interpreted as described in [RFC2119].
 
 The following terms are also in use throughout this document:
 
-SPARQL Service
+*SPARQL Service*
 
 Any implementation conforming to the [SPARQL 1.2 Protocol](https://www.w3.org/TR/sparql12-protocol/) (this document's use of "SPARQL Service" is the same as "[SPARQL Protocol service](https://www.w3.org/TR/sparql12-protocol/#terminology)" as defined in the SPARQL 1.2 Protocol) [SPARQL12-PROTOCOL].
 
-SPARQL endpoint
+*SPARQL endpoint*
 
 The URI at which a SPARQL Service listens for requests from clients.
 
@@ -642,14 +642,15 @@ TODO
 
 ### E.1 Terms defined by this specification
 
+- SPARQL endpoint §1.1
+- SPARQL Service §1.1
+
 ### E.2 Terms defined by reference
 
 - [RDF12-CONCEPTS] defines the following:
   * RDF 1.2 Basic conformance
 - [RDF12-TURTLE] defines the following:
   * Turtle
-- [RFC9110] defines the following:
-  * content negotiation
 - [SPARQL-QUERY] defines the following:
   * SPARQL 1.0 Query Language
 - [SPARQL12-ENTAILMENT] defines the following:
@@ -682,11 +683,11 @@ TODO
 
 [RDF12-CONCEPTS]
 
-[RDF 1.2 Concepts and Abstract Data Model](https://www.w3.org/TR/rdf12-concepts/). Andy Seaborne; Gregg Kellogg; Olaf Hartig; Pierre-Antoine Champin. W3C. 7 April 2026. W3C Candidate Recommendation. URL: <https://www.w3.org/TR/rdf12-concepts/>
+[RDF 1.2 Concepts and Abstract Data Model](https://www.w3.org/TR/rdf12-concepts/). Gregg Kellogg; Olaf Hartig; Pierre-Antoine Champin; Andy Seaborne. W3C. 11 November 2026. CRD. URL: <https://www.w3.org/TR/rdf12-concepts/>
 
 [RDF12-TURTLE]
 
-[RDF 1.2 Turtle](https://www.w3.org/TR/rdf12-turtle/). Gregg Kellogg; Andy Seaborne; Dominik Tomaszuk. W3C. 23 October 2026. W3C Working Draft. URL: <https://www.w3.org/TR/rdf12-turtle/>
+[RDF 1.2 Turtle](https://www.w3.org/TR/rdf12-turtle/). Gregg Kellogg; Andy Seaborne; Dominik Tomaszuk. W3C. 11 November 2026. W3C Working Draft. URL: <https://www.w3.org/TR/rdf12-turtle/>
 
 [RDFa-core]
 
@@ -700,7 +701,7 @@ TODO
 
 [Ambiguity of Uppercase vs Lowercase in RFC 2119 Key Words](https://www.rfc-editor.org/info/rfc8174/). B. Leiba. IETF. May 2017. Best Current Practice. URL: <https://www.rfc-editor.org/info/rfc8174/>
 
-[rfc9110]
+[RFC9110]
 
 [HTTP Semantics](https://httpwg.org/specs/rfc9110.html). R. Fielding, Ed.; M. Nottingham, Ed.; J. Reschke, Ed. IETF. June 2022. Internet Standard. URL: <https://httpwg.org/specs/rfc9110.html>
 
@@ -730,7 +731,7 @@ TODO
 
 [SPARQL12-QUERY]
 
-[SPARQL 1.2 Query Language](https://www.w3.org/TR/sparql12-query/). Olaf Hartig; Andy Seaborne; Ruben Taelman; Gregory Williams; Thomas Pellissier Tanon. W3C. 25 October 2026. W3C Working Draft. URL: <https://www.w3.org/TR/sparql12-query/>
+[SPARQL 1.2 Query Language](https://www.w3.org/TR/sparql12-query/). Olaf Hartig; Andy Seaborne; Ruben Taelman; Gregory Williams; Thomas Pellissier Tanon. W3C. 1 November 2026. W3C Working Draft. URL: <https://www.w3.org/TR/sparql12-query/>
 
 [SPARQL12-UPDATE]
 
@@ -778,6 +779,18 @@ Permalink
 
 **Referenced in:**
 
+- Not referenced in this document.
+
+Permalink
+
+**Referenced in:**
+
+- Not referenced in this document.
+
+Permalink
+
+**Referenced in:**
+
 - § 4.2.11 sd:supportedVersion
 
 Permalink
@@ -785,12 +798,6 @@ Permalink
 **Referenced in:**
 
 - § 5.2 Turtle Service Description
-
-Permalink
-
-**Referenced in:**
-
-- § 3. Accessing a Service Description
 
 Permalink
 

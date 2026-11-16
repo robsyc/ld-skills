@@ -4,8 +4,8 @@ source: https://www.w3.org/TR/rdf12-schema/
 family: rdf
 version: "1.2"
 status: W3C Working Draft
-spec_date: 2026-10-23
-fetched: 2026-11-09
+spec_date: 2026-11-12
+fetched: 2026-11-16
 ---
 
 # RDF 1.2 Schema
@@ -125,10 +125,10 @@ class in
 terms of the properties its instances may have, RDF Schema
 describes properties in terms of the classes of
 resource to which they apply. This is the role of the domain (§2.2.2) and range (§2.2.1) mechanisms described in this specification. For example, we could
-define the `eg:author` property to have a domain of `eg:Document` and a range of `eg:Person`, whereas a classical object oriented system might
-typically define a class `eg:Document` with an attribute called `eg:author` of type `eg:Person`. Using the RDF
+define the `ex:author` property to have a domain of `ex:Document` and a range of `ex:Person`, whereas a classical object oriented system might
+typically define a class `ex:Document` with an attribute called `ex:author` of type `ex:Person`. Using the RDF
 approach, it is easy for others to subsequently define additional
-properties with a domain of `eg:Document` or a range of `eg:Person`. This can be done without the need to re-define
+properties with a domain of `ex:Document` or a range of `ex:Person`. This can be done without the need to re-define
 the original description of
 these classes. One benefit of the RDF property-centric approach is that
 it
@@ -166,6 +166,9 @@ known as a namespace prefix.
 | rdf              | [`http://www.w3.org/1999/02/22-rdf-syntax-ns#`](https://www.w3.org/1999/02/22-rdf-syntax-ns#) |
 | rdfs             | [`http://www.w3.org/2000/01/rdf-schema#`](https://www.w3.org/2000/01/rdf-schema#)             |
 | xsd              | [`http://www.w3.org/2001/XMLSchema#`](https://www.w3.org/2001/XMLSchema#)                     |
+| ex               | `http://example/`                                                                             |
+
+The namespace prefix `ex` is used for illustrative examples.
 
 For convenience and readability, this specification uses an abbreviated
 form to represent IRIs. A name of the form `prefix:suffix` should be
@@ -1231,7 +1234,7 @@ The following registry table lists all the IRIs defined in the `rdfs:` namespace
 >
 > > **Issue:**
 > >
-> > [Issue 82](https://github.com/w3c/rdf-schema/issues/82): The vocabulary registry should not cover rdfs:, only rdf:
+> > [Issue 82](https://github.com/w3c/rdf-schema/issues/82): The vocabulary registry should not cover rdfs:, only rdf: [propose closing](https://github.com/w3c/rdf-schema/issues/?q=is%3Aissue+is%3Aopen+label%3A%22propose+closing%22)
 >
 > I don't think that the rdfs: namespace should be open for extension.
 >
@@ -1367,15 +1370,15 @@ Changes for RDF 1.1 Recommendation
 
 [RDF12-CONCEPTS]
 
-[RDF 1.2 Concepts and Abstract Data Model](https://www.w3.org/TR/rdf12-concepts/). Andy Seaborne; Gregg Kellogg; Olaf Hartig; Pierre-Antoine Champin. W3C. 7 April 2026. W3C Candidate Recommendation. URL: <https://www.w3.org/TR/rdf12-concepts/>
+[RDF 1.2 Concepts and Abstract Data Model](https://www.w3.org/TR/rdf12-concepts/). Gregg Kellogg; Olaf Hartig; Pierre-Antoine Champin; Andy Seaborne. W3C. 11 November 2026. CRD. URL: <https://www.w3.org/TR/rdf12-concepts/>
 
 [RDF12-N-QUADS]
 
-[RDF 1.2 N-Quads](https://www.w3.org/TR/rdf12-n-quads/). Gregg Kellogg; Dominik Tomaszuk. W3C. 10 October 2026. W3C Working Draft. URL: <https://www.w3.org/TR/rdf12-n-quads/>
+[RDF 1.2 N-Quads](https://www.w3.org/TR/rdf12-n-quads/). Gregg Kellogg; Dominik Tomaszuk. W3C. 5 November 2026. W3C Working Draft. URL: <https://www.w3.org/TR/rdf12-n-quads/>
 
 [RDF12-N-TRIPLES]
 
-[RDF 1.2 N-Triples](https://www.w3.org/TR/rdf12-n-triples/). Gregg Kellogg; Dominik Tomaszuk. W3C. 7 October 2026. W3C Working Draft. URL: <https://www.w3.org/TR/rdf12-n-triples/>
+[RDF 1.2 N-Triples](https://www.w3.org/TR/rdf12-n-triples/). Gregg Kellogg; Dominik Tomaszuk. W3C. 5 November 2026. W3C Working Draft. URL: <https://www.w3.org/TR/rdf12-n-triples/>
 
 [RDF12-NEW]
 
@@ -1391,15 +1394,15 @@ Changes for RDF 1.1 Recommendation
 
 [RDF12-TRIG]
 
-[RDF 1.2 TriG](https://www.w3.org/TR/rdf12-trig/). Gregg Kellogg; Dominik Tomaszuk. W3C. 7 October 2026. W3C Working Draft. URL: <https://www.w3.org/TR/rdf12-trig/>
+[RDF 1.2 TriG](https://www.w3.org/TR/rdf12-trig/). Gregg Kellogg; Dominik Tomaszuk. W3C. 5 November 2026. W3C Working Draft. URL: <https://www.w3.org/TR/rdf12-trig/>
 
 [RDF12-TURTLE]
 
-[RDF 1.2 Turtle](https://www.w3.org/TR/rdf12-turtle/). Gregg Kellogg; Andy Seaborne; Dominik Tomaszuk. W3C. 7 October 2026. W3C Working Draft. URL: <https://www.w3.org/TR/rdf12-turtle/>
+[RDF 1.2 Turtle](https://www.w3.org/TR/rdf12-turtle/). Gregg Kellogg; Andy Seaborne; Dominik Tomaszuk. W3C. 11 November 2026. W3C Working Draft. URL: <https://www.w3.org/TR/rdf12-turtle/>
 
 [RDF12-XML]
 
-[RDF 1.2 XML Syntax](https://www.w3.org/TR/rdf12-xml/). Gregg Kellogg; Jerven Bolleman. W3C. 9 October 2026. W3C Working Draft. URL: <https://www.w3.org/TR/rdf12-xml/>
+[RDF 1.2 XML Syntax](https://www.w3.org/TR/rdf12-xml/). Gregg Kellogg; Jerven Bolleman. W3C. 25 October 2026. W3C Working Draft. URL: <https://www.w3.org/TR/rdf12-xml/>
 
 [SPARQL12-CONCEPTS]
 
@@ -1427,7 +1430,7 @@ Changes for RDF 1.1 Recommendation
 
 [SPARQL12-QUERY]
 
-[SPARQL 1.2 Query Language](https://www.w3.org/TR/sparql12-query/). Olaf Hartig; Andy Seaborne; Ruben Taelman; Gregory Williams; Thomas Pellissier Tanon. W3C. 11 October 2026. W3C Working Draft. URL: <https://www.w3.org/TR/sparql12-query/>
+[SPARQL 1.2 Query Language](https://www.w3.org/TR/sparql12-query/). Olaf Hartig; Andy Seaborne; Ruben Taelman; Gregory Williams; Thomas Pellissier Tanon. W3C. 1 November 2026. W3C Working Draft. URL: <https://www.w3.org/TR/sparql12-query/>
 
 [SPARQL12-RESULTS-CSV-TSV]
 
@@ -1443,11 +1446,11 @@ Changes for RDF 1.1 Recommendation
 
 [SPARQL12-SERVICE-DESCRIPTION]
 
-[SPARQL 1.2 Service Description](https://www.w3.org/TR/sparql12-service-description/). Ruben Taelman; Gregory Williams. W3C. 23 April 2026. W3C Working Draft. URL: <https://www.w3.org/TR/sparql12-service-description/>
+[SPARQL 1.2 Service Description](https://www.w3.org/TR/sparql12-service-description/). Ruben Taelman; Gregory Williams. W3C. 29 October 2026. W3C Working Draft. URL: <https://www.w3.org/TR/sparql12-service-description/>
 
 [SPARQL12-UPDATE]
 
-[SPARQL 1.2 Update](https://www.w3.org/TR/sparql12-update/). Ruben Taelman; Andy Seaborne; Thomas Pellissier Tanon. W3C. 12 October 2026. W3C Working Draft. URL: <https://www.w3.org/TR/sparql12-update/>
+[SPARQL 1.2 Update](https://www.w3.org/TR/sparql12-update/). Ruben Taelman; Andy Seaborne; Thomas Pellissier Tanon. W3C. 25 October 2026. W3C Working Draft. URL: <https://www.w3.org/TR/sparql12-update/>
 
 [W3C-PROCESS]
 

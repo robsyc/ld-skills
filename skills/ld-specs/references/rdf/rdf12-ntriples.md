@@ -5,7 +5,7 @@ family: rdf
 version: "1.2"
 status: W3C Working Draft
 spec_date: 2026-11-05
-fetched: 2026-11-09
+fetched: 2026-11-16
 ---
 
 # RDF 1.2 N-Triples

@@ -4,8 +4,8 @@ source: https://www.w3.org/TR/sparql12-update/
 family: sparql
 version: "1.2"
 status: W3C Working Draft
-spec_date: 2026-10-25
-fetched: 2026-11-09
+spec_date: 2026-11-15
+fetched: 2026-11-16
 ---
 
 # SPARQL 1.2 Update
@@ -1920,7 +1920,9 @@ None
 
 Optional parameters:
 
-None
+`version`
+
+If present, acceptable values of `version` are defined in [Version Labels](https://www.w3.org/TR/sparql12-query/#versionLabels) in [SPARQL 1.2 Query Language](https://www.w3.org/TR/sparql12-query/).
 
 Encoding considerations:
 
@@ -2044,6 +2046,7 @@ TODO
   * TriplesTemplate
   * UsingClause
   * VarOrIri
+  * Version Labels
 
 ## F. References
 
@@ -2051,7 +2054,7 @@ TODO
 
 [RDF12-CONCEPTS]
 
-[RDF 1.2 Concepts and Abstract Data Model](https://www.w3.org/TR/rdf12-concepts/). Andy Seaborne; Gregg Kellogg; Olaf Hartig; Pierre-Antoine Champin. W3C. 7 April 2026. W3C Candidate Recommendation. URL: <https://www.w3.org/TR/rdf12-concepts/>
+[RDF 1.2 Concepts and Abstract Data Model](https://www.w3.org/TR/rdf12-concepts/). Gregg Kellogg; Olaf Hartig; Pierre-Antoine Champin; Andy Seaborne. W3C. 15 November 2026. CRD. URL: <https://www.w3.org/TR/rdf12-concepts/>
 
 [RDF12-SEMANTICS]
 
@@ -2087,7 +2090,7 @@ TODO
 
 [SPARQL12-QUERY]
 
-[SPARQL 1.2 Query Language](https://www.w3.org/TR/sparql12-query/). Olaf Hartig; Andy Seaborne; Ruben Taelman; Gregory Williams; Thomas Pellissier Tanon. W3C. 11 October 2026. W3C Working Draft. URL: <https://www.w3.org/TR/sparql12-query/>
+[SPARQL 1.2 Query Language](https://www.w3.org/TR/sparql12-query/). Olaf Hartig; Andy Seaborne; Ruben Taelman; Gregory Williams; Thomas Pellissier Tanon. W3C. 15 November 2026. W3C Working Draft. URL: <https://www.w3.org/TR/sparql12-query/>
 
 [UNICODE]
 
@@ -2101,7 +2104,7 @@ TODO
 
 [RDF12-N-QUADS]
 
-[RDF 1.2 N-Quads](https://www.w3.org/TR/rdf12-n-quads/). Gregg Kellogg; Dominik Tomaszuk. W3C. 23 October 2026. W3C Working Draft. URL: <https://www.w3.org/TR/rdf12-n-quads/>
+[RDF 1.2 N-Quads](https://www.w3.org/TR/rdf12-n-quads/). Gregg Kellogg; Dominik Tomaszuk. W3C. 5 November 2026. W3C Working Draft. URL: <https://www.w3.org/TR/rdf12-n-quads/>
 
 [SPARQL12-CONCEPTS]
 
@@ -2125,7 +2128,7 @@ TODO
 
 [SPARQL12-SERVICE-DESCRIPTION]
 
-[SPARQL 1.2 Service Description](https://www.w3.org/TR/sparql12-service-description/). Ruben Taelman; Gregory Williams. W3C. 23 April 2026. W3C Working Draft. URL: <https://www.w3.org/TR/sparql12-service-description/>
+[SPARQL 1.2 Service Description](https://www.w3.org/TR/sparql12-service-description/). Ruben Taelman; Gregory Williams. W3C. 12 November 2026. W3C Working Draft. URL: <https://www.w3.org/TR/sparql12-service-description/>
 
 Permalink
 
@@ -2367,3 +2370,9 @@ Permalink
 
 - § 3.1.1 INSERT DATA
 - § 4.2.3 Dataset ( QuadPattern, μ, DS, GS ) (2) (3)
+
+Permalink
+
+**Referenced in:**
+
+- § 7. Internet Media Type and File Extension

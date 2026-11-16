@@ -4,8 +4,8 @@ source: https://www.w3.org/TR/shacl12-rules/
 family: shacl
 version: "1.2"
 status: W3C Working Draft
-spec_date: 2026-11-09
-fetched: 2026-11-09
+spec_date: 2026-11-15
+fetched: 2026-11-16
 ---
 
 # SPARQL 1.2 RL
@@ -33,6 +33,9 @@ fetched: 2026-11-09
 - 4 SPARQL-RL Abstract Syntax
   - 4.1 Elements of the Abstract Syntax
   - 4.2 Well-formedness Conditions
+    - 4.2.1 In-scope Variables
+    - 4.2.2 In-use Variables
+    - 4.2.3 Well-formed Rules
   - 4.3 Rule Dependency
     - 4.3.1 Dependency Graph
     - 4.3.2 Dependency Graph Algorithm
@@ -868,62 +871,107 @@ The following notation is used for the various components of rule sets and rules
 a rule set. Together, these conditions ensure
 that a [variable](https://www.w3.org/TR/sparql12-query/#defn_QueryVariable) in the head of a rule has a value defined in the body of the rule;
 that each variable in a filter element or assignment expression has a value at the point of evaluation;
-and that each assignment variable and aggregation variable in a rule is new and is not in use at that point.
+and that each assignment variable and aggregation variable in a rule is new.
+Variable names are not reused in a rule: a name that has been used
+in one part of a rule is not set again in another part,
+whether at the top level of the rule body,
+a negation element body, or a group pattern.
 
-In a well-formed rule, the set of [variables](https://www.w3.org/TR/sparql12-query/#defn_QueryVariable) in-scope
-as calculated by *vars* is the same as the domain of every [solution mapping](https://www.w3.org/TR/sparql12-query/#defn_sparqlSolutionMapping) that arises during evaluation.
+In a well-formed rule, the set of [variables](https://www.w3.org/TR/sparql12-query/#defn_QueryVariable) *in-scope*, calculated by *inScope*, is the same as the domain of every [solution mapping](https://www.w3.org/TR/sparql12-query/#defn_sparqlSolutionMapping) that arises during evaluation.
+
+The set of [variables](https://www.w3.org/TR/sparql12-query/#defn_QueryVariable) *in-use*, calculated by *inUse*,
+is the set of variables that have been used in the rule but which
+do not have a value at the point in question.
+The variables used in a negation element body or a group pattern are not in-scope outside it.
+A group pattern is also connected to the enclosing sequence of rule elements only by its group keys, so the other [variables](https://www.w3.org/TR/sparql12-query/#defn_QueryVariable) in-scope before the group element do not have a
+value inside it.
+A variable name that is in-use may not be set again, whether by a
+later rule element in the sequence or inside a negation element body or group pattern.
 
 Let *S* be a sequence of rule elements.
 
 Let *elti* be the *i*-th element of *S*,
 and let *N* be the length of the sequence.
 
+#### 4.2.1 In-scope Variables
+
 Let *V0* be a set of variables, called the initial
 variables of the sequence *S*.
 
-Define *vars(S, i, V0)* as the set of variables
+Define *inScope(S, i, V0)* as the set of variables
 that are in-scope after the *i*-th element of the sequence *S*,
-given the initial variables *V0*. *vars(S, i, V0)* is defined inductively:
+given the initial variables *V0*. *inScope(S, i, V0)* is defined inductively,
+writing *Vin* for *inScope(S, i-1, V0)*:
 
-- Let *vars(S, 0, V0)* be *V0*.
-- Let *vars(S, i, V0)*, for each *i* from 1 to *N* be
+- Let *inScope(S, 0, V0)* be *V0*.
+- Let *inScope(S, i, V0)*, for each *i* from 1 to *N* be
   * if *elti* is a triple pattern element and *X* is the set of variables that occur in the triple pattern element then
-    + *vars(S, i, V0)* is the set *X* ∪ *vars(S, i-1, V0)*.
+    + *inScope(S, i, V0)* is the set *X* ∪ *Vin*.
   * if *elti* is an assignment element with assignment variable *avar* then
-    + *vars(S, i, V0)* is the set `{` *avar* `}` ∪ *vars(S, i-1, V0)*.
+    + *inScope(S, i, V0)* is the set `{` *avar* `}` ∪ *Vin*.
   * if *elti* is a group element, *GRP*,
     where the set *aggVars* is the set of aggregation variables of *GRP* then
-    + *vars(S, i, V0)* is the set *vars(S, i-1, V0)* ∪ *GRP.keys* ∪ *aggVars*.
+    + *inScope(S, i, V0)* is the set *Vin* ∪ *GRP.keys* ∪ *aggVars*.
   * otherwise,
-    + *vars(S, i, V0)* is equal to the set *vars(S, i-1, V0)*.
+    + *inScope(S, i, V0)* is equal to the set *Vin*.
 
-Define *vars(S, V0)*, the set of variables in-scope for *S* as *vars(S, N, V0)*, the set of variables in-scope
+Define *inScope(S, V0)*, the set of variables in-scope for *S* as *inScope(S, N, V0)*, the set of variables in-scope
 after the last element of the sequence.
+
+#### 4.2.2 In-use Variables
+
+Let *U0* be a set of variables, called the initial
+in-use variables of the sequence *S*.
+
+Define *inUse(S, i, V0, U0)* as the set of
+variables that are in-use after the *i*-th element of the sequence *S*, given the initial variables *V0* and the initial in-use variables *U0*. *inUse(S, i, V0, U0)* is defined inductively,
+writing *Vin* for *inScope(S, i-1, V0)* and *Uin* for *inUse(S, i-1, V0, U0)*:
+
+- Let *inUse(S, 0, V0, U0)* be *U0*.
+- Let *inUse(S, i, V0, U0)*, for each *i* from 1 to *N* be
+  * if *elti* is a negation element with negation element body *NEG* then
+    + *inUse(S, i, V0, U0)* is the set *Uin* ∪
+      ( ( *inScope(NEG, Vin)* ∪ *inUse(NEG, Vin, Uin)* )
+      ∖ *inScope(S, i, V0)* ).
+  * if *elti* is a group element, *GRP*,
+    where *GKin* is *GRP.keys ∩ Vin* and *GUin* is *Uin ∪ ( Vin ∖ GRP.keys )* then
+    + *inUse(S, i, V0, U0)* is the set *Uin* ∪
+      ( ( *inScope(GRP.pattern, GKin)* ∪ *inUse(GRP.pattern, GKin, GUin)* )
+      ∖ *inScope(S, i, V0)* ).
+  * otherwise,
+    + *inUse(S, i, V0, U0)* is equal to the set *Uin*.
+
+Define *inUse(S, V0, U0)*, the set of variables in-use for *S* as *inUse(S, N, V0, U0)*, the set of variables in-use
+after the last element of the sequence.
+
+#### 4.2.3 Well-formed Rules
 
 A sequence of rule elements, *S*,
 is a *well-formed sequence*,
-given a set of variables *V0*,
+given a set of variables *V0* and a set of in-use variables *U0*,
 if the following conditions are met for each *i*,
 from 1 to *N*:
 
+- if *elti* is a triple pattern element then
+  * no [variable](https://www.w3.org/TR/sparql12-query/#defn_QueryVariable) that occurs in the triple pattern element is an element of *inUse(S, i-1, V0, U0)*.
 - if *elti* is a filter element then
-  * every [variable](https://www.w3.org/TR/sparql12-query/#defn_QueryVariable) mentioned in the filter element is an element of *vars(S, i-1, V0)*.
+  * every [variable](https://www.w3.org/TR/sparql12-query/#defn_QueryVariable) mentioned in the filter element is an element of *inScope(S, i-1, V0)*.
 - if *elti* is an assignment element then
-  * every variable mentioned in the assignment expression is an element of *vars(S, i-1, V0)*
-  * the assignment variable is not an element of *vars(S, i-1, V0)*.
-- if *elti* is a negation element with negation element body *P* then
+  * every variable mentioned in the assignment expression is an element of *inScope(S, i-1, V0)*
+  * the assignment variable is not an element of *inScope(S, i-1, V0)* ∪ *inUse(S, i-1, V0, U0)*.
+- if *elti* is a negation element then
   * the sequence of rule elements in the negation element body is a well-formed sequence,
-    with initial variables *vars(S, i-1, V0)*.
-- if *elti* is a group element, *GRP*, where *Vin* is *vars(S, i-1, V0)* and *GKin* is *GRP.keys ∩ Vin*,
+    with initial variables *inScope(S, i-1, V0)* and initial in-use variables *inUse(S, i-1, V0, U0)*.
+- if *elti* is a group element, *GRP*, where *Vin* is *inScope(S, i-1, V0)*, *Uin* is *inUse(S, i-1, V0, U0)*, *GKin* is *GRP.keys ∩ Vin* and *GUin* is *Uin ∪ ( Vin ∖ GRP.keys )*,
   then
-  * the sequence of rule elements in the group pattern given initial variables *GKin* is a well-formed sequence.
-  * each member of the group keys is an element of *vars(GRP.pattern, GKin)*.
-  * none of the aggregation variables is an element of the set of variables *vars(GRP.pattern, GKin) ∪ Vin*.
+  * the sequence of rule elements in the group pattern given initial variables *GKin* and initial in-use variables *GUin* is a well-formed sequence.
+  * each member of the group keys is an element of *inScope(GRP.pattern, GKin)*.
+  * none of the aggregation variables is an element of the set of variables *Vin* ∪ *Uin* ∪ *inScope(GRP.pattern, GKin)* ∪ *inUse(GRP.pattern, GKin, GUin)*.
   * no two aggregation assignments of *GRP* have the same aggregation variable.
-  * each aggregation argument that is a [variable](https://www.w3.org/TR/sparql12-query/#defn_QueryVariable) is an element of *vars(GRP.pattern, GKin)*.
+  * each aggregation argument that is a [variable](https://www.w3.org/TR/sparql12-query/#defn_QueryVariable) is an element of *inScope(GRP.pattern, GKin)*.
 
-A rule is a *well-formed rule* if the sequence of rule elements of the rule body is a well-formed sequence, starting with *V0* being the empty set,
-and if each variable in a triple template of the rule head is an element of *vars(S, V0)*.
+A rule is a *well-formed rule* if the sequence of rule elements of the rule body is a well-formed sequence, starting with *V0* and *U0* both being the empty set,
+and if each variable in a triple template of the rule head is an element of *inScope(S, V0)*.
 
 A rule set is a *well-formed rule set* if and only if all
 rules of the rule set are well-formed rules.
@@ -2509,7 +2557,7 @@ The syntax of SPARQL-RL is expressed over code points in Unicode
 [UNICODE]. The encoding is always UTF-8 [RFC3629].
 
 Unicode code points may also be expressed using an \uXXXX (U+0 to
-U+FFFF) or \UXXXXXXXX syntax (for U+10000 onward)
+U+FFFF) or \UXXXXXXXX syntax (for code points up to U+10FFFF)
 where X is a hexadecimal digit [0-9A-Fa-f],
 excluding U+D800 to U+DFFF,
 the [surrogate code points](https://www.w3.org/TR/i18n-glossary/#dfn-surrogate).
@@ -2681,9 +2729,9 @@ particularly whether authorization measures are needed for access to the data.
 - Triple pattern matching §4.3
 - Triple template §4.1
 - version label §7.1
-- well-formed rule §4.2
-- well-formed rule set §4.2
-- well-formed sequence §4.2
+- well-formed rule §4.2.3
+- well-formed rule set §4.2.3
+- well-formed sequence §4.2.3
 - Well-formedness §4.2
 
 ### G.2 Terms defined by reference
@@ -2741,11 +2789,11 @@ particularly whether authorization measures are needed for access to the data.
 
 [RDF12-CONCEPTS]
 
-[RDF 1.2 Concepts and Abstract Data Model](https://www.w3.org/TR/rdf12-concepts/). Andy Seaborne; Gregg Kellogg; Olaf Hartig; Pierre-Antoine Champin. W3C. 7 April 2026. W3C Candidate Recommendation. URL: <https://www.w3.org/TR/rdf12-concepts/>
+[RDF 1.2 Concepts and Abstract Data Model](https://www.w3.org/TR/rdf12-concepts/). Gregg Kellogg; Olaf Hartig; Pierre-Antoine Champin; Andy Seaborne. W3C. 13 November 2026. CRD. URL: <https://www.w3.org/TR/rdf12-concepts/>
 
 [RDF12-TURTLE]
 
-[RDF 1.2 Turtle](https://www.w3.org/TR/rdf12-turtle/). Gregg Kellogg; Andy Seaborne; Dominik Tomaszuk. W3C. 5 November 2026. W3C Working Draft. URL: <https://www.w3.org/TR/rdf12-turtle/>
+[RDF 1.2 Turtle](https://www.w3.org/TR/rdf12-turtle/). Gregg Kellogg; Andy Seaborne; Dominik Tomaszuk. W3C. 11 November 2026. W3C Working Draft. URL: <https://www.w3.org/TR/rdf12-turtle/>
 
 [RFC2119]
 
@@ -2773,7 +2821,7 @@ particularly whether authorization measures are needed for access to the data.
 
 [SPARQL12-QUERY]
 
-[SPARQL 1.2 Query Language](https://www.w3.org/TR/sparql12-query/). Olaf Hartig; Andy Seaborne; Ruben Taelman; Gregory Williams; Thomas Pellissier Tanon. W3C. 1 November 2026. W3C Working Draft. URL: <https://www.w3.org/TR/sparql12-query/>
+[SPARQL 1.2 Query Language](https://www.w3.org/TR/sparql12-query/). Olaf Hartig; Andy Seaborne; Ruben Taelman; Gregory Williams; Thomas Pellissier Tanon. W3C. 12 November 2026. W3C Working Draft. URL: <https://www.w3.org/TR/sparql12-query/>
 
 [UNICODE]
 
@@ -2819,7 +2867,7 @@ Permalink
 **Referenced in:**
 
 - § 4.1 Elements of the Abstract Syntax (2) (3) (4) (5) (6) (7)
-- § 4.2 Well-formedness Conditions
+- § 4.2.3 Well-formed Rules
 - § 4.3 Rule Dependency (2) (3) (4) (5) (6) (7) (8) (9)
 - § 5. Relationship between SPARQL-RL and SPARQL
 - § 6.1 Evaluation Definitions (2) (3) (4)
@@ -2829,7 +2877,8 @@ Permalink
 **Referenced in:**
 
 - § 4.1 Elements of the Abstract Syntax (2) (3) (4) (5)
-- § 4.2 Well-formedness Conditions (2)
+- § 4.2.1 In-scope Variables (2)
+- § 4.2.3 Well-formed Rules (2)
 - § 4.3 Rule Dependency (2)
 - § 5. Relationship between SPARQL-RL and SPARQL
 - § 6.7.1 Determining the Dependencies (2)
@@ -2839,7 +2888,8 @@ Permalink
 **Referenced in:**
 
 - § 4.1 Elements of the Abstract Syntax (2) (3) (4) (5) (6)
-- § 4.2 Well-formedness Conditions (2) (3)
+- § 4.2 Well-formedness Conditions
+- § 4.2.3 Well-formed Rules (2)
 - § 5. Relationship between SPARQL-RL and SPARQL
 - § 6.3 Evaluation of an Expression
 
@@ -2849,7 +2899,8 @@ Permalink
 
 - § 3.10 Evaluating a Rule Set
 - § 4.1 Elements of the Abstract Syntax (2) (3) (4) (5)
-- § 4.2 Well-formedness Conditions
+- § 4.2.2 In-use Variables
+- § 4.2.3 Well-formed Rules
 - § 4.3 Rule Dependency (2) (3) (4) (5)
 - § 4.4 Stratification
 - § 6.7.1 Determining the Dependencies (2)
@@ -2859,7 +2910,9 @@ Permalink
 **Referenced in:**
 
 - § 4.1 Elements of the Abstract Syntax (2)
-- § 4.2 Well-formedness Conditions (2)
+- § 4.2 Well-formedness Conditions (2) (3)
+- § 4.2.2 In-use Variables
+- § 4.2.3 Well-formed Rules
 
 Permalink
 
@@ -2867,7 +2920,8 @@ Permalink
 
 - § 3.5 Assignment and Creating RDF Terms (2) (3)
 - § 4.1 Elements of the Abstract Syntax (2) (3) (4) (5) (6)
-- § 4.2 Well-formedness Conditions (2)
+- § 4.2.1 In-scope Variables
+- § 4.2.3 Well-formed Rules
 - § 5. Relationship between SPARQL-RL and SPARQL
 - § 6.3 Evaluation of an Expression
 
@@ -2876,7 +2930,9 @@ Permalink
 **Referenced in:**
 
 - § 4.1 Elements of the Abstract Syntax
-- § 4.2 Well-formedness Conditions (2) (3)
+- § 4.2 Well-formedness Conditions
+- § 4.2.1 In-scope Variables
+- § 4.2.3 Well-formed Rules
 - § 5. Relationship between SPARQL-RL and SPARQL
 
 Permalink
@@ -2884,14 +2940,15 @@ Permalink
 **Referenced in:**
 
 - § 4.1 Elements of the Abstract Syntax
-- § 4.2 Well-formedness Conditions (2)
+- § 4.2 Well-formedness Conditions
+- § 4.2.3 Well-formed Rules
 
 Permalink
 
 **Referenced in:**
 
 - § 4.1 Elements of the Abstract Syntax (2) (3) (4) (5)
-- § 4.2 Well-formedness Conditions
+- § 4.2.3 Well-formed Rules
 
 Permalink
 
@@ -2899,7 +2956,9 @@ Permalink
 
 - § 3.6 Grouping and Aggregation (2) (3)
 - § 4.1 Elements of the Abstract Syntax
-- § 4.2 Well-formedness Conditions (2) (3) (4)
+- § 4.2 Well-formedness Conditions
+- § 4.2.1 In-scope Variables
+- § 4.2.3 Well-formed Rules (2)
 
 Permalink
 
@@ -2913,7 +2972,7 @@ Permalink
 **Referenced in:**
 
 - § 4.1 Elements of the Abstract Syntax (2)
-- § 4.2 Well-formedness Conditions
+- § 4.2.3 Well-formed Rules
 - § 6.4 Evaluation of an Aggregate Function
 
 Permalink
@@ -2929,7 +2988,10 @@ Permalink
 
 - § 3.6 Grouping and Aggregation (2) (3)
 - § 4.1 Elements of the Abstract Syntax (2) (3) (4) (5) (6) (7) (8)
-- § 4.2 Well-formedness Conditions (2)
+- § 4.2 Well-formedness Conditions
+- § 4.2.1 In-scope Variables
+- § 4.2.2 In-use Variables
+- § 4.2.3 Well-formed Rules
 - § 4.4 Stratification
 
 Permalink
@@ -2939,6 +3001,7 @@ Permalink
 - § 3.6 Grouping and Aggregation (2) (3) (4) (5)
 - § 4.1 Elements of the Abstract Syntax
 - § 4.2 Well-formedness Conditions
+- § 4.2.3 Well-formed Rules
 
 Permalink
 
@@ -2946,7 +3009,8 @@ Permalink
 
 - § 3.6 Grouping and Aggregation (2) (3) (4)
 - § 4.1 Elements of the Abstract Syntax (2)
-- § 4.2 Well-formedness Conditions
+- § 4.2 Well-formedness Conditions (2) (3) (4)
+- § 4.2.3 Well-formed Rules
 - § 4.3 Rule Dependency (2)
 
 Permalink
@@ -2955,7 +3019,8 @@ Permalink
 
 - § 3.6 Grouping and Aggregation
 - § 4.1 Elements of the Abstract Syntax (2) (3) (4) (5) (6) (7) (8) (9)
-- § 4.2 Well-formedness Conditions (2) (3) (4) (5)
+- § 4.2 Well-formedness Conditions (2) (3)
+- § 4.2.3 Well-formed Rules (2) (3) (4)
 
 Permalink
 
@@ -2965,7 +3030,8 @@ Permalink
 - § 3.5 Assignment and Creating RDF Terms (2)
 - § 3.6 Grouping and Aggregation (2)
 - § 4.1 Elements of the Abstract Syntax (2) (3) (4) (5) (6) (7)
-- § 4.2 Well-formedness Conditions (2)
+- § 4.2 Well-formedness Conditions
+- § 4.2.3 Well-formed Rules
 - § 4.3 Rule Dependency
 - § 5. Relationship between SPARQL-RL and SPARQL
 - § 6.5 Evaluation of a Rule
@@ -2978,6 +3044,7 @@ Permalink
 - § 3.9 Matching Base Data
 - § 4.1 Elements of the Abstract Syntax (2) (3) (4) (5) (6) (7)
 - § 4.2 Well-formedness Conditions (2)
+- § 4.2.3 Well-formed Rules
 - § 5. Relationship between SPARQL-RL and SPARQL
 - § 6.5 Evaluation of a Rule (2)
 
@@ -2994,7 +3061,7 @@ Permalink
 
 - § 3. SPARQL-RL Overview
 - § 4.1 Elements of the Abstract Syntax (2) (3) (4) (5) (6)
-- § 4.2 Well-formedness Conditions
+- § 4.2.3 Well-formed Rules
 - § 4.3.1 Dependency Graph
 - § 4.4 Stratification (2)
 - § 6.5 Evaluation of a Rule
@@ -3032,7 +3099,8 @@ Permalink
 - § 3.9 Matching Base Data
 - § 3.10 Evaluating a Rule Set (2) (3)
 - § 4.1 Elements of the Abstract Syntax (2) (3) (4) (5) (6) (7) (8) (9) (10)
-- § 4.2 Well-formedness Conditions (2)
+- § 4.2 Well-formedness Conditions
+- § 4.2.3 Well-formed Rules
 - § 4.3.1 Dependency Graph
 - § 4.3.2 Dependency Graph Algorithm
 - § 4.4 Stratification (2) (3) (4) (5) (6) (7)
@@ -3118,14 +3186,15 @@ Permalink
 
 **Referenced in:**
 
-- § 4.2 Well-formedness Conditions (2) (3)
+- § 4.2.3 Well-formed Rules (2) (3)
 
 Permalink
 
 **Referenced in:**
 
 - § 3.10 Evaluating a Rule Set
-- § 4.2 Well-formedness Conditions (2)
+- § 4.2 Well-formedness Conditions
+- § 4.2.3 Well-formed Rules
 - § 5. Relationship between SPARQL-RL and SPARQL
 - § 6.2 Preparation for Evaluation
 
@@ -3558,3 +3627,4 @@ Permalink
 - § 3.5 Assignment and Creating RDF Terms
 - § 4.1 Elements of the Abstract Syntax (2) (3) (4) (5) (6) (7) (8) (9) (10) (11) (12) (13) (14)
 - § 4.2 Well-formedness Conditions (2) (3) (4)
+- § 4.2.3 Well-formed Rules (2) (3)

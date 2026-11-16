@@ -5,7 +5,7 @@ family: sparql
 version: "1.2"
 status: W3C Working Draft
 spec_date: 2026-08-13
-fetched: 2026-11-09
+fetched: 2026-11-16
 ---
 
 # SPARQL 1.2 Query Results JSON Format

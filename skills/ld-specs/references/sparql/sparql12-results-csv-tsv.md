@@ -4,8 +4,8 @@ source: https://www.w3.org/TR/sparql12-results-csv-tsv/
 family: sparql
 version: "1.2"
 status: W3C Working Draft
-spec_date: 2026-10-22
-fetched: 2026-11-09
+spec_date: 2026-11-16
+fetched: 2026-11-16
 ---
 
 # SPARQL 1.2 Query Results CSV and TSV Formats
@@ -287,7 +287,7 @@ Writing `<TAB>` for a raw tab character (Unicode code point `U+0009`):
 ?x<TAB>?triple
 "Alice"<TAB><<( <http://example/alice> <http://example/knows> <http://example/bob> )>>
 "Bob"<TAB><<( <http://example/bob> <http://example/knows> <http://example/alice> )>>
-"Carol"<TAB><<( <http://example/carol> <http://example/says> "Hello world, my name is \"Alice\". )>>
+"Carol"<TAB><<( <http://example/carol> <http://example/says> "Hello world, my name is \"Alice\"." )>>
 ```
 
 ## 5. Conformance
@@ -339,7 +339,7 @@ TODO
 
 [RDF12-TURTLE]
 
-[RDF 1.2 Turtle](https://www.w3.org/TR/rdf12-turtle/). Gregg Kellogg; Andy Seaborne; Dominik Tomaszuk. W3C. 7 October 2026. W3C Working Draft. URL: <https://www.w3.org/TR/rdf12-turtle/>
+[RDF 1.2 Turtle](https://www.w3.org/TR/rdf12-turtle/). Gregg Kellogg; Andy Seaborne; Dominik Tomaszuk. W3C. 11 November 2026. W3C Working Draft. URL: <https://www.w3.org/TR/rdf12-turtle/>
 
 [RFC2119]
 
@@ -363,7 +363,7 @@ TODO
 
 [SPARQL12-QUERY]
 
-[SPARQL 1.2 Query Language](https://www.w3.org/TR/sparql12-query/). Olaf Hartig; Andy Seaborne; Ruben Taelman; Gregory Williams; Thomas Pellissier Tanon. W3C. 11 October 2026. W3C Working Draft. URL: <https://www.w3.org/TR/sparql12-query/>
+[SPARQL 1.2 Query Language](https://www.w3.org/TR/sparql12-query/). Olaf Hartig; Andy Seaborne; Ruben Taelman; Gregory Williams; Thomas Pellissier Tanon. W3C. 15 November 2026. W3C Working Draft. URL: <https://www.w3.org/TR/sparql12-query/>
 
 [SPARQL12-RESULTS-JSON]
 
@@ -405,11 +405,11 @@ TODO
 
 [SPARQL12-SERVICE-DESCRIPTION]
 
-[SPARQL 1.2 Service Description](https://www.w3.org/TR/sparql12-service-description/). Ruben Taelman; Gregory Williams. W3C. 23 April 2026. W3C Working Draft. URL: <https://www.w3.org/TR/sparql12-service-description/>
+[SPARQL 1.2 Service Description](https://www.w3.org/TR/sparql12-service-description/). Ruben Taelman; Gregory Williams. W3C. 12 November 2026. W3C Working Draft. URL: <https://www.w3.org/TR/sparql12-service-description/>
 
 [SPARQL12-UPDATE]
 
-[SPARQL 1.2 Update](https://www.w3.org/TR/sparql12-update/). Ruben Taelman; Andy Seaborne; Thomas Pellissier Tanon. W3C. 12 October 2026. W3C Working Draft. URL: <https://www.w3.org/TR/sparql12-update/>
+[SPARQL 1.2 Update](https://www.w3.org/TR/sparql12-update/). Ruben Taelman; Andy Seaborne; Thomas Pellissier Tanon. W3C. 15 November 2026. W3C Working Draft. URL: <https://www.w3.org/TR/sparql12-update/>
 
 Permalink
 

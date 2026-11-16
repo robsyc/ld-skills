@@ -3,7 +3,7 @@ title: "SHACL 1.2 Overview"
 source: https://w3c.github.io/data-shapes/shacl12-overview/
 family: shacl
 version: "1.2"
-fetched: 2026-11-09
+fetched: 2026-11-16
 ---
 
 # SHACL 1.2 Overview
@@ -150,9 +150,17 @@ new useful resources and by providing references to other interesting resources.
 
 ## SHACL-SHACL
 
-The [Data Shapes Working Group](https://www.w3.org/groups/wg/data-shapes/) maintains SHACL Shapes Graphs known as "SHACL-SHACL", which are used to validate other SHACL Shapes Graphs. Multiple graphs exist to enable the validation of subsets of the complete body of SHACL elements. The subsets are based on the scopes of the various SHACL Specifications.
+The [Data Shapes Working Group](https://www.w3.org/groups/wg/data-shapes/) maintains SHACL Shapes
+Graphs known as "SHACL-SHACL", which are used to validate other SHACL Shapes Graphs. Multiple graphs exist to
+enable the validation of subsets of the complete body of SHACL elements.
 
-Each SHACL-SHACL Shapes Graph corresponds to the scope of an individual SHACL specification and is available as an RDF resource:
+The union of all SHACL 1.2 SHACL-SHACL Shapes Graphs can be used to validate any SHACL 1.2 data:
+
+[SHACL 1.2 union shapes graph](http://www.w3.org/ns/shacl-shacl)
+
+the union of all other SHACL-SHACL 1.2 graphs
+
+Individual SHACL 1.2 specifications' SHACL-SHACL Shapes Graphs are available:
 
 [SHACL 1.2 Core shapes graph](http://www.w3.org/ns/shacl-shacl/core)
 
@@ -178,11 +186,11 @@ UI specification elements only
 
 Profiling specification elements only
 
-In addition, the union of the above shapes graphs is provided:
+The original 2017 SHACL-SHACL is preserved also:
 
-[SHACL 1.2 union shapes graph](http://www.w3.org/ns/shacl-shacl)
+[SHACL original shapes graph](http://www.w3.org/ns/shacl-shacl#1.0)
 
-the union of all other SHACL-SHACL graphs
+the SHACL-SHACL Shaps Garph as presented in 2017 for the original SHACL recommendation
 
 The SHACL-SHACL Shapes Graphs listed above can be retrieved from their namespace IRIs and are also available
 as described in Section [#community-resources].

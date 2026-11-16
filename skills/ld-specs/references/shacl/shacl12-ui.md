@@ -3,7 +3,7 @@ title: "SHACL 1.2 User Interfaces"
 source: https://w3c.github.io/data-shapes/shacl12-ui/
 family: shacl
 version: "1.2"
-fetched: 2026-11-09
+fetched: 2026-11-16
 ---
 
 # SHACL 1.2 User Interfaces
@@ -746,6 +746,11 @@ The scoring graph is populated with instances of `shui:WidgetMatcher`. A
 conditions under which it applies, expressed as SHACL shapes referenced through
 `shui:shapesGraphShape` (validated against the shape node in the shapes graph)
 and `shui:dataGraphShape` (validated against the focus node in the data graph).
+
+An implementation MUST NOT select or offer a widget that it does not implement.
+When a widget that the implementation does not implement matches, or when no
+widget matches, the implementation MUST report this to the application. How
+these reports are handled or presented is left to the application.
 Two kinds of matcher are defined:
 
 - **`shui:WidgetScore`** — a matcher that additionally carries a
@@ -1482,13 +1487,13 @@ specified, the effective order is the value of `shui:defaultOrder` in the global
 no effective order.
 
 Renderers MUST order the members of an ordered sequence by the ascending numeric value of
-their effective order. Members that have no effective order MUST be placed
+their effective order. Members that have no effective order SHOULD be placed
 after all members that have one.
 
 The global configuration property `shui:defaultOrder` declares the effective order assumed for property shapes and property groups that do not
 specify `sh:order`. Its value is a literal with datatype `xsd:decimal` or `xsd:integer`, which are the datatypes that `sh:order` permits.
 
-Renderers MUST apply a deterministic tie-breaking algorithm whenever two or more members of
+Renderers SHOULD apply a deterministic tie-breaking algorithm whenever two or more members of
 an ordered sequence have the same effective order, or whenever two or more members
 have no effective order. Renderers SHOULD apply the following tie-breaking algorithm:
 
@@ -1497,8 +1502,7 @@ have no effective order. Renderers SHOULD apply the following tie-breaking algor
    of the resource on which the `sh:order` is defined, that is, its IRI or blank
    node identifier.
 
-Renderers MAY use an alternative tie-breaking algorithm, provided that the algorithm yields
-deterministic results within that implementation.
+Renderers MAY use an alternative tie-breaking algorithm.
 
 *The remainder of this section is non-normative.*
 

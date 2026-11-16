@@ -4,7 +4,7 @@ source: https://www.w3.org/TR/prov-constraints/
 family: prov
 status: W3C Recommendation
 spec_date: 2013-04-30
-fetched: 2026-11-09
+fetched: 2026-11-16
 ---
 
 # Constraints of the PROV Data Model

@@ -4,8 +4,8 @@ source: https://www.w3.org/TR/rdf12-concepts/
 family: rdf
 version: "1.2"
 status: W3C Candidate Recommendation
-spec_date: 2026-04-07
-fetched: 2026-11-09
+spec_date: 2026-11-16
+fetched: 2026-11-16
 ---
 
 # RDF 1.2 Concepts and Abstract Data Model
@@ -28,8 +28,6 @@ fetched: 2026-11-09
   - 1.10 RDF Version Announcement
 - 2 Conformance
   - 2.1 Version Labels
-    - 2.1.1 Server Considerations
-    - 2.1.2 Client Considerations
   - 2.2 Strings in RDF
 - 3 RDF Graphs
   - 3.1 Triples
@@ -46,7 +44,7 @@ fetched: 2026-11-09
 - 4 RDF Datasets
   - 4.1 RDF Dataset Comparison
   - 4.2 Content Negotiation of RDF Datasets
-  - 4.3 Dataset as a Set of Quads
+  - 4.3 Quads
 - 5 Datatypes
   - 5.1 The XML Schema Built-in Datatypes
   - 5.2 Datatype IRIs
@@ -59,17 +57,20 @@ fetched: 2026-11-09
   - A.2 The rdf:XMLLiteral Datatype
   - A.3 The rdf:JSON Datatype
 - B Replacing Blank Nodes with IRIs
-- C Privacy Considerations
-- D Security Considerations
-- E Internationalization Considerations
-- F IRI Grammar
-- H Changes between RDF 1.1 and RDF 1.2
-- I Index
-  - I.1 Terms defined by this specification
-  - I.2 Terms defined by reference
-- J References
-  - J.1 Normative references
-  - J.2 Informative references
+- C RDF versions and HTTP content-negotiation
+  - C.1 Server Considerations
+  - C.2 Client Considerations
+- D Privacy Considerations
+- E Security Considerations
+- F Internationalization Considerations
+- G IRI Grammar
+- I Changes between RDF 1.1 and RDF 1.2
+- J Index
+  - J.1 Terms defined by this specification
+  - J.2 Terms defined by reference
+- K References
+  - K.1 Normative references
+  - K.2 Informative references
 
 ---
 
@@ -110,8 +111,7 @@ which serves to link all RDF-based languages and specifications,
 including the following:
 
 - the formal model-theoretic semantics for RDF [RDF12-SEMANTICS]
-- serialization syntaxes for storing and exchanging RDF such as [RDF 1.2 N-Triples](https://www.w3.org/TR/rdf12-n-triples/) [RDF12-N-TRIPLES], [RDF 1.2 Turtle](https://www.w3.org/TR/rdf12-turtle/) [RDF12-TURTLE],
-  and [JSON-LD 1.1](https://www.w3.org/TR/json-ld11/) [JSON-LD11]
+- serialization syntaxes for storing and exchanging RDF such as [RDF 1.2 Turtle](https://www.w3.org/TR/rdf12-turtle/) [RDF12-TURTLE], [JSON-LD 1.1](https://www.w3.org/TR/json-ld11/) [JSON-LD11], and [RDF 1.2 XML Syntax](https://www.w3.org/TR/rdf12-xml/) [RDF12-XML]
 - the [SPARQL 1.2 Query Language](https://www.w3.org/TR/sparql12-query/) [SPARQL12-QUERY]
 - the [RDF 1.2 Schema](https://www.w3.org/TR/rdf12-schema/) [RDF12-SCHEMA]
 
@@ -145,7 +145,7 @@ nodes using labelled arcs.
 *Figure 2 An RDF graph with three nodes (R1, R2, and R3) and two arcs (P1 and P2), the arcs respectively connecting R1 and R2 to R3.*
 
 This abstract data model can be encoded in different ways while
-preserving the same stucture, as described in 1.9 RDF Documents and Syntaxes (§1.9).
+preserving the same structure, as described in 1.9 RDF Documents and Syntaxes (§1.9).
 > **Note:**
 >
 > > **Note:**
@@ -251,9 +251,9 @@ Note also that namespace IRIs and namespace prefixes are not a formal part of th
 They are merely a syntactic convenience for abbreviating IRIs;
 for processing, the actual IRIs are reconstructed by replacing each namespace prefix with the corresponding namespace IRI.
 
-The term “*namespace*” on its own does not have a
+The term "*namespace*" on its own does not have a
 well-defined meaning in the context of RDF, but is sometimes informally
-used to mean “namespace IRI” or “RDF vocabulary”.
+used to mean "namespace IRI" or "RDF vocabulary".
 
 ### 1.5 Triple Terms and Reification
 
@@ -450,59 +450,35 @@ summarized in the following two tables.
 
 To allow RDF parsers to error or warn about unsupported RDF versions as early as possible,
 RDF serialization formats are expected to allow a version to be specified,
-via either a media-type parameter,
+via either a media type parameter,
 a version announcement in a format-specific syntax,
 or both.
+Section 2.1 Version Labels (§2.1) defines standard version labels for these mechanisms.
 
-When the version is indicated both in a media-type parameter and in syntax,
-they are expected to be the same.
-If they differ,
-parsers use the version from the media-type parameter and might emit a warning about the mismatch.
-
-To retain compability that is as broad as possible with older parsers,
+To retain compatibility that is as broad as possible with older parsers,
 only RDF documents that make use of RDF 1.2-specific functionality
 are encouraged to announce their version (i.e., for RDF documents that do not make use
-of RDF 1.2-specific functionality it is discouraged to announce a version).
+of RDF 1.2-specific functionality,
+and therefore are compatible with RDF 1.1 systems,
+it is discouraged to announce a version).
 
 To announce the version in the HTTP responses using the `Content-Type` header,
 the server is expected to use the `version` parameter,
-as illustrated in the following example response.
+as illustrated in the following example response:
 
 ```
 HTTP/1.1 200 OK
 Content-Type: text/turtle; version=1.2
-Location: http://example.com/document.ttl
 ```
 
 Servers are also expected to announce the version in-line,
 when the format supports in-line version announcement
-(such as [RDF 1.2 Turtle](https://www.w3.org/TR/rdf12-turtle/) [RDF12-TURTLE]).
+(such as [RDF 1.2 Turtle](https://www.w3.org/TR/rdf12-turtle/#sec-version) [RDF12-TURTLE]).
 
-When requesting an RDF document from an HTTP server, a client
-can use the `version` parameter
-during [content negotiation](https://www.w3.org/TR/webarch/#frag-coneg) [WEBARCH],
-by including it in the `Accept` request header,
-as illustrated in the following example request.
-
-```
-GET /document.ttl HTTP/1.1
-Host: example.com
-Accept: text/turtle; version=1.2
-```
-
-Section 2.1 Version Labels (§2.1) defines version labels to be used with the `version` parameter and in concrete RDF syntax.
-> **Note:**
->
-> > **Note:**
-> >
-> > Note
->
-> As HTTP [content negotiation](https://www.w3.org/TR/webarch/#frag-coneg) is advisory,
-> clients receiving a document should be prepared to properly handle a document
-> of the requested media type but potentially having a `version` other than what was
-> requested.
-> Clients may consider down-grading the content to an appropriate version themselves
-> as discussed in 2.1.1 Server Considerations (§2.1.1).
+When the version is indicated both in a media type parameter and in syntax,
+they are expected to be the same.
+Otherwise,
+parsers might signal an error or a warning about the mismatch.
 
 ## 2. Conformance
 
@@ -545,52 +521,27 @@ and data conforming to version "1.2-basic" is valid as data with version "1.2".
 Data conforming to version "1.1" has the same semantics
 under [RDF 1.1 Semantics](https://www.w3.org/TR/rdf11-mt/) and under [RDF 1.2 Semantics](https://www.w3.org/TR/rdf12-semantics/).
 
-See [RDF 1.2 Interoperability](https://www.w3.org/TR/rdf12-interop/) for details of encoding "1.2" as "1.2-basic".
-
 For serializations supporting in-line version announcement,
 the version announcement *SHOULD* be made early in the document
 and certainly before serializing any feature depending on that version.
-
-#### 2.1.1 Server Considerations
-
-*This section is non-normative.*
-
-When serializing a graph or dataset which uses features incompatible
-with a requested version, servers can consider different alternatives:
-
-1. Eliminate triple terms by using an algorithm such
-   as *basic encoding* as defined in [RDF 1.2 Interoperability](https://www.w3.org/TR/rdf12-interop/) (downgrading from version "1.2" to "1.2-basic").
-2. Replace directional language-tagged strings by literals with a datatype IRI that
-   uses the [`i18n` namespace](https://www.w3.org/TR/json-ld11/#the-i18n-namespace), as defined in [JSON-LD11]
-   (downgrading from version "1.2" or "1.2-basic" to "1.1").
-3. Return `406 "Not Acceptable"`.
-4. Ignore the requested version and return a native representation.
-
 > **Note:**
 >
 > > **Note:**
 > >
 > > Note
 >
-> The suggestion here is to follow the [Robustness principle](https://en.wikipedia.org/wiki/Robustness_principle) (also known as Postel's Law):
-> servers should be conservative in what they send, be liberal in what they accept.
+> Implementations are encouraged to apply the [robustness principle](https://en.wikipedia.org/wiki/Robustness_principle) (also known as Postel's Law):
+> "be conservative in what you send, be liberal in what you accept".
+> In this context, it means the following:
+>
+> - Implementations that produce data should announce the minimum version of RDF this data complies with,
+>   in any way that is compatible with that version.
+> - Implementations that consume data should be ready to accept the data
+>   even if no version is announced
+>   or the announced version is not consistent with the RDF features used in this data.
 
-#### 2.1.2 Client Considerations
-
-*This section is non-normative.*
-
-If a document has no stated `version` (either by HTTP header or internal),
-systems can assume the version is `"1.2"`, which continues to
-support all prior RDF versions.
-
-When parsing a document with conflicting versions,
-or when parsing a document using unsupported versions, a parser
-may do any of the following:
-
-- Ignore the version directive.
-- Raise an error and abort.
-- Issue a warning and ignore the triple.
-- Parse the structure and only emit triples consistent with the declared version.
+See Appendix C. RDF versions and HTTP content-negotiation (§C) for a discussion on content-negotiating specific RDF versions,
+and [RDF 1.2 Interoperability](https://www.w3.org/TR/rdf12-interop/) [RDF-INTEROP] for details of encoding "1.2" as "1.2-basic".
 
 ### 2.2 Strings in RDF
 
@@ -604,8 +555,14 @@ of the UTF-8 character encoding [RFC3629],
 and use the `\u0000` or `\U00000000` forms to express certain non-character values.
 
 A string is identical to another string if it consists of the same sequence of code points.
-An implementation *MAY* determine string equality by comparing the [code units](https://www.w3.org/TR/i18n-glossary/#dfn-code-unit) of two strings
-that use the same [Unicode character encoding](https://www.w3.org/TR/i18n-glossary/#dfn-character-encoding) (UTF-8 or UTF-16) without decoding the string into a [Unicode code point](https://www.w3.org/TR/i18n-glossary/#dfn-code-point) sequence.
+> **Note:**
+>
+> > **Note:**
+> >
+> > Note
+>
+> An implementation can determine string equality by comparing the [code units](https://www.w3.org/TR/i18n-glossary/#dfn-code-unit) of two strings
+> that use the same [Unicode character encoding](https://www.w3.org/TR/i18n-glossary/#dfn-character-encoding) (UTF-8 or UTF-16) without decoding the string into a [Unicode code point](https://www.w3.org/TR/i18n-glossary/#dfn-code-point) sequence.
 
 ## 3. RDF Graphs
 
@@ -640,7 +597,7 @@ the same graph.
 
 *Triple equality*:
 Two triples (*s*, *p*, *o*) and (*s'*, *p'*, *o'*)
-are equal (the same RDF triple) if and only if all of the following three conditions hold.
+are equal (the same RDF triple) if and only if all of the following three conditions hold:
 
 - *s* and *s'* are equal.
 - *p* and *p'* are equal.
@@ -674,8 +631,9 @@ one of the following four conditions holds:
 
 The set of RDF terms *appearing* in an RDF triple *t* is defined inductively as follows:
 
-- The subject, predicate and object of *t* appear in *t*.
-- If the object of *t* is an RDF triple *t2*, then any RDF term appearing in *t2* also appears in *t*.
+- The subject, predicate, and object of *t* appear in *t*.
+- If the object of *t* is an RDF triple *t2*,
+  then any RDF term appearing in *t2* also appears in *t*.
 
 By extension, an RDF term is said to appear in an RDF graph if it appears in an asserted triple of that graph.
 An RDF triple is said to appear in an RDF graph if it is either an asserted triple of that graph or a triple term appearing in that graph.
@@ -695,13 +653,13 @@ An *IRI* (Internationalized Resource Identifier) within an RDF graph
 is a string that conforms to the syntax
 defined in RFC 3987 [RFC3987].
 
-An IRI in the RDF abstract syntax *MUST* be [resolved](https://www.rfc-editor.org/rfc/rfc3986#section-5) per [RFC3986] and *MUST NOT* be a [relative reference](https://www.rfc-editor.org/rfc/rfc3986#section-4.2).
-An IRI *MAY* contain a [fragment identifier](https://www.rfc-editor.org/rfc/rfc3986#section-3.5).
-An IRI *SHOULD* follow rules defined by the [IRI scheme](https://www.rfc-editor.org/rfc/rfc3986#section-3.1).
+An IRI in the RDF abstract syntax *MUST* be [resolved](https://www.rfc-editor.org/info/rfc3986/#section-5) per [RFC3986] and *MUST NOT* be a [relative reference](https://www.rfc-editor.org/info/rfc3986/#section-4.2).
+An IRI *MAY* contain a [fragment identifier](https://www.rfc-editor.org/info/rfc3986/#section-3.5).
+An IRI *SHOULD* follow rules defined by the [IRI scheme](https://www.rfc-editor.org/info/rfc3986/#section-3.1).
 
 *IRI equality*:
 Two IRIs are equal if and only if they consist of the same sequence of [Unicode code points](https://www.w3.org/TR/i18n-glossary/#dfn-code-point),
-as in Simple String Comparison in [section 5.3.1](https://www.rfc-editor.org/rfc/rfc3987#section-5.3.1) of [RFC3987].
+as in Simple String Comparison in [section 5.3.1](https://www.rfc-editor.org/info/rfc3987/#section-5.3.1) of [RFC3987].
 (This is done in the abstract syntax, so the IRIs are resolved
 IRIs with no escaping or encoding.)
 Further normalization *MUST NOT* be performed before this comparison.
@@ -712,7 +670,7 @@ Further normalization *MUST NOT* be performed before this comparison.
 > > Note
 >
 > For convenience, a complete [ABNF] grammar
-> from [RFC3987] is provided in F. IRI Grammar (§F).
+> from [RFC3987] is provided in G. IRI Grammar (§G).
 > **Note:**
 >
 > > **Note:**
@@ -721,14 +679,14 @@ Further normalization *MUST NOT* be performed before this comparison.
 >
 > **URIs and IRIs:** IRIs are a generalization of *URIs* [RFC3986] that permits a wider range of Unicode characters [UNICODE].
 > Every URI and URL is an IRI, but not every IRI is an URI.
-> In RDF, IRIs are used as *IRI references*, as defined in [RFC3987] [section 1.3](https://www.rfc-editor.org/rfc/rfc3987#section-1.3).
+> In RDF, IRIs are used as *IRI references*, as defined in [RFC3987] [section 1.3](https://www.rfc-editor.org/info/rfc3987/#section-1.3).
 > An IRI reference is common usage of an Internationalized Resource Identifier.
 > An IRI reference refers to either a resolved IRI or relative IRI reference,
-> as described by the *IRI-reference* production in F. IRI Grammar (§F).
+> as described by the *IRI-reference* production in G. IRI Grammar (§G).
 > The abstract syntax uses only fully resolved IRIs.
 > When IRIs are used in operations that are only
 > defined for URIs, they must first be converted according to
-> the mapping defined in [section 3.1](https://www.rfc-editor.org/rfc/rfc3987#section-3.1) of [RFC3987]. A notable example is retrieval over the HTTP
+> the mapping defined in [section 3.1](https://www.rfc-editor.org/info/rfc3987/#section-3.1) of [RFC3987]. A notable example is retrieval over the HTTP
 > protocol. The mapping involves UTF-8 encoding of non-ASCII
 > characters, %-encoding of octets not allowed in URIs, and
 > Punycode-encoding of domain names.
@@ -747,7 +705,7 @@ IRIs are used to denote resources, and each IRI should identify the same
 resource regardless of where that IRI is used.
 Note that the general syntax for IRIs, defined by [RFC3987], can express
 IRIs which do not meet the requirement of being a global reference.
-Some URI schemes add additional requirements; for example, the [HTTP URI scheme](https://httpwg.org/specs/rfc7230.html#section-2.7.1) defines [`http-URI`](https://httpwg.org/specs/rfc7230.html#http-URI), which
+Some URI schemes add additional requirements; for example, the [HTTP URI scheme](https://httpwg.org/specs/rfc7230.html#rfc.section.2.7.1) defines [`http-URI`](https://httpwg.org/specs/rfc7230.html#http.uri), which
 requires the presence of a non-empty host name, and, as a consequence,
 the path component will start with `/`.
 The [RFC3987] syntax permits IRIs such as `http:abcd` and `http:///abcd`,
@@ -757,24 +715,24 @@ An *RDF Reference IRI*,
 sometimes called simply RDF Reference,
 is an IRI that is suitable for use as a global reference.
 
-**Reference Resolution:** An RDF Reference IRI is unchanged by [reference resolution](https://www.rfc-editor.org/rfc/rfc3986#section-5).
-In URI schemes such as `http` and `https`, the [path component](https://www.rfc-editor.org/rfc/rfc3986#section-3.3) is part of the hierarchy visible to the
-resolution algorithm. When resolved, the [path component](https://www.rfc-editor.org/rfc/rfc3986#section-3.3) starts with a `/` character and does not contain `.` or `..` segments.
-For example, `https://example/data` resolved against any base IRI is `https://example/data` (unchanged), whereas `https://example/path/../data` resolved against an arbitrary base IRI is `https://example.com/data`.
+**Reference Resolution:** An RDF Reference IRI is unchanged by [reference resolution](https://www.rfc-editor.org/info/rfc3986/#section-5).
+In URI schemes such as `http` and `https`, the [path component](https://www.rfc-editor.org/info/rfc3986/#section-3.3) is part of the hierarchy visible to the
+resolution algorithm. When resolved, the [path component](https://www.rfc-editor.org/info/rfc3986/#section-3.3) starts with a `/` character and does not contain `.` or `..` segments.
+For example, `https://example/data` resolved against any base IRI is `https://example/data` (unchanged), whereas `https://example/path/../data` resolved against an arbitrary base IRI is `https://example/data`.
 
-**Relative IRI references:** Some concrete RDF syntaxes permit *relative IRI references* (see the `irelative-ref` production in the §F IRI Grammar)
+**Relative IRI references:** Some concrete RDF syntaxes permit *relative IRI references* (see the `irelative-ref` production in the §G IRI Grammar)
 as a convenient shorthand that allows RDF documents to be authored without knowing
-their final publishing location. Relative IRI references must be [resolved against](https://www.rfc-editor.org/rfc/rfc3986#section-5.2) a *base IRI*.
+their final publishing location. Relative IRI references must be [resolved against](https://www.rfc-editor.org/info/rfc3986/#section-5.2) a *base IRI*.
 Therefore, the RDF graph serialized in such syntaxes is well-defined only
-if a [base IRI can be established](https://www.rfc-editor.org/rfc/rfc3986#section-5.1) [RFC3986].
+if a [base IRI can be established](https://www.rfc-editor.org/info/rfc3986/#section-5.1) [RFC3986].
 
 **URI Schemes:** Implementations are encouraged to follow the scheme-specific rules of
-the common schemes, such as the [scheme rules for HTTP/HTTPS](https://httpwg.org/specs/rfc7230.html#section-2.7) and the [DID syntax](https://www.w3.org/TR/did-core/#identifier).
+the common schemes, such as the [scheme rules for HTTP/HTTPS](https://httpwg.org/specs/rfc7230.html#uri) and the [DID syntax](https://www.w3.org/TR/did-core/#identifier).
 Implementations ignore URI scheme rules
 for schemes they do not recognize.
 
 **IRI normalization:** Interoperability problems can be avoided by minting
-only IRIs that are normalized according to [Section 5](https://www.rfc-editor.org/rfc/rfc3987#section-5) of [RFC3987].
+only IRIs that are normalized according to [Section 5](https://www.rfc-editor.org/info/rfc3987/#section-5) of [RFC3987].
 
 - Use lowercase characters in scheme names.
 - Only use percent-encoding of characters where required by the IRI syntax.
@@ -801,16 +759,18 @@ A *literal* consists of
 two, three, or four components, as below:
 
 1. A *lexical form*, being an RDF string.
-2. A *datatype IRI*, being an IRI identifying a datatype that determines how the lexical form maps
+2. A *datatype IRI*, being an IRI identifying a datatype that determines the way the lexical form maps
    to a literal value.
 3. If and only if the datatype IRI is `http://www.w3.org/1999/02/22-rdf-syntax-ns#langString` or `http://www.w3.org/1999/02/22-rdf-syntax-ns#dirLangString`, there is a
    non-empty *language tag* as defined by [BCP47].
-   The language tag *MUST* be well-formed according to [section 2.2.9](https://www.rfc-editor.org/rfc/rfc5646#section-2.2.9) of [BCP47],
+   The language tag *MUST* be well-formed according to [section 2.2.9](https://www.rfc-editor.org/info/bcp47#section-2.2.9) of [BCP47],
    and *MUST* be treated accordingly, that is, in a case-insensitive manner.
    Two [BCP47]-complying strings that differ only by case represent the same language tag.
 4. If and only if the datatype IRI is `http://www.w3.org/1999/02/22-rdf-syntax-ns#dirLangString`, there is a *base direction* that *MUST* be one of the following:
    - `ltr`, indicating that the initial text direction is set to left-to-right
    - `rtl`, indicating that the initial text direction is set to right-to-left
+
+   The textual representation of base direction *MUST* be lowercase.
 
 A literal is a *language-tagged string* if the language tag is present and the base direction is *not* present.
 A literal is a *directional language-tagged string* if both the language tag and the base direction are present.
@@ -837,7 +797,7 @@ or `http://www.w3.org/1999/02/22-rdf-syntax-ns#dirLangString` (`rdf:dirLangStrin
 
 Any string complying with [BCP47] *MAY* be used to represent a language tag in concrete syntaxes or implementations.
 Such strings *MAY* be case normalized
-(for example, by canonicalizing as defined by [BCP 47 section 4.5](https://www.rfc-editor.org/rfc/rfc5646#section-4.5)).
+(for example, by canonicalizing as defined by [BCP 47 section 4.5](https://www.rfc-editor.org/info/bcp47#section-4.5)).
 Alternatively, an implementation *MAY* preserve the case from the original representation,
 provided that it processes it in a case-insensitive manner.
 > **Note:**
@@ -985,7 +945,7 @@ This section introduces a notion of graph isomorphism for RDF graphs which is ba
 and is the identity function for IRIs and literals.
 
 A function *M* from the set of all RDF terms into that same set
-is called an *isomorphic RDF-term mapping* if it is has all of the following properties:
+is called an *isomorphic RDF-term mapping* if it has all of the following properties:
 
 - *M* is bijective.
 - For every blank node *b*, *M*(*b*) is a blank node (but not necessarily the same as *b*).
@@ -1022,7 +982,7 @@ in an RDF dataset.
 > >
 > > Note
 >
-> Despite the use of the word “name” in “named graph”, the graph name is not required to denote the graph. It is
+> Despite the use of the word "name" in "named graph", the graph name is not required to denote the graph. It is
 > merely syntactically paired with the graph. RDF does not place any
 > formal restrictions on what resource the graph name may denote,
 > nor on the relationship between that resource and the graph.
@@ -1034,7 +994,7 @@ in an RDF dataset.
 > can avoid interoperability issues by not ascribing importance to
 > the presence or absence of empty named graphs.
 >
-> SPARQL version 1.2 [SPARQL12-CONCEPTS] uses [the same concept of an RDF Dataset](https://www.w3.org/TR/sparql12-query/#sparqlDataset) as RDF versions 1.1 and 1.2,
+> SPARQL version 1.2 [SPARQL12-CONCEPTS] uses the same concept of an [RDF Dataset](https://www.w3.org/TR/sparql12-query/#sparqlDataset) as RDF versions 1.1 and 1.2,
 > in which the graph names of named graphs may be IRIs or blank nodes.
 > In contrast, version 1.1 of the SPARQL Query Language [SPARQL11-QUERY]
 > only allowed graph names to be IRIs.
@@ -1062,7 +1022,7 @@ Web resources may have multiple representations that are made available via [con
 format that supports the expression of both RDF datasets and RDF graphs. If an RDF dataset is returned and the consumer is expecting an RDF graph,
 the consumer is expected to use the RDF dataset's default graph.
 
-### 4.3 Dataset as a Set of Quads
+### 4.3 Quads
 
 *This section is non-normative.*
 
@@ -1071,9 +1031,10 @@ A *quad* is a triple associated with an optional graph name and is used when ref
 A quad can be represented as a tuple composed of subject, predicate, object,
 and an optional graph name.
 
-An RDF dataset can be considered to be a set of quads where quads with no graph name supply the triples of the default graph,
+A set of quads can be considered as an RDF dataset,
+where quads with no graph name supply the triples of the default graph,
 and quads with the same graph name
-supply the triples of the named graph with that name.
+supply the triples of a named graph with that name.
 > **Note:**
 >
 > > **Note:**
@@ -1290,7 +1251,7 @@ for certain datatypes.
 
 RDF uses IRIs, which may include *fragment identifiers*,
 as resource identifiers.
-The semantics of fragment identifiers is [defined in RFC 3986](https://www.rfc-editor.org/rfc/rfc3986#section-3.5) [RFC3986]: They identify a secondary resource
+The semantics of fragment identifiers is [defined in RFC 3986](https://www.rfc-editor.org/info/rfc3986/#section-3.5) [RFC3986]: They identify a secondary resource
 that is usually a part of, a view of, defined in, or described in
 the primary resource, and the precise semantics depend on the set
 of representations that might result from a retrieval action
@@ -1408,7 +1369,7 @@ of applying the following algorithm:
   that result from applying the [HTML fragment parsing algorithm](https://www.w3.org/TR/html5/#parsing-html-fragments) [HTML5]
   to the input string, without a context element.
 - Let `domfrag` be a DOM [`DocumentFragment`](https://dom.spec.whatwg.org/#interface-documentfragment) [DOM]
-  whose `childNodes` attribute is equal to `domnodes`
+  whose `childNodes` attribute is equal to `domnodes`.
 - Return `domfrag.normalize()`.
 > **Note:**
 >
@@ -1481,8 +1442,8 @@ is `http://www.w3.org/1999/02/22-rdf-syntax-ns#JSON`.
 
 The lexical space
 
-is the set of all RDF strings that conform to the [JSON Grammar](https://www.rfc-editor.org/rfc/rfc8259#section-2) as described in [Section 2 JSON Grammar](https://www.rfc-editor.org/rfc/rfc8259#section-2) of [RFC8259],
-which also conform to the requirements of [The I-JSON Message Format](https://www.rfc-editor.org/rfc/rfc7493) [RFC7493].
+is the set of all RDF strings that conform to the [JSON Grammar](https://www.rfc-editor.org/info/rfc8259/#section-2) as described in [Section 2 JSON Grammar](https://www.rfc-editor.org/info/rfc8259/#section-2) of [RFC8259],
+which also conform to the requirements of [The I-JSON Message Format](https://www.rfc-editor.org/info/rfc7493/) [RFC7493].
 
 > **Note:**
 >
@@ -1490,7 +1451,7 @@ which also conform to the requirements of [The I-JSON Message Format](https://ww
 > >
 > > Note
 >
-> [The JavaScript Object Notation (JSON) Data Interchange Format](https://www.rfc-editor.org/rfc/rfc8259) [RFC8259] allows strings to include [surrogate code points](https://www.w3.org/TR/i18n-glossary/#dfn-surrogate) not allowed in RDF strings,
+> [The JavaScript Object Notation (JSON) Data Interchange Format](https://www.rfc-editor.org/info/rfc8259/) [RFC8259] allows strings to include [surrogate code points](https://www.w3.org/TR/i18n-glossary/#dfn-surrogate) not allowed in RDF strings,
 > which are also excluded in [RFC7493],
 > thus the lexical representation of JSON literals excludes those including [surrogate code points](https://www.w3.org/TR/i18n-glossary/#dfn-surrogate).
 
@@ -1522,17 +1483,17 @@ number ([**xsd:double**](https://www.w3.org/TR/xmlschema11-2/#double)),
 finite unordered map, [list](https://infra.spec.whatwg.org/#list), or
 literal value ([`true`, `false`](https://infra.spec.whatwg.org/#boolean), and [`null`](https://infra.spec.whatwg.org/#nulls)).
 
-- A [JSON Object](https://www.rfc-editor.org/rfc/rfc8259#section-4) is mapped to a finite unordered map
+- A [JSON Object](https://www.rfc-editor.org/info/rfc8259/#section-4) is mapped to a finite unordered map
   by transforming each object member into a [map entry](https://infra.spec.whatwg.org/#map-entry) with the [key](https://infra.spec.whatwg.org/#map-key) taken from the member name and [value](https://infra.spec.whatwg.org/#map-value) taken by performing this mapping
   to the member value.
 
-- A [JSON Array](https://www.rfc-editor.org/rfc/rfc8259#section-5) is mapped to a [list](https://infra.spec.whatwg.org/#list) such that this [list](https://infra.spec.whatwg.org/#list) contains as many
-  elements as the [JSON Array](https://www.rfc-editor.org/rfc/rfc8259#section-5) and, for
-  every position *i* in the [array](https://www.rfc-editor.org/rfc/rfc8259#section-5),
+- A [JSON Array](https://www.rfc-editor.org/info/rfc8259/#section-5) is mapped to a [list](https://infra.spec.whatwg.org/#list) such that this [list](https://infra.spec.whatwg.org/#list) contains as many
+  elements as the [JSON Array](https://www.rfc-editor.org/info/rfc8259/#section-5) and, for
+  every position *i* in the [array](https://www.rfc-editor.org/info/rfc8259/#section-5),
   the element at the *i*-th position in the [list](https://infra.spec.whatwg.org/#list) is the value that results from
-  applying this mapping to the *i*-th element of the [array](https://www.rfc-editor.org/rfc/rfc8259#section-5).
+  applying this mapping to the *i*-th element of the [array](https://www.rfc-editor.org/info/rfc8259/#section-5).
 
-- A [JSON Number](https://www.rfc-editor.org/rfc/rfc8259#section-6) is mapped to
+- A [JSON Number](https://www.rfc-editor.org/info/rfc8259/#section-6) is mapped to
   an [**xsd:double**](https://www.w3.org/TR/xmlschema11-2/#double) using a method consistent with [doubleLexicalMap](https://www.w3.org/TR/xmlschema11-2/#f-doubleLexmap),
   which *MUST* strictly conform to the rounding method described in [floatPtRound](https://www.w3.org/TR/xmlschema11-2/#f-floatPtRound) [XMLSCHEMA11-2].
   > **Note:**
@@ -1546,10 +1507,10 @@ literal value ([`true`, `false`](https://infra.spec.whatwg.org/#boolean), and [`
   > and may map to `+INF` or `-INF`.
   > Such values cannot be represented as JSON Numbers, limiting the ability to serialize such values back to JSON.
 
-- A [JSON String](https://www.rfc-editor.org/rfc/rfc8259#section-7) is mapped to
+- A [JSON String](https://www.rfc-editor.org/info/rfc8259/#section-7) is mapped to
   a string after converting any escape sequences to the associated [Unicode code point](https://www.w3.org/TR/i18n-glossary/#dfn-code-point).
 
-- A [JSON literal name](https://www.rfc-editor.org/rfc/rfc8259#section-3) maps
+- A [JSON literal name](https://www.rfc-editor.org/info/rfc8259/#section-3) maps
   JSON `true`, `false`, and `null` values
   to [INFRA] [`true`](https://infra.spec.whatwg.org/#boolean), [`false`](https://infra.spec.whatwg.org/#boolean), and [`null`](https://infra.spec.whatwg.org/#nulls) values, respectively.
 > **Note:**
@@ -1605,7 +1566,89 @@ http://example.com/.well-known/genid/d26a2d0e98334696f4ad70a677abc1f6
 > RFC 8615 [RFC8615] only specifies well-known URIs,
 > not IRIs. For the purpose of this document, a well-known IRI is any IRI that results in a well-known URI after IRI-to-URI mapping [RFC3987].
 
-## C. Privacy Considerations
+## C. RDF versions and HTTP content-negotiation
+
+*This section is non-normative.*
+
+In addition to supporting inline version announcements,
+concrete syntaxes for RDF 1.2, such as [RDF 1.2 Turtle](https://www.w3.org/TR/rdf12-turtle/) [RDF12-TURTLE],
+accept a `version` parameter in their media type.
+This enables servers (or clients sending data)
+to advertise RDF versions in the HTTP `Content-Type` header:
+
+```
+HTTP/1.1 200 OK
+Content-Type: text/turtle; version=1.2
+```
+
+This also enables clients to use [content negotiation](https://www.w3.org/TR/webarch/#frag-coneg) [WEBARCH]
+to request a specific version,
+by including it in the `Accept` request header,
+as illustrated in the following example request:
+
+```
+GET /document HTTP/1.1
+Host: example.com
+Accept: text/turtle; version=1.2
+```
+
+As HTTP content negotiation is advisory,
+clients receiving a document should be prepared to properly handle a document
+of the requested media type but potentially having a `version` other than what was
+requested.
+
+Note that a client does not have to use the `version` parameter in
+the `Accept` header. A request can simply look like this:
+
+```
+GET /document HTTP/1.1
+Host: example.com
+Accept: text/turtle
+```
+
+This carries no implication about the parsing capabilities of the client.
+However, a conservative approach would be to assume that this client only
+supports Turtle 1.1.
+
+### C.1 Server Considerations
+
+*This section is non-normative.*
+
+When serializing a graph or dataset which uses features incompatible
+with a requested version, servers can consider different alternatives:
+
+- Rewrite the data in an information-preserving way, for example:
+  * Eliminate triple terms by using *basic encoding*, as defined in [RDF 1.2 Interoperability](https://www.w3.org/TR/rdf12-interop/) (downgrading from version "1.2" to "1.2-basic").
+  * Replace directional language-tagged strings with typed literals having a datatype IRI in the [`i18n` namespace](https://www.w3.org/TR/json-ld11/#the-i18n-namespace), as defined in [JSON-LD11]
+    (downgrading from version "1.2" or "1.2-basic" to "1.1").
+- Truncate the data to remove the incompatible features:
+  * Drop any triple that contains a triple term (downgrading from version "1.2" to "1.2-basic").
+  * Turn directional language-tagged strings into language-tagged string by dropping their base direction (downgrading from version "1.2" or "1.2-basic" to "1.1").
+- Return `406 "Not Acceptable"`.
+- Ignore the requested version and return a native representation.
+
+The strategies above are not an exhaustive list.
+Neither are they exclusive.
+For example, an implementation may choose to rewrite triple terms and truncate base directions,
+or to rewrite directional language-tagged strings but return `406 "Not Acceptable"` in the presence of triple terms.
+
+### C.2 Client Considerations
+
+*This section is non-normative.*
+
+If a document has no stated `version` (either by HTTP header or internal),
+clients should assume the maximum version that they support.
+
+When parsing a document with conflicting versions,
+or when parsing a document using unsupported versions, a parser
+may do any of the following:
+
+- Ignore the version directive.
+- Raise an error and abort.
+- Issue a warning and ignore the triples that use unrecognized features.
+- Parse the structure and only emit triples consistent with the declared version.
+
+## D. Privacy Considerations
 
 *This section is non-normative.*
 
@@ -1618,7 +1661,7 @@ as well as the applicable regulations for the regions where the data is
 expected to be consumed and potentially revealed (e.g., [GDPR](https://gdpr.eu/), [CCPA](https://oag.ca.gov/privacy/ccpa), [others](https://termly.io/resources/infographics/privacy-laws-around-the-world/)),
 particularly whether authorization measures are needed for access to the data.
 
-## D. Security Considerations
+## E. Security Considerations
 
 *This section is non-normative.*
 
@@ -1650,8 +1693,12 @@ that malignant strings might be used to mislead the reader.
 The security considerations in the media type registration for XML ([RFC3023] section 10)
 provide additional guidance around the expression of arbitrary data and markup.
 
+When producing RDF data for interchange, content creators are advised to consider
+the discussion of Unicode code points identified as problematic in Section 2.2 of
+[RFC9839]. This advice does not change which RDF strings or IRIs are permitted by this specification.
+
 RDF uses IRIs as term identifiers.
-Applications interpreting data expressed in RDF ought to address the security issues of [Internationalized Resource Identifiers (IRIs)](https://www.rfc-editor.org/rfc/rfc3987) [RFC3987] Section 8, as well as [Uniform Resource Identifier (URI): Generic Syntax](https://www.rfc-editor.org/rfc/rfc3986) [RFC3986] Section 7.
+Applications interpreting data expressed in RDF ought to address the security issues of [Internationalized Resource Identifiers (IRIs)](https://www.rfc-editor.org/info/rfc3987/) [RFC3987] Section 8, as well as [Uniform Resource Identifier (URI): Generic Syntax](https://www.rfc-editor.org/info/rfc3986/) [RFC3986] Section 7.
 
 Multiple IRIs can have the same appearance.
 Characters in different scripts can look similar (for instance,
@@ -1663,7 +1710,7 @@ Any person or application that is writing or interpreting data in RDF
 must take care to use the IRI that matches the intended semantics,
 and avoid IRIs that may look similar.
 Further information about matching visually similar characters can be found
-in [Unicode Security Considerations](https://www.unicode.org/reports/tr36/tr36-15.html) [UNICODE-SECURITY] and [Internationalized Resource Identifiers (IRIs)](https://www.rfc-editor.org/rfc/rfc3987) [RFC3987] Section 8.
+in [Unicode Security Considerations](https://www.unicode.org/reports/tr36/tr36-15.html) [UNICODE-SECURITY] and [Internationalized Resource Identifiers (IRIs)](https://www.rfc-editor.org/info/rfc3987/) [RFC3987] Section 8.
 
 Comparing (§3.7) graphs,
 or [reasoning](https://www.w3.org/TR/rdf12-semantics/#simple_entailment_properties) with them,
@@ -1682,7 +1729,7 @@ examples are given in the section on [Dataset Poisoning](https://www.w3.org/TR/r
 > of Security Considerations for [RDF12-TURTLE], [RDF12-TRIG], [RDF12-N-TRIPLES],
 > and [RDF12-N-QUADS].
 
-## E. Internationalization Considerations
+## F. Internationalization Considerations
 
 *This section is non-normative.*
 
@@ -1700,11 +1747,11 @@ see [STRING-META].
 [JSON-LD 1.1](https://www.w3.org/TR/json-ld11/) [JSON-LD11] introduced the [i18n namespace](https://www.w3.org/TR/json-ld11/#the-i18n-namespace) to use
 a datatype to specify both the base direction an language tag of an RDF literal.
 
-## F. IRI Grammar
+## G. IRI Grammar
 
 *This section is non-normative.*
 
-The following [ABNF] grammar applies the changes from [RFC3987] and [RFC6874] to the section [Collected ABNF for URI](https://www.rfc-editor.org/rfc/rfc3986#appendix-A) of
+The following [ABNF] grammar applies the changes from [RFC3987] and [RFC6874] to the section [Collected ABNF for URI](https://www.rfc-editor.org/info/rfc3986/#appendix-A) of
 [RFC3986] to give a consolidated grammar for IRIs.
 
 This is provided for convenience only.
@@ -1812,19 +1859,19 @@ sub-delims     = "!" / "$" / "&" / "'" / "(" / ")"
 
 The ABNF can also be accessed directly from [iri-grammar.abnf](https://www.w3.org/TR/rdf12-concepts/iri-grammar.abnf).
 
-## H. Changes between RDF 1.1 and RDF 1.2
+## I. Changes between RDF 1.1 and RDF 1.2
 
 *This section is non-normative.*
 
 - Added 1.10 RDF Version Announcement (§1.10) for announcing RDF versions in RDF documents via the HTTP `Content-Type` header and/or syntax.
-- Added 4.3 Dataset as a Set of Quads (§4.3) for informative definition of a quad.
+- Added 4.3 Quads (§4.3) for informative definition of a quad.
 - Added 1.5 Triple Terms and Reification (§1.5) and definitions for triple term and asserted triple and extended the definition of RDF triple to permit triple terms as objects.
   Also defines reifier and reifying triple.
 - Added the base direction component as part of
   a literal,
   and a description of its use in 3.4.3 Initial Text Direction (§3.4.3).
 - Improved the use of IRI terminology,
-  and added F. IRI Grammar (§F).
+  and added G. IRI Grammar (§G).
   This improves the language using relative IRI references and clarifies that, in the abstract syntax, IRIs are resolved,
   avoiding the incorrect use of "absolute IRI".
 - Changed reference from DOM4, which was not a recommendation at the time, to [DOM],
@@ -1833,7 +1880,8 @@ The ABNF can also be accessed directly from [iri-grammar.abnf](https://www.w3.or
 - Added the `rdf:JSON` datatype, the definition of which is adopted
   from [Section 10.2 The `rdf:JSON` Datatype](https://www.w3.org/TR/json-ld11/#the-rdf-json-datatype) in [JSON-LD11].
   Note that the value space defined here
-  updates the value space of the [`rdf:JSON`](https://www.w3.org/TR/json-ld11/#the-rdf-json-datatype) datatype defined in [JSON-LD 1.1](https://www.w3.org/TR/json-ld11/) [JSON-LD11]
+  updates the value space of the [`rdf:JSON`](https://www.w3.org/TR/json-ld11/#the-rdf-json-datatype) datatype
+  defined in [JSON-LD 1.1](https://www.w3.org/TR/json-ld11/) [JSON-LD11].
 - Clarify Unicode terminology,
   using [Unicode code points](https://www.w3.org/TR/i18n-glossary/#dfn-code-point),
   and restriction to the XML [Char](https://www.w3.org/TR/xml11/#charsets) production.
@@ -1867,9 +1915,9 @@ The ABNF can also be accessed directly from [iri-grammar.abnf](https://www.w3.or
 > A detailed overview of the differences between RDF versions 1.1
 > and 1.2 can be found in [What’s New in RDF 1.2](https://w3c.github.io/rdf-new/spec/) [RDF12-NEW].
 
-## I. Index
+## J. Index
 
-### I.1 Terms defined by this specification
+### J.1 Terms defined by this specification
 
 - abstract syntax §1.9
 - appearing §3.2
@@ -1956,11 +2004,8 @@ The ABNF can also be accessed directly from [iri-grammar.abnf](https://www.w3.or
 - value space §5.
 - version label §2.1
 
-### I.2 Terms defined by reference
+### J.2 Terms defined by reference
 
-- [BCP47] defines the following:
-  * BCP 47 section 4.5
-  * section 2.2.9
 - [DID-CORE] defines the following:
   * DID syntax
 - [DOM] defines the following:
@@ -1993,7 +2038,7 @@ The ABNF can also be accessed directly from [iri-grammar.abnf](https://www.w3.or
   * value
 - [JSON-LD11] defines the following:
   * i18n namespace
-  * Section 10.2 The rdf:JSON Datatype
+  * rdf:JSON
 - [OWL2-OVERVIEW] defines the following:
   * OWL 2
 - [OWL2-SYNTAX] defines the following:
@@ -2014,14 +2059,8 @@ The ABNF can also be accessed directly from [iri-grammar.abnf](https://www.w3.or
   * fragment identifier
   * IRI scheme
   * path component
-  * relative reference
   * resolved
   * resolved against
-- [RFC3987] defines the following:
-  * section 1.3
-  * section 3.1
-  * Section 5
-  * section 5.3.1
 - [RFC7230] defines the following:
   * HTTP URI scheme
   * http-URI
@@ -2034,7 +2073,7 @@ The ABNF can also be accessed directly from [iri-grammar.abnf](https://www.w3.or
   * JSON Object
   * JSON String
 - [SPARQL12-QUERY] defines the following:
-  * the same concept of an RDF Dataset
+  * RDF Dataset
 - [SWBP-N-ARYRELATIONS] defines the following:
   * indirectly expressed in RDF
 - [SWBP-XSCH-DATATYPES] defines the following:
@@ -2099,13 +2138,13 @@ The ABNF can also be accessed directly from [iri-grammar.abnf](https://www.w3.or
   * xsd:unsignedShort
   * xsd:yearMonthDuration
 
-## J. References
+## K. References
 
-### J.1 Normative references
+### K.1 Normative references
 
 [BCP47]
 
-[Tags for Identifying Languages](https://www.rfc-editor.org/rfc/rfc5646). A. Phillips, Ed.; M. Davis, Ed. IETF. September 2009. Best Current Practice. URL: <https://www.rfc-editor.org/rfc/rfc5646>
+[Tags for Identifying Languages](https://www.rfc-editor.org/info/bcp47). Addison Phillips; Mark Davis. IETF. September 2009. Best Current Practice. URL: <https://www.rfc-editor.org/info/bcp47>
 
 [DOM]
 
@@ -2129,35 +2168,35 @@ The ABNF can also be accessed directly from [iri-grammar.abnf](https://www.w3.or
 
 [RFC2119]
 
-[Key words for use in RFCs to Indicate Requirement Levels](https://www.rfc-editor.org/rfc/rfc2119). S. Bradner. IETF. March 1997. Best Current Practice. URL: <https://www.rfc-editor.org/rfc/rfc2119>
+[Key words for use in RFCs to Indicate Requirement Levels](https://www.rfc-editor.org/info/rfc2119/). S. Bradner. IETF. March 1997. Best Current Practice. URL: <https://www.rfc-editor.org/info/rfc2119/>
 
 [RFC3629]
 
-[UTF-8, a transformation format of ISO 10646](https://www.rfc-editor.org/rfc/rfc3629). F. Yergeau. IETF. November 2003. Internet Standard. URL: <https://www.rfc-editor.org/rfc/rfc3629>
+[UTF-8, a transformation format of ISO 10646](https://www.rfc-editor.org/info/rfc3629/). F. Yergeau. IETF. November 2003. Internet Standard. URL: <https://www.rfc-editor.org/info/rfc3629/>
 
 [RFC3986]
 
-[Uniform Resource Identifier (URI): Generic Syntax](https://www.rfc-editor.org/rfc/rfc3986). T. Berners-Lee; R. Fielding; L. Masinter. IETF. January 2005. Internet Standard. URL: <https://www.rfc-editor.org/rfc/rfc3986>
+[Uniform Resource Identifier (URI): Generic Syntax](https://www.rfc-editor.org/info/rfc3986/). T. Berners-Lee; R. Fielding; L. Masinter. IETF. January 2005. Internet Standard. URL: <https://www.rfc-editor.org/info/rfc3986/>
 
 [RFC3987]
 
-[Internationalized Resource Identifiers (IRIs)](https://www.rfc-editor.org/rfc/rfc3987). M. Duerst; M. Suignard. IETF. January 2005. Proposed Standard. URL: <https://www.rfc-editor.org/rfc/rfc3987>
+[Internationalized Resource Identifiers (IRIs)](https://www.rfc-editor.org/info/rfc3987/). M. Duerst; M. Suignard. IETF. January 2005. Proposed Standard. URL: <https://www.rfc-editor.org/info/rfc3987/>
 
 [RFC7493]
 
-[The I-JSON Message Format](https://www.rfc-editor.org/rfc/rfc7493). T. Bray, Ed. IETF. March 2015. Proposed Standard. URL: <https://www.rfc-editor.org/rfc/rfc7493>
+[The I-JSON Message Format](https://www.rfc-editor.org/info/rfc7493/). T. Bray, Ed. IETF. March 2015. Proposed Standard. URL: <https://www.rfc-editor.org/info/rfc7493/>
 
 [RFC8174]
 
-[Ambiguity of Uppercase vs Lowercase in RFC 2119 Key Words](https://www.rfc-editor.org/rfc/rfc8174). B. Leiba. IETF. May 2017. Best Current Practice. URL: <https://www.rfc-editor.org/rfc/rfc8174>
+[Ambiguity of Uppercase vs Lowercase in RFC 2119 Key Words](https://www.rfc-editor.org/info/rfc8174/). B. Leiba. IETF. May 2017. Best Current Practice. URL: <https://www.rfc-editor.org/info/rfc8174/>
 
 [RFC8259]
 
-[The JavaScript Object Notation (JSON) Data Interchange Format](https://www.rfc-editor.org/rfc/rfc8259). T. Bray, Ed. IETF. December 2017. Internet Standard. URL: <https://www.rfc-editor.org/rfc/rfc8259>
+[The JavaScript Object Notation (JSON) Data Interchange Format](https://www.rfc-editor.org/info/rfc8259/). T. Bray, Ed. IETF. December 2017. Internet Standard. URL: <https://www.rfc-editor.org/info/rfc8259/>
 
 [RFC8615]
 
-[Well-Known Uniform Resource Identifiers (URIs)](https://www.rfc-editor.org/rfc/rfc8615). M. Nottingham. IETF. May 2019. Proposed Standard. URL: <https://www.rfc-editor.org/rfc/rfc8615>
+[Well-Known Uniform Resource Identifiers (URIs)](https://www.rfc-editor.org/info/rfc8615/). M. Nottingham. IETF. May 2019. Proposed Standard. URL: <https://www.rfc-editor.org/info/rfc8615/>
 
 [Unicode]
 
@@ -2175,11 +2214,11 @@ The ABNF can also be accessed directly from [iri-grammar.abnf](https://www.w3.or
 
 [W3C XML Schema Definition Language (XSD) 1.1 Part 2: Datatypes](https://www.w3.org/TR/xmlschema11-2/). David Peterson; Sandy Gao; Ashok Malhotra; Michael Sperberg-McQueen; Henry Thompson; Paul V. Biron et al. W3C. 5 April 2012. W3C Recommendation. URL: <https://www.w3.org/TR/xmlschema11-2/>
 
-### J.2 Informative references
+### K.2 Informative references
 
 [ABNF]
 
-[Augmented BNF for Syntax Specifications: ABNF](https://www.rfc-editor.org/rfc/rfc5234). D. Crocker, Ed.; P. Overell. IETF. January 2008. Internet Standard. URL: <https://www.rfc-editor.org/rfc/rfc5234>
+[Augmented BNF for Syntax Specifications: ABNF](https://www.rfc-editor.org/info/rfc5234/). D. Crocker, Ed.; P. Overell. IETF. January 2008. Internet Standard. URL: <https://www.rfc-editor.org/info/rfc5234/>
 
 [COOLURIS]
 
@@ -2221,6 +2260,10 @@ The ABNF can also be accessed directly from [iri-grammar.abnf](https://www.w3.or
 
 [Resource Description Framework (RDF): Concepts and Abstract Syntax](https://www.w3.org/TR/2004/REC-rdf-concepts-20040210/). Graham Klyne; Jeremy Carroll. W3C. 10 February 2004. W3C Recommendation. URL: <https://www.w3.org/TR/2004/REC-rdf-concepts-20040210/>
 
+[RDF-INTEROP]
+
+[RDF 1.2 Interoperability](https://www.w3.org/TR/rdf12-interop/). Pierre-Antoine Champin. W3C. 23 July 2026. DNOTE. URL: <https://www.w3.org/TR/rdf12-interop/>
+
 [RDF11-CONCEPTS]
 
 [RDF 1.1 Concepts and Abstract Syntax](https://www.w3.org/TR/rdf11-concepts/). Richard Cyganiak; David Wood; Markus Lanthaler. W3C. 25 February 2014. W3C Recommendation. URL: <https://www.w3.org/TR/rdf11-concepts/>
@@ -2233,17 +2276,13 @@ The ABNF can also be accessed directly from [iri-grammar.abnf](https://www.w3.or
 
 [RDF 1.1 Semantics](https://www.w3.org/TR/rdf11-mt/). Patrick Hayes; Peter Patel-Schneider. W3C. 25 February 2014. W3C Recommendation. URL: <https://www.w3.org/TR/rdf11-mt/>
 
-[RDF12-INTEROP]
-
-[RDF 1.2 Interoperability](https://w3c.github.io/rdf-interop/spec/). Pierre-Antoine Champin. W3C. W3C Editor's Draft. URL: <https://w3c.github.io/rdf-interop/spec/>
-
 [RDF12-N-QUADS]
 
-[RDF 1.2 N-Quads](https://www.w3.org/TR/rdf12-n-quads/). Gregg Kellogg; Dominik Tomaszuk. W3C. 20 March 2026. W3C Working Draft. URL: <https://www.w3.org/TR/rdf12-n-quads/>
+[RDF 1.2 N-Quads](https://www.w3.org/TR/rdf12-n-quads/). Gregg Kellogg; Dominik Tomaszuk. W3C. 5 November 2026. W3C Working Draft. URL: <https://www.w3.org/TR/rdf12-n-quads/>
 
 [RDF12-N-TRIPLES]
 
-[RDF 1.2 N-Triples](https://www.w3.org/TR/rdf12-n-triples/). Gregg Kellogg; Dominik Tomaszuk. W3C. 26 March 2026. W3C Working Draft. URL: <https://www.w3.org/TR/rdf12-n-triples/>
+[RDF 1.2 N-Triples](https://www.w3.org/TR/rdf12-n-triples/). Gregg Kellogg; Dominik Tomaszuk. W3C. 5 November 2026. W3C Working Draft. URL: <https://www.w3.org/TR/rdf12-n-triples/>
 
 [RDF12-NEW]
 
@@ -2251,27 +2290,27 @@ The ABNF can also be accessed directly from [iri-grammar.abnf](https://www.w3.or
 
 [RDF12-PRIMER]
 
-[RDF 1.2 Primer](https://www.w3.org/TR/rdf12-primer/). Niklas Lindström; Pierre-Antoine Champin. W3C. 3 April 2025. DNOTE. URL: <https://www.w3.org/TR/rdf12-primer/>
+[RDF 1.2 Primer](https://www.w3.org/TR/rdf12-primer/). Pierre-Antoine Champin; Niklas Lindström. W3C. 17 September 2026. DNOTE. URL: <https://www.w3.org/TR/rdf12-primer/>
 
 [RDF12-SCHEMA]
 
-[RDF 1.2 Schema](https://www.w3.org/TR/rdf12-schema/). Dominik Tomaszuk. W3C. 20 March 2026. W3C Working Draft. URL: <https://www.w3.org/TR/rdf12-schema/>
+[RDF 1.2 Schema](https://www.w3.org/TR/rdf12-schema/). Dominik Tomaszuk. W3C. 12 November 2026. W3C Working Draft. URL: <https://www.w3.org/TR/rdf12-schema/>
 
 [RDF12-SEMANTICS]
 
-[RDF 1.2 Semantics](https://www.w3.org/TR/rdf12-semantics/). Peter Patel-Schneider; Dörthe Arndt; Enrico Franconi. W3C. 26 March 2026. W3C Working Draft. URL: <https://www.w3.org/TR/rdf12-semantics/>
+[RDF 1.2 Semantics](https://www.w3.org/TR/rdf12-semantics/). Peter Patel-Schneider; Dörthe Arndt; Enrico Franconi. W3C. 24 September 2026. CRD. URL: <https://www.w3.org/TR/rdf12-semantics/>
 
 [RDF12-TRIG]
 
-[RDF 1.2 TriG](https://www.w3.org/TR/rdf12-trig/). Gregg Kellogg; Dominik Tomaszuk. W3C. 20 March 2026. W3C Working Draft. URL: <https://www.w3.org/TR/rdf12-trig/>
+[RDF 1.2 TriG](https://www.w3.org/TR/rdf12-trig/). Gregg Kellogg; Dominik Tomaszuk. W3C. 13 November 2026. W3C Working Draft. URL: <https://www.w3.org/TR/rdf12-trig/>
 
 [RDF12-TURTLE]
 
-[RDF 1.2 Turtle](https://www.w3.org/TR/rdf12-turtle/). Gregg Kellogg; Dominik Tomaszuk. W3C. 20 March 2026. W3C Working Draft. URL: <https://www.w3.org/TR/rdf12-turtle/>
+[RDF 1.2 Turtle](https://www.w3.org/TR/rdf12-turtle/). Gregg Kellogg; Andy Seaborne; Dominik Tomaszuk. W3C. 11 November 2026. W3C Working Draft. URL: <https://www.w3.org/TR/rdf12-turtle/>
 
 [RDF12-XML]
 
-[RDF 1.2 XML Syntax](https://www.w3.org/TR/rdf12-xml/). Gregg Kellogg; Jerven Bolleman. W3C. 26 March 2026. W3C Working Draft. URL: <https://www.w3.org/TR/rdf12-xml/>
+[RDF 1.2 XML Syntax](https://www.w3.org/TR/rdf12-xml/). Gregg Kellogg; Jerven Bolleman. W3C. 25 October 2026. W3C Working Draft. URL: <https://www.w3.org/TR/rdf12-xml/>
 
 [RDFA-CORE]
 
@@ -2279,23 +2318,27 @@ The ABNF can also be accessed directly from [iri-grammar.abnf](https://www.w3.or
 
 [RFC3023]
 
-[XML Media Types](https://www.rfc-editor.org/rfc/rfc3023). M. Murata; S. St. Laurent; D. Kohn. IETF. January 2001. Proposed Standard. URL: <https://www.rfc-editor.org/rfc/rfc3023>
+[XML Media Types](https://www.rfc-editor.org/info/rfc3023/). M. Murata; S. St. Laurent; D. Kohn. IETF. January 2001. Proposed Standard. URL: <https://www.rfc-editor.org/info/rfc3023/>
 
 [RFC5890]
 
-[Internationalized Domain Names for Applications (IDNA): Definitions and Document Framework](https://www.rfc-editor.org/rfc/rfc5890). J. Klensin. IETF. August 2010. Proposed Standard. URL: <https://www.rfc-editor.org/rfc/rfc5890>
+[Internationalized Domain Names for Applications (IDNA): Definitions and Document Framework](https://www.rfc-editor.org/info/rfc5890/). J. Klensin. IETF. August 2010. Proposed Standard. URL: <https://www.rfc-editor.org/info/rfc5890/>
 
 [RFC5892]
 
-[The Unicode Code Points and Internationalized Domain Names for Applications (IDNA)](https://www.rfc-editor.org/rfc/rfc5892). P. Faltstrom, Ed. IETF. August 2010. Proposed Standard. URL: <https://www.rfc-editor.org/rfc/rfc5892>
+[The Unicode Code Points and Internationalized Domain Names for Applications (IDNA)](https://www.rfc-editor.org/info/rfc5892/). P. Faltstrom, Ed. IETF. August 2010. Proposed Standard. URL: <https://www.rfc-editor.org/info/rfc5892/>
 
 [RFC6874]
 
-[Representing IPv6 Zone Identifiers in Address Literals and Uniform Resource Identifiers](https://www.rfc-editor.org/rfc/rfc6874). B. Carpenter; S. Cheshire; R. Hinden. IETF. February 2013. Proposed Standard. URL: <https://www.rfc-editor.org/rfc/rfc6874>
+[Representing IPv6 Zone Identifiers in Address Literals and Uniform Resource Identifiers](https://www.rfc-editor.org/info/rfc6874/). B. Carpenter; S. Cheshire; R. Hinden. IETF. February 2013. Proposed Standard. URL: <https://www.rfc-editor.org/info/rfc6874/>
 
 [rfc7230]
 
 [Hypertext Transfer Protocol (HTTP/1.1): Message Syntax and Routing](https://httpwg.org/specs/rfc7230.html). R. Fielding, Ed.; J. Reschke, Ed. IETF. June 2014. Proposed Standard. URL: <https://httpwg.org/specs/rfc7230.html>
+
+[RFC9839]
+
+[Unicode Character Repertoire Subsets](https://www.rfc-editor.org/info/rfc9839/). T. Bray; P. Hoffman. IETF. August 2025. Proposed Standard. URL: <https://www.rfc-editor.org/info/rfc9839/>
 
 [SPARQL11-QUERY]
 
@@ -2307,15 +2350,15 @@ The ABNF can also be accessed directly from [iri-grammar.abnf](https://www.w3.or
 
 [SPARQL12-ENTAILMENT]
 
-[SPARQL 1.2 Entailment Regimes](https://www.w3.org/TR/sparql12-entailment/). Peter Patel-Schneider. W3C. 14 August 2025. W3C Working Draft. URL: <https://www.w3.org/TR/sparql12-entailment/>
+[SPARQL 1.2 Entailment Regimes](https://www.w3.org/TR/sparql12-entailment/). Peter Patel-Schneider. W3C. 9 April 2026. W3C Working Draft. URL: <https://www.w3.org/TR/sparql12-entailment/>
 
 [SPARQL12-FEDERATED-QUERY]
 
-[SPARQL 1.2 Federated Query](https://www.w3.org/TR/sparql12-federated-query/). Ruben Taelman; Gregory Williams. W3C. 26 January 2026. W3C Working Draft. URL: <https://www.w3.org/TR/sparql12-federated-query/>
+[SPARQL 1.2 Federated Query](https://www.w3.org/TR/sparql12-federated-query/). Ruben Taelman; Gregory Williams. W3C. 23 April 2026. W3C Working Draft. URL: <https://www.w3.org/TR/sparql12-federated-query/>
 
 [SPARQL12-GRAPH-STORE-PROTOCOL]
 
-[SPARQL 1.2 Graph Store Protocol](https://www.w3.org/TR/sparql12-graph-store-protocol/). Andy Seaborne; Thomas Pellissier Tanon. W3C. 19 December 2024. W3C Working Draft. URL: <https://www.w3.org/TR/sparql12-graph-store-protocol/>
+[SPARQL 1.2 Graph Store Protocol](https://www.w3.org/TR/sparql12-graph-store-protocol/). Andy Seaborne; Thomas Pellissier Tanon. W3C. 24 September 2026. W3C Working Draft. URL: <https://www.w3.org/TR/sparql12-graph-store-protocol/>
 
 [SPARQL12-NEW]
 
@@ -2323,19 +2366,19 @@ The ABNF can also be accessed directly from [iri-grammar.abnf](https://www.w3.or
 
 [SPARQL12-PROTOCOL]
 
-[SPARQL 1.2 Protocol](https://www.w3.org/TR/sparql12-protocol/). Andy Seaborne; Ruben Taelman; Gregory Williams; Thomas Pellissier Tanon. W3C. 14 August 2025. W3C Working Draft. URL: <https://www.w3.org/TR/sparql12-protocol/>
+[SPARQL 1.2 Protocol](https://www.w3.org/TR/sparql12-protocol/). Andy Seaborne; Ruben Taelman; Gregory Williams; Thomas Pellissier Tanon. W3C. 23 July 2026. W3C Working Draft. URL: <https://www.w3.org/TR/sparql12-protocol/>
 
 [SPARQL12-QUERY]
 
-[SPARQL 1.2 Query Language](https://www.w3.org/TR/sparql12-query/). Olaf Hartig; Andy Seaborne; Ruben Taelman; Gregory Williams; Thomas Pellissier Tanon. W3C. 23 March 2026. W3C Working Draft. URL: <https://www.w3.org/TR/sparql12-query/>
+[SPARQL 1.2 Query Language](https://www.w3.org/TR/sparql12-query/). Olaf Hartig; Andy Seaborne; Ruben Taelman; Gregory Williams; Thomas Pellissier Tanon. W3C. 15 November 2026. W3C Working Draft. URL: <https://www.w3.org/TR/sparql12-query/>
 
 [SPARQL12-RESULTS-CSV-TSV]
 
-[SPARQL 1.2 Query Results CSV and TSV Formats](https://www.w3.org/TR/sparql12-results-csv-tsv/). Ruben Taelman; Gregory Williams; Thomas Pellissier Tanon. W3C. 14 August 2025. W3C Working Draft. URL: <https://www.w3.org/TR/sparql12-results-csv-tsv/>
+[SPARQL 1.2 Query Results CSV and TSV Formats](https://www.w3.org/TR/sparql12-results-csv-tsv/). Ruben Taelman; Gregory Williams; Thomas Pellissier Tanon. W3C. 22 October 2026. W3C Working Draft. URL: <https://www.w3.org/TR/sparql12-results-csv-tsv/>
 
 [SPARQL12-RESULTS-JSON]
 
-[SPARQL 1.2 Query Results JSON Format](https://www.w3.org/TR/sparql12-results-json/). Andy Seaborne; Ruben Taelman; Gregory Williams; Thomas Pellissier Tanon. W3C. 14 August 2025. W3C Working Draft. URL: <https://www.w3.org/TR/sparql12-results-json/>
+[SPARQL 1.2 Query Results JSON Format](https://www.w3.org/TR/sparql12-results-json/). Andy Seaborne; Ruben Taelman; Gregory Williams; Thomas Pellissier Tanon. W3C. 13 August 2026. W3C Working Draft. URL: <https://www.w3.org/TR/sparql12-results-json/>
 
 [SPARQL12-RESULTS-XML]
 
@@ -2343,15 +2386,15 @@ The ABNF can also be accessed directly from [iri-grammar.abnf](https://www.w3.or
 
 [SPARQL12-SERVICE-DESCRIPTION]
 
-[SPARQL 1.2 Service Description](https://www.w3.org/TR/sparql12-service-description/). Ruben Taelman; Gregory Williams. W3C. 19 March 2026. W3C Working Draft. URL: <https://www.w3.org/TR/sparql12-service-description/>
+[SPARQL 1.2 Service Description](https://www.w3.org/TR/sparql12-service-description/). Ruben Taelman; Gregory Williams. W3C. 12 November 2026. W3C Working Draft. URL: <https://www.w3.org/TR/sparql12-service-description/>
 
 [SPARQL12-UPDATE]
 
-[SPARQL 1.2 Update](https://www.w3.org/TR/sparql12-update/). Ruben Taelman; Andy Seaborne; Thomas Pellissier Tanon. W3C. 14 August 2025. W3C Working Draft. URL: <https://www.w3.org/TR/sparql12-update/>
+[SPARQL 1.2 Update](https://www.w3.org/TR/sparql12-update/). Ruben Taelman; Andy Seaborne; Thomas Pellissier Tanon. W3C. 15 November 2026. W3C Working Draft. URL: <https://www.w3.org/TR/sparql12-update/>
 
 [STRING-META]
 
-[Strings on the Web: Language and Direction Metadata](https://www.w3.org/TR/string-meta/). Richard Ishida; Addison Phillips. W3C. 17 October 2024. W3C Working Group Note. URL: <https://www.w3.org/TR/string-meta/>
+[Strings on the Web: Language and Direction Metadata](https://www.w3.org/TR/string-meta/). Richard Ishida; Addison Phillips. W3C. 16 July 2026. FPWD. URL: <https://www.w3.org/TR/string-meta/>
 
 [SWBP-N-ARYRELATIONS]
 
@@ -2453,14 +2496,14 @@ Permalink
 **Referenced in:**
 
 - § 1.5 Triple Terms and Reification (2) (3) (4) (5)
-- § H. Changes between RDF 1.1 and RDF 1.2
+- § I. Changes between RDF 1.1 and RDF 1.2
 
 Permalink
 
 **Referenced in:**
 
 - § 1.5 Triple Terms and Reification (2) (3) (4) (5) (6)
-- § H. Changes between RDF 1.1 and RDF 1.2
+- § I. Changes between RDF 1.1 and RDF 1.2
 
 Permalink
 
@@ -2519,7 +2562,6 @@ Permalink
 
 - § 1.3 The Referent of an IRI
 - § 1.9 RDF Documents and Syntaxes (2)
-- § 1.10 RDF Version Announcement
 - § 2. Conformance
 - § 2.2 Strings in RDF
 - § 3.3.1 RDF Reference IRIs
@@ -2563,8 +2605,8 @@ Permalink exported
 - § 5. Datatypes
 - § A.2 The rdf:XMLLiteral Datatype
 - § A.3 The rdf:JSON Datatype (2) (3) (4) (5) (6)
-- § D. Security Considerations
-- § H. Changes between RDF 1.1 and RDF 1.2
+- § E. Security Considerations (2)
+- § I. Changes between RDF 1.1 and RDF 1.2
 
 Permalink exported
 
@@ -2601,7 +2643,7 @@ Permalink exported
 - § 3.1 Triples
 - § 3.2 RDF Terms (2) (3)
 - § 3.6 Triple Terms
-- § H. Changes between RDF 1.1 and RDF 1.2
+- § I. Changes between RDF 1.1 and RDF 1.2
 
 Permalink exported
 
@@ -2619,12 +2661,13 @@ Permalink exported
 - § 3.1 Triples (2) (3) (4) (5) (6) (7) (8) (9)
 - § 3.2 RDF Terms (2) (3) (4)
 - § 3.6 Triple Terms (2) (3) (4)
-- § 4.3 Dataset as a Set of Quads (2) (3)
+- § 4.3 Quads (2) (3)
 - § 6. Fragment Identifiers
 - § 7. Generalizations of RDF Triples, Graphs, and Datasets
 - § 7.1 Symmetric RDF
 - § 7.2 Generalized RDF
-- § H. Changes between RDF 1.1 and RDF 1.2
+- § C.1 Server Considerations
+- § I. Changes between RDF 1.1 and RDF 1.2
 
 Permalink exported
 
@@ -2636,7 +2679,7 @@ Permalink exported
 - § 1.9 RDF Documents and Syntaxes
 - § 3.1 Triples
 - § 3.2 RDF Terms (2)
-- § 4.3 Dataset as a Set of Quads
+- § 4.3 Quads
 
 Permalink exported
 
@@ -2648,7 +2691,7 @@ Permalink exported
 - § 1.9 RDF Documents and Syntaxes
 - § 3.1 Triples
 - § 3.2 RDF Terms (2)
-- § 4.3 Dataset as a Set of Quads
+- § 4.3 Quads
 
 Permalink exported
 
@@ -2662,7 +2705,7 @@ Permalink exported
 - § 3.1 Triples (2)
 - § 3.2 RDF Terms (2) (3)
 - § 3.6 Triple Terms
-- § 4.3 Dataset as a Set of Quads
+- § 4.3 Quads
 
 Permalink exported
 
@@ -2677,7 +2720,7 @@ Permalink
 
 - § 3.2 RDF Terms (2)
 - § 3.6 Triple Terms
-- § H. Changes between RDF 1.1 and RDF 1.2
+- § I. Changes between RDF 1.1 and RDF 1.2
 
 Permalink exported
 
@@ -2702,7 +2745,7 @@ Permalink exported
 
 - § 3.1 Triples (2) (3)
 - § 4.1 RDF Dataset Comparison
-- § H. Changes between RDF 1.1 and RDF 1.2
+- § I. Changes between RDF 1.1 and RDF 1.2
 
 Permalink exported
 
@@ -2743,7 +2786,7 @@ Permalink exported
 - § 7.1 Symmetric RDF (2) (3)
 - § 7.2 Generalized RDF (2) (3)
 - § B. Replacing Blank Nodes with IRIs
-- § D. Security Considerations (2) (3)
+- § E. Security Considerations (2) (3) (4)
 
 Permalink
 
@@ -2775,7 +2818,7 @@ Permalink
 **Referenced in:**
 
 - § 3.3 IRIs
-- § H. Changes between RDF 1.1 and RDF 1.2
+- § I. Changes between RDF 1.1 and RDF 1.2
 
 Permalink exported
 
@@ -2791,7 +2834,6 @@ Permalink exported
 - § 1.2 Resources and Statements (2)
 - § 1.6 RDF and Change over Time
 - § 1.9 RDF Documents and Syntaxes
-- § 2.1.1 Server Considerations
 - § 3.1 Triples
 - § 3.2 RDF Terms (2) (3) (4) (5)
 - § 3.4.1 Representation of Literals
@@ -2804,8 +2846,9 @@ Permalink exported
 - § A.1 The rdf:HTML Datatype
 - § A.2 The rdf:XMLLiteral Datatype
 - § A.3 The rdf:JSON Datatype
-- § E. Internationalization Considerations
-- § H. Changes between RDF 1.1 and RDF 1.2
+- § C.1 Server Considerations
+- § F. Internationalization Considerations
+- § I. Changes between RDF 1.1 and RDF 1.2
 
 Permalink exported
 
@@ -2820,12 +2863,12 @@ Permalink exported
 
 **Referenced in:**
 
-- § 2.1.1 Server Considerations
 - § 3.4 Literals (2) (3)
 - § 3.4.1 Representation of Literals (2) (3)
 - § 3.4.2 Literal Value
 - § 5. Datatypes
 - § 5.2 Datatype IRIs
+- § C.1 Server Considerations
 
 Permalink exported
 
@@ -2835,20 +2878,21 @@ Permalink exported
 - § 3.4.1 Representation of Literals (2)
 - § 3.4.2 Literal Value (2)
 - § 5. Datatypes
-- § E. Internationalization Considerations
+- § F. Internationalization Considerations
 
 Permalink exported
 
 **Referenced in:**
 
 - § Abstract
-- § 3.4 Literals (2) (3)
+- § 3.4 Literals (2) (3) (4)
 - § 3.4.1 Representation of Literals
 - § 3.4.2 Literal Value
 - § 3.4.3 Initial Text Direction
 - § 5. Datatypes
-- § E. Internationalization Considerations
-- § H. Changes between RDF 1.1 and RDF 1.2
+- § C.1 Server Considerations (2)
+- § F. Internationalization Considerations
+- § I. Changes between RDF 1.1 and RDF 1.2
 
 Permalink exported
 
@@ -2859,6 +2903,7 @@ Permalink exported
 - § 3.4.2 Literal Value
 - § 3.4.3 Initial Text Direction
 - § 5. Datatypes
+- § C.1 Server Considerations
 
 Permalink exported
 
@@ -2866,12 +2911,12 @@ Permalink exported
 
 - § Abstract
 - § 1.2 Resources and Statements
-- § 2.1.1 Server Considerations
 - § 3.4.1 Representation of Literals
 - § 3.4.2 Literal Value
 - § 3.4.3 Initial Text Direction (2) (3)
 - § 5. Datatypes
-- § E. Internationalization Considerations
+- § C.1 Server Considerations (2) (3)
+- § F. Internationalization Considerations
 
 Permalink
 
@@ -2922,7 +2967,7 @@ Permalink
 **Referenced in:**
 
 - § 3.2 RDF Terms (2)
-- § H. Changes between RDF 1.1 and RDF 1.2
+- § I. Changes between RDF 1.1 and RDF 1.2
 
 Permalink
 
@@ -2940,13 +2985,13 @@ Permalink exported
 - § 1.1 Graph-based Abstract Data Model
 - § 1.5 Triple Terms and Reification (2) (3) (4) (5) (6) (7) (8) (9) (10)
 - § 2. Conformance (2)
-- § 2.1.1 Server Considerations
 - § 3.2 RDF Terms (2) (3) (4) (5)
 - § 3.6 Triple Terms
 - § 3.7 Graph Comparison
 - § 7.1 Symmetric RDF (2)
 - § 7.2 Generalized RDF (2) (3)
-- § H. Changes between RDF 1.1 and RDF 1.2
+- § C.1 Server Considerations (2) (3) (4)
+- § I. Changes between RDF 1.1 and RDF 1.2
 
 Permalink
 
@@ -2971,7 +3016,7 @@ Permalink exported
 - § 4. RDF Datasets (2)
 - § 4.1 RDF Dataset Comparison
 - § 4.2 Content Negotiation of RDF Datasets (2) (3)
-- § 4.3 Dataset as a Set of Quads (2) (3)
+- § 4.3 Quads (2) (3)
 - § 7.1 Symmetric RDF
 - § 7.2 Generalized RDF
 
@@ -2982,7 +3027,7 @@ Permalink exported
 - § 1.7 Working with Multiple RDF Graphs
 - § 1.9 RDF Documents and Syntaxes
 - § 4.1 RDF Dataset Comparison
-- § 4.3 Dataset as a Set of Quads (2)
+- § 4.3 Quads (2)
 
 Permalink exported
 
@@ -2992,7 +3037,7 @@ Permalink exported
 - § 1.9 RDF Documents and Syntaxes
 - § 4. RDF Datasets (2)
 - § 4.1 RDF Dataset Comparison (2) (3)
-- § 4.3 Dataset as a Set of Quads
+- § 4.3 Quads
 
 Permalink exported
 
@@ -3001,7 +3046,7 @@ Permalink exported
 - § 1.7 Working with Multiple RDF Graphs
 - § 1.9 RDF Documents and Syntaxes
 - § 4. RDF Datasets
-- § 4.3 Dataset as a Set of Quads (2) (3) (4)
+- § 4.3 Quads (2) (3) (4)
 
 Permalink exported
 
@@ -3013,8 +3058,8 @@ Permalink
 
 **Referenced in:**
 
-- § 4.3 Dataset as a Set of Quads (2) (3)
-- § H. Changes between RDF 1.1 and RDF 1.2
+- § 4.3 Quads (2)
+- § I. Changes between RDF 1.1 and RDF 1.2
 
 Permalink exported
 
@@ -3057,7 +3102,7 @@ Permalink exported
 - § A.1 The rdf:HTML Datatype
 - § A.2 The rdf:XMLLiteral Datatype
 - § A.3 The rdf:JSON Datatype
-- § H. Changes between RDF 1.1 and RDF 1.2
+- § I. Changes between RDF 1.1 and RDF 1.2
 
 Permalink exported
 
@@ -3114,7 +3159,7 @@ Permalink exported
 
 - § 5. Datatypes
 - § 5.2 Datatype IRIs
-- § H. Changes between RDF 1.1 and RDF 1.2 (2)
+- § I. Changes between RDF 1.1 and RDF 1.2 (2)
 
 Permalink exported
 
@@ -3122,7 +3167,7 @@ Permalink exported
 
 - § 5. Datatypes
 - § 5.2 Datatype IRIs
-- § H. Changes between RDF 1.1 and RDF 1.2 (2) (3)
+- § I. Changes between RDF 1.1 and RDF 1.2 (2) (3)
 
 Permalink exported
 
@@ -3130,25 +3175,13 @@ Permalink exported
 
 - § 5. Datatypes
 - § 5.2 Datatype IRIs
-- § H. Changes between RDF 1.1 and RDF 1.2
+- § I. Changes between RDF 1.1 and RDF 1.2
 
 Permalink exported
 
 **Referenced in:**
 
 - Not referenced in this document.
-
-Permalink
-
-**Referenced in:**
-
-- § 3.4.1 Representation of Literals
-
-Permalink
-
-**Referenced in:**
-
-- § 3.4 Literals
 
 Permalink
 
@@ -3187,7 +3220,7 @@ Permalink
 
 **Referenced in:**
 
-- § E. Internationalization Considerations
+- § F. Internationalization Considerations
 
 Permalink
 
@@ -3237,7 +3270,7 @@ Permalink
 **Referenced in:**
 
 - § 3.4.3 Initial Text Direction
-- § E. Internationalization Considerations
+- § F. Internationalization Considerations
 
 Permalink
 
@@ -3252,7 +3285,7 @@ Permalink
 - § 2.2 Strings in RDF (2)
 - § 3.3 IRIs
 - § A.3 The rdf:JSON Datatype (2)
-- § H. Changes between RDF 1.1 and RDF 1.2
+- § I. Changes between RDF 1.1 and RDF 1.2
 
 Permalink
 
@@ -3306,14 +3339,14 @@ Permalink
 
 **Referenced in:**
 
-- § 2.1.1 Server Considerations
-- § E. Internationalization Considerations
+- § C.1 Server Considerations
+- § F. Internationalization Considerations
 
 Permalink
 
 **Referenced in:**
 
-- § H. Changes between RDF 1.1 and RDF 1.2 (2)
+- § I. Changes between RDF 1.1 and RDF 1.2 (2)
 
 Permalink
 
@@ -3331,7 +3364,7 @@ Permalink
 
 **Referenced in:**
 
-- § D. Security Considerations
+- § E. Security Considerations
 
 Permalink
 
@@ -3350,7 +3383,7 @@ Permalink
 **Referenced in:**
 
 - § 5.2 Datatype IRIs
-- § H. Changes between RDF 1.1 and RDF 1.2
+- § I. Changes between RDF 1.1 and RDF 1.2
 
 Permalink
 
@@ -3380,7 +3413,7 @@ Permalink
 
 **Referenced in:**
 
-- § F. IRI Grammar
+- § G. IRI Grammar
 
 Permalink
 
@@ -3406,12 +3439,6 @@ Permalink
 **Referenced in:**
 
 - § 3.3 IRIs
-
-Permalink
-
-**Referenced in:**
-
-- § 3.3 IRIs
 - § 3.3.1 RDF Reference IRIs
 
 Permalink
@@ -3419,30 +3446,6 @@ Permalink
 **Referenced in:**
 
 - § 3.3.1 RDF Reference IRIs
-
-Permalink
-
-**Referenced in:**
-
-- § 3.3 IRIs
-
-Permalink
-
-**Referenced in:**
-
-- § 3.3 IRIs
-
-Permalink
-
-**Referenced in:**
-
-- § 3.3.1 RDF Reference IRIs
-
-Permalink
-
-**Referenced in:**
-
-- § 3.3 IRIs
 
 Permalink
 
@@ -3520,9 +3523,9 @@ Permalink
 
 **Referenced in:**
 
-- § 1.10 RDF Version Announcement (2)
 - § 4.2 Content Negotiation of RDF Datasets
 - § 6. Fragment Identifiers
+- § C. RDF versions and HTTP content-negotiation
 
 Permalink
 
@@ -3552,7 +3555,7 @@ Permalink
 
 **Referenced in:**
 
-- § H. Changes between RDF 1.1 and RDF 1.2
+- § I. Changes between RDF 1.1 and RDF 1.2
 
 Permalink
 

@@ -4,8 +4,8 @@ source: https://www.w3.org/TR/rdf12-trig/
 family: rdf
 version: "1.2"
 status: W3C Working Draft
-spec_date: 2026-11-05
-fetched: 2026-11-09
+spec_date: 2026-11-13
+fetched: 2026-11-16
 ---
 
 # RDF 1.2 TriG
@@ -513,11 +513,11 @@ table describes specific characters and sequences used throughout this document.
 | `U+0023` | `#`   | Number sign          |
 | `U+0027` | `'`   | Apostrophe           |
 | `U+002D` | `-`   | Hyphen               |
-| `U+003B` | `:`   | Colon                |
+| `U+003A` | `:`   | Colon                |
 | `U+0040` | `@`   | At sign              |
 | `U+005C` | `\`   | Backslash            |
 | `U+005F` | `_`   | Underscore           |
-| `U+0061` | `a`   | Latin small letter E |
+| `U+0061` | `a`   | Latin small letter A |
 | `U+007B` | `{`   | Left curly bracket   |
 | `U+007D` | `}`   | Right curly bracket  |
 
@@ -1045,7 +1045,7 @@ More specifically, the following changes have been made:
 
 [RDF12-CONCEPTS]
 
-[RDF 1.2 Concepts and Abstract Data Model](https://www.w3.org/TR/rdf12-concepts/). Andy Seaborne; Gregg Kellogg; Olaf Hartig; Pierre-Antoine Champin. W3C. 7 April 2026. W3C Candidate Recommendation. URL: <https://www.w3.org/TR/rdf12-concepts/>
+[RDF 1.2 Concepts and Abstract Data Model](https://www.w3.org/TR/rdf12-concepts/). Gregg Kellogg; Olaf Hartig; Pierre-Antoine Champin; Andy Seaborne. W3C. 12 November 2026. CRD. URL: <https://www.w3.org/TR/rdf12-concepts/>
 
 [RFC2119]
 
@@ -1087,11 +1087,11 @@ More specifically, the following changes have been made:
 
 [RDF12-N-QUADS]
 
-[RDF 1.2 N-Quads](https://www.w3.org/TR/rdf12-n-quads/). Gregg Kellogg; Dominik Tomaszuk. W3C. 23 October 2026. W3C Working Draft. URL: <https://www.w3.org/TR/rdf12-n-quads/>
+[RDF 1.2 N-Quads](https://www.w3.org/TR/rdf12-n-quads/). Gregg Kellogg; Dominik Tomaszuk. W3C. 5 November 2026. W3C Working Draft. URL: <https://www.w3.org/TR/rdf12-n-quads/>
 
 [RDF12-N-TRIPLES]
 
-[RDF 1.2 N-Triples](https://www.w3.org/TR/rdf12-n-triples/). Gregg Kellogg; Dominik Tomaszuk. W3C. 23 October 2026. W3C Working Draft. URL: <https://www.w3.org/TR/rdf12-n-triples/>
+[RDF 1.2 N-Triples](https://www.w3.org/TR/rdf12-n-triples/). Gregg Kellogg; Dominik Tomaszuk. W3C. 5 November 2026. W3C Working Draft. URL: <https://www.w3.org/TR/rdf12-n-triples/>
 
 [RDF12-NEW]
 
@@ -1103,7 +1103,7 @@ More specifically, the following changes have been made:
 
 [RDF12-SCHEMA]
 
-[RDF 1.2 Schema](https://www.w3.org/TR/rdf12-schema/). Dominik Tomaszuk. W3C. 23 October 2026. W3C Working Draft. URL: <https://www.w3.org/TR/rdf12-schema/>
+[RDF 1.2 Schema](https://www.w3.org/TR/rdf12-schema/). Dominik Tomaszuk. W3C. 12 November 2026. W3C Working Draft. URL: <https://www.w3.org/TR/rdf12-schema/>
 
 [RDF12-SEMANTICS]
 
@@ -1111,7 +1111,7 @@ More specifically, the following changes have been made:
 
 [RDF12-TURTLE]
 
-[RDF 1.2 Turtle](https://www.w3.org/TR/rdf12-turtle/). Gregg Kellogg; Andy Seaborne; Dominik Tomaszuk. W3C. 1 November 2026. W3C Working Draft. URL: <https://www.w3.org/TR/rdf12-turtle/>
+[RDF 1.2 Turtle](https://www.w3.org/TR/rdf12-turtle/). Gregg Kellogg; Andy Seaborne; Dominik Tomaszuk. W3C. 11 November 2026. W3C Working Draft. URL: <https://www.w3.org/TR/rdf12-turtle/>
 
 [RDF12-XML]
 
@@ -1155,7 +1155,7 @@ More specifically, the following changes have been made:
 
 [SPARQL12-QUERY]
 
-[SPARQL 1.2 Query Language](https://www.w3.org/TR/sparql12-query/). Olaf Hartig; Andy Seaborne; Ruben Taelman; Gregory Williams; Thomas Pellissier Tanon. W3C. 1 November 2026. W3C Working Draft. URL: <https://www.w3.org/TR/sparql12-query/>
+[SPARQL 1.2 Query Language](https://www.w3.org/TR/sparql12-query/). Olaf Hartig; Andy Seaborne; Ruben Taelman; Gregory Williams; Thomas Pellissier Tanon. W3C. 12 November 2026. W3C Working Draft. URL: <https://www.w3.org/TR/sparql12-query/>
 
 [SPARQL12-RESULTS-CSV-TSV]
 
@@ -1171,7 +1171,7 @@ More specifically, the following changes have been made:
 
 [SPARQL12-SERVICE-DESCRIPTION]
 
-[SPARQL 1.2 Service Description](https://www.w3.org/TR/sparql12-service-description/). Ruben Taelman; Gregory Williams. W3C. 29 October 2026. W3C Working Draft. URL: <https://www.w3.org/TR/sparql12-service-description/>
+[SPARQL 1.2 Service Description](https://www.w3.org/TR/sparql12-service-description/). Ruben Taelman; Gregory Williams. W3C. 12 November 2026. W3C Working Draft. URL: <https://www.w3.org/TR/sparql12-service-description/>
 
 [SPARQL12-UPDATE]
 
