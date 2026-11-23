@@ -4,8 +4,8 @@ source: https://www.w3.org/TR/sparql12-protocol/
 family: sparql
 version: "1.2"
 status: W3C Working Draft
-spec_date: 2026-07-23
-fetched: 2026-11-16
+spec_date: 2026-11-20
+fetched: 2026-11-23
 ---
 
 # SPARQL 1.2 Protocol
@@ -95,8 +95,8 @@ of managing a collection of graphs in the REST architectural style.
 
 ### 1.1 Document Conventions
 
-When this document uses the words **must**, **must not**, **should**, **should not**,
-and **may**, and the words appear as emphasized text, they must be
+When this document uses the words *MUST*, *MUST NOT*, *SHOULD*, *SHOULD NOT*,
+and *MAY*, and the words appear as emphasized text, they must be
 interpreted as described in [RFC2119].
 
 ### 1.2 Terminology
@@ -105,9 +105,6 @@ SPARQL Protocol client
 
 An HTTP client (as defined by [Section 3.3. Connections, Clients, and Servers](https://httpwg.org/specs/rfc9110.html#connections) of [HTTP Semantics](https://httpwg.org/specs/rfc9110.html) [RFC9110]) that sends HTTP requests for
 SPARQL Protocol operations. (Also known as: *client*.)
-
-An HTTP client (as defined by [RFC 9110](https://httpwg.org/specs/rfc9110.html#connections) [RFC9110]) that sends HTTP requests for SPARQL
-Protocol operations. (Also known as: *client*)
 
 SPARQL Protocol service
 
@@ -135,7 +132,7 @@ The SPARQL Protocol consists of two operations: query and update. A protocol ope
 - The message content included in the HTTP request body.
 - The message content included in the HTTP response body.
 
-The SPARQL 1.2 Protocol is built on top of HTTP. All HTTP requirements for requests and responses **must** be followed.
+The SPARQL 1.2 Protocol is built on top of HTTP. All HTTP requirements for requests and responses *MUST* be followed.
 
 ### 2.1 Version Announcement
 
@@ -143,10 +140,11 @@ When sending a query or update operation to an endpoint, the version of this ope
 the syntactical [`version` directive](https://www.w3.org/TR/sparql12-query/#syntaxVersionAnnouncement),
 or by passing a `version` parameter (which depends on the used HTTP method).
 
-When the version is indicated both in syntax and a parameter,
-they are expected to be the same.
-If they differ,
-parsers use the version from the parameter and might emit a warning about the mismatch.
+When the version is indicated both in syntax and a parameter, they *SHOULD* be the same.
+If they differ, parsers *MUST* use the version from the parameter and *MAY* emit a warning about the mismatch.
+
+If a request contains a version announcement for a version that the service does not recognize or support,
+the service *SHOULD* reject the request with a response with a 4XX HTTP response code.
 
 To retain compability that is as broad as possible with older parsers,
 only queries that make use of SPARQL 1.2-specific functionality
@@ -162,10 +160,10 @@ Values for the version string are discussed in [RDF 1.2 Concepts and Abstract Da
 ### 2.2 Query Operation
 
 The `query` operation is used to send a SPARQL query to a service and receive the results of the query.
-The query operation **must** be invoked with either the HTTP GET or HTTP POST method
+The query operation *MUST* be invoked with either the HTTP GET or HTTP POST method
 (or, if the SPARQL Protocol service supports such requests, the HTTP QUERY method [RFC10008]).
-Client requests for this operation **must** include exactly one SPARQL query string (parameter name: `query`)
-and **may** include a version (parameter name: `version`),
+Client requests for this operation *MUST* include exactly one SPARQL query string (parameter name: `query`)
+and *MAY* include a version (parameter name: `version`),
 and zero or more default graph URIs (parameter name: `default-graph-uri`) and named graph URIs (parameter name: `named-graph-uri`).
 > **Note:**
 >
@@ -179,7 +177,7 @@ and zero or more default graph URIs (parameter name: `default-graph-uri`) and na
 > In the following sections, where SPARQL query requests using HTTP POST are described, HTTP QUERY may also be considered
 > as an acceptable though not required feature of the SPARQL 1.2 Protocol.
 
-The response to a query request **must** be in a format corresponding to SPARQL Results, or RDF,
+The response to a query request *MUST* be in a format corresponding to SPARQL Results, or RDF,
 depending on the [query form](https://www.w3.org/TR/sparql12-query/#QueryForms) and [content negotiation](https://httpwg.org/specs/rfc9110.html#content.negotiation) [RFC9110].
 Examples of such formats are:
 
@@ -199,46 +197,46 @@ Examples of such formats are:
 | query via URL-encoded POST | POST        | None                                                         | `application/x-www-form-urlencoded`                                       | URL-encoded, ampersand-separated query parameters. `query version` (exactly 1) (0 or 1) (0 or more) (0 or more) |
 | query via POST directly    | POST        | `default-graph-uri named-graph-uri` (0 or more) (0 or more)  | `application/sparql-query` (with optional `version` media-type parameter) | Unencoded SPARQL query string                                                                                   |
 
-The `query` request's parameters **must** be sent according to one of these three options:
+The `query` request's parameters *MUST* be sent according to one of these three options:
 
 #### 2.2.1 `query` via GET
 
-Protocol clients **may** send protocol requests via the HTTP GET method. When using the GET method, clients **must** URL [percent encode](https://www.rfc-editor.org/info/rfc3986/#section-2.1) all parameters and include them as [query parameter](https://www.rfc-editor.org/info/rfc3986/#section-3.4) strings [RFC3986] with the names given
+Protocol clients *MAY* send protocol requests via the HTTP GET method. When using the GET method, clients *MUST* URL [percent encode](https://www.rfc-editor.org/info/rfc3986/#section-2.1) all parameters and include them as [query parameter](https://www.rfc-editor.org/info/rfc3986/#section-3.4) strings [RFC3986] with the names given
 above.
 
-HTTP query string parameters **must** be separated with the ampersand (`&`) character. Clients may include the query string parameters in any order.
+HTTP query string parameters *MUST* be separated with the ampersand (`&`) character. Clients may include the query string parameters in any order.
 
-The HTTP request **must not** include a message body.
+The HTTP request *MUST NOT* include a message body.
 
 #### 2.2.2 `query` via POST with URL-encoded parameters
 
-Protocol clients **may** send protocol requests via the HTTP POST method by URL encoding the parameters. When using this method, clients **must** URL [percent encode](https://www.rfc-editor.org/info/rfc3986/#section-2.1) [RFC3986] all parameters and include them as parameters within the request body via the `application/x-www-form-urlencoded` media type with the name given above. Parameters **must** be separated with the ampersand (`&`) character. Clients
-may include the parameters in any order. The content type header of the HTTP request **must** be set to `application/x-www-form-urlencoded`.
+Protocol clients *MAY* send protocol requests via the HTTP POST method by URL encoding the parameters. When using this method, clients *MUST* URL [percent encode](https://www.rfc-editor.org/info/rfc3986/#section-2.1) [RFC3986] all parameters and include them as parameters within the request body via the `application/x-www-form-urlencoded` media type with the name given above. Parameters *MUST* be separated with the ampersand (`&`) character. Clients
+may include the parameters in any order. The content type header of the HTTP request *MUST* be set to `application/x-www-form-urlencoded`.
 
 #### 2.2.3 `query` via POST directly
 
-Protocol clients **may** send protocol requests via the HTTP POST method by including the query directly and unencoded as the HTTP request message body. When using this
-approach, clients **must** include the SPARQL query string, unencoded, and nothing else as the message body of the request. Clients **must** set the content type
-header of the HTTP request to `application/sparql-query`, with an optional `version` media-type parameter. Clients **may** include the optional `default-graph-uri` and `named-graph-uri` parameters as HTTP query string parameters in the request URI. Note that UTF-8 is the only valid charset here.
+Protocol clients *MAY* send protocol requests via the HTTP POST method by including the query directly and unencoded as the HTTP request message body. When using this
+approach, clients *MUST* include the SPARQL query string, unencoded, and nothing else as the message body of the request. Clients *MUST* set the content type
+header of the HTTP request to `application/sparql-query`, with an optional `version` media-type parameter. Clients *MAY* include the optional `default-graph-uri` and `named-graph-uri` parameters as HTTP query string parameters in the request URI. Note that UTF-8 is the only valid charset here.
 
 #### 2.2.4 Specifying an RDF Dataset
 
-A SPARQL query is executed against an [RDF Dataset](https://www.w3.org/TR/sparql12-query/#rdfDataset). The RDF Dataset for a query may be specified either via the `default-graph-uri` and `named-graph-uri` parameters in the SPARQL Protocol or in the SPARQL query string using the `FROM` and `FROM NAMED` keywords. If different RDF Datasets are specified in both the protocol request and the SPARQL query string, then the SPARQL service **must** execute the query using the RDF
+A SPARQL query is executed against an [RDF Dataset](https://www.w3.org/TR/sparql12-query/#rdfDataset). The RDF Dataset for a query may be specified either via the `default-graph-uri` and `named-graph-uri` parameters in the SPARQL Protocol or in the SPARQL query string using the `FROM` and `FROM NAMED` keywords. If different RDF Datasets are specified in both the protocol request and the SPARQL query string, then the SPARQL service *MUST* execute the query using the RDF
 Dataset given in the protocol request.
 
-Note that a service **may** reject a query with HTTP response code 400 if the service does not allow protocol clients to specify the RDF Dataset.
+Note that a service *MAY* reject a query with HTTP response code 400 if the service does not allow protocol clients to specify the RDF Dataset.
 
-If an RDF Dataset is not specified in either the protocol request or the SPARQL query string, then implementations **may** execute the query against an
+If an RDF Dataset is not specified in either the protocol request or the SPARQL query string, then implementations *MAY* execute the query against an
 implementation-defined default RDF dataset.
 
 #### 2.2.5 Accepted Response Formats
 
-Protocol clients **should** use HTTP [content negotiation](https://httpwg.org/specs/rfc9110.html#content.negotiation) [RFC9110] to request
+Protocol clients *SHOULD* use HTTP [content negotiation](https://httpwg.org/specs/rfc9110.html#content.negotiation) [RFC9110] to request
 response formats that the client can consume. See below for more on potential response formats.
 
 #### 2.2.6 Success Responses
 
-The SPARQL Protocol uses the response status codes defined in HTTP to indicate the success or failure of an operation. Consult the [HTTP specification](https://httpwg.org/specs/rfc9110.html#status.codes) [RFC9110] for detailed definitions of each status code. While a protocol service **should** use a 2XX HTTP response code for a successful query, it **may** choose instead to use a 3XX response code as per HTTP.
+The SPARQL Protocol uses the response status codes defined in HTTP to indicate the success or failure of an operation. Consult the [HTTP specification](https://httpwg.org/specs/rfc9110.html#status.codes) [RFC9110] for detailed definitions of each status code. While a protocol service *SHOULD* use a 2XX HTTP response code for a successful query, it *MAY* choose instead to use a 3XX response code as per HTTP.
 
 The response body of a successful query operation with a 2XX response is either:
 
@@ -247,7 +245,7 @@ The response body of a successful query operation with a 2XX response is either:
 - a serialized RDF graph [RDF12-CONCEPTS] (for example, in [RDF 1.2 Turtle](https://www.w3.org/TR/rdf12-turtle/) or [RDF 1.2 XML Syntax](https://www.w3.org/TR/rdf12-xml/))
   for SPARQL Query forms [DESCRIBE](https://www.w3.org/TR/sparql12-query/#describe) and [CONSTRUCT](https://www.w3.org/TR/sparql12-query/#construct) [SPARQL12-QUERY].
 
-The content type of the response to a successful query operation must be the media type defined for the format of the response body.
+The content type of the response to a successful query operation *MUST* be the media type defined for the format of the response body.
 
 #### 2.2.7 Failure Responses
 
@@ -257,15 +255,15 @@ The HTTP response codes applicable to an unsuccessful query operation include:
 - 500 if the service fails to execute the query. SPARQL Protocol services may also return a 500 response code if they refuse to execute a query. This response does not indicate whether
   the server may or may not process a subsequent, identical request or requests.
 
-The response body of a failed query request is implementation defined. Implementations **may** use HTTP content negotiation to provide human-readable or machine-processable
+The response body of a failed query request is implementation defined. Implementations *MAY* use HTTP content negotiation to provide human-readable or machine-processable
 (or both) information about the failed query request.
 
-A protocol service **may** use other 4XX or 5XX HTTP response codes for other failure conditions, as per HTTP.
+A protocol service *MAY* use other 4XX or 5XX HTTP response codes for other failure conditions, as per HTTP.
 
 ### 2.3 Update Operation
 
-The `update` operation is used to send a SPARQL update request to a service. The update operation **must** be invoked using the HTTP POST method. Client requests
-for this operation **must** include exactly one SPARQL update request string (parameter name: `update`) and **may** include a version (parameter name: `version`) and zero or more default graph
+The `update` operation is used to send a SPARQL update request to a service. The update operation *MUST* be invoked using the HTTP POST method. Client requests
+for this operation *MUST* include exactly one SPARQL update request string (parameter name: `update`) and *MAY* include a version (parameter name: `version`) and zero or more default graph
 URIs (parameter name: `using-graph-uri`) and named graph URIs (parameter name: `using-named-graph-uri`). The response to an update request indicates success or failure
 of the request via HTTP response status code.
 
@@ -274,17 +272,17 @@ of the request via HTTP response status code.
 | update via URL-encoded POST | POST        | None                                                            | `application/x-www-form-urlencoded`                                        | URL-encoded, ampersand-separated query parameters. `version update` (0 or 1) (exactly 1) (0 or more) (0 or more) |
 | update via POST directly    | POST        | `using-graph-uri using-named-graph-uri` (0 or more) (0 or more) | `application/sparql-update` (with optional `version` media-type parameter) | Unencoded SPARQL update request string                                                                           |
 
-The `update` request's parameters **must** be sent according to one of these two options:
+The `update` request's parameters *MUST* be sent according to one of these two options:
 
 #### 2.3.1 `update` via POST with URL-encoded parameters
 
-Protocol clients **may** send update protocol requests via the HTTP POST method by URL encoding the parameters. When using this approach, clients **must** URL [percent encode](https://www.rfc-editor.org/info/rfc3986/#) all parameters and include them as parameters within the request body via the `application/x-www-form-urlencoded` media type with the name given above. Parameters **must** be separated with the ampersand (`&`) character. Clients
-may include the parameters in any order. The content type header of the HTTP request **must** be set to `application/x-www-form-urlencoded`.
+Protocol clients *MAY* send update protocol requests via the HTTP POST method by URL encoding the parameters. When using this approach, clients *MUST* URL [percent encode](https://www.rfc-editor.org/info/rfc3986/#) all parameters and include them as parameters within the request body via the `application/x-www-form-urlencoded` media type with the name given above. Parameters *MUST* be separated with the ampersand (`&`) character. Clients
+may include the parameters in any order. The content type header of the HTTP request *MUST* be set to `application/x-www-form-urlencoded`.
 
 #### 2.3.2 `update` via POST directly
 
-Protocol clients **may** send update protocol requests via the HTTP POST method by including the update request directly and unencoded as the HTTP request message body. When
-using this approach, clients **must** include the SPARQL update request string, unencoded, and nothing else as the message body of the request. Clients **must** set the content type header of the HTTP request to `application/sparql-update`, with an optional `version` media-type parameter. Clients **may** include the optional `using-graph-uri` and `using-named-graph-uri` parameters as HTTP query string parameters in the request URI.
+Protocol clients *MAY* send update protocol requests via the HTTP POST method by including the update request directly and unencoded as the HTTP request message body. When
+using this approach, clients *MUST* include the SPARQL update request string, unencoded, and nothing else as the message body of the request. Clients *MUST* set the content type header of the HTTP request to `application/sparql-update`, with an optional `version` media-type parameter. Clients *MAY* include the optional `using-graph-uri` and `using-named-graph-uri` parameters as HTTP query string parameters in the request URI.
 
 #### 2.3.3 Specifying an RDF Dataset
 
@@ -292,7 +290,7 @@ SPARQL Update requests are executed against a Graph Store, a mutable container o
 string itself using the `USING`, `USING NAMED`, and/or `WITH` keywords, or it may be specified via the `using-graph-uri` and `using-named-graph-uri` parameters.
 
 It is an error to supply the `using-graph-uri` or `using-named-graph-uri` parameters when using this protocol to convey a SPARQL 1.2 Update request that contains an
-operation that uses the `USING`, `USING NAMED`, or `WITH` clause.
+operation that uses the `USING`, `USING NAMED`, or `WITH` clause. In such cases, the service *MUST* return a response with a 4XX HTTP response code.
 
 A SPARQL Update processor should treat each occurrence of the `using-graph-uri=g` parameter in an update protocol operation as if a `USING <g>` clause were
 included for every operation in the SPARQL 1.2 Update request. Similarly, a SPARQL Update processor should treat each occurrence of the `using-named-graph-uri=g` parameter in an
@@ -300,28 +298,28 @@ update protocol operation as if a `USING NAMED <g>` clause were included for eve
 
 #### 2.3.4 Success Responses
 
-The SPARQL Protocol uses the response status codes defined in HTTP to indicate the success or failure of an operation. Consult the [HTTP specification](https://httpwg.org/specs/rfc9110.html#status.codes) [RFC9110] for detailed definitions of each status code. While a protocol service **should** use a `2XX` HTTP response code for an update request that is successfully processed, it **may** choose instead to use a `3XX` response code as per HTTP.
+The SPARQL Protocol uses the response status codes defined in HTTP to indicate the success or failure of an operation. Consult the [HTTP specification](https://httpwg.org/specs/rfc9110.html#status.codes) [RFC9110] for detailed definitions of each status code. While a protocol service *SHOULD* use a `2XX` HTTP response code for an update request that is successfully processed, it *MAY* choose instead to use a `3XX` response code as per HTTP.
 
-The response body of a successful update request is implementation defined. Implementations **may** use HTTP content negotiation to provide both human-readable and
+The response body of a successful update request is implementation defined. Implementations *MAY* use HTTP content negotiation to provide both human-readable and
 machine-processable information about the completed update request.
 
 #### 2.3.5 Failure Responses
 
-The HTTP response code for an unsuccessful update request should be:
+The HTTP response code for an unsuccessful update request *SHOULD* be:
 
 - 400 if the SPARQL update request string is not a legal sequence of characters in the language defined by the SPARQL Update grammar; or,
 - 500 if the service fails to execute the update request. SPARQL Protocol services may also return a 500 response code if they refuse to execute an update request. This response does
   not indicate whether the server may or may not process a subsequent, identical request or requests.
 
-The response body of a failed update request is implementation defined. Implementations **may** use HTTP content negotiation to provide human-readable or machine-processable
+The response body of a failed update request is implementation defined. Implementations *MAY* use HTTP content negotiation to provide human-readable or machine-processable
 (or both) information about the failed update request.
 
-A protocol service **may** use other 4XX or 5XX HTTP response codes for other failure conditions, as per HTTP.
+A protocol service *MAY* use other 4XX or 5XX HTTP response codes for other failure conditions, as per HTTP.
 
 ### 2.4 Determining the Base IRI
 
 The `BASE` keyword in a SPARQL query or a SPARQL update request string defines the Base IRI used to resolve relative IRIs per [Uniform Resource Identifier (URI): Generic Syntax](https://www.rfc-editor.org/info/rfc3986/) section 5.1.1, "Base URI Embedded in Content". The SPARQL Protocol
-does not dereference query URIs so section 5.1.3 does not apply. Finally, per section 5.1.4, SPARQL Protocol services **must** define their own base URI, which **may** be the service endpoint.
+does not dereference query URIs so section 5.1.3 does not apply. Finally, per section 5.1.4, SPARQL Protocol services *MUST* define their own base URI, which *MAY* be the service endpoint.
 
 ## 3. Example SPARQL Protocol Requests (informative)
 
@@ -546,13 +544,13 @@ WHERE {  ?g dc:publisher ?who .
 }
 ```
 
-is conveyed to the SPARQL query service, http://www.example/sparql/, as illustrated here (with line breaks for legibility):
+is conveyed to the SPARQL query service, `http://www.example/sparql/`, as illustrated here (with line breaks for legibility):
 
 ```
 GET /sparql/?query=EncodedQuery&default-graph-uri=http%3A%2F%2Fwww.example%2Fpublishers
 &default-graph-uri=http%3A%2F%2Fwww.example%2Fmorepublishers&named-graph-uri=http%3A%2F%2Fyour.example%2Ffoaf-alice
 &named-graph-uri=http%3A%2F%2Fwww.example%2Ffoaf-bob&named-graph-uri=http%3A%2F%2Fwww.example%2Ffoaf-susan
-&named-graph-uri=http%3A%2F%2Fthis.example%2Fjohn%2Ffoaf
+&named-graph-uri=http%3A%2F%2Fthis.example%2Fjohn%2Ffoaf HTTP/1.1
 Host: www.example
 User-agent: sparql-client/0.1
 ```
@@ -643,7 +641,7 @@ Host: www.example
 User-agent: sparql-client/0.1
 ```
 
-This protocol operation contains an ambiguous RDF Dataset: the dataset specified in the query is different than the one specified in the protocol (by way of `default-graph-uri` and `named-graph-uri` parameters). A conformant SPARQL Protocol service must resolve this ambiguity by executing the query against the RDF
+This protocol operation contains an ambiguous RDF Dataset: the dataset specified in the query is different than the one specified in the protocol (by way of `default-graph-uri` and `named-graph-uri` parameters). A conformant SPARQL Protocol service *MUST* resolve this ambiguity by executing the query against the RDF
 Dataset specified in the protocol:
 
 ```
@@ -755,8 +753,8 @@ could not be retrieved within the time alloted.
 
 #### 3.1.11 Long SELECT query using POST with URL encoding
 
-Some SPARQL queries, perhaps machine generated, may be longer than can be reliably conveyed by way of the HTTP GET binding described in 2.1.1 query via GET (§2.2.1).
-In those cases the POST binding described in 2.1.2 query via POST with URL-encoded parameters (§2.2.2) may be used. This SPARQL query
+Some SPARQL queries, perhaps machine generated, may be longer than can be reliably conveyed by way of the HTTP GET binding described in 2.2.1 `query` via GET (§2.2.1).
+In those cases the POST binding described in 2.2.2 `query` via POST with URL-encoded parameters (§2.2.2) may be used. This SPARQL query
 
 ```
 PREFIX : <http://www.w3.org/2002/12/cal/icaltzd#>
@@ -975,7 +973,7 @@ Content-Type: application/sparql-results+xml
 
 #### 3.1.12 Long SELECT query using direct POST
 
-SPARQL queries may also be POSTed directly without URL encoding, as described in 2.1.3 query via POST directly (§2.2.3). The same query used in the previous example (§3.1.11) is conveyed to the SPARQL query service, `http://www.example/sparql/`, as illustrated in this HTTP trace:
+SPARQL queries may also be POSTed directly without URL encoding, as described in 2.2.3 `query` via POST directly (§2.2.3). The same query used in the previous example (§3.1.11) is conveyed to the SPARQL query service, `http://www.example/sparql/`, as illustrated in this HTTP trace:
 
 ```
 POST /sparql/?default-graph-uri=http%3A%2F%2Fanother.example%2Fcalendar.rdf HTTP/1.1
@@ -1002,7 +1000,7 @@ WHERE { [ foaf:name ?name ; 食:食べる ?food ] . }
 is conveyed to the SPARQL query service, `http://www.example/sparql/`, as illustrated in this HTTP trace:
 
 ```
-GET /sparql/?query=PREFIX%20foaf%3A%20%3Chttp%3A%2F%2Fxmlns.com%2Ffoaf%2F0.1%2F%3E%0APREFIX%20%E9%A3%9F%3A%20%3Chttp%3A%2F%2Fwww.w3.org%2F2001%2Fsw%2FDataAccess%2Ftests%2Fdata%2Fi18n%2Fkanji.ttl%23%3E%0ASELECT%20%3Fname%20%3Ffood%20%0AWHERE%20%7B%20%5B%20foaf%3Aname%20%3Fname%20%3B%20%E9%A3%9F%3A%E9%A3%9F%E3%81%B9%E3%82%8B%20%3Ffood%20%5D%20.%20%7D
+GET /sparql/?query=PREFIX%20foaf%3A%20%3Chttp%3A%2F%2Fxmlns.com%2Ffoaf%2F0.1%2F%3E%0APREFIX%20%E9%A3%9F%3A%20%3Chttp%3A%2F%2Fwww.w3.org%2F2001%2Fsw%2FDataAccess%2Ftests%2Fdata%2Fi18n%2Fkanji.ttl%23%3E%0ASELECT%20%3Fname%20%3Ffood%20%0AWHERE%20%7B%20%5B%20foaf%3Aname%20%3Fname%20%3B%20%E9%A3%9F%3A%E9%A3%9F%E3%81%B9%E3%82%8B%20%3Ffood%20%5D%20.%20%7D HTTP/1.1
 Host: www.example
 User-agent: sparql-client/0.1
 ```
@@ -1034,7 +1032,7 @@ WHERE { << _:a foaf:name ?name >> ex:statedBy ?person . }
 is conveyed to the SPARQL query service, `http://www.example/sparql/`. Since the query is using SPARQL 1.2 syntax, and the query does not announce the 1.2 version syntactically, the GET request is issued using the `version=1.2` parameter. This is illustrated in this HTTP trace:
 
 ```
-GET /sparql/?query=PREFIX%20foaf%3A%20%3Chttp%3A%2F%2Fxmlns.com%2Ffoaf%2F0.1%2F%3E%0APREFIX%20ex%3A%20%3Chttp%3A%2F%2Fexample.org%2F%3E%0ASELECT%20%3Fname%20%3Fperson%0AWHERE%20%7B%20%3C%3C%28%20_%3Aa%20foaf%3Aname%20%3Fname%20%29%3E%3E%20ex%3AstatedBy%20%3Fperson%20.%20%7D&version=1.2
+GET /sparql/?query=PREFIX%20foaf%3A%20%3Chttp%3A%2F%2Fxmlns.com%2Ffoaf%2F0.1%2F%3E%0APREFIX%20ex%3A%20%3Chttp%3A%2F%2Fexample.org%2F%3E%0ASELECT%20%3Fname%20%3Fperson%0AWHERE%20%7B%20%3C%3C%20_%3Aa%20foaf%3Aname%20%3Fname%20%3E%3E%20ex%3AstatedBy%20%3Fperson%20.%20%7D&version=1.2 HTTP/1.1
 Host: www.example
 User-agent: sparql-client/0.1
 ```
@@ -1176,7 +1174,7 @@ POST /test HTTP/1.1
 Host: localhost:8888
 Accept: */*
 Content-Type: application/x-www-form-urlencoded
-Content-Length: 130
+Content-Length: 457
 
 using-named-graph-uri=http%3A%2F%2Flocalhost%3A8888%2Falice%2Ffoaf.rdf&using-named-graph-uri=http%3A%2F%2Flocalhost%3A8888%2Feve%2Ffoaf.rdf&update=PREFIX%20foaf%3A%20%3Chttp%3A%2F%2Fxmlns.com%2Ffoaf%2F0.1%2F%3E%0AINSERT%20%7B%20GRAPH%20%3Chttp%3A%2F%2Flocalhost%3A8888%2Fpeople%3E%20%7B%20%3Fperson%20%3Fproperty%20%3Fvalue%20%7D%20%7D%0AWHERE%20%7B%20GRAPH%20%3Fg%20%7B%20%3Fperson%20%3Fproperty%20%3Fvalue%20%3B%20foaf%3AgivenName%20%27Fred%27%20%7D%20%7D
 ```
@@ -1204,17 +1202,17 @@ WHERE { GRAPH ?g { ?person ?property ?value ; foaf:givenName 'Fred' } }
 There are at least two possible sources of denial-of-service attacks against SPARQL protocol services. First, under-constrained queries can result in very large numbers of results, which
 may require large expenditures of computing resources to process, assemble, or return. Another possible source are queries containing very complex — either because of resource size, the
 number of resources to be retrieved, or a combination of size and number — RDF Dataset descriptions, which the service may be unable to assemble without significant expenditure of resources,
-including bandwidth, CPU, or secondary storage. In some cases such expenditures may effectively constitute a denial-of-service attack. A SPARQL protocol service **may** place
+including bandwidth, CPU, or secondary storage. In some cases such expenditures may effectively constitute a denial-of-service attack. A SPARQL protocol service *MAY* place
 restrictions on the resources that it retrieves or on the rate at which external resources are retrieved. There may be other sources of denial-of-service attacks against SPARQL query
 processing services.
 
 Since a SPARQL protocol service may make HTTP requests of other origin servers on behalf of its clients, it may be used as a vector of attacks against other sites or services. Thus, SPARQL
-protocol services may effectively act as proxies for third-party clients. Such services **may** place restrictions on the resources that they retrieve or on the rate at which
-external resources can be retrieved. SPARQL protocol services **may** log client requests in such a way as to facilitate tracing them with regard to third-party origin servers or
+protocol services may effectively act as proxies for third-party clients. Such services *MAY* place restrictions on the resources that they retrieve or on the rate at which
+external resources can be retrieved. SPARQL protocol services *MAY* log client requests in such a way as to facilitate tracing them with regard to third-party origin servers or
 services.
 
-SPARQL protocol services **may** choose to detect these and other costly, or otherwise unsafe, queries, impose time or memory limits on queries, or impose other restrictions
-to reduce the service's (and other service's) vulnerability to denial-of-service attacks. They also **may** refuse to process such query requests (§2.2.7).
+SPARQL protocol services *MAY* choose to detect these and other costly, or otherwise unsafe, queries, impose time or memory limits on queries, or impose other restrictions
+to reduce the service's (and other service's) vulnerability to denial-of-service attacks. They also *MAY* refuse to process such query requests (§2.2.7).
 
 SPARQL protocol services may remove, insert, and change underlying data via the update operation. To protect against malicious or destructive updates, implementations may choose not to
 implement the update operation. Alternatively, implementations may choose to use HTTP authentication mechanisms or other implementation-defined mechanisms to prevent unauthorized invocations
@@ -1228,9 +1226,9 @@ WITH ACUTE). Users of SPARQL must take care to construct queries with IRIs that 
 
 As well as sections marked as non-normative, all authoring guidelines, diagrams, examples, and notes in this specification are non-normative. Everything else in this specification is normative.
 
-The key word *MAY* in this document
-is to be interpreted as described in [BCP 14](https://www.rfc-editor.org/info/bcp14) [RFC2119] [RFC8174]
-when, and only when, it appears in all
+The key words *MAY*, *MUST*, *MUST NOT*, *SHOULD*, and *SHOULD NOT* in this document
+are to be interpreted as described in [BCP 14](https://www.rfc-editor.org/info/bcp14) [RFC2119] [RFC8174]
+when, and only when, they appear in all
 capitals, as shown here.
 
 ### 5.1 Conformance
@@ -1242,15 +1240,20 @@ The status of the parts of SPARQL 1.2 Protocol (this document) is as follows:
 - Section 3: Example SPARQL Protocol Requests: **informative**
 - Section 4: Policy Considerations: **normative**
 - Section 5: Conformance: **normative**
-- Section 6: Changes Since Previous Recommendation: **informative**
-- Section A.1: Normative References: **normative**
-- Section A.2: Other References: **informative**
+- Section A: Changes Since Previous Recommendation: **informative**
+- Section B: Changes between SPARQL 1.0 Protocol and SPARQL 1.1 Protocol: **informative**
+- Section C: Privacy Considerations: **informative**
+- Section D: Security Considerations: **informative**
+- Section E: Internationalization Considerations: **informative**
+- Section F: Index: **informative**
+- Section G.1: Normative References: **normative**
+- Section G.2: Other References: **informative**
 
 A *conformant SPARQL Protocol service*:
 
-1. **must** implement either the `query` operation or the `update` operation in the way described in this document ("SPARQL 1.2 Protocol");
-2. **may** implement both the `query` and `update` operations;
-3. **must** be consistent with the normative constraints (indicated by [RFC2119](https://www.rfc-editor.org/info/rfc2119/#) keywords [RFC2119]) described in 4. Policy Considerations (§4).
+1. *MUST* implement either the `query` operation or the `update` operation in the way described in this document ("SPARQL 1.2 Protocol");
+2. *MAY* implement both the `query` and `update` operations;
+3. *MUST* be consistent with the normative constraints (indicated by [RFC2119](https://www.rfc-editor.org/info/rfc2119/#) keywords [RFC2119]) described in 4. Policy Considerations (§4).
 
 ## A. Changes between SPARQL 1.1 Protocol and SPARQL 1.2 Protocol
 
@@ -1264,6 +1267,8 @@ are:
 - Add explicit references to RFCs
 - Use PREFIX instead of @prefix in all Turtle examples
 - Change normative language regarding what media types must be returned for a query request
+- Made use and styling of normative language more consistent
+- Added description of the use of the HTTP QUERY method
 
 ## B. Changes between SPARQL 1.0 Protocol and SPARQL 1.1 Protocol
 
@@ -1327,7 +1332,11 @@ TODO
 
 [RDF12-CONCEPTS]
 
-[RDF 1.2 Concepts and Abstract Data Model](https://www.w3.org/TR/rdf12-concepts/). Andy Seaborne; Gregg Kellogg; Olaf Hartig; Pierre-Antoine Champin. W3C. 7 April 2026. W3C Candidate Recommendation. URL: <https://www.w3.org/TR/rdf12-concepts/>
+[RDF 1.2 Concepts and Abstract Data Model](https://www.w3.org/TR/rdf12-concepts/). Gregg Kellogg; Olaf Hartig; Pierre-Antoine Champin; Andy Seaborne. W3C. 16 November 2026. CRD. URL: <https://www.w3.org/TR/rdf12-concepts/>
+
+[RFC10008]
+
+[The HTTP QUERY Method](https://www.rfc-editor.org/info/rfc10008/). J. Reschke; J.M. Snell; M. Bishop. IETF. June 2026. Proposed Standard. URL: <https://www.rfc-editor.org/info/rfc10008/>
 
 [RFC2119]
 
@@ -1351,15 +1360,15 @@ TODO
 
 [SPARQL12-GRAPH-STORE-PROTOCOL]
 
-[SPARQL 1.2 Graph Store Protocol](https://www.w3.org/TR/sparql12-graph-store-protocol/). Andy Seaborne; Thomas Pellissier Tanon. W3C. 19 December 2024. W3C Working Draft. URL: <https://www.w3.org/TR/sparql12-graph-store-protocol/>
+[SPARQL 1.2 Graph Store Protocol](https://www.w3.org/TR/sparql12-graph-store-protocol/). Andy Seaborne; Thomas Pellissier Tanon. W3C. 19 November 2026. W3C Working Draft. URL: <https://www.w3.org/TR/sparql12-graph-store-protocol/>
 
 [SPARQL12-QUERY]
 
-[SPARQL 1.2 Query Language](https://www.w3.org/TR/sparql12-query/). Olaf Hartig; Andy Seaborne; Ruben Taelman; Gregory Williams; Thomas Pellissier Tanon. W3C. 25 June 2026. W3C Working Draft. URL: <https://www.w3.org/TR/sparql12-query/>
+[SPARQL 1.2 Query Language](https://www.w3.org/TR/sparql12-query/). Olaf Hartig; Andy Seaborne; Ruben Taelman; Gregory Williams; Thomas Pellissier Tanon. W3C. 19 November 2026. W3C Working Draft. URL: <https://www.w3.org/TR/sparql12-query/>
 
 [SPARQL12-UPDATE]
 
-[SPARQL 1.2 Update](https://www.w3.org/TR/sparql12-update/). Ruben Taelman; Andy Seaborne; Thomas Pellissier Tanon. W3C. 12 June 2026. W3C Working Draft. URL: <https://www.w3.org/TR/sparql12-update/>
+[SPARQL 1.2 Update](https://www.w3.org/TR/sparql12-update/). Ruben Taelman; Andy Seaborne; Thomas Pellissier Tanon. W3C. 19 November 2026. W3C Working Draft. URL: <https://www.w3.org/TR/sparql12-update/>
 
 [UTR36]
 
@@ -1373,19 +1382,15 @@ TODO
 
 [RDF12-N-TRIPLES]
 
-[RDF 1.2 N-Triples](https://www.w3.org/TR/rdf12-n-triples/). Gregg Kellogg; Dominik Tomaszuk. W3C. 24 June 2026. W3C Working Draft. URL: <https://www.w3.org/TR/rdf12-n-triples/>
+[RDF 1.2 N-Triples](https://www.w3.org/TR/rdf12-n-triples/). Gregg Kellogg; Dominik Tomaszuk. W3C. 5 November 2026. W3C Working Draft. URL: <https://www.w3.org/TR/rdf12-n-triples/>
 
 [RDF12-TURTLE]
 
-[RDF 1.2 Turtle](https://www.w3.org/TR/rdf12-turtle/). Gregg Kellogg; Andy Seaborne; Dominik Tomaszuk. W3C. 12 June 2026. W3C Working Draft. URL: <https://www.w3.org/TR/rdf12-turtle/>
+[RDF 1.2 Turtle](https://www.w3.org/TR/rdf12-turtle/). Gregg Kellogg; Andy Seaborne; Dominik Tomaszuk. W3C. 11 November 2026. W3C Working Draft. URL: <https://www.w3.org/TR/rdf12-turtle/>
 
 [RDF12-XML]
 
-[RDF 1.2 XML Syntax](https://www.w3.org/TR/rdf12-xml/). Gregg Kellogg; Jerven Bolleman. W3C. 18 June 2026. W3C Working Draft. URL: <https://www.w3.org/TR/rdf12-xml/>
-
-[RFC10008]
-
-[The HTTP QUERY Method](https://www.rfc-editor.org/info/rfc10008/). J. Reschke; J.M. Snell; M. Bishop. IETF. June 2026. Proposed Standard. URL: <https://www.rfc-editor.org/info/rfc10008/>
+[RDF 1.2 XML Syntax](https://www.w3.org/TR/rdf12-xml/). Gregg Kellogg; Jerven Bolleman. W3C. 25 October 2026. W3C Working Draft. URL: <https://www.w3.org/TR/rdf12-xml/>
 
 [SPARQL12-CONCEPTS]
 
@@ -1405,19 +1410,19 @@ TODO
 
 [SPARQL12-RESULTS-CSV-TSV]
 
-[SPARQL 1.2 Query Results CSV and TSV Formats](https://www.w3.org/TR/sparql12-results-csv-tsv/). Ruben Taelman; Gregory Williams; Thomas Pellissier Tanon. W3C. 28 March 2026. W3C Working Draft. URL: <https://www.w3.org/TR/sparql12-results-csv-tsv/>
+[SPARQL 1.2 Query Results CSV and TSV Formats](https://www.w3.org/TR/sparql12-results-csv-tsv/). Ruben Taelman; Gregory Williams; Thomas Pellissier Tanon. W3C. 19 November 2026. W3C Working Draft. URL: <https://www.w3.org/TR/sparql12-results-csv-tsv/>
 
 [SPARQL12-RESULTS-JSON]
 
-[SPARQL 1.2 Query Results JSON Format](https://www.w3.org/TR/sparql12-results-json/). Andy Seaborne; Ruben Taelman; Gregory Williams; Thomas Pellissier Tanon. W3C. 28 March 2026. W3C Working Draft. URL: <https://www.w3.org/TR/sparql12-results-json/>
+[SPARQL 1.2 Query Results JSON Format](https://www.w3.org/TR/sparql12-results-json/). Andy Seaborne; Ruben Taelman; Gregory Williams; Thomas Pellissier Tanon. W3C. 19 November 2026. W3C Working Draft. URL: <https://www.w3.org/TR/sparql12-results-json/>
 
 [SPARQL12-RESULTS-XML]
 
-[SPARQL 1.2 Query Results XML Format](https://www.w3.org/TR/sparql12-results-xml/). Ruben Taelman; Dominik Tomaszuk; Thomas Pellissier Tanon. W3C. 27 December 2024. W3C Working Draft. URL: <https://www.w3.org/TR/sparql12-results-xml/>
+[SPARQL 1.2 Query Results XML Format](https://www.w3.org/TR/sparql12-results-xml/). Ruben Taelman; Dominik Tomaszuk; Thomas Pellissier Tanon. W3C. 19 November 2026. W3C Working Draft. URL: <https://www.w3.org/TR/sparql12-results-xml/>
 
 [SPARQL12-SERVICE-DESCRIPTION]
 
-[SPARQL 1.2 Service Description](https://www.w3.org/TR/sparql12-service-description/). Ruben Taelman; Gregory Williams. W3C. 23 April 2026. W3C Working Draft. URL: <https://www.w3.org/TR/sparql12-service-description/>
+[SPARQL 1.2 Service Description](https://www.w3.org/TR/sparql12-service-description/). Ruben Taelman; Gregory Williams. W3C. 18 November 2026. W3C Working Draft. URL: <https://www.w3.org/TR/sparql12-service-description/>
 
 Permalink
 
@@ -1474,7 +1479,7 @@ Permalink
 
 **Referenced in:**
 
-- § 1.2 Terminology (2)
+- § 1.2 Terminology
 
 Permalink
 

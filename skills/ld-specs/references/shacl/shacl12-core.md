@@ -5,7 +5,7 @@ family: shacl
 version: "1.2"
 status: W3C Working Draft
 spec_date: 2026-11-16
-fetched: 2026-11-16
+fetched: 2026-11-23
 ---
 
 # SHACL 1.2 Core

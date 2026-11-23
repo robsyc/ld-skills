@@ -5,7 +5,7 @@ family: rdf
 version: "1.2"
 status: W3C Candidate Recommendation
 spec_date: 2026-11-16
-fetched: 2026-11-16
+fetched: 2026-11-23
 ---
 
 # RDF 1.2 Concepts and Abstract Data Model

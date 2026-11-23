@@ -4,7 +4,7 @@ source: https://www.w3.org/TR/prov-n/
 family: prov
 status: W3C Recommendation
 spec_date: 2013-04-30
-fetched: 2026-11-16
+fetched: 2026-11-23
 ---
 
 # PROV-N: The Provenance Notation

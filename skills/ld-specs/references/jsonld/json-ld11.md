@@ -5,7 +5,7 @@ family: jsonld
 version: "1.1"
 status: W3C Recommendation
 spec_date: 2020-07-16
-fetched: 2026-11-16
+fetched: 2026-11-23
 ---
 
 # JSON-LD 1.1

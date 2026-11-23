@@ -4,8 +4,8 @@ source: https://www.w3.org/TR/shacl12-sparql/
 family: shacl
 version: "1.2"
 status: W3C Working Draft
-spec_date: 2026-10-22
-fetched: 2026-11-16
+spec_date: 2026-11-19
+fetched: 2026-11-23
 ---
 
 # SHACL 1.2 SPARQL-Related Features
@@ -1774,7 +1774,7 @@ The evaluation of the [SPARQL Query](https://www.w3.org/TR/sparql12-query/#idp24
 
 This section enumerates all normative syntax rules of this document.
 This section is automatically generated from other parts of this spec and hyperlinks are provided back
-into the prose if the context of the rule in unclear.
+into the prose if the context of the rule is unclear.
 Nodes that violate these rules in a [shapes graph](https://www.w3.org/TR/shacl12-core/#dfn-shapes-graph) are [ill-formed](https://www.w3.org/TR/shacl12-core/#dfn-ill-formed).
 
 | Syntax Rule Id                                                                                                                         | Syntax Rule Text                                                                                                                                                                                         |
@@ -2057,11 +2057,11 @@ security considerations of [SPARQL](https://www.w3.org/TR/sparql12-query/#securi
 
 [rdf12-concepts]
 
-[RDF 1.2 Concepts and Abstract Data Model](https://www.w3.org/TR/rdf12-concepts/). Andy Seaborne; Gregg Kellogg; Olaf Hartig; Pierre-Antoine Champin. W3C. 7 April 2026. W3C Candidate Recommendation. URL: <https://www.w3.org/TR/rdf12-concepts/>
+[RDF 1.2 Concepts and Abstract Data Model](https://www.w3.org/TR/rdf12-concepts/). Gregg Kellogg; Olaf Hartig; Pierre-Antoine Champin; Andy Seaborne. W3C. 16 November 2026. CRD. URL: <https://www.w3.org/TR/rdf12-concepts/>
 
 [rdf12-turtle]
 
-[RDF 1.2 Turtle](https://www.w3.org/TR/rdf12-turtle/). Gregg Kellogg; Andy Seaborne; Dominik Tomaszuk. W3C. 7 October 2026. W3C Working Draft. URL: <https://www.w3.org/TR/rdf12-turtle/>
+[RDF 1.2 Turtle](https://www.w3.org/TR/rdf12-turtle/). Gregg Kellogg; Andy Seaborne; Dominik Tomaszuk. W3C. 11 November 2026. W3C Working Draft. URL: <https://www.w3.org/TR/rdf12-turtle/>
 
 [REC-xml-names]
 
@@ -2077,19 +2077,19 @@ security considerations of [SPARQL](https://www.w3.org/TR/sparql12-query/#securi
 
 [shacl12-core]
 
-[SHACL 1.2 Core](https://www.w3.org/TR/shacl12-core/). Holger Knublauch; Thomas Bergwinkl; Yousouf Taghzouti; Jesse Wright. W3C. 14 October 2026. W3C Working Draft. URL: <https://www.w3.org/TR/shacl12-core/>
+[SHACL 1.2 Core](https://www.w3.org/TR/shacl12-core/). Holger Knublauch; Thomas Bergwinkl; Yousouf Taghzouti; Jesse Wright. W3C. 16 November 2026. W3C Working Draft. URL: <https://www.w3.org/TR/shacl12-core/>
 
 [shacl12-inference-rules]
 
-[SHACL 1.2 Inference Rules](https://www.w3.org/TR/shacl12-inference-rules/). Holger Knublauch; Simon Steyskal; Scott Henninger; Livio Robaldo; Matt Goldberg. W3C. 17 September 2026. FPWD. URL: <https://www.w3.org/TR/shacl12-inference-rules/>
+[SHACL 1.2 Inference Rules](https://www.w3.org/TR/shacl12-inference-rules/). Holger Knublauch; Matt Goldberg; Scott Henninger; Livio Robaldo; Simon Steyskal. W3C. 10 November 2026. W3C Working Draft. URL: <https://www.w3.org/TR/shacl12-inference-rules/>
 
 [shacl12-node-expr]
 
-[SHACL 1.2 Node Expressions](https://www.w3.org/TR/shacl12-node-expr/). Robert David; Holger Knublauch; Simon Steyskal. W3C. 21 July 2026. W3C Working Draft. URL: <https://www.w3.org/TR/shacl12-node-expr/>
+[SHACL 1.2 Node Expressions](https://www.w3.org/TR/shacl12-node-expr/). Robert David; Holger Knublauch; Simon Steyskal. W3C. 16 November 2026. W3C Working Draft. URL: <https://www.w3.org/TR/shacl12-node-expr/>
 
 [sparql12-query]
 
-[SPARQL 1.2 Query Language](https://www.w3.org/TR/sparql12-query/). Olaf Hartig; Andy Seaborne; Ruben Taelman; Gregory Williams; Thomas Pellissier Tanon. W3C. 11 October 2026. W3C Working Draft. URL: <https://www.w3.org/TR/sparql12-query/>
+[SPARQL 1.2 Query Language](https://www.w3.org/TR/sparql12-query/). Olaf Hartig; Andy Seaborne; Ruben Taelman; Gregory Williams; Thomas Pellissier Tanon. W3C. 19 November 2026. W3C Working Draft. URL: <https://www.w3.org/TR/sparql12-query/>
 
 [vc-data-model]
 
@@ -2103,11 +2103,11 @@ security considerations of [SPARQL](https://www.w3.org/TR/sparql12-query/#securi
 
 [shacl12-sparql]
 
-[SHACL 1.2 SPARQL-Related Features](https://www.w3.org/TR/shacl12-sparql/). Holger Knublauch; Matt Goldberg; Scott Henninger; Livio Robaldo. W3C. 11 October 2026. W3C Working Draft. URL: <https://www.w3.org/TR/shacl12-sparql/>
+[SHACL 1.2 SPARQL-Related Features](https://www.w3.org/TR/shacl12-sparql/). Holger Knublauch; Matt Goldberg; Scott Henninger; Livio Robaldo. W3C. 22 October 2026. W3C Working Draft. URL: <https://www.w3.org/TR/shacl12-sparql/>
 
 [shacl12-ui]
 
-[SHACL 1.2 User Interfaces](https://www.w3.org/TR/shacl12-ui/). Thomas Bergwinkl; Edmond Chuc; Ieben Smessaert; Daniël Beeke. W3C. 26 May 2026. FPWD. URL: <https://www.w3.org/TR/shacl12-ui/>
+[SHACL 1.2 User Interfaces](https://www.w3.org/TR/shacl12-ui/). Edmond Chuc; Thomas Bergwinkl; Ieben Smessaert; Daniël Beeke. W3C. 19 November 2026. W3C Working Draft. URL: <https://www.w3.org/TR/shacl12-ui/>
 
 [sparql12-federated-query]
 
@@ -2115,7 +2115,7 @@ security considerations of [SPARQL](https://www.w3.org/TR/sparql12-query/#securi
 
 [sparql12-rl]
 
-[SPARQL 1.2 RL](https://www.w3.org/TR/sparql12-rl/). Robert David; David Habgood; Andy Seaborne; Simon Steyskal. W3C. 21 October 2026. W3C Working Draft. URL: <https://www.w3.org/TR/sparql12-rl/>
+[SPARQL 1.2 RL](https://www.w3.org/TR/sparql12-rl/). Robert David; David Habgood; Andy Seaborne; Simon Steyskal. W3C. 15 November 2026. W3C Working Draft. URL: <https://www.w3.org/TR/sparql12-rl/>
 
 Permalink
 

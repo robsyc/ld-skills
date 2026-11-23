@@ -4,8 +4,8 @@ source: https://www.w3.org/TR/sparql12-results-xml/
 family: sparql
 version: "1.2"
 status: W3C Working Draft
-spec_date: 2024-12-27
-fetched: 2026-11-16
+spec_date: 2026-11-19
+fetched: 2026-11-23
 ---
 
 # SPARQL 1.2 Query Results XML Format
@@ -16,6 +16,7 @@ fetched: 2026-11-16
 
 - Abstract
 - 1 Introduction
+  - 1.1 Version Announcement
 - 2 Definition
   - 2.1 Document Element
   - 2.2 Header
@@ -28,7 +29,7 @@ fetched: 2026-11-16
   - 3.3 Boolean Results Examples
 - 4 XML Schemas
 - A Changes between SPARQL Query Results XML Format (Second Edition) and SPARQL 1.2 Query Results XML Format
-- B Internet Media Type, File Extension and Macintosh File Type
+- B Internet Media Type and File Extension
 - Internet Media Type Registration Form
 - C Privacy Considerations
 - D Security Considerations
@@ -50,11 +51,43 @@ Result Forms* ([SPARQL Query section 10](https://www.w3.org/TR/sparql12-query/#Q
 
 There are two other results formats which follow a similar design but do not use XML: [SPARQL 1.2 Query Results JSON Format](https://www.w3.org/TR/sparql12-results-json/) and [SPARQL 1.2 Query Results CSV and TSV Formats](https://www.w3.org/TR/sparql12-results-csv-tsv/).
 
+### 1.1 Version Announcement
+
+An optional version can be given to SPARQL results.
+
+The `version` Media Type parameter (§B) *MAY* be set to `1.2` to indicate possible use of RDF 1.2 features in the SPARQL results.
+Alternatively, the `"version"` child element (§2.1) *MAY* be used to specify this version.
+
+Possible values for the version string are discussed in [RDF 1.2 Concepts and Abstract Data Model](https://www.w3.org/TR/rdf12-concepts/#defined-version-labels).
+
+When providing content over HTTP, servers can announce the version
+using the optional `version` Media Type parameter (§B):
+
+```
+GET /sparql/?query=PREFIX%20dc%3A%20%3Chttp%3A%2F%2Fpurl.org%2Fdc%2Felements%2F1.1%2F%3E%20%0ASELECT%20%3Fbook%20%3Fwho%20%0AWHERE%20%7B%20%3Fbook%20dc%3Acreator%20%3Fwho%20%7D%0A HTTP/1.1
+    Host: www.example
+    Accept: application/sparql-results+xml; version=1.2
+```
+> **Note:**
+>
+> > **Note:**
+> >
+> > Note
+>
+> When using RDF 1.2-specific features, such as [initial text direction](https://www.w3.org/TR/rdf12-concepts/#dfn-base-direction),
+> the specific RDF version can be announced using
+> either the `version` Media Type parameter (§B) or the `version` child element (§2.1) early in the document.
+> This allows parsers that do not support these features to detect
+> the presense of such features early, and potentially
+> inform the user, giving them an opportunity to stop the job
+> or otherwise act on the fact that some amount of the input data
+> will not be processed as desired.
+
 ## 2. Definition
 
-**Definition:** SPARQL Results Document
+**Definition: SPARQL Results Document**
 
-A SPARQL Results Document is an XML document that is valid with respect to either the RELAX NG XML Schema or the W3C XML Schema in Section 4. (§4)
+A *SPARQL Results Document* is an XML document that is valid with respect to either the RELAX NG XML Schema or the W3C XML Schema described in 4. XML Schemas (§4).
 
 ### 2.1 Document Element
 
@@ -86,6 +119,16 @@ If no literals with base direction appear in the results, the `sparql` document 
 > > Note
 >
 > Different values of `its:version` are allowed.
+
+The optional `version` attribute *MAY* be used on the `sparql` element to announce that RDF 1.2 functionalities are used in the results as follows.
+
+```
+...
+<sparql xmlns="http://www.w3.org/2005/sparql-results#"
+  version="1.2">
+ ...
+</sparql>
+```
 
 ### 2.2 Header
 
@@ -275,6 +318,7 @@ An example of a query solution encoded in this format is as follows:
         <uri>mailto:bob@work.example.org</uri>
       </binding>
 
+    </result>
     ...
   </results>
 
@@ -417,16 +461,15 @@ If W3C XML Schema is used, an `xsi:schemaLocation` attribute can be used pointin
 - The document title changed from "SPARQL Query Results XML Format (Second Edition)" to "SPARQL 1.2 Query Results XML Format"
 - Add RNC, RNG, and XSD files
 - Allow triple terms to be expressed in 2.3.1 Variable Binding Results (§2.3.1)
-- Use Media Type language instead of MIME Type in B. Internet Media Type, File Extension and Macintosh File Type (§B)
+- Use Media Type language instead of MIME Type in B. Internet Media Type and File Extension (§B)
 - Support directional language-tagged strings in 2.3.1 Variable Binding Results (§2.3.1)
+- Add version announcement in 1.1 Version Announcement (§1.1) and 2.1 Document Element (§2.1)
 
-## B. Internet Media Type, File Extension and Macintosh File Type
+## B. Internet Media Type and File Extension
 
 The Internet Media Type (formerly known as MIME Type) for the SPARQL Query Results XML Format is "application/sparql-results+xml".
 
 It is recommended that result files have the extension ".srx" (all lowercase) on all platforms.
-
-It is recommended that result files stored on Macintosh HFS file systems be given a file type of "TEXT".
 
 ## Internet Media Type Registration Form
 
@@ -488,13 +531,9 @@ Base URI:
 
 As specified in [RFC3023], section 6.
 
-Macintosh file type code(s):
-
-"TEXT"
-
 Person & email address to contact for further information:
 
-Dave Beckett, Eric Prud'hommeaux <public-rdf-dawg-comments@w3.org>
+RDF and SPARQL Working Group <public-rdf-star-wg@w3.org>
 
 Intended usage:
 
@@ -506,7 +545,8 @@ None
 
 Author/Change controller:
 
-The SPARQL specification is a work product of the World Wide Web Consortium's RDF Data Access Working Group. The W3C has change control over these specifications.
+The SPARQL specification is a work product of the World Wide Web Consortium's RDF and
+SPARQL Working Group. The W3C has change control over these specifications.
 
 ## C. Privacy Considerations
 
@@ -524,9 +564,13 @@ TODO
 
 ### F.1 Terms defined by this specification
 
+- SPARQL Results Document §2.
+
 ### F.2 Terms defined by reference
 
 - [RDF12-CONCEPTS] defines the following:
+  * initial text direction
+  * RDF 1.2 Concepts and Abstract Data Model
   * RDF Terms
 - [SPARQL12-QUERY] defines the following:
   * Query Solution
@@ -544,7 +588,7 @@ TODO
 
 [RDF12-CONCEPTS]
 
-[RDF 1.2 Concepts and Abstract Syntax](https://www.w3.org/TR/rdf12-concepts/). Olaf Hartig; Pierre-Antoine Champin; Gregg Kellogg; Andy Seaborne. W3C. 19 December 2024. W3C Working Draft. URL: <https://www.w3.org/TR/rdf12-concepts/>
+[RDF 1.2 Concepts and Abstract Data Model](https://www.w3.org/TR/rdf12-concepts/). Gregg Kellogg; Olaf Hartig; Pierre-Antoine Champin; Andy Seaborne. W3C. 16 November 2026. CRD. URL: <https://www.w3.org/TR/rdf12-concepts/>
 
 [RELAXNG]
 
@@ -556,59 +600,59 @@ TODO
 
 [RFC3023]
 
-[XML Media Types](https://www.rfc-editor.org/rfc/rfc3023). M. Murata; S. St. Laurent; D. Kohn. IETF. January 2001. Proposed Standard. URL: <https://www.rfc-editor.org/rfc/rfc3023>
+[XML Media Types](https://www.rfc-editor.org/info/rfc3023/). M. Murata; S. St. Laurent; D. Kohn. IETF. January 2001. Proposed Standard. URL: <https://www.rfc-editor.org/info/rfc3023/>
 
 [RFC3986]
 
-[Uniform Resource Identifier (URI): Generic Syntax](https://www.rfc-editor.org/rfc/rfc3986). T. Berners-Lee; R. Fielding; L. Masinter. IETF. January 2005. Internet Standard. URL: <https://www.rfc-editor.org/rfc/rfc3986>
+[Uniform Resource Identifier (URI): Generic Syntax](https://www.rfc-editor.org/info/rfc3986/). T. Berners-Lee; R. Fielding; L. Masinter. IETF. January 2005. Internet Standard. URL: <https://www.rfc-editor.org/info/rfc3986/>
 
 [RFC3987]
 
-[Internationalized Resource Identifiers (IRIs)](https://www.rfc-editor.org/rfc/rfc3987). M. Duerst; M. Suignard. IETF. January 2005. Proposed Standard. URL: <https://www.rfc-editor.org/rfc/rfc3987>
+[Internationalized Resource Identifiers (IRIs)](https://www.rfc-editor.org/info/rfc3987/). M. Duerst; M. Suignard. IETF. January 2005. Proposed Standard. URL: <https://www.rfc-editor.org/info/rfc3987/>
 
 [SPARQL12-CONCEPTS]
 
-[SPARQL 1.2 Concepts](https://w3c.github.io/sparql-concepts/spec/). The W3C RDF-star Working Group. W3C. W3C Working Draft. URL: <https://w3c.github.io/sparql-concepts/spec/>
+[SPARQL 1.2 Concepts](https://w3c.github.io/sparql-concepts/spec/). The W3C RDF & SPARQL Working Group. W3C. W3C Editor's Draft. URL: <https://w3c.github.io/sparql-concepts/spec/>
 
 [SPARQL12-ENTAILMENT]
 
-[SPARQL 1.2 Entailment Regimes](https://www.w3.org/TR/sparql12-entailment/). Peter Patel-Schneider. W3C. 19 December 2024. W3C Working Draft. URL: <https://www.w3.org/TR/sparql12-entailment/>
+[SPARQL 1.2 Entailment Regimes](https://www.w3.org/TR/sparql12-entailment/). Peter Patel-Schneider. W3C. 9 April 2026. W3C Working Draft. URL: <https://www.w3.org/TR/sparql12-entailment/>
 
 [SPARQL12-FEDERATED-QUERY]
 
-[SPARQL 1.2 Federated Query](https://www.w3.org/TR/sparql12-federated-query/). Ruben Taelman; Gregory Williams. W3C. 19 December 2024. W3C Working Draft. URL: <https://www.w3.org/TR/sparql12-federated-query/>
+[SPARQL 1.2 Federated Query](https://www.w3.org/TR/sparql12-federated-query/). Ruben Taelman; Gregory Williams. W3C. 23 April 2026. W3C Working Draft. URL: <https://www.w3.org/TR/sparql12-federated-query/>
 
 [SPARQL12-GRAPH-STORE-PROTOCOL]
 
-[SPARQL 1.2 Graph Store Protocol](https://www.w3.org/TR/sparql12-graph-store-protocol/). Andy Seaborne; Thomas Pellissier Tanon. W3C. 19 December 2024. W3C Working Draft. URL: <https://www.w3.org/TR/sparql12-graph-store-protocol/>
+[SPARQL 1.2 Graph Store Protocol](https://www.w3.org/TR/sparql12-graph-store-protocol/). Andy Seaborne; Thomas Pellissier Tanon. W3C. 24 September 2026. W3C Working Draft. URL: <https://www.w3.org/TR/sparql12-graph-store-protocol/>
 
 [SPARQL12-NEW]
 
-[What’s New in SPARQL 1.2](https://w3c.github.io/sparql-new/spec/). The W3C RDF-star Working Group. W3C. W3C Working Draft. URL: <https://w3c.github.io/sparql-new/spec/>
+[What’s New in SPARQL 1.2](https://w3c.github.io/sparql-new/spec/). The W3C RDF & SPARQL Working Group. W3C. W3C Editor's Draft. URL: <https://w3c.github.io/sparql-new/spec/>
 
 [SPARQL12-PROTOCOL]
 
-[SPARQL 1.2 Protocol](https://www.w3.org/TR/sparql12-protocol/). Andy Seaborne; Ruben Taelman; Gregory Williams; Thomas Pellissier Tanon. W3C. 19 December 2024. W3C Working Draft. URL: <https://www.w3.org/TR/sparql12-protocol/>
+[SPARQL 1.2 Protocol](https://www.w3.org/TR/sparql12-protocol/). Andy Seaborne; Ruben Taelman; Gregory Williams; Thomas Pellissier Tanon. W3C. 16 November 2026. W3C Working Draft. URL: <https://www.w3.org/TR/sparql12-protocol/>
 
 [SPARQL12-QUERY]
 
-[SPARQL 1.2 Query Language](https://www.w3.org/TR/sparql12-query/). Olaf Hartig; Andy Seaborne; Ruben Taelman; Gregory Williams; Thomas Pellissier Tanon. W3C. 19 December 2024. W3C Working Draft. URL: <https://www.w3.org/TR/sparql12-query/>
+[SPARQL 1.2 Query Language](https://www.w3.org/TR/sparql12-query/). Olaf Hartig; Andy Seaborne; Ruben Taelman; Gregory Williams; Thomas Pellissier Tanon. W3C. 16 November 2026. W3C Working Draft. URL: <https://www.w3.org/TR/sparql12-query/>
 
 [SPARQL12-RESULTS-CSV-TSV]
 
-[SPARQL 1.2 Query Results CSV and TSV Formats](https://www.w3.org/TR/sparql12-results-csv-tsv/). Ruben Taelman; Gregory Williams; Thomas Pellissier Tanon. W3C. 19 December 2024. W3C Working Draft. URL: <https://www.w3.org/TR/sparql12-results-csv-tsv/>
+[SPARQL 1.2 Query Results CSV and TSV Formats](https://www.w3.org/TR/sparql12-results-csv-tsv/). Ruben Taelman; Gregory Williams; Thomas Pellissier Tanon. W3C. 16 November 2026. W3C Working Draft. URL: <https://www.w3.org/TR/sparql12-results-csv-tsv/>
 
 [SPARQL12-RESULTS-JSON]
 
-[SPARQL 1.2 Query Results JSON Format](https://www.w3.org/TR/sparql12-results-json/). Andy Seaborne; Ruben Taelman; Gregory Williams; Thomas Pellissier Tanon. W3C. 19 December 2024. W3C Working Draft. URL: <https://www.w3.org/TR/sparql12-results-json/>
+[SPARQL 1.2 Query Results JSON Format](https://www.w3.org/TR/sparql12-results-json/). Andy Seaborne; Ruben Taelman; Gregory Williams; Thomas Pellissier Tanon. W3C. 13 August 2026. W3C Working Draft. URL: <https://www.w3.org/TR/sparql12-results-json/>
 
 [SPARQL12-SERVICE-DESCRIPTION]
 
-[SPARQL 1.2 Service Description](https://www.w3.org/TR/sparql12-service-description/). Ruben Taelman; Gregory Williams. W3C. 19 December 2024. W3C Working Draft. URL: <https://www.w3.org/TR/sparql12-service-description/>
+[SPARQL 1.2 Service Description](https://www.w3.org/TR/sparql12-service-description/). Ruben Taelman; Gregory Williams. W3C. 18 November 2026. W3C Working Draft. URL: <https://www.w3.org/TR/sparql12-service-description/>
 
 [SPARQL12-UPDATE]
 
-[SPARQL 1.2 Update](https://www.w3.org/TR/sparql12-update/). Ruben Taelman; Andy Seaborne; Thomas Pellissier Tanon. W3C. 19 December 2024. W3C Working Draft. URL: <https://www.w3.org/TR/sparql12-update/>
+[SPARQL 1.2 Update](https://www.w3.org/TR/sparql12-update/). Ruben Taelman; Andy Seaborne; Thomas Pellissier Tanon. W3C. 15 November 2026. W3C Working Draft. URL: <https://www.w3.org/TR/sparql12-update/>
 
 [XML]
 
@@ -617,6 +661,25 @@ TODO
 [XMLSCHEMA-1]
 
 [XML Schema Part 1: Structures Second Edition](https://www.w3.org/TR/xmlschema-1/). Henry Thompson; David Beech; Murray Maloney; Noah Mendelsohn et al. W3C. 28 October 2004. W3C Recommendation. URL: <https://www.w3.org/TR/xmlschema-1/>
+
+Permalink
+
+**Referenced in:**
+
+- § 1. Introduction
+- § 2.1 Document Element
+
+Permalink
+
+**Referenced in:**
+
+- § 1.1 Version Announcement
+
+Permalink
+
+**Referenced in:**
+
+- § 1.1 Version Announcement
 
 Permalink
 

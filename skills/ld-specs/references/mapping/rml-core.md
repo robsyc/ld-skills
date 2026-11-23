@@ -3,7 +3,7 @@ title: "RML-Core"
 source: https://w3id.org/rml/core/spec
 family: mapping
 spec_date: 2026-03-16
-fetched: 2026-11-16
+fetched: 2026-11-23
 ---
 
 # RML-Core

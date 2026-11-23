@@ -4,8 +4,8 @@ source: https://www.w3.org/TR/sparql12-service-description/
 family: sparql
 version: "1.2"
 status: W3C Working Draft
-spec_date: 2026-11-12
-fetched: 2026-11-16
+spec_date: 2026-11-18
+fetched: 2026-11-23
 ---
 
 # SPARQL 1.2 Service Description
@@ -69,6 +69,7 @@ fetched: 2026-11-16
 - 5 Example (Informative)
   - 5.1 RDF/XML Service Description
   - 5.2 Turtle Service Description
+  - 5.3 Service Description via Link Header
 - 6 Conformance
   - 6.1 Conformance
 - A Changes between SPARQL 1.1 Service Description and SPARQL 1.2 Service Description
@@ -91,7 +92,7 @@ information about the SPARQL service such as supported extension functions and d
 
 ## 1. Introduction
 
-A SPARQL service description lists the features of a SPARQL service made available via the [SPARQL 1.2 Query Language](https://www.w3.org/TR/sparql12-query/). This document describes both a method for discovering a service description from a specific SPARQL service and an RDF schema for encoding such descriptions in RDF.
+A SPARQL service description lists the features of a SPARQL service made available via the [SPARQL 1.2 Protocol](https://www.w3.org/TR/sparql12-protocol/). This document describes both a method for discovering a service description from a specific SPARQL service and an RDF schema for encoding such descriptions in RDF.
 
 ### 1.1 Terminology
 
@@ -137,7 +138,11 @@ This specification makes use of the following namespaces:
 
 SPARQL services made available via the SPARQL Protocol *SHOULD* return a service description document at the service endpoint when
 dereferenced using the HTTP GET operation without any query parameter strings provided. This service description *MUST* be made
-available in an RDF serialization, *MAY* be embedded in (X)HTML by way of [RDFa Core 1.1 - Third Edition](https://www.w3.org/TR/rdfa-core/), and *SHOULD* use [content negotiation](https://httpwg.org/specs/rfc9110.html#content.negotiation) if available in other RDF representations.
+available in an RDF serialization, *MAY* be embedded in (X)HTML by way of [RDFa Core 1.1 - Third Edition](https://www.w3.org/TR/rdfa-core/), and *SHOULD* be made available using [content negotiation](https://httpwg.org/specs/rfc9110.html#content.negotiation) if available in other RDF representations.
+
+If a SPARQL service cannot make a service description available at the service endpoint,
+the response to an HTTP GET request of the service endpoint *SHOULD* indicate the location where a service description
+can be retrieved via a `Link` HTTP header [RFC8288] using the [`service-desc` Link Relation Type](https://www.rfc-editor.org/info/rfc8631/#section-4.2).
 
 ## 4. Service Description Vocabulary
 
@@ -243,7 +248,6 @@ For example, when a service description indicates support for the `sd:SPARQLQuer
 
 `sd:supportedVersion` is a `rdfs:subPropertyOf` of `sd:feature` (§4.2.2).
 The `rdfs:domain` of `sd:supportedVersion` is `sd:Service` (§4.3.1).
-The `rdfs:range` of `sd:supportedVersion` is `rdfs:Resource`.
 
 #### 4.2.12 `sd:propertyFeature`
 
@@ -256,21 +260,21 @@ The `rdfs:range` of `sd:propertyFeature` is `sd:Feature` (§4.3.2).
 
 #### 4.2.13 `sd:defaultDataset`
 
-`sd:defaultDataset` is an instance of `owl:InverseFunctionalProperty` that
+`sd:defaultDataset` is an `owl:InverseFunctionalProperty` that
 relates an instance of `sd:Service` (§4.3.1) to a description of the
 default dataset available when no explicit dataset is specified in the query, update request, or
 via protocol parameters.
 
-The `rdfs:domain` of `sd:defaultDataset` is `sd:Service`.
-The `rdfs:range` of `sd:defaultDataset` is `sd:Dataset`.
+The `rdfs:domain` of `sd:defaultDataset` is `sd:Service` (§4.3.1).
+The `rdfs:range` of `sd:defaultDataset` is `sd:Dataset` (§4.3.9).
 
 #### 4.2.14 `sd:availableGraphs`
 
 `sd:availableGraphs` relates an instance of `sd:Service` (§4.3.1) to a description of the graphs which are allowed in the construction of a dataset via the SPARQL Protocol, with
 FROM/FROM NAMED clauses in a query, or with USING/USING NAMED in an update request, if the service limits the scope of dataset construction.
 
-The `rdfs:domain` of `sd:defaultDataset` is `sd:Service` (§4.3.1).
-The `rdfs:range` of `sd:defaultDataset` is `sd:GraphCollection` (§4.3.8).
+The `rdfs:domain` of `sd:availableGraphs` is `sd:Service` (§4.3.1).
+The `rdfs:range` of `sd:availableGraphs` is `sd:GraphCollection` (§4.3.8).
 
 #### 4.2.15 `sd:resultFormat`
 
@@ -310,7 +314,7 @@ The `rdfs:range` of `sd:namedGraph` is `sd:NamedGraph` (§4.3.11).
 
 #### 4.2.19 `sd:name`
 
-`sd:name` relates a named graph to the name by which it may be referenced in a FROM/FROM NAMED clause. The object of the sd:name property is an IRI.
+`sd:name` relates a named graph to the name by which it may be referenced in a FROM/FROM NAMED clause. The object of the `sd:name` property is an IRI.
 
 The `rdfs:domain` of `sd:name` is `sd:NamedGraph` (§4.3.11).
 
@@ -331,7 +335,7 @@ The `rdfs:range` of `sd:graph` is `sd:Graph` (§4.3.10).
 
 `sd:Feature` is the `rdfs:Class` of features of a SPARQL service. Specific types of features include functions (§4.3.4), aggregates (§4.3.5), languages (§4.3.3), and entailment regimes (§4.3.6) and profiles (§4.3.7).
 This document defines five instances of `sd:Feature` (§4.3.2): `sd:DereferencesURIs` (§4.4.6), `sd:UnionDefaultGraph` (§4.4.7), `sd:RequiresDataset` (§4.4.8), `sd:EmptyGraphs` (§4.4.9),
-and `sd:BasicFederatedQuery` (§4.4.10).
+and `sd:BasicFederatedQuery` (§4.4.10) (as well as several `sd:Language` (§4.3.3)s which are sd:Feature instances via subclassing).
 
 #### 4.3.3 `sd:Language`
 
@@ -365,7 +369,8 @@ This document defines five instances of `sd:Language` (§4.3.3): `sd:SPARQL10Que
 
 #### 4.3.6 `sd:EntailmentRegime`
 
-`sd:EntailmentRegime` is the `rdfs:Class` of entailment regimes used in basic graph pattern matching (as described by [SPARQL 1.2 Query Language](https://www.w3.org/TR/sparql11-query/#sparqlBGPExtend)). URIs for commonly used entailment regimes are defined by [Unique URIs for Semantic Web Entailment Regimes](https://www.w3.org/ns/entailment/).
+`sd:EntailmentRegime` is the `rdfs:Class` of entailment regimes used in basic graph pattern matching (as described in [§ 18.6.3 Extending SPARQL Basic Graph Matching](https://www.w3.org/TR/rdf-sparql-query/#sparqlBGPExtend)).
+URIs for commonly used entailment regimes are defined by [Unique URIs for Semantic Web Entailment Regimes](https://www.w3.org/ns/entailment/).
 
 `sd:EntailmentRegime` is a `rdfs:subClassOf` of `sd:Feature` (§4.3.2).
 
@@ -397,7 +402,7 @@ This document does not define properties with domain `sd:Graph` (§4.3.10). Inst
 
 #### 4.3.11 `sd:NamedGraph`
 
-`sd:NamedGraph` is the `rdfs:Class` of graphs having a name in a `sd:Dataset` (via `sd:name` (§4.2.19)) and an optional graph
+`sd:NamedGraph` is the `rdfs:Class` of graphs having a name in a `sd:Dataset` or `sd:GraphCollection` (via `sd:name` (§4.2.19)) and an optional graph
 description (via `sd:graph` (§4.2.20)).
 
 ### 4.4 Instances
@@ -416,7 +421,7 @@ description (via `sd:graph` (§4.2.20)).
 
 #### 4.4.4 `sd:SPARQLQuery`
 
-`sd:SPARQLQuery` is a `sd:Language` (§4.3.3) representing the SPARQL Query language [SPARQL12-QUERY].
+`sd:SPARQLQuery` is a `sd:Language` (§4.3.3) representing the [SPARQL 1.2 Query Language](https://www.w3.org/TR/sparql12-query/).
 
 Relevant supported versions (§4.2.11) are:
 
@@ -427,14 +432,13 @@ Relevant supported versions (§4.2.11) are:
 
 #### 4.4.5 `sd:SPARQLUpdate`
 
-`sd:SPARQLUpdate` is a `sd:Language` (§4.3.3) representing the SPARQL Update langauge [SPARQL12-UPDATE].
+`sd:SPARQLUpdate` is a `sd:Language` (§4.3.3) representing the [SPARQL 1.2 Update](https://www.w3.org/TR/sparql12-update/) language.
 
 Relevant supported versions (§4.2.11) are:
 
 - `sparql:version-1.2`
 - `sparql:version-1.2-basic`
 - `sparql:version-1.1`
-- `sparql:version-1.0`
 
 #### 4.4.6 `sd:DereferencesURIs`
 
@@ -474,8 +478,8 @@ instance URIs that may be used with some of the properties defined in the previo
 The following HTTP traces illustrate the retrieval of a service description from the SPARQL endpoint `http://www.example/sparql/`.
 
 This RDF describes a SPARQL service available at the URL `http://www.example/sparql/` that supports the SPARQL 1.2 Query language. The service will dereference URLs used in
-FROM/FROM NAMED clauses, supports both the RDF/XML and Turtle serialization formats, supports the `http://example.org/Distance` extension function, and has a dataset with a default
-graph and one named graph, both described using the voiD vocabulary [VOID]. The default graph contains 100 triples and supports RDFS entailment while the graph named
+FROM/FROM NAMED clauses, supports the SPARQL Results XML, RDF/XML, and Turtle serialization formats, supports the `http://example.org/Distance` extension function, and has a dataset with a default
+graph and one named graph, both described using the VoID vocabulary [VOID]. The default graph contains 100 triples and supports RDFS entailment while the graph named
 http://www.example/named-graph contains 2000 triples and supports OWL2 RL entailment.
 
 ### 5.1 RDF/XML Service Description
@@ -507,6 +511,7 @@ Content-Type: application/rdf+xml
     <sd:supportedLanguage rdf:resource="http://www.w3.org/ns/sparql-service-description#SPARQLQuery"/>
     <sd:supportedVersion rdf:resource="http://www.w3.org/ns/sparql#version-1.2"/>
     <sd:supportedVersion rdf:resource="http://www.w3.org/ns/sparql#version-1.2-basic"/>
+    <sd:resultFormat rdf:resource="http://www.w3.org/ns/formats/SPARQL_Results_XML"/>
     <sd:resultFormat rdf:resource="http://www.w3.org/ns/formats/RDF_XML"/>
     <sd:resultFormat rdf:resource="http://www.w3.org/ns/formats/Turtle"/>
     <sd:feature rdf:resource="http://www.w3.org/ns/sparql-service-description#DereferencesURIs"/>
@@ -563,12 +568,13 @@ PREFIX ent: <http://www.w3.org/ns/entailment/>
 PREFIX prof: <http://www.w3.org/ns/owl-profile/>
 PREFIX void: <http://rdfs.org/ns/void#>
 PREFIX sparql: <http://www.w3.org/ns/sparql#>
+PREFIX format: <http://www.w3.org/ns/formats/>
 
 [] a sd:Service ;
     sd:endpoint <http://www.example/sparql/> ;
     sd:supportedLanguage sd:SPARQLQuery ;
     sd:supportedVersion sparql:version-1.2, sparql:version-1.2-basic ;
-    sd:resultFormat <http://www.w3.org/ns/formats/RDF_XML>, <http://www.w3.org/ns/formats/Turtle> ;
+    sd:resultFormat format:SPARQL_Results_XML, format:RDF_XML, format:Turtle ;
     sd:extensionFunction <http://example.org/Distance> ;
     sd:feature sd:DereferencesURIs ;
     sd:defaultEntailmentRegime ent:RDFS ;
@@ -593,6 +599,30 @@ PREFIX sparql: <http://www.w3.org/ns/sparql#>
 <http://example.org/Distance> a sd:Function .
 ```
 
+### 5.3 Service Description via `Link` Header
+
+Given the HTTP request:
+
+```
+GET /sparql/ HTTP/1.1
+Host: www.example
+Accept: text/turtle
+```
+
+the SPARQL service responds with an HTTP message containing a `Link` header of type `service-desc`,
+pointing to the location of the service description at `http://www.example/sparql-service-description`:
+
+```
+HTTP/1.1 200 OK
+Date: Fri, 09 Oct 2009 17:31:12 GMT
+Server: Apache/1.3.29 (Unix) PHP/4.3.4 DAV/1.0.3
+Link: </sparql-service-description>; rel="service-desc"
+Connection: close
+Content-Type: text/turtle
+
+# Response body for the GET /sparql/ request. This is not the service description.
+```
+
 ## 6. Conformance
 
 As well as sections marked as non-normative, all authoring guidelines, diagrams, examples, and notes in this specification are non-normative. Everything else in this specification is normative.
@@ -606,33 +636,48 @@ capitals, as shown here.
 
 A SPARQL service conformant with this specification:
 
-1. *MUST* return RDF content when the service endpoint URL is accessed as described in section 2 Accessing a Service Description (§3).
+1. *MUST* return RDF content to a GET request of either: the service endpoint URL,
+   or the URL provided in the `service-desc`-type `Link` header of the response to
+   a GET request of service endpoint URL
+   (as described in section 3. Accessing a Service Description (§3)).
 
-2. The RDF content returned from dereferencing a service endpoint URL `<service-endpoint-URL>` *MUST* include at
-   least one triple matching:
+The returned RDF content for a service with endpoint `<service-endpoint-URL>`:
+
+1. *MUST* include at least one triple matching:
 
    ```
    ?service sd:endpoint <service-endpoint-URL> .
    ```
 
-3. The RDF content returned *MUST* make use of the vocabulary defined in this document in accordance with the usage specified in
-   section 3 Service Description Vocabulary (§4).
+2. *MUST* make use of the vocabulary defined in this document in accordance with the usage specified in
+   section 4. Service Description Vocabulary (§4).
 
 ## A. Changes between SPARQL 1.1 Service Description and SPARQL 1.2 Service Description
 
 *This section is non-normative.*
 
+- The Accessing (§3) section now describes the use of a `Link` header to indicate the location of the Service Description in cases where a service cannot return such a description from the endpoint URL.
 - sd:Language and sd:supportedLanguage updated to only differentiate Query and Update, leaving language versioning to the new sd:supportedVersion.
 - Update fragment identifiers for references to RFC9110 in 3. Accessing a Service Description (§3)
 - Use PREFIX instead of @prefix in all Turtle examples
 
 ## B. Privacy Considerations
 
-TODO
+By its nature, a service description exposes details of the service being described.
+Through the use of terms defined in this document (or in conjunction with terms defined elsewhere),
+a service description may reveal details of the service's software, configuration, extensions, and dataset.
+These details may be useful to consumers of the service description, but they also risk exposing information
+that could reveal data meant to be private. Care must be taken by system implementors and those
+responsible for configuring SPARQL services in deciding what and how much data to include in a service description.
 
 ## C. Security Considerations
 
-TODO
+The data revealed in a service description may risk exposing information
+that could be used to exploit software vulnerabilities, or pursue other unintended outcomes.
+As described in B. Privacy Considerations (§B), care must be taken in deciding what and how much data to include in a service description.
+
+Some aspects of a service description may be computed on-the-fly (for example, a dataset description which includes a list of all named graphs and their corresponding sizes).
+This may cause additional use of CPU resources along with associated secondary issues such as denial of service.
 
 ## D. Internationalization Considerations
 
@@ -683,7 +728,7 @@ TODO
 
 [RDF12-CONCEPTS]
 
-[RDF 1.2 Concepts and Abstract Data Model](https://www.w3.org/TR/rdf12-concepts/). Gregg Kellogg; Olaf Hartig; Pierre-Antoine Champin; Andy Seaborne. W3C. 11 November 2026. CRD. URL: <https://www.w3.org/TR/rdf12-concepts/>
+[RDF 1.2 Concepts and Abstract Data Model](https://www.w3.org/TR/rdf12-concepts/). Gregg Kellogg; Olaf Hartig; Pierre-Antoine Champin; Andy Seaborne. W3C. 16 November 2026. CRD. URL: <https://www.w3.org/TR/rdf12-concepts/>
 
 [RDF12-TURTLE]
 
@@ -700,6 +745,14 @@ TODO
 [RFC8174]
 
 [Ambiguity of Uppercase vs Lowercase in RFC 2119 Key Words](https://www.rfc-editor.org/info/rfc8174/). B. Leiba. IETF. May 2017. Best Current Practice. URL: <https://www.rfc-editor.org/info/rfc8174/>
+
+[RFC8288]
+
+[Web Linking](https://httpwg.org/specs/rfc8288.html). M. Nottingham. IETF. October 2017. Proposed Standard. URL: <https://httpwg.org/specs/rfc8288.html>
+
+[RFC8631]
+
+[Link Relation Types for Web Services](https://www.rfc-editor.org/info/rfc8631/). E. Wilde. IETF. July 2019. Informational. URL: <https://www.rfc-editor.org/info/rfc8631/>
 
 [RFC9110]
 
@@ -727,19 +780,15 @@ TODO
 
 [SPARQL12-PROTOCOL]
 
-[SPARQL 1.2 Protocol](https://www.w3.org/TR/sparql12-protocol/). Andy Seaborne; Ruben Taelman; Gregory Williams; Thomas Pellissier Tanon. W3C. 23 July 2026. W3C Working Draft. URL: <https://www.w3.org/TR/sparql12-protocol/>
+[SPARQL 1.2 Protocol](https://www.w3.org/TR/sparql12-protocol/). Andy Seaborne; Ruben Taelman; Gregory Williams; Thomas Pellissier Tanon. W3C. 16 November 2026. W3C Working Draft. URL: <https://www.w3.org/TR/sparql12-protocol/>
 
 [SPARQL12-QUERY]
 
-[SPARQL 1.2 Query Language](https://www.w3.org/TR/sparql12-query/). Olaf Hartig; Andy Seaborne; Ruben Taelman; Gregory Williams; Thomas Pellissier Tanon. W3C. 1 November 2026. W3C Working Draft. URL: <https://www.w3.org/TR/sparql12-query/>
+[SPARQL 1.2 Query Language](https://www.w3.org/TR/sparql12-query/). Olaf Hartig; Andy Seaborne; Ruben Taelman; Gregory Williams; Thomas Pellissier Tanon. W3C. 16 November 2026. W3C Working Draft. URL: <https://www.w3.org/TR/sparql12-query/>
 
 [SPARQL12-UPDATE]
 
-[SPARQL 1.2 Update](https://www.w3.org/TR/sparql12-update/). Ruben Taelman; Andy Seaborne; Thomas Pellissier Tanon. W3C. 25 October 2026. W3C Working Draft. URL: <https://www.w3.org/TR/sparql12-update/>
-
-[VOID]
-
-[Describing Linked Datasets with the VoID Vocabulary](https://www.w3.org/TR/void/). Keith Alexander; Richard Cyganiak; Michael Hausenblas; Jun Zhao. W3C. 3 March 2011. W3C Working Group Note. URL: <https://www.w3.org/TR/void/>
+[SPARQL 1.2 Update](https://www.w3.org/TR/sparql12-update/). Ruben Taelman; Andy Seaborne; Thomas Pellissier Tanon. W3C. 15 November 2026. W3C Working Draft. URL: <https://www.w3.org/TR/sparql12-update/>
 
 [WEBARCH]
 
@@ -765,7 +814,7 @@ TODO
 
 [SPARQL12-RESULTS-CSV-TSV]
 
-[SPARQL 1.2 Query Results CSV and TSV Formats](https://www.w3.org/TR/sparql12-results-csv-tsv/). Ruben Taelman; Gregory Williams; Thomas Pellissier Tanon. W3C. 22 October 2026. W3C Working Draft. URL: <https://www.w3.org/TR/sparql12-results-csv-tsv/>
+[SPARQL 1.2 Query Results CSV and TSV Formats](https://www.w3.org/TR/sparql12-results-csv-tsv/). Ruben Taelman; Gregory Williams; Thomas Pellissier Tanon. W3C. 16 November 2026. W3C Working Draft. URL: <https://www.w3.org/TR/sparql12-results-csv-tsv/>
 
 [SPARQL12-RESULTS-JSON]
 
@@ -774,6 +823,10 @@ TODO
 [SPARQL12-RESULTS-XML]
 
 [SPARQL 1.2 Query Results XML Format](https://www.w3.org/TR/sparql12-results-xml/). Ruben Taelman; Dominik Tomaszuk; Thomas Pellissier Tanon. W3C. 27 December 2024. W3C Working Draft. URL: <https://www.w3.org/TR/sparql12-results-xml/>
+
+[VOID]
+
+[Describing Linked Datasets with the VoID Vocabulary](https://www.w3.org/TR/void/). Keith Alexander; Richard Cyganiak; Michael Hausenblas; Jun Zhao. W3C. 3 March 2011. W3C Working Group Note. URL: <https://www.w3.org/TR/void/>
 
 Permalink
 

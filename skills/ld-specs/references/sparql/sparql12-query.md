@@ -4,8 +4,8 @@ source: https://www.w3.org/TR/sparql12-query/
 family: sparql
 version: "1.2"
 status: W3C Working Draft
-spec_date: 2026-11-16
-fetched: 2026-11-16
+spec_date: 2026-11-19
+fetched: 2026-11-23
 ---
 
 # SPARQL 1.2 Query Language
@@ -6186,9 +6186,9 @@ dependent on the lexical value (M).
 > bool = [xsd:boolean](https://www.w3.org/TR/xmlschema11-2/#dt-boolean)
 > dbl = [xsd:double](https://www.w3.org/TR/xmlschema11-2/#dt-double)
 > flt = [xsd:float](https://www.w3.org/TR/xmlschema11-2/#dt-float)
-> dec = [xsd:decimal](https://www.w3.org/TR/xmlschema11-2/#dt-decimal)
-> int = [xsd:integer](https://www.w3.org/TR/xmlschema11-2/#dt-integer)
-> dT = [xsd:dateTime](https://www.w3.org/TR/xmlschema11-2/#dt-dateTime)
+> dec = [xsd:decimal](https://www.w3.org/TR/xmlschema11-2/#decimal)
+> int = [xsd:integer](https://www.w3.org/TR/xmlschema11-2/#integer)
+> dT = [xsd:dateTime](https://www.w3.org/TR/xmlschema11-2/#dateTime)
 > str = [xsd:string](https://www.w3.org/TR/xmlschema11-2/#dt-string)
 > IRI = [IRI](https://www.w3.org/TR/rdf12-concepts/#dfn-iri)
 
@@ -9429,7 +9429,7 @@ TODO
 
 [RDF12-CONCEPTS]
 
-[RDF 1.2 Concepts and Abstract Data Model](https://www.w3.org/TR/rdf12-concepts/). Gregg Kellogg; Olaf Hartig; Pierre-Antoine Champin; Andy Seaborne. W3C. 15 November 2026. CRD. URL: <https://www.w3.org/TR/rdf12-concepts/>
+[RDF 1.2 Concepts and Abstract Data Model](https://www.w3.org/TR/rdf12-concepts/). Gregg Kellogg; Olaf Hartig; Pierre-Antoine Champin; Andy Seaborne. W3C. 16 November 2026. CRD. URL: <https://www.w3.org/TR/rdf12-concepts/>
 
 [RDF12-SEMANTICS]
 
@@ -9501,11 +9501,11 @@ TODO
 
 [SPARQL12-PROTOCOL]
 
-[SPARQL 1.2 Protocol](https://www.w3.org/TR/sparql12-protocol/). Andy Seaborne; Ruben Taelman; Gregory Williams; Thomas Pellissier Tanon. W3C. 23 July 2026. W3C Working Draft. URL: <https://www.w3.org/TR/sparql12-protocol/>
+[SPARQL 1.2 Protocol](https://www.w3.org/TR/sparql12-protocol/). Andy Seaborne; Ruben Taelman; Gregory Williams; Thomas Pellissier Tanon. W3C. 16 November 2026. W3C Working Draft. URL: <https://www.w3.org/TR/sparql12-protocol/>
 
 [SPARQL12-Query]
 
-[SPARQL 1.2 Query Language](https://www.w3.org/TR/sparql12-query/). Olaf Hartig; Andy Seaborne; Ruben Taelman; Gregory Williams; Thomas Pellissier Tanon. W3C. 15 November 2026. W3C Working Draft. URL: <https://www.w3.org/TR/sparql12-query/>
+[SPARQL 1.2 Query Language](https://www.w3.org/TR/sparql12-query/). Olaf Hartig; Andy Seaborne; Ruben Taelman; Gregory Williams; Thomas Pellissier Tanon. W3C. 16 November 2026. W3C Working Draft. URL: <https://www.w3.org/TR/sparql12-query/>
 
 [SPARQL12-Update]
 
@@ -9591,7 +9591,7 @@ TODO
 
 [SPARQL12-RESULTS-CSV-TSV]
 
-[SPARQL 1.2 Query Results CSV and TSV Formats](https://www.w3.org/TR/sparql12-results-csv-tsv/). Ruben Taelman; Gregory Williams; Thomas Pellissier Tanon. W3C. 22 October 2026. W3C Working Draft. URL: <https://www.w3.org/TR/sparql12-results-csv-tsv/>
+[SPARQL 1.2 Query Results CSV and TSV Formats](https://www.w3.org/TR/sparql12-results-csv-tsv/). Ruben Taelman; Gregory Williams; Thomas Pellissier Tanon. W3C. 16 November 2026. W3C Working Draft. URL: <https://www.w3.org/TR/sparql12-results-csv-tsv/>
 
 [SPARQL12-RESULTS-JSON]
 
@@ -9603,7 +9603,7 @@ TODO
 
 [SPARQL12-SERVICE-DESCRIPTION]
 
-[SPARQL 1.2 Service Description](https://www.w3.org/TR/sparql12-service-description/). Ruben Taelman; Gregory Williams. W3C. 12 November 2026. W3C Working Draft. URL: <https://www.w3.org/TR/sparql12-service-description/>
+[SPARQL 1.2 Service Description](https://www.w3.org/TR/sparql12-service-description/). Ruben Taelman; Gregory Williams. W3C. 18 November 2026. W3C Working Draft. URL: <https://www.w3.org/TR/sparql12-service-description/>
 
 Permalink
 

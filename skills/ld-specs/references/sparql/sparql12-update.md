@@ -4,8 +4,8 @@ source: https://www.w3.org/TR/sparql12-update/
 family: sparql
 version: "1.2"
 status: W3C Working Draft
-spec_date: 2026-11-15
-fetched: 2026-11-16
+spec_date: 2026-11-19
+fetched: 2026-11-23
 ---
 
 # SPARQL 1.2 Update
@@ -961,7 +961,7 @@ Data before:
 ```
 # Graph: http://example/people
 PREFIX foaf: <http://xmlns.com/foaf/0.1/>
-PREFIX rdf:  >http://www.w3.org/1999/02/22-rdf-syntax-ns#>
+PREFIX rdf:  <http://www.w3.org/1999/02/22-rdf-syntax-ns#>
 
 _:a  rdf:type        foaf:Person .
 _:a  foaf:name       "Alice" .
@@ -981,7 +981,7 @@ Data after:
 ```
 # Graph: http://example/people
 PREFIX foaf: <http://xmlns.com/foaf/0.1/>
-PREFIX rdf:  >http://www.w3.org/1999/02/22-rdf-syntax-ns#>
+PREFIX rdf:  <http://www.w3.org/1999/02/22-rdf-syntax-ns#>
 
 _:a  rdf:type        foaf:Person .
 _:a  foaf:name       "Alice" .
@@ -1026,7 +1026,7 @@ DELETE
  { ?book ?p ?v }
 WHERE
  { ?book dc:date ?date ;
-         dc:type dcmitype:PhysicalObject .
+         a dcmitype:PhysicalObject .
    FILTER ( ?date < "2000-01-01T00:00:00-02:00"^^xsd:dateTime )
    ?book ?p ?v
  }
@@ -1038,6 +1038,7 @@ Data before:
 # Graph: http://example/bookStore
 PREFIX dc: <http://purl.org/dc/elements/1.1/>
 PREFIX dcmitype: <http://purl.org/dc/dcmitype/>
+PREFIX xsd: <http://www.w3.org/2001/XMLSchema#>
 
 <http://example/book1> dc:title "Fundamentals of Compiler Design" .
 <http://example/book1> dc:date "1996-01-01T00:00:00-02:00"^^xsd:dateTime .
@@ -1067,6 +1068,7 @@ PREFIX dcmitype: <http://purl.org/dc/dcmitype/>
 # Graph: http://example/bookStore2
 PREFIX dc: <http://purl.org/dc/elements/1.1/>
 PREFIX dcmitype: <http://purl.org/dc/dcmitype/>
+PREFIX xsd: <http://www.w3.org/2001/XMLSchema#>
 
 <http://example/book1> dc:title "Fundamentals of Compiler Design" .
 <http://example/book1> dc:date "1996-01-01T00:00:00-02:00"^^xsd:dateTime .
@@ -2054,7 +2056,7 @@ TODO
 
 [RDF12-CONCEPTS]
 
-[RDF 1.2 Concepts and Abstract Data Model](https://www.w3.org/TR/rdf12-concepts/). Gregg Kellogg; Olaf Hartig; Pierre-Antoine Champin; Andy Seaborne. W3C. 15 November 2026. CRD. URL: <https://www.w3.org/TR/rdf12-concepts/>
+[RDF 1.2 Concepts and Abstract Data Model](https://www.w3.org/TR/rdf12-concepts/). Gregg Kellogg; Olaf Hartig; Pierre-Antoine Champin; Andy Seaborne. W3C. 16 November 2026. CRD. URL: <https://www.w3.org/TR/rdf12-concepts/>
 
 [RDF12-SEMANTICS]
 
@@ -2086,11 +2088,11 @@ TODO
 
 [SPARQL12-PROTOCOL]
 
-[SPARQL 1.2 Protocol](https://www.w3.org/TR/sparql12-protocol/). Andy Seaborne; Ruben Taelman; Gregory Williams; Thomas Pellissier Tanon. W3C. 23 July 2026. W3C Working Draft. URL: <https://www.w3.org/TR/sparql12-protocol/>
+[SPARQL 1.2 Protocol](https://www.w3.org/TR/sparql12-protocol/). Andy Seaborne; Ruben Taelman; Gregory Williams; Thomas Pellissier Tanon. W3C. 16 November 2026. W3C Working Draft. URL: <https://www.w3.org/TR/sparql12-protocol/>
 
 [SPARQL12-QUERY]
 
-[SPARQL 1.2 Query Language](https://www.w3.org/TR/sparql12-query/). Olaf Hartig; Andy Seaborne; Ruben Taelman; Gregory Williams; Thomas Pellissier Tanon. W3C. 15 November 2026. W3C Working Draft. URL: <https://www.w3.org/TR/sparql12-query/>
+[SPARQL 1.2 Query Language](https://www.w3.org/TR/sparql12-query/). Olaf Hartig; Andy Seaborne; Ruben Taelman; Gregory Williams; Thomas Pellissier Tanon. W3C. 16 November 2026. W3C Working Draft. URL: <https://www.w3.org/TR/sparql12-query/>
 
 [UNICODE]
 
@@ -2116,7 +2118,7 @@ TODO
 
 [SPARQL12-RESULTS-CSV-TSV]
 
-[SPARQL 1.2 Query Results CSV and TSV Formats](https://www.w3.org/TR/sparql12-results-csv-tsv/). Ruben Taelman; Gregory Williams; Thomas Pellissier Tanon. W3C. 22 October 2026. W3C Working Draft. URL: <https://www.w3.org/TR/sparql12-results-csv-tsv/>
+[SPARQL 1.2 Query Results CSV and TSV Formats](https://www.w3.org/TR/sparql12-results-csv-tsv/). Ruben Taelman; Gregory Williams; Thomas Pellissier Tanon. W3C. 16 November 2026. W3C Working Draft. URL: <https://www.w3.org/TR/sparql12-results-csv-tsv/>
 
 [SPARQL12-RESULTS-JSON]
 
@@ -2128,7 +2130,7 @@ TODO
 
 [SPARQL12-SERVICE-DESCRIPTION]
 
-[SPARQL 1.2 Service Description](https://www.w3.org/TR/sparql12-service-description/). Ruben Taelman; Gregory Williams. W3C. 12 November 2026. W3C Working Draft. URL: <https://www.w3.org/TR/sparql12-service-description/>
+[SPARQL 1.2 Service Description](https://www.w3.org/TR/sparql12-service-description/). Ruben Taelman; Gregory Williams. W3C. 18 November 2026. W3C Working Draft. URL: <https://www.w3.org/TR/sparql12-service-description/>
 
 Permalink
 

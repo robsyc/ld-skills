@@ -4,8 +4,8 @@ source: https://www.w3.org/TR/sparql12-results-csv-tsv/
 family: sparql
 version: "1.2"
 status: W3C Working Draft
-spec_date: 2026-11-16
-fetched: 2026-11-16
+spec_date: 2026-11-19
+fetched: 2026-11-23
 ---
 
 # SPARQL 1.2 Query Results CSV and TSV Formats
@@ -247,7 +247,7 @@ Such IRIs include the IRI scheme and *MUST NOT* be [Relative Reference](https://
 This includes IRIs used as datatypes.
 
 Literals are written with the lexical form in quotes. Tab, newline, and carriage return characters
-(Unicode code points `U+0009` (tab), `U+0010` (line feed) and `U+0013` (carriage return)) are encoded in strings as `\t`, `\n` and `\r` respectively. The long string forms using triple quotes — `"""` or `'''` — *MUST NOT* be used.
+(Unicode code points `U+0009` (tab), `U+000A` (line feed) and `U+000D` (carriage return)) are encoded in strings as `\t`, `\n` and `\r` respectively. The long string forms using triple quotes — `"""` or `'''` — *MUST NOT* be used.
 
 The abbreviated forms for numbers (XSD integers, decimals, and doubles) *SHOULD* be used.
 
@@ -363,7 +363,7 @@ TODO
 
 [SPARQL12-QUERY]
 
-[SPARQL 1.2 Query Language](https://www.w3.org/TR/sparql12-query/). Olaf Hartig; Andy Seaborne; Ruben Taelman; Gregory Williams; Thomas Pellissier Tanon. W3C. 15 November 2026. W3C Working Draft. URL: <https://www.w3.org/TR/sparql12-query/>
+[SPARQL 1.2 Query Language](https://www.w3.org/TR/sparql12-query/). Olaf Hartig; Andy Seaborne; Ruben Taelman; Gregory Williams; Thomas Pellissier Tanon. W3C. 16 November 2026. W3C Working Draft. URL: <https://www.w3.org/TR/sparql12-query/>
 
 [SPARQL12-RESULTS-JSON]
 
@@ -401,11 +401,11 @@ TODO
 
 [SPARQL12-PROTOCOL]
 
-[SPARQL 1.2 Protocol](https://www.w3.org/TR/sparql12-protocol/). Andy Seaborne; Ruben Taelman; Gregory Williams; Thomas Pellissier Tanon. W3C. 23 July 2026. W3C Working Draft. URL: <https://www.w3.org/TR/sparql12-protocol/>
+[SPARQL 1.2 Protocol](https://www.w3.org/TR/sparql12-protocol/). Andy Seaborne; Ruben Taelman; Gregory Williams; Thomas Pellissier Tanon. W3C. 16 November 2026. W3C Working Draft. URL: <https://www.w3.org/TR/sparql12-protocol/>
 
 [SPARQL12-SERVICE-DESCRIPTION]
 
-[SPARQL 1.2 Service Description](https://www.w3.org/TR/sparql12-service-description/). Ruben Taelman; Gregory Williams. W3C. 12 November 2026. W3C Working Draft. URL: <https://www.w3.org/TR/sparql12-service-description/>
+[SPARQL 1.2 Service Description](https://www.w3.org/TR/sparql12-service-description/). Ruben Taelman; Gregory Williams. W3C. 18 November 2026. W3C Working Draft. URL: <https://www.w3.org/TR/sparql12-service-description/>
 
 [SPARQL12-UPDATE]
 

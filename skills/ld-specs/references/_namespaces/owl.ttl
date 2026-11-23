@@ -524,4 +524,4 @@ owl:Thing a owl:Class ;
     rdfs:comment "The class of OWL individuals." ;
     rdfs:isDefinedBy owl: .
 
-# fetched: 2026-11-16, resources: 77
+# fetched: 2026-11-23, resources: 77

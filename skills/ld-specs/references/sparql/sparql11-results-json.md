@@ -5,7 +5,7 @@ family: sparql
 version: "1.1"
 status: W3C Recommendation
 spec_date: 2013-03-21
-fetched: 2026-11-16
+fetched: 2026-11-23
 ---
 
 # SPARQL 1.1 Query Results JSON Format

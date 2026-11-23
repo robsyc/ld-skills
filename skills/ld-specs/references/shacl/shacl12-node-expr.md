@@ -4,8 +4,8 @@ source: https://www.w3.org/TR/shacl12-node-expr/
 family: shacl
 version: "1.2"
 status: W3C Working Draft
-spec_date: 2026-10-28
-fetched: 2026-11-16
+spec_date: 2026-11-16
+fetched: 2026-11-23
 ---
 
 # SHACL 1.2 Node Expressions
@@ -77,9 +77,9 @@ fetched: 2026-11-16
 - D Index
   - D.1 Terms defined by this specification
   - D.2 Terms defined by reference
-- F References
-  - F.1 Normative references
-  - F.2 Informative references
+- E References
+  - E.1 Normative references
+  - E.2 Informative references
 
 ---
 
@@ -162,12 +162,12 @@ This section introduces the key terminology and document conventions.
 
 Basic RDF Terminology
 
-This document uses the terms *[RDF graph](https://www.w3.org/TR/rdf12-concepts/#dfn-rdf-graph)*, *[RDF triple](https://www.w3.org/TR/rdf12-concepts/#dfn-rdf-triple)*, *[IRI](https://www.w3.org/TR/rdf12-concepts/#dfn-iri)*, *[literal](https://www.w3.org/TR/rdf12-concepts/#dfn-literal)*, *[blank node](https://www.w3.org/TR/rdf12-concepts/#dfn-blank-node)*, *[node](https://www.w3.org/TR/rdf12-concepts/#dfn-node)* of an RDF graph, *[datatype](https://www.w3.org/TR/rdf12-concepts/#dfn-datatype)*, *[RDF term](https://www.w3.org/TR/rdf12-concepts/#dfn-rdf-term)*, *[triple term](https://www.w3.org/TR/rdf12-concepts/#dfn-triple-term)*, and *[term equality](https://www.w3.org/TR/rdf12-concepts/#dfn-rdf-term-equality)*, and *[subject](https://www.w3.org/TR/rdf12-concepts/#dfn-subject)*, *[predicate](https://www.w3.org/TR/rdf12-concepts/#dfn-predicate)*, and *[object](https://www.w3.org/TR/rdf12-concepts/#dfn-object)* of RDF triples
+This document uses the terms *[RDF graph](https://www.w3.org/TR/rdf12-concepts/#dfn-rdf-graph)*, *[RDF triple](https://www.w3.org/TR/rdf12-concepts/#dfn-rdf-triple)*, *[IRI](https://www.w3.org/TR/rdf12-concepts/#dfn-iri)*, *[literal](https://www.w3.org/TR/rdf12-concepts/#dfn-literal)*, *[blank node](https://www.w3.org/TR/rdf12-concepts/#dfn-blank-node)*, *[node](https://www.w3.org/TR/rdf12-concepts/#dfn-node)* of an RDF graph, *[RDF term](https://www.w3.org/TR/rdf12-concepts/#dfn-rdf-term)*, *[triple term](https://www.w3.org/TR/rdf12-concepts/#dfn-triple-term)*, *[term equality](https://www.w3.org/TR/rdf12-concepts/#dfn-rdf-term-equality)*, and *[subject](https://www.w3.org/TR/rdf12-concepts/#dfn-subject)*, *[predicate](https://www.w3.org/TR/rdf12-concepts/#dfn-predicate)*, and *[object](https://www.w3.org/TR/rdf12-concepts/#dfn-object)* of RDF triples
 as defined in RDF 1.2 Concepts and Abstract Syntax [rdf12-concepts].
 
 Basic SHACL Terminology
 
-This document uses the terms *[focus node](https://www.w3.org/TR/shacl12-core/#dfn-focus-node)*, *[value](https://www.w3.org/TR/shacl12-core/#dfn-value)*, *[value node](https://www.w3.org/TR/shacl12-core/#dfn-value-node)*, *[constraint](https://www.w3.org/TR/shacl12-core/#dfn-constraint)*, *[constraint component](https://www.w3.org/TR/shacl12-core/#dfn-constraint-component)*, *[parameter](https://www.w3.org/TR/shacl12-core/#dfn-parameter)*, *[mandatory parameter](https://www.w3.org/TR/shacl12-core/#dfn-mandatory-parameter)*, *[optional parameter](https://www.w3.org/TR/shacl12-core/#dfn-optional-parameter)*, *[parameter value](https://www.w3.org/TR/shacl12-core/#dfn-parameter-value)*, *[shape](https://www.w3.org/TR/shacl12-core/#dfn-shape)*, *[node shape](https://www.w3.org/TR/shacl12-core/#dfn-node-shape)*, *[property shape](https://www.w3.org/TR/shacl12-core/#dfn-property-shape)*, *[SHACL property path](https://www.w3.org/TR/shacl12-core/#dfn-shacl-property-path)*, *[data graph](https://www.w3.org/TR/shacl12-core/#dfn-data-graph)*, *[shapes graph](https://www.w3.org/TR/shacl12-core/#dfn-shapes-graph)*, *[target](https://www.w3.org/TR/shacl12-core/#dfn-target)*, *[validator](https://www.w3.org/TR/shacl12-core/#dfn-validators)*, *[validation result](https://www.w3.org/TR/shacl12-core/#dfn-validation-result)*, *[node expression](https://www.w3.org/TR/shacl12-core/#dfn-node-expression)*, *[node expression function](https://www.w3.org/TR/shacl12-core/#dfn-node-expression-function)*, *[function name](https://www.w3.org/TR/shacl12-core/#dfn-function-name)*, *[output nodes](https://www.w3.org/TR/shacl12-core/#dfn-output-nodes)*, *[focus graph](https://www.w3.org/TR/shacl12-core/#dfn-focus-graph)*, *[evaluation](https://www.w3.org/TR/shacl12-core/#dfn-evaluation)*, *[evaluation failure](https://www.w3.org/TR/shacl12-core/#dfn-evaluation-failure)*, *[conforms](https://www.w3.org/TR/shacl12-core/#dfn-conform)*, *[conformance checking](https://www.w3.org/TR/shacl12-core/#dfn-conformance-checking)*, *[failure](https://www.w3.org/TR/shacl12-core/#dfn-failure)*, *[validation](https://www.w3.org/TR/shacl12-core/#dfn-validation)*, *[SHACL instance](https://www.w3.org/TR/shacl12-core/#dfn-shacl-instance)*, *[SHACL subclass](https://www.w3.org/TR/shacl12-core/#dfn-shacl-subclass)*, *[SHACL type](https://www.w3.org/TR/shacl12-core/#dfn-shacl-type)*, *[SHACL list](https://www.w3.org/TR/shacl12-core/#dfn-shacl-list)*, *[members](https://www.w3.org/TR/shacl12-core/#dfn-members)*, *[well-formed](https://www.w3.org/TR/shacl12-core/#dfn-well-formed)*, *[ill-formed](https://www.w3.org/TR/shacl12-core/#dfn-ill-formed)*, *[deep copy](https://www.w3.org/TR/shacl12-core/#dfn-deep-copy)*,
+This document uses the terms *[focus node](https://www.w3.org/TR/shacl12-core/#dfn-focus-node)*, *[value](https://www.w3.org/TR/shacl12-core/#dfn-value)*, *[value node](https://www.w3.org/TR/shacl12-core/#dfn-value-node)*, *[constraint](https://www.w3.org/TR/shacl12-core/#dfn-constraint)*, *[constraint component](https://www.w3.org/TR/shacl12-core/#dfn-constraint-component)*, *[parameter](https://www.w3.org/TR/shacl12-core/#dfn-parameter)*, *[shape](https://www.w3.org/TR/shacl12-core/#dfn-shape)*, *[node shape](https://www.w3.org/TR/shacl12-core/#dfn-node-shape)*, *[property shape](https://www.w3.org/TR/shacl12-core/#dfn-property-shape)*, *[SHACL property path](https://www.w3.org/TR/shacl12-core/#dfn-shacl-property-path)*, *[path mapping](https://www.w3.org/TR/shacl12-core/#dfn-path-mapping)*, *[data graph](https://www.w3.org/TR/shacl12-core/#dfn-data-graph)*, *[shapes graph](https://www.w3.org/TR/shacl12-core/#dfn-shapes-graph)*, *[target](https://www.w3.org/TR/shacl12-core/#dfn-target)*, *[validation result](https://www.w3.org/TR/shacl12-core/#dfn-validation-result)*, *[node expression](https://www.w3.org/TR/shacl12-core/#dfn-node-expression)*, *[node expression function](https://www.w3.org/TR/shacl12-core/#dfn-node-expression-function)*, *[function name](https://www.w3.org/TR/shacl12-core/#dfn-function-name)*, *[output nodes](https://www.w3.org/TR/shacl12-core/#dfn-output-nodes)*, *[focus graph](https://www.w3.org/TR/shacl12-core/#dfn-focus-graph)*, *[evaluation](https://www.w3.org/TR/shacl12-core/#dfn-evaluation)*, *[evaluation failure](https://www.w3.org/TR/shacl12-core/#dfn-evaluation-failure)*, *[conforms](https://www.w3.org/TR/shacl12-core/#dfn-conform)*, *[conformance checking](https://www.w3.org/TR/shacl12-core/#dfn-conformance-checking)*, *[failure](https://www.w3.org/TR/shacl12-core/#dfn-failure)*, *[validation](https://www.w3.org/TR/shacl12-core/#dfn-validation)*, *[SHACL instance](https://www.w3.org/TR/shacl12-core/#dfn-shacl-instance)*, *[SHACL subclass](https://www.w3.org/TR/shacl12-core/#dfn-shacl-subclass)*, *[SHACL list](https://www.w3.org/TR/shacl12-core/#dfn-shacl-list)*, *[members](https://www.w3.org/TR/shacl12-core/#dfn-members)*, *[well-formed](https://www.w3.org/TR/shacl12-core/#dfn-well-formed)*, *[ill-formed](https://www.w3.org/TR/shacl12-core/#dfn-ill-formed)*, *[deep copy](https://www.w3.org/TR/shacl12-core/#dfn-deep-copy)*,
 as defined in the SHACL 1.2 Core specification [shacl12-core].
 
 ### 1.2 Document Conventions
@@ -218,7 +218,15 @@ Within this document, the following JSON-LD context is used:
 
 Grey boxes such as this include syntax rules that apply to the shapes graph.
 
-`true` denotes the RDF term `"true"^^xsd:boolean` . `false` denotes the RDF term `"false"^^xsd:boolean` .
+`true` denotes the RDF term `"true"^^xsd:boolean`. `false` denotes the RDF term `"false"^^xsd:boolean`.
+
+In the prose of this document, lists of [output nodes](https://www.w3.org/TR/shacl12-core/#dfn-output-nodes) are written in the Turtle list notation,
+for example `( ex:A ex:B )`, and the list without members is called the *empty list*, written `( )`.
+Formulas of the form `evalExpr(...) -> [ ... ]` use the notation of [shacl12-core],
+where `[]` is the empty list.
+
+Examples that use SPARQL queries, such as `sh:select`, follow the prefix handling of
+[shacl12-sparql], and their `sh:prefixes` statements may have been omitted for brevity.
 
 ### 1.3 Conformance
 
@@ -229,11 +237,12 @@ are to be interpreted as described in [BCP 14](https://www.rfc-editor.org/info/b
 when, and only when, they appear in all
 capitals, as shown here.
 
-This document defines the **SHACL Node Expressions** language that extends [SHACL 1.2 Core](https://www.w3.org/TR/shacl12-core/) [shacl12-core].
+This document defines the **SHACL Node Expressions** language that extends [shacl12-core].
 This specification describes conformance criteria for:
 
 - **SHACL Node Expressions processors** as processors that support the evaluation
-  of the SHACL Node Expression functions from this document.
+  of the SHACL Node Expression functions from this document,
+  and the [validation](https://www.w3.org/TR/shacl12-core/#dfn-validation) of the constraint components `sh:ExpressionConstraintComponent` (§7.1) and `sh:NodeByExpressionConstraintComponent` (§7.2) defined in 7. Constraint Components (§7).
   Support for 8. Dynamic SHACL (§8) is *OPTIONAL* for these processors;
   processors that support it *MUST* follow the rules of that section.
 
@@ -244,7 +253,7 @@ Also see the discussion of well-formedness in the [Conformance section of SHACL 
 *This section is non-normative.*
 
 A SHACL [shapes graph](https://www.w3.org/TR/shacl12-core/#dfn-shapes-graph) can declare node expressions as values of various properties where dynamic computation is useful,
-such as `sh:targetNode`, `sh:values`, and `sh:deactivated`.
+such as `sh:targetNode`, `sh:values`, `sh:defaultValue`, and `sh:deactivated`.
 A node expression is represented by an RDF node and can be evaluated to produce a list of [output nodes](https://www.w3.org/TR/shacl12-core/#dfn-output-nodes).
 For example, when used at `sh:targetNode`, a node expression produces the list
 of target nodes of a [shape](https://www.w3.org/TR/shacl12-core/#dfn-shape).
@@ -298,7 +307,7 @@ the `ex:headQuarterCountry` is `ex:Estonia`.
 The following diagram illustrates how this node expression is interpreted, from a logical point of view.
 During validation, a SHACL processor will determine the [target](https://www.w3.org/TR/shacl12-core/#dfn-target) nodes of the shape
 by evaluating the filter shape expression.
-However, the filter shape expression first evaluates its input expression, which is specified via `sh:nodes` and is an instancesOf expression.
+However, the filter shape expression first evaluates its input expression, which is specified via `shnex:nodes` and is an instancesOf expression.
 This will produce all instances of the given class, `ex:Company`.
 The `shnex:filterShape` is then applied to all of these instances, to keep only the companies
 that [conform](https://www.w3.org/TR/shacl12-core/#dfn-conform) to the provided [shape](https://www.w3.org/TR/shacl12-core/#dfn-shape), by having their headquarters in Estonia.
@@ -538,10 +547,11 @@ e.g. `[ ex:f ( ( 1 2 ) ) ]`.
 
 The [predicate](https://www.w3.org/TR/rdf12-concepts/#dfn-predicate) of this [triple](https://www.w3.org/TR/rdf12-concepts/#dfn-rdf-triple) is called the *list parameter property*.
 
-The [evaluation](https://www.w3.org/TR/shacl12-core/#dfn-evaluation) of a list parameter function can produce any of the following:
+The [evaluation](https://www.w3.org/TR/shacl12-core/#dfn-evaluation) of a list parameter function produces at most one [output node](https://www.w3.org/TR/shacl12-core/#dfn-output-nodes),
+i.e., it can produce any of the following:
 
 - one [output node](https://www.w3.org/TR/shacl12-core/#dfn-output-nodes), i.e., a list of one [node](https://www.w3.org/TR/rdf12-concepts/#dfn-node)
-- zero [output nodes](https://www.w3.org/TR/shacl12-core/#dfn-output-nodes), i.e., an empty list
+- zero [output nodes](https://www.w3.org/TR/shacl12-core/#dfn-output-nodes), i.e., the empty list
 - an [evaluation failure](https://www.w3.org/TR/shacl12-core/#dfn-evaluation-failure), i.e., an (unexpected) error during the evaluation
 
 Furthermore, the arguments of a list parameter function are evaluated before the function is applied.
@@ -553,8 +563,10 @@ produces an [evaluation failure](https://www.w3.org/TR/shacl12-core/#dfn-evaluat
 (see 3.3 Handling of Failures (§3.3)).
 If no argument produces an [evaluation failure](https://www.w3.org/TR/shacl12-core/#dfn-evaluation-failure) and an argument produces no [output node](https://www.w3.org/TR/shacl12-core/#dfn-output-nodes),
 then the function is not applied and the [output nodes](https://www.w3.org/TR/shacl12-core/#dfn-output-nodes) of the expression are the empty list, unless the function is defined to handle unbound values
-(such as `sparql:bound`, `sparql:coalesce` and `sparql:if`),
+(such as `sparql:bound`, `sparql:coalesce` and `sparql:if`,
+see 5. SPARQL Functions (§5)),
 in which case the argument is unbound in the sense of SPARQL when the function is applied.
+Only functions defined by this specification can handle unbound values: custom list parameter functions cannot be declared to do so.
 A failing argument thus takes precedence over an argument without [output nodes](https://www.w3.org/TR/shacl12-core/#dfn-output-nodes),
 whatever their order.
 This is different from named parameter functions, where arguments are passed on as [node expressions](https://www.w3.org/TR/shacl12-core/#dfn-node-expression) that may produce lists of multiple nodes.
@@ -565,8 +577,7 @@ Note that some named parameter functions — such as `shnex:IntersectionExpressi
 also use a [SHACL list](https://www.w3.org/TR/shacl12-core/#dfn-shacl-list) as an object of the key parameter, similar to list parameter functions which always have a [SHACL list](https://www.w3.org/TR/shacl12-core/#dfn-shacl-list) as the object of their list parameter property.
 However, these may produce more than one [output node](https://www.w3.org/TR/shacl12-core/#dfn-output-nodes), and also accept lists as input nodes.
 
-The following example uses two list parameter functions —
-the (hypothetical) `ex:coalesce` and the SPARQL-based `sparql:concat` —
+The following example uses two SPARQL-based list parameter functions — `sparql:coalesce` and `sparql:concat` —
 to compute the `ex:displayName` of a person either as the value of `ex:fullName` or (if that doesn't exist)
 as a concatenation of `ex:firstName`, a space, and `ex:lastName`.
 > **Example:**
@@ -579,7 +590,7 @@ as a concatenation of `ex:firstName`, a space, and `ex:lastName`.
 > sh:path ex:displayName ;
 > sh:datatype xsd:string ;
 > sh:values **[
-> ex:coalesce (
+> sparql:coalesce (
 > [
 > # This is a path values expression that is expected to return zero or one values
 > shnex:pathValues ex:fullName ;
@@ -606,7 +617,7 @@ as a concatenation of `ex:firstName`, a space, and `ex:lastName`.
 > 		"@id": "ex:displayName"
 > 	},
 > 	"sh:values": {
-> 		"ex:coalesce": {
+> 		"sparql:coalesce": {
 > 			"@list": [
 > 				{
 > 					"shnex:pathValues": {
@@ -642,7 +653,11 @@ Node expressions may produce a [failure](https://www.w3.org/TR/shacl12-core/#dfn
 Some node expressions evaluate other, nested node expressions.
 For example, §4.1.6 If Expressions evaluate nested expressions for `shnex:if`, `shnex:then` and `shnex:else`.
 In general, if any such nested expressions produce a [failure](https://www.w3.org/TR/shacl12-core/#dfn-failure) then the surrounding
-expression also produces the same [failure](https://www.w3.org/TR/shacl12-core/#dfn-failure). SHACL SPARQL function expressions (§5) are an exception:
+expression also produces the same [failure](https://www.w3.org/TR/shacl12-core/#dfn-failure).
+The [focus node](https://www.w3.org/TR/shacl12-core/#dfn-focus-node) of an [evaluation](https://www.w3.org/TR/shacl12-core/#dfn-evaluation) may have no value, for example when an engine evaluates
+a node expression outside of [validation](https://www.w3.org/TR/shacl12-core/#dfn-validation).
+In that case, every node expression that uses the [focus node](https://www.w3.org/TR/shacl12-core/#dfn-focus-node) of its evaluation context produces an [evaluation failure](https://www.w3.org/TR/shacl12-core/#dfn-evaluation-failure): a var expression for `"focusNode"`,
+a path values expression without `shnex:focusNode`, and an expression from 4.3 Advanced Sequence Operations (§4.3) without `shnex:nodes`. SHACL SPARQL function expressions are an exception:
 a [failure](https://www.w3.org/TR/shacl12-core/#dfn-failure) of one of their arguments is treated as a SPARQL error, which some functions
 such as `sparql:coalesce` handle without failing.
 
@@ -677,12 +692,13 @@ that implement this specification.
 The syntax definitions of node expression functions that are based on [blank nodes](https://www.w3.org/TR/rdf12-concepts/#dfn-blank-node) typically use a table of properties that these blank nodes can or must have.
 Such blank nodes are only [well-formed](https://www.w3.org/TR/shacl12-core/#dfn-well-formed) when they are not the [subject](https://www.w3.org/TR/rdf12-concepts/#dfn-subject) of any other
 triples, and when none of these properties is used more than once.
-The tables may also list SHACL constraints with which the property values are required to conform.
+The tables may also list SHACL constraints to which the property values are required to conform.
 In the tables, mandatory properties are rendered in **bold face**, and the key parameter of the function is listed in the first row.
 
 Several node expression functions take their input nodes from the property `shnex:nodes`.
-This property is mandatory for the 4.2 List Operator Expressions (§4.2), which transform the [output nodes](https://www.w3.org/TR/shacl12-core/#dfn-output-nodes) of another node expression, and optional for the 4.3 Advanced Sequence Operations (§4.3),
-where it defaults to the [focus node](https://www.w3.org/TR/shacl12-core/#dfn-focus-node).
+This property is mandatory for the list operator expressions that transform the [output nodes](https://www.w3.org/TR/shacl12-core/#dfn-output-nodes) of a single input expression — `shnex:remove` (§4.2.4), `shnex:filterShape` (§4.2.5), `shnex:limit` (§4.2.6), `shnex:offset` (§4.2.7) and `shnex:orderBy` (§4.2.8) —
+and optional for the 4.3 Advanced Sequence Operations (§4.3), where it defaults to the [focus node](https://www.w3.org/TR/shacl12-core/#dfn-focus-node).
+The other 4.2 List Operator Expressions (§4.2) take their input from their key parameter.
 
 ### 4.1 Basic Node Expressions
 
@@ -692,7 +708,7 @@ A [blank node](https://www.w3.org/TR/rdf12-concepts/#dfn-blank-node) that is not
 
 EVALUATION OF EMPTY EXPRESSIONS
 
-An empty expression has the empty list `[]` as its [output nodes](https://www.w3.org/TR/shacl12-core/#dfn-output-nodes).
+An empty expression has the empty list `( )` as its [output nodes](https://www.w3.org/TR/shacl12-core/#dfn-output-nodes).
 
 *The remainder of this section is non-normative.*
 
@@ -723,7 +739,7 @@ The following example illustrates the use of a var expression pointing at the cu
 creating a self-reference.
 > **Example:**
 >
-> Example 5: A var expression stating that any Person loves him or herself by default.
+> Example 5: A var expression stating that any Person loves themselves by default.
 >
 > ex:Person
 > a sh:ShapeClass ;
@@ -865,8 +881,20 @@ otherwise let `N` be the list consisting of exactly the [focus node](https://www
 
 If `N` has 0 members, then the [output nodes](https://www.w3.org/TR/shacl12-core/#dfn-output-nodes) are the empty list.
 If `N` has more than 1 member, an [evaluation failure](https://www.w3.org/TR/shacl12-core/#dfn-evaluation-failure) is reported.
-Otherwise, the [output nodes](https://www.w3.org/TR/shacl12-core/#dfn-output-nodes) of the path values expression are the [value nodes](https://www.w3.org/TR/shacl12-core/#dfn-value-node) of the [SHACL property path](https://www.w3.org/TR/shacl12-core/#dfn-shacl-property-path) `$pathValues` for the (only) member of `N`,
-in an implementation-dependent order.
+Otherwise, let `n` be the (only) member of `N`.
+The [output nodes](https://www.w3.org/TR/shacl12-core/#dfn-output-nodes) of the path values expression are the distinct [nodes](https://www.w3.org/TR/rdf12-concepts/#dfn-node) of the set
+produced by the following steps, which correspond to the steps that define the [value nodes of property shapes](https://www.w3.org/TR/shacl12-core/#value-nodes-property-shapes) in [shacl12-core],
+in an implementation-dependent order:
+
+1. Add all [nodes](https://www.w3.org/TR/rdf12-concepts/#dfn-node) in the [focus graph](https://www.w3.org/TR/shacl12-core/#dfn-focus-graph) that can be reached from `n` with the [path mapping](https://www.w3.org/TR/shacl12-core/#dfn-path-mapping) of `$pathValues`.
+2. If `$pathValues` is an [IRI](https://www.w3.org/TR/rdf12-concepts/#dfn-iri), then for each [property shape](https://www.w3.org/TR/shacl12-core/#dfn-property-shape) in the [shapes graph](https://www.w3.org/TR/shacl12-core/#dfn-shapes-graph) that has `$pathValues` as its [value](https://www.w3.org/TR/shacl12-core/#dfn-value) of `sh:path` and that has `n` as a [focus node](https://www.w3.org/TR/shacl12-core/#dfn-focus-node):
+   if `e` is the [value](https://www.w3.org/TR/shacl12-core/#dfn-value) of `sh:values` at that [property shape](https://www.w3.org/TR/shacl12-core/#dfn-property-shape),
+   then add the [output nodes](https://www.w3.org/TR/shacl12-core/#dfn-output-nodes) of `evalExpr(e, focusGraph, n, {})`.
+3. If the set is still empty and `$pathValues` is an [IRI](https://www.w3.org/TR/rdf12-concepts/#dfn-iri), then for each such [property shape](https://www.w3.org/TR/shacl12-core/#dfn-property-shape):
+   if `d` is the [value](https://www.w3.org/TR/shacl12-core/#dfn-value) of `sh:defaultValue` at that [property shape](https://www.w3.org/TR/shacl12-core/#dfn-property-shape),
+   then add the [output nodes](https://www.w3.org/TR/shacl12-core/#dfn-output-nodes) of `evalExpr(d, focusGraph, n, {})`.
+
+If any of these evaluations produces an [evaluation failure](https://www.w3.org/TR/shacl12-core/#dfn-evaluation-failure), then the path values expression produces that [evaluation failure](https://www.w3.org/TR/shacl12-core/#dfn-evaluation-failure).
 Use `shnex:orderBy` (§4.2.8) where a deterministic order is required.
 > **Note:**
 >
@@ -1008,8 +1036,8 @@ is called an *if expression* with the [function name](https://www.w3.org/TR/shac
 | Property       | Constraints                                                                                                                                                                                              | Description                                                                                                                                                                                              |
 | -------------- | -------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- | -------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
 | **`shnex:if`** | A [well-formed](https://www.w3.org/TR/shacl12-core/#dfn-well-formed) [node expression](https://www.w3.org/TR/shacl12-core/#dfn-node-expression).                                                         | A node expression. The `shnex:then` branch is returned when the `shnex:if` expression returns `true` as its only [output node](https://www.w3.org/TR/shacl12-core/#dfn-output-nodes), in all other cases `shnex:else`. |
-| `shnex:then`   | A [well-formed](https://www.w3.org/TR/shacl12-core/#dfn-well-formed) [node expression](https://www.w3.org/TR/shacl12-core/#dfn-node-expression). Optional but at least one of `shnex:then` or `shnex:else` is required. | The [node expression](https://www.w3.org/TR/shacl12-core/#dfn-node-expression) that is returned when the `shnex:if` evaluated to `[true]`.                                                               |
-| `shnex:else`   | A [well-formed](https://www.w3.org/TR/shacl12-core/#dfn-well-formed) [node expression](https://www.w3.org/TR/shacl12-core/#dfn-node-expression). Optional but at least one of `shnex:then` or `shnex:else` is required. | The [node expression](https://www.w3.org/TR/shacl12-core/#dfn-node-expression) that is returned when the `shnex:if` did not evaluate to `[true]`.                                                        |
+| `shnex:then`   | A [well-formed](https://www.w3.org/TR/shacl12-core/#dfn-well-formed) [node expression](https://www.w3.org/TR/shacl12-core/#dfn-node-expression). Optional but at least one of `shnex:then` or `shnex:else` is required. | The [node expression](https://www.w3.org/TR/shacl12-core/#dfn-node-expression) that is returned when the `shnex:if` evaluated to `( true )`.                                                             |
+| `shnex:else`   | A [well-formed](https://www.w3.org/TR/shacl12-core/#dfn-well-formed) [node expression](https://www.w3.org/TR/shacl12-core/#dfn-node-expression). Optional but at least one of `shnex:then` or `shnex:else` is required. | The [node expression](https://www.w3.org/TR/shacl12-core/#dfn-node-expression) that is returned when the `shnex:if` did not evaluate to `( true )`.                                                      |
 
 EVALUATION OF IF EXPRESSIONS
 
@@ -1018,8 +1046,13 @@ Let `IFs` be the nodes produced by `evalExpr(if, focusGraph, focusNode, scope)`.
 If `IFs` is the list `( true )`, then the [output nodes](https://www.w3.org/TR/shacl12-core/#dfn-output-nodes) of the if expression are the nodes produced by `evalExpr(then, focusGraph, focusNode, scope)`, or the empty list if `then` has no value.
 Otherwise, the [output nodes](https://www.w3.org/TR/shacl12-core/#dfn-output-nodes) are the nodes produced by `evalExpr(else, focusGraph, focusNode, scope)`, or the empty list if `else` has no value.
 Implementations *MUST* apply lazy evaluation techniques, so the `shnex:then` or `shnex:else` branches are only evaluated when necessary.
+If the evaluation of `if` produces an [evaluation failure](https://www.w3.org/TR/shacl12-core/#dfn-evaluation-failure), then the if expression produces that failure and neither branch is evaluated (see 3.3 Handling of Failures (§3.3)).
 
 *The remainder of this section is non-normative.*
+
+Note that the condition is compared using [term equality](https://www.w3.org/TR/rdf12-concepts/#dfn-rdf-term-equality) and does not use the effective boolean value of SPARQL:
+only the list `( true )` selects `shnex:then`, while for example `( "1"^^xsd:boolean )` or `( true true )` select `shnex:else`.
+This is different from `sparql:if`, which follows the SPARQL rules for the effective boolean value of its condition.
 
 The following example illustrates the use of `shnex:if` to compute the
 values of a derived property `ex:fillColor` that may be queried to
@@ -1091,16 +1124,16 @@ In the example, instances of `ex:City` that have a value for `ex:capitalOf` will
 A [blank node](https://www.w3.org/TR/rdf12-concepts/#dfn-blank-node) that is the [subject](https://www.w3.org/TR/rdf12-concepts/#dfn-subject) of the following properties
 is called a *distinct expression* with the [function name](https://www.w3.org/TR/shacl12-core/#dfn-function-name) `shnex:DistinctExpression`:
 
-| Property             | Constraints                                                                                                                                      | Description                                                        |
-| -------------------- | ------------------------------------------------------------------------------------------------------------------------------------------------ | ------------------------------------------------------------------ |
-| **`shnex:distinct`** | A [well-formed](https://www.w3.org/TR/shacl12-core/#dfn-well-formed) [node expression](https://www.w3.org/TR/shacl12-core/#dfn-node-expression). | The node expression that shall be reduced to its distinct members. |
+| Property             | Constraints                                                                                                                                      | Description                                                                   |
+| -------------------- | ------------------------------------------------------------------------------------------------------------------------------------------------ | ----------------------------------------------------------------------------- |
+| **`shnex:distinct`** | A [well-formed](https://www.w3.org/TR/shacl12-core/#dfn-well-formed) [node expression](https://www.w3.org/TR/shacl12-core/#dfn-node-expression). | The node expression whose output nodes are reduced to their distinct members. |
 
 EVALUATION OF DISTINCT EXPRESSIONS
 
 Let `distinct` be the [value](https://www.w3.org/TR/shacl12-core/#dfn-value) of `shnex:distinct` in the distinct expression.
 Let `input` be the [output nodes](https://www.w3.org/TR/shacl12-core/#dfn-output-nodes) of `evalExpr(distinct, focusGraph, focusNode, scope)`.
-The [output nodes](https://www.w3.org/TR/shacl12-core/#dfn-output-nodes) of the distinct expression are the list of [nodes](https://www.w3.org/TR/rdf12-concepts/#dfn-node) in `input` in the same order but with duplicates eliminated (the first occurrences of each node shall be kept, the others removed).
-Nodes are compared using [term equality](https://www.w3.org/TR/rdf12-concepts/#dfn-rdf-term-equality), i.e. `"01"^^xsd:integer` is distinct from `"1"^^xsd:integer`.
+The [output nodes](https://www.w3.org/TR/shacl12-core/#dfn-output-nodes) of the distinct expression are the list of [nodes](https://www.w3.org/TR/rdf12-concepts/#dfn-node) in `input` in the same order but with duplicates eliminated (the first occurrence of each node is kept, the others are removed).
+Nodes are compared using [term equality](https://www.w3.org/TR/rdf12-concepts/#dfn-rdf-term-equality), e.g. `"01"^^xsd:integer` is distinct from `"1"^^xsd:integer`.
 
 *The remainder of this section is non-normative.*
 
@@ -1183,9 +1216,9 @@ sure that the output nodes do not include `rdfs:Resource` twice.
 A [blank node](https://www.w3.org/TR/rdf12-concepts/#dfn-blank-node) that is the [subject](https://www.w3.org/TR/rdf12-concepts/#dfn-subject) of the following properties
 is called an *intersection expression* with the [function name](https://www.w3.org/TR/shacl12-core/#dfn-function-name) `shnex:IntersectionExpression`:
 
-| Property                 | Constraints                                                                                                                                                                                              | Description                                     |
-| ------------------------ | -------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- | ----------------------------------------------- |
-| **`shnex:intersection`** | A [well-formed](https://www.w3.org/TR/shacl12-core/#dfn-well-formed) [SHACL list](https://www.w3.org/TR/shacl12-core/#dfn-shacl-list) where each [member](https://www.w3.org/TR/shacl12-core/#dfn-members) is a [well-formed](https://www.w3.org/TR/shacl12-core/#dfn-well-formed) [node expression](https://www.w3.org/TR/shacl12-core/#dfn-node-expression). | The node expressions that shall be intersected. |
+| Property                 | Constraints                                                                                                                                                                                              | Description                                              |
+| ------------------------ | -------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- | -------------------------------------------------------- |
+| **`shnex:intersection`** | A [well-formed](https://www.w3.org/TR/shacl12-core/#dfn-well-formed) [SHACL list](https://www.w3.org/TR/shacl12-core/#dfn-shacl-list) where each [member](https://www.w3.org/TR/shacl12-core/#dfn-members) is a [well-formed](https://www.w3.org/TR/shacl12-core/#dfn-well-formed) [node expression](https://www.w3.org/TR/shacl12-core/#dfn-node-expression). | The node expressions whose output nodes are intersected. |
 
 EVALUATION OF INTERSECTION EXPRESSIONS
 
@@ -1193,6 +1226,7 @@ Let `members` be the [members](https://www.w3.org/TR/shacl12-core/#dfn-members) 
 The [output nodes](https://www.w3.org/TR/shacl12-core/#dfn-output-nodes) of the intersection expression are the [nodes](https://www.w3.org/TR/rdf12-concepts/#dfn-node) that form the intersection of the [output nodes](https://www.w3.org/TR/shacl12-core/#dfn-output-nodes) produced by each [node expression](https://www.w3.org/TR/shacl12-core/#dfn-node-expression) `NE` in `members`, using `evalExpr(NE, focusGraph, focusNode, scope)`.
 Nodes must be equal using [term equality](https://www.w3.org/TR/rdf12-concepts/#dfn-rdf-term-equality), e.g., `"01"^^xsd:integer` is distinct from `"1"^^xsd:integer`.
 The intersection does not include duplicates and the order is undefined.
+If `members` is empty, then the [output nodes](https://www.w3.org/TR/shacl12-core/#dfn-output-nodes) are the empty list.
 
 *The remainder of this section is non-normative.*
 
@@ -1249,15 +1283,16 @@ This shape will target all nodes that are [SHACL instances](https://www.w3.org/T
 A [blank node](https://www.w3.org/TR/rdf12-concepts/#dfn-blank-node) that is the [subject](https://www.w3.org/TR/rdf12-concepts/#dfn-subject) of the following properties
 is called a *concat expression*, with the [function name](https://www.w3.org/TR/shacl12-core/#dfn-function-name) `shnex:ConcatExpression`:
 
-| Property           | Constraints                                                                                                                                                                                              | Description                                      |
-| ------------------ | -------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- | ------------------------------------------------ |
-| **`shnex:concat`** | A [well-formed](https://www.w3.org/TR/shacl12-core/#dfn-well-formed) [SHACL list](https://www.w3.org/TR/shacl12-core/#dfn-shacl-list) where each [member](https://www.w3.org/TR/shacl12-core/#dfn-members) is a [well-formed](https://www.w3.org/TR/shacl12-core/#dfn-well-formed) [node expression](https://www.w3.org/TR/shacl12-core/#dfn-node-expression). | The node expressions that shall be concatenated. |
+| Property           | Constraints                                                                                                                                                                                              | Description                                               |
+| ------------------ | -------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- | --------------------------------------------------------- |
+| **`shnex:concat`** | A [well-formed](https://www.w3.org/TR/shacl12-core/#dfn-well-formed) [SHACL list](https://www.w3.org/TR/shacl12-core/#dfn-shacl-list) where each [member](https://www.w3.org/TR/shacl12-core/#dfn-members) is a [well-formed](https://www.w3.org/TR/shacl12-core/#dfn-well-formed) [node expression](https://www.w3.org/TR/shacl12-core/#dfn-node-expression). | The node expressions whose output nodes are concatenated. |
 
 EVALUATION OF CONCAT EXPRESSIONS
 
 Let `members` be the [members](https://www.w3.org/TR/shacl12-core/#dfn-members) of the [value](https://www.w3.org/TR/shacl12-core/#dfn-value) of `shnex:concat` in the concat expression.
 The [output nodes](https://www.w3.org/TR/shacl12-core/#dfn-output-nodes) of the concat expression are the concatenation of all [output nodes](https://www.w3.org/TR/shacl12-core/#dfn-output-nodes) for each [node expression](https://www.w3.org/TR/shacl12-core/#dfn-node-expression) `NE` in `members`, using `evalExpr(NE, focusGraph, focusNode, scope)`.
 The order is preserved, evaluating the `members` from left to right and keeping the order of each list of output nodes.
+If `members` is empty, then the [output nodes](https://www.w3.org/TR/shacl12-core/#dfn-output-nodes) are the empty list.
 
 *The remainder of this section is non-normative.*
 
@@ -1346,10 +1381,10 @@ all nodes from each expression in sequence from left to right.
 A [blank node](https://www.w3.org/TR/rdf12-concepts/#dfn-blank-node) that is the [subject](https://www.w3.org/TR/rdf12-concepts/#dfn-subject) of the following properties
 is called a *remove expression*, with the [function name](https://www.w3.org/TR/shacl12-core/#dfn-function-name) `shnex:RemoveExpression`:
 
-| Property           | Constraints                                                                                                                                      | Description                                             |
-| ------------------ | ------------------------------------------------------------------------------------------------------------------------------------------------ | ------------------------------------------------------- |
-| **`shnex:remove`** | A [well-formed](https://www.w3.org/TR/shacl12-core/#dfn-well-formed) [node expression](https://www.w3.org/TR/shacl12-core/#dfn-node-expression). | The nodes that shall be removed from the `shnex:nodes`. |
-| **`shnex:nodes`**  | A [well-formed](https://www.w3.org/TR/shacl12-core/#dfn-well-formed) [node expression](https://www.w3.org/TR/shacl12-core/#dfn-node-expression). | The input nodes.                                        |
+| Property           | Constraints                                                                                                                                      | Description                                        |
+| ------------------ | ------------------------------------------------------------------------------------------------------------------------------------------------ | -------------------------------------------------- |
+| **`shnex:remove`** | A [well-formed](https://www.w3.org/TR/shacl12-core/#dfn-well-formed) [node expression](https://www.w3.org/TR/shacl12-core/#dfn-node-expression). | The nodes that are removed from the `shnex:nodes`. |
+| **`shnex:nodes`**  | A [well-formed](https://www.w3.org/TR/shacl12-core/#dfn-well-formed) [node expression](https://www.w3.org/TR/shacl12-core/#dfn-node-expression). | The input nodes.                                   |
 
 EVALUATION OF REMOVE EXPRESSIONS
 
@@ -1357,7 +1392,7 @@ Let `remove` be the [value](https://www.w3.org/TR/shacl12-core/#dfn-value) of `s
 Let `M` be the [output nodes](https://www.w3.org/TR/shacl12-core/#dfn-output-nodes) of `evalExpr(remove, focusGraph, focusNode, scope)`.
 Let `N` be the [output nodes](https://www.w3.org/TR/shacl12-core/#dfn-output-nodes) of `evalExpr(nodes, focusGraph, focusNode, scope)`.
 The [output nodes](https://www.w3.org/TR/shacl12-core/#dfn-output-nodes) of the remove expression are the [nodes](https://www.w3.org/TR/rdf12-concepts/#dfn-node) in `N` except those that are also in `M`, preserving the order of `N`.
-Nodes must be equal using [term equality](https://www.w3.org/TR/rdf12-concepts/#dfn-rdf-term-equality), i.e., `"01"^^xsd:integer` is distinct from `"1"^^xsd:integer`.
+Nodes must be equal using [term equality](https://www.w3.org/TR/rdf12-concepts/#dfn-rdf-term-equality), e.g., `"01"^^xsd:integer` is distinct from `"1"^^xsd:integer`.
 
 *The remainder of this section is non-normative.*
 
@@ -1428,10 +1463,10 @@ and removes the nodes returned by the `shnex:remove` expression (authors on leav
 >
 > The evaluation proceeds as follows:
 >
-> 1. `shnex:nodes [shnex:pathValues ex:author]` with focus node `ex:PublisherA` produces: `[ex:Author1, ex:Author1, ex:Author1, ex:Author2, ex:Author2]`
-> 2. `shnex:remove [shnex:pathValues ex:authorOnLeave]` with focus node `ex:PublisherA` produces: `[ex:Author1, ex:Author1]`
-> 3. Remove all occurrences of `ex:Author1` from the nodes list, preserving order: `[ex:Author2, ex:Author2]`
-> More abstractly, removing `[1, 1]` from `[1, 1, 1, 2, 2]` results in `[2, 2]` because all instances of `1` are removed (not just the first occurrence).
+> 1. `shnex:nodes [shnex:pathValues ex:author]` with focus node `ex:PublisherA` produces: `( ex:Author1 ex:Author2 ex:Author3 )`
+> 2. `shnex:remove [shnex:pathValues ex:authorOnLeave]` with focus node `ex:PublisherA` produces: `( ex:Author1 )`
+> 3. Remove `ex:Author1` from the nodes list, preserving order: `( ex:Author2 ex:Author3 )`
+> Path values expressions produce each node at most once, but other input expressions such as `shnex:concat` (§4.2.3) may produce duplicates. In that case all occurrences of a removed node are removed, not just the first occurrence: removing `( 1 )` from `( 1 1 1 2 2 )` results in `( 2 2 )`.
 
 #### 4.2.5 Filter Shape Expressions
 
@@ -1523,10 +1558,10 @@ has the value `"male"`.
 A [blank node](https://www.w3.org/TR/rdf12-concepts/#dfn-blank-node) that is the [subject](https://www.w3.org/TR/rdf12-concepts/#dfn-subject) of the following properties
 is called a *limit expression* with the [function name](https://www.w3.org/TR/shacl12-core/#dfn-function-name) `shnex:LimitExpression`:
 
-| Property          | Constraints                                                                                                                                      | Description                                         |
-| ----------------- | ------------------------------------------------------------------------------------------------------------------------------------------------ | --------------------------------------------------- |
-| **`shnex:limit`** | `sh:datatype xsd:integer sh:minInclusive 0`                                                                                                      | The maximum number of nodes that shall be returned. |
-| **`shnex:nodes`** | A [well-formed](https://www.w3.org/TR/shacl12-core/#dfn-well-formed) [node expression](https://www.w3.org/TR/shacl12-core/#dfn-node-expression). | The input nodes.                                    |
+| Property          | Constraints                                                                                                                                      | Description                                    |
+| ----------------- | ------------------------------------------------------------------------------------------------------------------------------------------------ | ---------------------------------------------- |
+| **`shnex:limit`** | `sh:datatype xsd:integer sh:minInclusive 0`                                                                                                      | The maximum number of nodes that are returned. |
+| **`shnex:nodes`** | A [well-formed](https://www.w3.org/TR/shacl12-core/#dfn-well-formed) [node expression](https://www.w3.org/TR/shacl12-core/#dfn-node-expression). | The input nodes.                               |
 
 EVALUATION OF LIMIT EXPRESSIONS
 
@@ -1537,7 +1572,7 @@ The [output nodes](https://www.w3.org/TR/shacl12-core/#dfn-output-nodes) of the 
 *The remainder of this section is non-normative.*
 
 The following example illustrates the use of `shnex:limit` to compute the
-values of a derived property `ex:oldestChildren` to be a sub-list of
+values of a derived property `ex:oldestTwoChildren` to be a sub-list of
 values of `ex:child` at the current [focus node](https://www.w3.org/TR/shacl12-core/#dfn-focus-node) (which is an instance of
 the class `ex:Person`).
 The values are computed by first fetching the values of `ex:child`, then
@@ -1617,10 +1652,10 @@ ordering them by their `ex:dateOfBirth`, and finally getting only `2` of these c
 A [blank node](https://www.w3.org/TR/rdf12-concepts/#dfn-blank-node) that is the [subject](https://www.w3.org/TR/rdf12-concepts/#dfn-subject) of the following properties
 is called an *offset expression* with the [function name](https://www.w3.org/TR/shacl12-core/#dfn-function-name) `shnex:OffsetExpression`:
 
-| Property           | Constraints                                                                                                                                      | Description                                                       |
-| ------------------ | ------------------------------------------------------------------------------------------------------------------------------------------------ | ----------------------------------------------------------------- |
-| **`shnex:offset`** | `sh:datatype xsd:integer sh:minInclusive 0`                                                                                                      | The number of nodes that shall be skipped from the `shnex:nodes`. |
-| **`shnex:nodes`**  | A [well-formed](https://www.w3.org/TR/shacl12-core/#dfn-well-formed) [node expression](https://www.w3.org/TR/shacl12-core/#dfn-node-expression). | The input nodes.                                                  |
+| Property           | Constraints                                                                                                                                      | Description                                                  |
+| ------------------ | ------------------------------------------------------------------------------------------------------------------------------------------------ | ------------------------------------------------------------ |
+| **`shnex:offset`** | `sh:datatype xsd:integer sh:minInclusive 0`                                                                                                      | The number of nodes that are skipped from the `shnex:nodes`. |
+| **`shnex:nodes`**  | A [well-formed](https://www.w3.org/TR/shacl12-core/#dfn-well-formed) [node expression](https://www.w3.org/TR/shacl12-core/#dfn-node-expression). | The input nodes.                                             |
 
 EVALUATION OF OFFSET EXPRESSIONS
 
@@ -1943,7 +1978,7 @@ EVALUATION OF FIND FIRST EXPRESSIONS
 Let `shape` be the [value](https://www.w3.org/TR/shacl12-core/#dfn-value) of `shnex:findFirst` and `nodes` be the [value](https://www.w3.org/TR/shacl12-core/#dfn-value) of `shnex:nodes` in a find first expression.
 Let `N` be the [output nodes](https://www.w3.org/TR/shacl12-core/#dfn-output-nodes) of `evalExpr(nodes, focusGraph, focusNode, scope)` if `shnex:nodes` is specified, or the list consisting of exactly the [focus node](https://www.w3.org/TR/shacl12-core/#dfn-focus-node) otherwise.
 The [output nodes](https://www.w3.org/TR/shacl12-core/#dfn-output-nodes) of the find first expression contain exactly the first node `n` in `N` that [conforms](https://www.w3.org/TR/shacl12-core/#dfn-conform) to the [shape](https://www.w3.org/TR/shacl12-core/#dfn-shape) `shape`,
-or an empty sequence if no such node exists.
+or the empty list if no such node exists.
 
 *The remainder of this section is non-normative.*
 
@@ -2155,15 +2190,16 @@ The match all operation tests each employee against a shape that validates their
 A [blank node](https://www.w3.org/TR/rdf12-concepts/#dfn-blank-node) that is the [subject](https://www.w3.org/TR/rdf12-concepts/#dfn-subject) of the following properties
 is called a *count expression* with the [function name](https://www.w3.org/TR/shacl12-core/#dfn-function-name) `shnex:CountExpression`:
 
-| Property          | Constraints                                                                                                                                      | Description                            |
-| ----------------- | ------------------------------------------------------------------------------------------------------------------------------------------------ | -------------------------------------- |
-| **`shnex:count`** | A [well-formed](https://www.w3.org/TR/shacl12-core/#dfn-well-formed) [node expression](https://www.w3.org/TR/shacl12-core/#dfn-node-expression). | The input nodes that shall be counted. |
+| Property          | Constraints                                                                                                                                      | Description                       |
+| ----------------- | ------------------------------------------------------------------------------------------------------------------------------------------------ | --------------------------------- |
+| **`shnex:count`** | A [well-formed](https://www.w3.org/TR/shacl12-core/#dfn-well-formed) [node expression](https://www.w3.org/TR/shacl12-core/#dfn-node-expression). | The input nodes that are counted. |
 
 EVALUATION OF COUNT EXPRESSIONS
 
 Let `count` be the [value](https://www.w3.org/TR/shacl12-core/#dfn-value) of `shnex:count` in the count expression.
 Let `N` be the [output nodes](https://www.w3.org/TR/shacl12-core/#dfn-output-nodes) of `evalExpr(count, focusGraph, focusNode, scope)`.
-The [output nodes](https://www.w3.org/TR/shacl12-core/#dfn-output-nodes) of the count expression is the list consisting of exactly one `xsd:integer` [literal](https://www.w3.org/TR/rdf12-concepts/#dfn-literal) that is computed as the length of `N`.
+The [output nodes](https://www.w3.org/TR/shacl12-core/#dfn-output-nodes) of the count expression are the list consisting of exactly one `xsd:integer` [literal](https://www.w3.org/TR/rdf12-concepts/#dfn-literal) that is computed as the length of `N`,
+which is `0` if `N` is empty.
 
 *The remainder of this section is non-normative.*
 
@@ -2234,16 +2270,18 @@ The following example illustrates the use of `shnex:count` to derive a property 
 A [blank node](https://www.w3.org/TR/rdf12-concepts/#dfn-blank-node) that is the [subject](https://www.w3.org/TR/rdf12-concepts/#dfn-subject) of the following properties
 is called a *min expression* with the [function name](https://www.w3.org/TR/shacl12-core/#dfn-function-name) `shnex:MinExpression`:
 
-| Property        | Constraints                                                                                                                                      | Description                                                     |
-| --------------- | ------------------------------------------------------------------------------------------------------------------------------------------------ | --------------------------------------------------------------- |
-| **`shnex:min`** | A [well-formed](https://www.w3.org/TR/shacl12-core/#dfn-well-formed) [node expression](https://www.w3.org/TR/shacl12-core/#dfn-node-expression). | The input nodes from which the minimum value shall be returned. |
+| Property        | Constraints                                                                                                                                      | Description                                               |
+| --------------- | ------------------------------------------------------------------------------------------------------------------------------------------------ | --------------------------------------------------------- |
+| **`shnex:min`** | A [well-formed](https://www.w3.org/TR/shacl12-core/#dfn-well-formed) [node expression](https://www.w3.org/TR/shacl12-core/#dfn-node-expression). | The input nodes from which the minimum value is returned. |
 
 EVALUATION OF MIN EXPRESSIONS
 
 Let `min` be the [value](https://www.w3.org/TR/shacl12-core/#dfn-value) of `shnex:min` in the min expression.
 Let `N` be the [output nodes](https://www.w3.org/TR/shacl12-core/#dfn-output-nodes) of `evalExpr(min, focusGraph, focusNode, scope)`.
-The [output nodes](https://www.w3.org/TR/shacl12-core/#dfn-output-nodes) of the min expression is the list consisting of at most one [node](https://www.w3.org/TR/rdf12-concepts/#dfn-node) that is computed as the minimum value from `N`,
+If `N` is empty, then the [output nodes](https://www.w3.org/TR/shacl12-core/#dfn-output-nodes) of the min expression are the empty list.
+Otherwise, the [output nodes](https://www.w3.org/TR/shacl12-core/#dfn-output-nodes) are the list consisting of exactly one [node](https://www.w3.org/TR/rdf12-concepts/#dfn-node) that is computed as the minimum value from `N`,
 see [SPARQL MIN](https://www.w3.org/TR/sparql12-query/#aggMin).
+If the SPARQL aggregate produces an error, then the min expression produces an [evaluation failure](https://www.w3.org/TR/shacl12-core/#dfn-evaluation-failure).
 
 *The remainder of this section is non-normative.*
 
@@ -2323,16 +2361,18 @@ date on which an employee started.
 A [blank node](https://www.w3.org/TR/rdf12-concepts/#dfn-blank-node) that is the [subject](https://www.w3.org/TR/rdf12-concepts/#dfn-subject) of the following properties
 is called a *max expression* with the [function name](https://www.w3.org/TR/shacl12-core/#dfn-function-name) `shnex:MaxExpression`:
 
-| Property        | Constraints                                                                                                                                      | Description                                                     |
-| --------------- | ------------------------------------------------------------------------------------------------------------------------------------------------ | --------------------------------------------------------------- |
-| **`shnex:max`** | A [well-formed](https://www.w3.org/TR/shacl12-core/#dfn-well-formed) [node expression](https://www.w3.org/TR/shacl12-core/#dfn-node-expression). | The input nodes from which the maximum value shall be returned. |
+| Property        | Constraints                                                                                                                                      | Description                                               |
+| --------------- | ------------------------------------------------------------------------------------------------------------------------------------------------ | --------------------------------------------------------- |
+| **`shnex:max`** | A [well-formed](https://www.w3.org/TR/shacl12-core/#dfn-well-formed) [node expression](https://www.w3.org/TR/shacl12-core/#dfn-node-expression). | The input nodes from which the maximum value is returned. |
 
 EVALUATION OF MAX EXPRESSIONS
 
 Let `max` be the [value](https://www.w3.org/TR/shacl12-core/#dfn-value) of `shnex:max` in the max expression.
 Let `N` be the [output nodes](https://www.w3.org/TR/shacl12-core/#dfn-output-nodes) of `evalExpr(max, focusGraph, focusNode, scope)`.
-The [output nodes](https://www.w3.org/TR/shacl12-core/#dfn-output-nodes) of the max expression is the list consisting of at most one [node](https://www.w3.org/TR/rdf12-concepts/#dfn-node) that is computed as the maximum value from `N`,
+If `N` is empty, then the [output nodes](https://www.w3.org/TR/shacl12-core/#dfn-output-nodes) of the max expression are the empty list.
+Otherwise, the [output nodes](https://www.w3.org/TR/shacl12-core/#dfn-output-nodes) are the list consisting of exactly one [node](https://www.w3.org/TR/rdf12-concepts/#dfn-node) that is computed as the maximum value from `N`,
 see [SPARQL MAX](https://www.w3.org/TR/sparql12-query/#aggMax).
+If the SPARQL aggregate produces an error, then the max expression produces an [evaluation failure](https://www.w3.org/TR/shacl12-core/#dfn-evaluation-failure).
 
 *The remainder of this section is non-normative.*
 
@@ -2344,16 +2384,19 @@ for `shnex:max`.
 A [blank node](https://www.w3.org/TR/rdf12-concepts/#dfn-blank-node) that is the [subject](https://www.w3.org/TR/rdf12-concepts/#dfn-subject) of the following properties
 is called a *sum expression* with the [function name](https://www.w3.org/TR/shacl12-core/#dfn-function-name) `shnex:SumExpression`:
 
-| Property        | Constraints                                                                                                                                      | Description                                           |
-| --------------- | ------------------------------------------------------------------------------------------------------------------------------------------------ | ----------------------------------------------------- |
-| **`shnex:sum`** | A [well-formed](https://www.w3.org/TR/shacl12-core/#dfn-well-formed) [node expression](https://www.w3.org/TR/shacl12-core/#dfn-node-expression). | The input nodes from which the sum shall be returned. |
+| Property        | Constraints                                                                                                                                      | Description                            |
+| --------------- | ------------------------------------------------------------------------------------------------------------------------------------------------ | -------------------------------------- |
+| **`shnex:sum`** | A [well-formed](https://www.w3.org/TR/shacl12-core/#dfn-well-formed) [node expression](https://www.w3.org/TR/shacl12-core/#dfn-node-expression). | The input nodes whose sum is returned. |
 
 EVALUATION OF SUM EXPRESSIONS
 
 Let `sum` be the [value](https://www.w3.org/TR/shacl12-core/#dfn-value) of `shnex:sum` in the sum expression.
 Let `N` be the [output nodes](https://www.w3.org/TR/shacl12-core/#dfn-output-nodes) of `evalExpr(sum, focusGraph, focusNode, scope)`.
-The [output nodes](https://www.w3.org/TR/shacl12-core/#dfn-output-nodes) of the sum expression is the list consisting of exactly one [node](https://www.w3.org/TR/rdf12-concepts/#dfn-node) that is computed as the sum of all [nodes](https://www.w3.org/TR/rdf12-concepts/#dfn-node) from `N`,
-see [SPARQL SUM](https://www.w3.org/TR/sparql12-query/#aggSum).
+The [output nodes](https://www.w3.org/TR/shacl12-core/#dfn-output-nodes) of the sum expression are the list consisting of exactly one [node](https://www.w3.org/TR/rdf12-concepts/#dfn-node) that is computed as the sum of all [nodes](https://www.w3.org/TR/rdf12-concepts/#dfn-node) from `N`,
+see [SPARQL SUM](https://www.w3.org/TR/sparql12-query/#aggSum),
+which is `0` (an `xsd:integer`) if `N` is empty.
+If the SPARQL aggregate produces an error, for example because a member of `N` is not numeric,
+then the sum expression produces an [evaluation failure](https://www.w3.org/TR/shacl12-core/#dfn-evaluation-failure) instead.
 
 *The remainder of this section is non-normative.*
 
@@ -2498,11 +2541,12 @@ EVALUATION OF INSTANCESOF EXPRESSIONS
 Let `typesExpr` be the [value](https://www.w3.org/TR/shacl12-core/#dfn-value) of `shnex:instancesOf` in an instancesOf expression.
 Let `types` be the [output nodes](https://www.w3.org/TR/shacl12-core/#dfn-output-nodes) of `evalExpr(typesExpr, focusGraph, focusNode, scope)`.
 An [evaluation failure](https://www.w3.org/TR/shacl12-core/#dfn-evaluation-failure) is reported when any of the members of `types` is not an [IRI](https://www.w3.org/TR/rdf12-concepts/#dfn-iri).
-The [output nodes](https://www.w3.org/TR/shacl12-core/#dfn-output-nodes) of the instancesOf expression are the distinct [nodes](https://www.w3.org/TR/rdf12-concepts/#dfn-node) that are [SHACL instances](https://www.w3.org/TR/shacl12-core/#dfn-shacl-instance) in the [focus graph](https://www.w3.org/TR/shacl12-core/#dfn-focus-graph) of each member of `types`.
+The [output nodes](https://www.w3.org/TR/shacl12-core/#dfn-output-nodes) of the instancesOf expression are the distinct [nodes](https://www.w3.org/TR/rdf12-concepts/#dfn-node) that are [SHACL instances](https://www.w3.org/TR/shacl12-core/#dfn-shacl-instance) in the [focus graph](https://www.w3.org/TR/shacl12-core/#dfn-focus-graph) of any member of `types`, in an implementation-dependent order.
+If `types` is empty, then the [output nodes](https://www.w3.org/TR/shacl12-core/#dfn-output-nodes) are the empty list.
 
 *The remainder of this section is non-normative.*
 
-Note that the definition of `SHACL instance` includes instances of subclasses of the given class.
+Note that the definition of [SHACL instance](https://www.w3.org/TR/shacl12-core/#dfn-shacl-instance) includes instances of subclasses of the given class.
 So if the [focus graph](https://www.w3.org/TR/shacl12-core/#dfn-focus-graph) contains `ex:SubClass rdfs:subClassOf ex:SuperClass` and `ex:SubInstance a ex:SubClass` then `ex:SubInstance` will also be returned as instance of `ex:SuperClass`.
 
 The interpretation of `shnex:instancesOf` is similar to `sh:targetClass` and `sh:class`.
@@ -2523,7 +2567,7 @@ is called a *nodes matching expression* with the [function name](https://www.w3.
 EVALUATION OF NODES MATCHING EXPRESSIONS
 
 Let `shape` be the [value](https://www.w3.org/TR/shacl12-core/#dfn-value) of `shnex:nodesMatching` in a nodes matching expression.
-The [output nodes](https://www.w3.org/TR/shacl12-core/#dfn-output-nodes) of the nodes matching expression are the [nodes](https://www.w3.org/TR/rdf12-concepts/#dfn-node) in the [focus graph](https://www.w3.org/TR/shacl12-core/#dfn-focus-graph) that [conform](https://www.w3.org/TR/shacl12-core/#dfn-conform) to `shape`.
+The [output nodes](https://www.w3.org/TR/shacl12-core/#dfn-output-nodes) of the nodes matching expression are the [nodes](https://www.w3.org/TR/rdf12-concepts/#dfn-node) in the [focus graph](https://www.w3.org/TR/shacl12-core/#dfn-focus-graph) that [conform](https://www.w3.org/TR/shacl12-core/#dfn-conform) to `shape`, in an implementation-dependent order.
 
 *The remainder of this section is non-normative.*
 
@@ -2737,85 +2781,89 @@ Filter by category:
 
 *SPARQL functions usable in SHACL node expressions*
 
-| Function name                                                         | Description and Example                                                                                                                                                                                  | Category  |
-| --------------------------------------------------------------------- | -------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- | --------- |
-| [abs](https://www.w3.org/TR/sparql12-query/#func-abs)                 | This function returns the absolute value of a numeric argument. Example: `[ sparql:abs ( -42 ) ]`                                                                                                        | numeric   |
-| [bnode](https://www.w3.org/TR/sparql12-query/#func-bnode)             | This function returns a blank node. Example: `[ sparql:bnode () ]`                                                                                                                                       | other     |
-| [bound](https://www.w3.org/TR/sparql12-query/#func-bound)             | This form checks whether a variable is bound (assigned a value) in the current solution. Example: `[ sparql:bound ( [ shnex:var "var" ] ) ]`                                                             | other     |
-| [ceil](https://www.w3.org/TR/sparql12-query/#func-ceil)               | This function returns the smallest integer greater than or equal to the numeric argument. Example: `[ sparql:ceil ( 3.2 ) ]`                                                                             | numeric   |
-| [coalesce](https://www.w3.org/TR/sparql12-query/#func-coalesce)       | This form returns the first non-error, non-unbound value from a sequence of expressions. Example: `[ sparql:coalesce ( [ shnex:var "optionalValue" ] "default" ) ]`                                      | other     |
-| [concat](https://www.w3.org/TR/sparql12-query/#func-concat)           | This function concatenates two or more string literals into one continuous string. Example: `[ sparql:concat ( "hello" " " "world" ) ]`                                                                  | string    |
-| [contains](https://www.w3.org/TR/sparql12-query/#func-contains)       | This function returns true if the first string argument contains the second string argument as a substring, and false otherwise. Example: `[ sparql:contains ( "hello world" "lo wo" ) ]`                | string    |
-| [datatype](https://www.w3.org/TR/sparql12-query/#func-datatype)       | This function returns the datatype IRI of a literal term. Example: `[ sparql:datatype ( "42"^^xsd:integer ) ]`                                                                                           | other     |
-| [day](https://www.w3.org/TR/sparql12-query/#func-day)                 | This function returns the day component of an xsd:dateTime or xsd:date. Example: `[ sparql:day ( "2023-12-25T10:30:00"^^xsd:dateTime ) ]`                                                                | date      |
-| [divide](https://www.w3.org/TR/sparql12-query/)                       | This operator divides the first numeric expression by the second and returns the result. Example: `[ sparql:divide ( 84 2 ) ]`                                                                           | algebraic |
-| [encode](https://www.w3.org/TR/sparql12-query/#func-encode)           | This function encodes a string using a specified method (e.g., URI-encoding), returning the encoded version. Example: `[ sparql:encode ( "hello world" "UTF-8" ) ]`                                      | string    |
-| [equals](https://www.w3.org/TR/sparql12-query/)                       | This operator compares two expressions for equality. Example: `[ sparql:equals ( "hello" "hello" ) ]`                                                                                                    | other     |
-| [floor](https://www.w3.org/TR/sparql12-query/#func-floor)             | This function returns the greatest integer less than or equal to the numeric argument. Example: `[ sparql:floor ( 3.8 ) ]`                                                                               | numeric   |
-| [greater than](https://www.w3.org/TR/sparql12-query/)                 | This operator tests whether the first RDF term is greater than the second RDF term. Example: `[ sparql:greater-than ( 10 5 ) ]`                                                                          | other     |
-| [greater than or equal](https://www.w3.org/TR/sparql12-query/)        | This operator tests whether the first RDF term is greater than or equal to the second RDF term. Example: `[ sparql:greater-than-or-equal ( 10 10 ) ]`                                                    | other     |
-| [has lang](https://www.w3.org/TR/sparql12-query/#func-haslang)        | This function returns true if the given RDF term is a literal with a language tag. Example: `[ sparql:hasLang ( "hello"@en ) ]`                                                                          | string    |
-| [has langdir](https://www.w3.org/TR/sparql12-query/#func-haslangdir)  | This function returns true if the given RDF literal has an initial text direction. Example: `[ sparql:hasLangdir ( "hello"@en--ltr ) ]`                                                                  | string    |
-| [hours](https://www.w3.org/TR/sparql12-query/#func-hours)             | This function returns the hour component (0–23) of an xsd:dateTime value. Example: `[ sparql:hours ( "2023-12-25T10:30:00"^^xsd:dateTime ) ]`                                                            | date      |
-| [if](https://www.w3.org/TR/sparql12-query/#func-if)                   | This conditional form evaluates a test expression and returns one of two provided expressions based on the boolean outcome of the test. Example: `[ sparql:if ( [ sparql:greater-than ( 10 5 ) ] "big" "small" ) ]` | other     |
-| [iri](https://www.w3.org/TR/sparql12-query/#func-iri)                 | This function returns an IRI with the given string. Example: `[ sparql:iri ( "http://example.com/ns#resource" ) ]`                                                                                       | other     |
-| [is blank](https://www.w3.org/TR/sparql12-query/#func-isBlank)        | This function returns true if the provided term is a blank node, and false otherwise. Example: `[ sparql:isBlank ( [ sparql:bnode () ] ) ]`                                                              | other     |
-| [is iri](https://www.w3.org/TR/sparql12-query/#func-isIRI)            | This function returns true if the provided term is an IRI, and false otherwise. Example: `[ sparql:isIRI ( ex:resource ) ]`                                                                              | other     |
-| [is literal](https://www.w3.org/TR/sparql12-query/#func-isLiteral)    | This function returns true if the provided term is an RDF literal, and false otherwise. Example: `[ sparql:isLiteral ( "hello world" ) ]`                                                                | other     |
-| [is numeric](https://www.w3.org/TR/sparql12-query/#func-isNumeric)    | This function returns true if the provided term is a numeric literal (e.g., xsd:integer, xsd:decimal, xsd:float, or xsd:double), and false otherwise. Example: `[ sparql:isNumeric ( 42 ) ]`             | other     |
-| [is triple](https://www.w3.org/TR/sparql12-query/#func-isTriple)      | This function returns true if the argument is a triple term, and false otherwise. Example: `[ sparql:isTriple ( <<( ex:s ex:p ex:o )>> ) ]`                                                              | other     |
-| [is uri](https://www.w3.org/TR/sparql12-query/#func-isIRI)            | This function returns true if the provided term is an IRI, and false otherwise. Example: `[ sparql:isURI ( ex:resource ) ]`                                                                              | other     |
-| [lang](https://www.w3.org/TR/sparql12-query/#func-lang)               | This function returns the language tag of a literal, or an empty string if no language tag is present or the term is not a literal. Example: `[ sparql:lang ( "hello"@en ) ]`                            | string    |
-| [langdir](https://www.w3.org/TR/sparql12-query/#func-langdir)         | This function returns the initial text direction of a literal. Example: `[ sparql:langdir ( "hello"@en--ltr ) ]`                                                                                         | string    |
-| [langmatches](https://www.w3.org/TR/sparql12-query/#func-langMatches) | This function checks whether a given language tag matches a specified language range. Example: `[ sparql:langMatches ( "en-US" "en" ) ]`                                                                 | string    |
-| [lcase](https://www.w3.org/TR/sparql12-query/#func-lcase)             | This function transforms all alphabetic characters in the input string to lowercase, according to Unicode case-folding rules. Example: `[ sparql:lcase ( "HELLO" ) ]`                                    | string    |
-| [less than](https://www.w3.org/TR/sparql12-query/)                    | This operator tests whether the first RDF term is less than the second RDF term. Example: `[ sparql:less-than ( 5 10 ) ]`                                                                                | other     |
-| [less than or equal](https://www.w3.org/TR/sparql12-query/)           | This operator tests whether the first RDF term is less than or equal to the second RDF term. Example: `[ sparql:less-than-or-equal ( 5 5 ) ]`                                                            | other     |
-| [logical and](https://www.w3.org/TR/sparql12-query/#func-logical-and) | This form computes the logical AND of two boolean expressions. Example: `[ sparql:logical-and ( true true ) ]`                                                                                           | other     |
-| [logical not](https://www.w3.org/TR/sparql12-query/)                  | This form computes the logical NOT of a boolean expression. Example: `[ sparql:logical-not ( true ) ]`                                                                                                   | other     |
-| [logical or](https://www.w3.org/TR/sparql12-query/#func-logical-or)   | This form computes the logical OR of two boolean expressions. Example: `[ sparql:logical-or ( true false ) ]`                                                                                            | other     |
-| [md5](https://www.w3.org/TR/sparql12-query/#func-md5)                 | This function computes the MD5 hash of the lexical form of a string, returning a hexadecimal string representation of the hash. Example: `[ sparql:md5 ( "hello" ) ]`                                    | other     |
-| [minutes](https://www.w3.org/TR/sparql12-query/#func-minutes)         | This function returns the minute component (0–59) of an xsd:dateTime value. Example: `[ sparql:minutes ( "2023-12-25T10:30:00"^^xsd:dateTime ) ]`                                                        | date      |
-| [month](https://www.w3.org/TR/sparql12-query/#func-month)             | This function returns the month component of an xsd:dateTime or xsd:date. Example: `[ sparql:month ( "2023-12-25T10:30:00"^^xsd:dateTime ) ]`                                                            | date      |
-| [multiply](https://www.w3.org/TR/sparql12-query/)                     | This operator multiplies two numeric expressions and returns the product. Example: `[ sparql:multiply ( 6 7 ) ]`                                                                                         | algebraic |
-| [not equals](https://www.w3.org/TR/sparql12-query/)                   | This operator tests two expressions for inequality. Example: `[ sparql:not-equals ( "hello" "world" ) ]`                                                                                                 | other     |
-| [now](https://www.w3.org/TR/sparql12-query/#func-now)                 | This function returns the current dateTime (with or without a timezone) at the moment of query execution. Example: `[ sparql:now () ]`                                                                   | date      |
-| [object](https://www.w3.org/TR/sparql12-query/#func-object)           | This function returns the object of a triple term. Example: `[ sparql:object ( <<( ex:s ex:p ex:o )>> ) ]`                                                                                               | other     |
-| [plus](https://www.w3.org/TR/sparql12-query/)                         | This operator adds two numeric expressions and returns their sum. Example: `[ sparql:plus ( 38 4 ) ]`                                                                                                    | algebraic |
-| [predicate](https://www.w3.org/TR/sparql12-query/#func-predicate)     | This function returns the predicate of a triple term. Example: `[ sparql:predicate ( <<( ex:s ex:p ex:o )>> ) ]`                                                                                         | other     |
-| [rand](https://www.w3.org/TR/sparql12-query/#func-rand)               | This function returns a random number between 0 and 1. Example: `[ sparql:rand () ]`                                                                                                                     | numeric   |
-| [regex](https://www.w3.org/TR/sparql12-query/#func-regex)             | This function tests whether a string matches a regular expression pattern, optionally with a specified flag (e.g., i for case-insensitive). Example: `[ sparql:regex ( "hello123" "[0-9]+" ) ]`          | string    |
-| [replace](https://www.w3.org/TR/sparql12-query/#func-replace)         | This function performs a regular expression search-and-replace on a string, returning the modified string. Example: `[ sparql:replace ( "hello world" "world" "universe" ) ]`                            | string    |
-| [round](https://www.w3.org/TR/sparql12-query/#func-round)             | This function rounds a numeric argument to the nearest integer. Example: `[ sparql:round ( 3.7 ) ]`                                                                                                      | numeric   |
-| [same term](https://www.w3.org/TR/sparql12-query/#func-sameTerm)      | This function checks whether two RDF terms are the same in the strict sense, including their lexical forms, datatypes, and language tags for literals. Example: `[ sparql:sameTerm ( "hello" "hello" ) ]` | other     |
-| [same value](https://www.w3.org/TR/sparql12-query/#func-sameValue)    | This function compares two RDF terms for equivalent RDF values, potentially considering numeric type equivalencies and other canonical forms beyond strict term identity. Example: `[ sparql:sameValue ( 42 "42"^^xsd:integer ) ]` | other     |
-| [seconds](https://www.w3.org/TR/sparql12-query/#func-seconds)         | This function returns the seconds component of a valid xsd:dateTime or xsd:dateTimeStamp value. Example: `[ sparql:seconds ( "2023-12-25T10:30:00"^^xsd:dateTime ) ]`                                    | date      |
-| [sha1](https://www.w3.org/TR/sparql12-query/#func-sha1)               | This function computes the SHA-1 hash of the lexical form of a string, returning a hexadecimal string representation of the result. Example: `[ sparql:sha1 ( "hello" ) ]`                               | other     |
-| [sha256](https://www.w3.org/TR/sparql12-query/#func-sha256)           | This function computes the SHA-256 hash of the lexical form of a string, returning the resulting hash as a hexadecimal string. Example: `[ sparql:sha256 ( "hello" ) ]`                                  | other     |
-| [sha384](https://www.w3.org/TR/sparql12-query/#func-sha384)           | This function computes the SHA-384 hash of the lexical form of a string, returning the resulting hexadecimal string. Example: `[ sparql:sha384 ( "hello" ) ]`                                            | other     |
-| [sha512](https://www.w3.org/TR/sparql12-query/#func-sha512)           | This function computes the SHA-512 hash of the lexical form of a string, returning the result as a hexadecimal string. Example: `[ sparql:sha512 ( "hello" ) ]`                                          | other     |
-| [str](https://www.w3.org/TR/sparql12-query/#func-str)                 | This function returns the lexical form of an RDF term, which for IRIs is the IRI string, and for literals is the lexical representation. Example: `[ sparql:str ( 42 ) ]`                                | string    |
-| [strafter](https://www.w3.org/TR/sparql12-query/#func-strafter)       | This function returns the substring of the first argument that follows the first occurrence of the second argument. Example: `[ sparql:strafter ( "hello world" " " ) ]`                                 | string    |
-| [strbefore](https://www.w3.org/TR/sparql12-query/#func-strbefore)     | This function returns the substring of the first argument that precedes the first occurrence of the second argument. Example: `[ sparql:strbefore ( "hello world" " " ) ]`                               | string    |
-| [strdt](https://www.w3.org/TR/sparql12-query/#func-strdt)             | This function creates a typed literal from a string and a datatype IRI, returning an RDF literal with the specified lexical form and datatype. Example: `[ sparql:strdt ( "42" xsd:integer ) ]`          | string    |
-| [strends](https://www.w3.org/TR/sparql12-query/#func-strends)         | This function returns true if the first string argument ends with the second string argument, and false otherwise. Example: `[ sparql:strends ( "hello world" "world" ) ]`                               | string    |
-| [strlang](https://www.w3.org/TR/sparql12-query/#func-strlang)         | This function creates an RDF literal with the specified lexical form and language tag. Example: `[ sparql:strlang ( "hello" "en" ) ]`                                                                    | string    |
-| [strlangdir](https://www.w3.org/TR/sparql12-query/#func-strlangdir)   | This function creates an RDF literal with language tag and initial text direction. Example: `[ sparql:strlangdir ( "hello" "en" "ltr" ) ]`                                                               | string    |
-| [strlen](https://www.w3.org/TR/sparql12-query/#func-strlen)           | This function returns the length of the lexical form of a string literal, measured in characters. Example: `[ sparql:strlen ( "hello" ) ]`                                                               | string    |
-| [strstarts](https://www.w3.org/TR/sparql12-query/#func-strstarts)     | This function returns true if the first string argument begins with the second string argument, and false otherwise. Example: `[ sparql:strstarts ( "hello world" "hello" ) ]`                           | string    |
-| [struuid](https://www.w3.org/TR/sparql12-query/#func-struuid)         | This function generates a UUID as a string. Example: `[ sparql:struuid () ]`                                                                                                                             | string    |
-| [subject](https://www.w3.org/TR/sparql12-query/#func-subject)         | This function returns the subject of a triple term. Example: `[ sparql:subject ( <<( ex:s ex:p ex:o )>> ) ]`                                                                                             | other     |
-| [substr](https://www.w3.org/TR/sparql12-query/#func-substr)           | This function returns the substring of the given string starting at a specified position and optionally limited to a given length. Example: `[ sparql:substr ( "hello world" 2 5 ) ]`                    | string    |
-| [subtract](https://www.w3.org/TR/sparql12-query/)                     | This operator subtracts the second numeric expression from the first and returns the result. Example: `[ sparql:subtract ( 42 7 ) ]`                                                                     | algebraic |
-| [timezone](https://www.w3.org/TR/sparql12-query/#func-timezone)       | This function returns the timezone component as an xsd:dayTimeDuration for an xsd:dateTime value with a specified time zone, or an empty value if none. Example: `[ sparql:timezone ( "2023-12-25T10:30:00+02:00"^^xsd:dateTime ) ]` | date      |
-| [triple](https://www.w3.org/TR/sparql12-query/#func-triple)           | This function constructs a triple term. Example: `[ sparql:triple ( ex:s ex:p ex:o ) ]`                                                                                                                  | other     |
-| [tz](https://www.w3.org/TR/sparql12-query/#func-tz)                   | This function returns the timezone component as a string in ISO 8601 format if present in the xsd:dateTime value, or an empty string otherwise. Example: `[ sparql:tz ( "2023-12-25T10:30:00+02:00"^^xsd:dateTime ) ]` | date      |
-| [ucase](https://www.w3.org/TR/sparql12-query/#func-ucase)             | This function transforms all alphabetic characters in the input string to uppercase, following Unicode case-folding conventions. Example: `[ sparql:ucase ( "hello" ) ]`                                 | string    |
-| [unary minus](https://www.w3.org/TR/sparql12-query/)                  | This unary operator returns the negation of a numeric expression. Example: `[ sparql:unary-minus ( 42 ) ]`                                                                                               | algebraic |
-| [unary plus](https://www.w3.org/TR/sparql12-query/)                   | This unary operator returns the numeric expression unchanged, acting primarily as a syntactic indicator. Example: `[ sparql:unary-plus ( 42 ) ]`                                                         | algebraic |
-| [uri](https://www.w3.org/TR/sparql12-query/#func-uri)                 | This function returns an IRI with the given string. Example: `[ sparql:uri ( "http://example.com/ns#resource" ) ]`                                                                                       | other     |
-| [uuid](https://www.w3.org/TR/sparql12-query/#func-uuid)               | This function generates a UUID as an IRI. Example: `[ sparql:uuid () ]`                                                                                                                                  | other     |
-| [year](https://www.w3.org/TR/sparql12-query/#func-year)               | This function returns the year component of an xsd:dateTime or xsd:date. Example: `[ sparql:year ( "2023-12-25T10:30:00"^^xsd:dateTime ) ]`                                                              | date      |
+| Function name                                                                  | Description and Example                                                                                                                                                                                  | Category  |
+| ------------------------------------------------------------------------------ | -------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- | --------- |
+| [abs](https://www.w3.org/TR/sparql12-query/#func-abs)                          | This function returns the absolute value of a numeric argument. Example: `[ sparql:abs ( -42 ) ]`                                                                                                        | numeric   |
+| [bnode](https://www.w3.org/TR/sparql12-query/#func-bnode)                      | This function returns a blank node. Example: `[ sparql:bnode () ]`                                                                                                                                       | other     |
+| [bound](https://www.w3.org/TR/sparql12-query/#func-bound)                      | This form checks whether a variable is bound (assigned a value) in the current solution. Example: `[ sparql:bound ( [ shnex:var "var" ] ) ]`                                                             | other     |
+| [ceil](https://www.w3.org/TR/sparql12-query/#func-ceil)                        | This function returns the smallest integer greater than or equal to the numeric argument. Example: `[ sparql:ceil ( 3.2 ) ]`                                                                             | numeric   |
+| [coalesce](https://www.w3.org/TR/sparql12-query/#func-coalesce)                | This form returns the first non-error, non-unbound value from a sequence of expressions. Example: `[ sparql:coalesce ( [ shnex:var "optionalValue" ] "default" ) ]`                                      | other     |
+| [concat](https://www.w3.org/TR/sparql12-query/#func-concat)                    | This function concatenates two or more string literals into one continuous string. Example: `[ sparql:concat ( "hello" " " "world" ) ]`                                                                  | string    |
+| [contains](https://www.w3.org/TR/sparql12-query/#func-contains)                | This function returns true if the first string argument contains the second string argument as a substring, and false otherwise. Example: `[ sparql:contains ( "hello world" "lo wo" ) ]`                | string    |
+| [datatype](https://www.w3.org/TR/sparql12-query/#func-datatype)                | This function returns the datatype IRI of a literal term. Example: `[ sparql:datatype ( "42"^^xsd:integer ) ]`                                                                                           | other     |
+| [day](https://www.w3.org/TR/sparql12-query/#func-day)                          | This function returns the day component of an xsd:dateTime or xsd:date. Example: `[ sparql:day ( "2023-12-25T10:30:00"^^xsd:dateTime ) ]`                                                                | date      |
+| [divide](https://www.w3.org/TR/sparql12-query/#OperatorMapping)                | This operator divides the first numeric expression by the second and returns the result. Example: `[ sparql:divide ( 84 2 ) ]`                                                                           | algebraic |
+| [encode for uri](https://www.w3.org/TR/sparql12-query/#func-encode-for-uri)    | This function corresponds to the SPARQL function ENCODE_FOR_URI. It takes a single string literal and returns an xsd:string literal in which the characters that are reserved in URIs are percent-encoded, for example a space as %20. Example: `[ sparql:encode-for-uri ( "hello world" ) ]` | string    |
+| [equals](https://www.w3.org/TR/sparql12-query/#OperatorMapping)                | This operator compares two expressions for equality, as the SPARQL = operator does. Example: `[ sparql:equals ( "hello" "hello" ) ]`                                                                     | other     |
+| [floor](https://www.w3.org/TR/sparql12-query/#func-floor)                      | This function returns the greatest integer less than or equal to the numeric argument. Example: `[ sparql:floor ( 3.8 ) ]`                                                                               | numeric   |
+| [greater than](https://www.w3.org/TR/sparql12-query/#OperatorMapping)          | This operator tests whether the first RDF term is greater than the second RDF term. Example: `[ sparql:greater-than ( 10 5 ) ]`                                                                          | other     |
+| [greater than or equal](https://www.w3.org/TR/sparql12-query/#OperatorMapping) | This operator tests whether the first RDF term is greater than or equal to the second RDF term. Example: `[ sparql:greater-than-or-equal ( 10 10 ) ]`                                                    | other     |
+| [has lang](https://www.w3.org/TR/sparql12-query/#func-haslang)                 | This function returns true if the given RDF term is a literal with a language tag. Example: `[ sparql:hasLang ( "hello"@en ) ]`                                                                          | string    |
+| [has langdir](https://www.w3.org/TR/sparql12-query/#func-haslangdir)           | This function returns true if the given RDF literal has an initial text direction. Example: `[ sparql:hasLangdir ( "hello"@en--ltr ) ]`                                                                  | string    |
+| [hours](https://www.w3.org/TR/sparql12-query/#func-hours)                      | This function returns the hour component (0–23) of an xsd:dateTime value. Example: `[ sparql:hours ( "2023-12-25T10:30:00"^^xsd:dateTime ) ]`                                                            | date      |
+| [if](https://www.w3.org/TR/sparql12-query/#func-if)                            | This conditional form evaluates a test expression and returns one of two provided expressions based on the boolean outcome of the test. Example: `[ sparql:if ( [ sparql:greater-than ( 10 5 ) ] "big" "small" ) ]` | other     |
+| [iri](https://www.w3.org/TR/sparql12-query/#func-iri)                          | This function returns an IRI with the given string. Example: `[ sparql:iri ( "http://example.com/ns#resource" ) ]`                                                                                       | other     |
+| [is blank](https://www.w3.org/TR/sparql12-query/#func-isBlank)                 | This function returns true if the provided term is a blank node, and false otherwise. Example: `[ sparql:isBlank ( [ sparql:bnode () ] ) ]`                                                              | other     |
+| [is iri](https://www.w3.org/TR/sparql12-query/#func-isIRI)                     | This function returns true if the provided term is an IRI, and false otherwise. Example: `[ sparql:isIRI ( ex:resource ) ]`                                                                              | other     |
+| [is literal](https://www.w3.org/TR/sparql12-query/#func-isLiteral)             | This function returns true if the provided term is an RDF literal, and false otherwise. Example: `[ sparql:isLiteral ( "hello world" ) ]`                                                                | other     |
+| [is numeric](https://www.w3.org/TR/sparql12-query/#func-isNumeric)             | This function returns true if the provided term is a numeric literal (e.g., xsd:integer, xsd:decimal, xsd:float, or xsd:double), and false otherwise. Example: `[ sparql:isNumeric ( 42 ) ]`             | other     |
+| [is triple](https://www.w3.org/TR/sparql12-query/#func-isTriple)               | This function returns true if the argument is a triple term, and false otherwise. Example: `[ sparql:isTriple ( <<( ex:s ex:p ex:o )>> ) ]`                                                              | other     |
+| [is uri](https://www.w3.org/TR/sparql12-query/#func-isIRI)                     | This function returns true if the provided term is an IRI, and false otherwise. Example: `[ sparql:isURI ( ex:resource ) ]`                                                                              | other     |
+| [lang](https://www.w3.org/TR/sparql12-query/#func-lang)                        | This function returns the language tag of a literal, or an empty string if no language tag is present or the term is not a literal. Example: `[ sparql:lang ( "hello"@en ) ]`                            | string    |
+| [langdir](https://www.w3.org/TR/sparql12-query/#func-langdir)                  | This function returns the initial text direction of a literal. Example: `[ sparql:langdir ( "hello"@en--ltr ) ]`                                                                                         | string    |
+| [langmatches](https://www.w3.org/TR/sparql12-query/#func-langMatches)          | This function checks whether a given language tag matches a specified language range. Example: `[ sparql:langMatches ( "en-US" "en" ) ]`                                                                 | string    |
+| [lcase](https://www.w3.org/TR/sparql12-query/#func-lcase)                      | This function transforms all alphabetic characters in the input string to lowercase, according to Unicode case-folding rules. Example: `[ sparql:lcase ( "HELLO" ) ]`                                    | string    |
+| [less than](https://www.w3.org/TR/sparql12-query/#OperatorMapping)             | This operator tests whether the first RDF term is less than the second RDF term. Example: `[ sparql:less-than ( 5 10 ) ]`                                                                                | other     |
+| [less than or equal](https://www.w3.org/TR/sparql12-query/#OperatorMapping)    | This operator tests whether the first RDF term is less than or equal to the second RDF term. Example: `[ sparql:less-than-or-equal ( 5 5 ) ]`                                                            | other     |
+| [logical and](https://www.w3.org/TR/sparql12-query/#func-logical-and)          | This form computes the logical AND of two boolean expressions. Example: `[ sparql:logical-and ( true true ) ]`                                                                                           | other     |
+| [logical not](https://www.w3.org/TR/sparql12-query/#OperatorMapping)           | This form computes the logical NOT of a boolean expression. Example: `[ sparql:logical-not ( true ) ]`                                                                                                   | other     |
+| [logical or](https://www.w3.org/TR/sparql12-query/#func-logical-or)            | This form computes the logical OR of two boolean expressions. Example: `[ sparql:logical-or ( true false ) ]`                                                                                            | other     |
+| [md5](https://www.w3.org/TR/sparql12-query/#func-md5)                          | This function computes the MD5 hash of the lexical form of a string, returning a hexadecimal string representation of the hash. Example: `[ sparql:md5 ( "hello" ) ]`                                    | other     |
+| [minutes](https://www.w3.org/TR/sparql12-query/#func-minutes)                  | This function returns the minute component (0–59) of an xsd:dateTime value. Example: `[ sparql:minutes ( "2023-12-25T10:30:00"^^xsd:dateTime ) ]`                                                        | date      |
+| [month](https://www.w3.org/TR/sparql12-query/#func-month)                      | This function returns the month component of an xsd:dateTime or xsd:date. Example: `[ sparql:month ( "2023-12-25T10:30:00"^^xsd:dateTime ) ]`                                                            | date      |
+| [multiply](https://www.w3.org/TR/sparql12-query/#OperatorMapping)              | This operator multiplies two numeric expressions and returns the product. Example: `[ sparql:multiply ( 6 7 ) ]`                                                                                         | algebraic |
+| [not equals](https://www.w3.org/TR/sparql12-query/#OperatorMapping)            | This operator tests two expressions for inequality. Example: `[ sparql:not-equals ( "hello" "world" ) ]`                                                                                                 | other     |
+| [now](https://www.w3.org/TR/sparql12-query/#func-now)                          | This function returns the current dateTime (with or without a timezone) at the moment of query execution. Example: `[ sparql:now () ]`                                                                   | date      |
+| [object](https://www.w3.org/TR/sparql12-query/#func-object)                    | This function returns the object of a triple term. Example: `[ sparql:object ( <<( ex:s ex:p ex:o )>> ) ]`                                                                                               | other     |
+| [plus](https://www.w3.org/TR/sparql12-query/#OperatorMapping)                  | This operator adds two numeric expressions and returns their sum. Example: `[ sparql:plus ( 38 4 ) ]`                                                                                                    | algebraic |
+| [predicate](https://www.w3.org/TR/sparql12-query/#func-predicate)              | This function returns the predicate of a triple term. Example: `[ sparql:predicate ( <<( ex:s ex:p ex:o )>> ) ]`                                                                                         | other     |
+| [rand](https://www.w3.org/TR/sparql12-query/#func-rand)                        | This function returns a random number between 0 and 1. Example: `[ sparql:rand () ]`                                                                                                                     | numeric   |
+| [regex](https://www.w3.org/TR/sparql12-query/#func-regex)                      | This function tests whether a string matches a regular expression pattern, optionally with a specified flag (e.g., i for case-insensitive). Example: `[ sparql:regex ( "hello123" "[0-9]+" ) ]`          | string    |
+| [replace](https://www.w3.org/TR/sparql12-query/#func-replace)                  | This function performs a regular expression search-and-replace on a string, returning the modified string. Example: `[ sparql:replace ( "hello world" "world" "universe" ) ]`                            | string    |
+| [round](https://www.w3.org/TR/sparql12-query/#func-round)                      | This function rounds a numeric argument to the nearest integer. Example: `[ sparql:round ( 3.7 ) ]`                                                                                                      | numeric   |
+| [same term](https://www.w3.org/TR/sparql12-query/#func-sameTerm)               | This function checks whether two RDF terms are the same in the strict sense, including their lexical forms, datatypes, and language tags for literals. Example: `[ sparql:sameTerm ( "hello" "hello" ) ]` | other     |
+| [same value](https://www.w3.org/TR/sparql12-query/#func-sameValue)             | This function compares two RDF terms for equivalent RDF values, potentially considering numeric type equivalencies and other canonical forms beyond strict term identity. SPARQL uses it to define the semantics of the = operator (sparql:equals) for the terms that the operator mapping table does not cover. Example: `[ sparql:sameValue ( 42 "42"^^xsd:integer ) ]` | other     |
+| [seconds](https://www.w3.org/TR/sparql12-query/#func-seconds)                  | This function returns the seconds component of a valid xsd:dateTime or xsd:dateTimeStamp value. Example: `[ sparql:seconds ( "2023-12-25T10:30:00"^^xsd:dateTime ) ]`                                    | date      |
+| [sha1](https://www.w3.org/TR/sparql12-query/#func-sha1)                        | This function computes the SHA-1 hash of the lexical form of a string, returning a hexadecimal string representation of the result. Example: `[ sparql:sha1 ( "hello" ) ]`                               | other     |
+| [sha256](https://www.w3.org/TR/sparql12-query/#func-sha256)                    | This function computes the SHA-256 hash of the lexical form of a string, returning the resulting hash as a hexadecimal string. Example: `[ sparql:sha256 ( "hello" ) ]`                                  | other     |
+| [sha384](https://www.w3.org/TR/sparql12-query/#func-sha384)                    | This function computes the SHA-384 hash of the lexical form of a string, returning the resulting hexadecimal string. Example: `[ sparql:sha384 ( "hello" ) ]`                                            | other     |
+| [sha512](https://www.w3.org/TR/sparql12-query/#func-sha512)                    | This function computes the SHA-512 hash of the lexical form of a string, returning the result as a hexadecimal string. Example: `[ sparql:sha512 ( "hello" ) ]`                                          | other     |
+| [str](https://www.w3.org/TR/sparql12-query/#func-str)                          | This function returns the lexical form of an RDF term, which for IRIs is the IRI string, and for literals is the lexical representation. Example: `[ sparql:str ( 42 ) ]`                                | string    |
+| [strafter](https://www.w3.org/TR/sparql12-query/#func-strafter)                | This function returns the substring of the first argument that follows the first occurrence of the second argument. Example: `[ sparql:strafter ( "hello world" " " ) ]`                                 | string    |
+| [strbefore](https://www.w3.org/TR/sparql12-query/#func-strbefore)              | This function returns the substring of the first argument that precedes the first occurrence of the second argument. Example: `[ sparql:strbefore ( "hello world" " " ) ]`                               | string    |
+| [strdt](https://www.w3.org/TR/sparql12-query/#func-strdt)                      | This function creates a typed literal from a string and a datatype IRI, returning an RDF literal with the specified lexical form and datatype. Example: `[ sparql:strdt ( "42" xsd:integer ) ]`          | string    |
+| [strends](https://www.w3.org/TR/sparql12-query/#func-strends)                  | This function returns true if the first string argument ends with the second string argument, and false otherwise. Example: `[ sparql:strends ( "hello world" "world" ) ]`                               | string    |
+| [strlang](https://www.w3.org/TR/sparql12-query/#func-strlang)                  | This function creates an RDF literal with the specified lexical form and language tag. Example: `[ sparql:strlang ( "hello" "en" ) ]`                                                                    | string    |
+| [strlangdir](https://www.w3.org/TR/sparql12-query/#func-strlangdir)            | This function creates an RDF literal with language tag and initial text direction. Example: `[ sparql:strlangdir ( "hello" "en" "ltr" ) ]`                                                               | string    |
+| [strlen](https://www.w3.org/TR/sparql12-query/#func-strlen)                    | This function returns the length of the lexical form of a string literal, measured in characters. Example: `[ sparql:strlen ( "hello" ) ]`                                                               | string    |
+| [strstarts](https://www.w3.org/TR/sparql12-query/#func-strstarts)              | This function returns true if the first string argument begins with the second string argument, and false otherwise. Example: `[ sparql:strstarts ( "hello world" "hello" ) ]`                           | string    |
+| [struuid](https://www.w3.org/TR/sparql12-query/#func-struuid)                  | This function generates a UUID as a string. Example: `[ sparql:struuid () ]`                                                                                                                             | string    |
+| [subject](https://www.w3.org/TR/sparql12-query/#func-subject)                  | This function returns the subject of a triple term. Example: `[ sparql:subject ( <<( ex:s ex:p ex:o )>> ) ]`                                                                                             | other     |
+| [substr](https://www.w3.org/TR/sparql12-query/#func-substr)                    | This function returns the substring of the given string starting at a specified position and optionally limited to a given length. Example: `[ sparql:substr ( "hello world" 2 5 ) ]`                    | string    |
+| [subtract](https://www.w3.org/TR/sparql12-query/#OperatorMapping)              | This operator subtracts the second numeric expression from the first and returns the result. Example: `[ sparql:subtract ( 42 7 ) ]`                                                                     | algebraic |
+| [timezone](https://www.w3.org/TR/sparql12-query/#func-timezone)                | This function returns the timezone component as an xsd:dayTimeDuration for an xsd:dateTime value with a specified time zone, or an empty value if none. Example: `[ sparql:timezone ( "2023-12-25T10:30:00+02:00"^^xsd:dateTime ) ]` | date      |
+| [triple](https://www.w3.org/TR/sparql12-query/#func-triple)                    | This function constructs a triple term. Example: `[ sparql:triple ( ex:s ex:p ex:o ) ]`                                                                                                                  | other     |
+| [tz](https://www.w3.org/TR/sparql12-query/#func-tz)                            | This function returns the timezone component as a string in ISO 8601 format if present in the xsd:dateTime value, or an empty string otherwise. Example: `[ sparql:tz ( "2023-12-25T10:30:00+02:00"^^xsd:dateTime ) ]` | date      |
+| [ucase](https://www.w3.org/TR/sparql12-query/#func-ucase)                      | This function transforms all alphabetic characters in the input string to uppercase, following Unicode case-folding conventions. Example: `[ sparql:ucase ( "hello" ) ]`                                 | string    |
+| [unary minus](https://www.w3.org/TR/sparql12-query/#OperatorMapping)           | This unary operator returns the negation of a numeric expression. Example: `[ sparql:unary-minus ( 42 ) ]`                                                                                               | algebraic |
+| [unary plus](https://www.w3.org/TR/sparql12-query/#OperatorMapping)            | This unary operator returns the numeric expression unchanged, acting primarily as a syntactic indicator. Example: `[ sparql:unary-plus ( 42 ) ]`                                                         | algebraic |
+| [uri](https://www.w3.org/TR/sparql12-query/#func-uri)                          | This function returns an IRI with the given string. Example: `[ sparql:uri ( "http://example.com/ns#resource" ) ]`                                                                                       | other     |
+| [uuid](https://www.w3.org/TR/sparql12-query/#func-uuid)                        | This function generates a UUID as an IRI. Example: `[ sparql:uuid () ]`                                                                                                                                  | other     |
+| [year](https://www.w3.org/TR/sparql12-query/#func-year)                        | This function returns the year component of an xsd:dateTime or xsd:date. Example: `[ sparql:year ( "2023-12-25T10:30:00"^^xsd:dateTime ) ]`                                                              | date      |
+
+Some of these functions are not deterministic: `sparql:now`, `sparql:rand`, `sparql:uuid`, `sparql:struuid` and `sparql:bnode` may produce different [output nodes](https://www.w3.org/TR/shacl12-core/#dfn-output-nodes) each time they are evaluated.
+This specification does not define when a processor evaluates or re-evaluates a node expression, for example
+for `sh:values`, so users should not rely on such values being stable across evaluations.
 
 ## 6. Custom Node Expressions
 
@@ -2823,10 +2871,18 @@ SHACL includes vocabulary terms that can be used to define new [node expression 
 This makes it possible to extend the library of available SHACL node expressions without having to
 hard-code changes to an engine.
 
+A function is only a custom function if it declares a `sh:bodyExpression`.
+The vocabularies of this specification declare the built-in [node expression functions](https://www.w3.org/TR/shacl12-core/#dfn-node-expression-function),
+for example in the `shnex:` and `sparql:` namespaces, with the same classes for documentation purposes,
+but without `sh:bodyExpression`.
+These declarations are therefore not subject to the syntax rules of this section,
+and a [shapes graph](https://www.w3.org/TR/shacl12-core/#dfn-shapes-graph) that imports these vocabularies remains [well-formed](https://www.w3.org/TR/shacl12-core/#dfn-well-formed).
+
 ### 6.1 Custom Named Parameter Functions
 
-A *custom named parameter function* is an [IRI](https://www.w3.org/TR/rdf12-concepts/#dfn-iri) in a [shapes graph](https://www.w3.org/TR/shacl12-core/#dfn-shapes-graph) that is a [SHACL instance](https://www.w3.org/TR/shacl12-core/#dfn-shacl-instance) of `sh:NamedParameterExpressionFunction` and
-a [SHACL subclass](https://www.w3.org/TR/shacl12-core/#dfn-shacl-subclass) of `sh:NamedParameterExpression`.
+A *custom named parameter function* is an [IRI](https://www.w3.org/TR/rdf12-concepts/#dfn-iri) in a [shapes graph](https://www.w3.org/TR/shacl12-core/#dfn-shapes-graph) that is a [SHACL instance](https://www.w3.org/TR/shacl12-core/#dfn-shacl-instance) of `sh:NamedParameterExpressionFunction`,
+a [SHACL subclass](https://www.w3.org/TR/shacl12-core/#dfn-shacl-subclass) of `sh:NamedParameterExpression`,
+and the [subject](https://www.w3.org/TR/rdf12-concepts/#dfn-subject) of a [triple](https://www.w3.org/TR/rdf12-concepts/#dfn-rdf-triple) with the [predicate](https://www.w3.org/TR/rdf12-concepts/#dfn-predicate) `sh:bodyExpression`.
 It has a single [value](https://www.w3.org/TR/shacl12-core/#dfn-value) for `sh:bodyExpression` that is a [well-formed](https://www.w3.org/TR/shacl12-core/#dfn-well-formed) [node expression](https://www.w3.org/TR/shacl12-core/#dfn-node-expression).
 
 A custom named parameter function declares one or more [parameters](https://www.w3.org/TR/shacl12-core/#dfn-parameter) as [values](https://www.w3.org/TR/shacl12-core/#dfn-value) of `sh:parameter`, where each such [parameter](https://www.w3.org/TR/shacl12-core/#dfn-parameter) has exactly one [value](https://www.w3.org/TR/shacl12-core/#dfn-value) for `sh:path` and that value is an [IRI](https://www.w3.org/TR/rdf12-concepts/#dfn-iri).
@@ -2974,8 +3030,9 @@ This new node expression function can then be used as follows:
 
 ### 6.2 Custom List Parameter Functions
 
-A *custom list parameter function* is an [IRI](https://www.w3.org/TR/rdf12-concepts/#dfn-iri) in a [shapes graph](https://www.w3.org/TR/shacl12-core/#dfn-shapes-graph) that is a [SHACL instance](https://www.w3.org/TR/shacl12-core/#dfn-shacl-instance) of `sh:ListParameterExpressionFunction` and
-a [SHACL subclass](https://www.w3.org/TR/shacl12-core/#dfn-shacl-subclass) of `sh:ListParameterExpression`.
+A *custom list parameter function* is an [IRI](https://www.w3.org/TR/rdf12-concepts/#dfn-iri) in a [shapes graph](https://www.w3.org/TR/shacl12-core/#dfn-shapes-graph) that is a [SHACL instance](https://www.w3.org/TR/shacl12-core/#dfn-shacl-instance) of `sh:ListParameterExpressionFunction`,
+a [SHACL subclass](https://www.w3.org/TR/shacl12-core/#dfn-shacl-subclass) of `sh:ListParameterExpression`,
+and the [subject](https://www.w3.org/TR/rdf12-concepts/#dfn-subject) of a [triple](https://www.w3.org/TR/rdf12-concepts/#dfn-rdf-triple) with the [predicate](https://www.w3.org/TR/rdf12-concepts/#dfn-predicate) `sh:bodyExpression`.
 The [IRI](https://www.w3.org/TR/rdf12-concepts/#dfn-iri) of a custom list parameter function is its list parameter property.
 It has a single [value](https://www.w3.org/TR/shacl12-core/#dfn-value) for `sh:bodyExpression` that is a [well-formed](https://www.w3.org/TR/shacl12-core/#dfn-well-formed) [node expression](https://www.w3.org/TR/shacl12-core/#dfn-node-expression).
 
@@ -3157,18 +3214,30 @@ EVALUATION OF ARG EXPRESSIONS
 Let `arg` be the [value](https://www.w3.org/TR/shacl12-core/#dfn-value) of `shnex:arg` in the arg expression.
 The [output nodes](https://www.w3.org/TR/shacl12-core/#dfn-output-nodes) of the arg expression are computed as follows, in order:
 
-1. if `arg` is in the `scope` and has the value `a` then `evalExpr(expr, focusGraph, focusNode, scope) -> evalExpr(a, focusGraph, focusNode, {})`
-2. otherwise `evalExpr(expr, focusGraph, focusNode, scope) -> []`
+1. if `arg` is an `xsd:integer` [literal](https://www.w3.org/TR/rdf12-concepts/#dfn-literal) that is in the `scope` and has the value `a`,
+   i.e., `a` is the already evaluated argument of a custom list parameter expression, then `evalExpr(expr, focusGraph, focusNode, scope) -> [a]`
+2. if `arg` is an [IRI](https://www.w3.org/TR/rdf12-concepts/#dfn-iri) that is in the `scope` and has the value `a`,
+   i.e., `a` is the argument node expression of a custom named parameter expression, then `evalExpr(expr, focusGraph, focusNode, scope) -> evalExpr(a, focusGraph, focusNode, {})`
+3. otherwise `evalExpr(expr, focusGraph, focusNode, scope) -> []`
+
+The values of the arguments of custom list parameter expressions can be any [nodes](https://www.w3.org/TR/rdf12-concepts/#dfn-node),
+including [blank nodes](https://www.w3.org/TR/rdf12-concepts/#dfn-blank-node), which `shnex:arg` returns unchanged.
 
 *The remainder of this section is non-normative.*
 
 Both `shnex:arg` and `shnex:var` access values from the scope.
-The difference is that `shnex:arg` interprets the values as node expressions, while `shnex:var` treats the values as individual nodes.
+The difference is that `shnex:arg` interprets the arguments of custom named parameter expressions as node expressions, while `shnex:var` always treats the values as individual nodes.
 As a result, a custom node expression can evaluate nested node expressions that are passed in as arguments.
 
 For custom named parameter expressions, the values in the scope are the argument [node expressions](https://www.w3.org/TR/shacl12-core/#dfn-node-expression) as given in the expression, which are therefore evaluated with an empty scope when `shnex:arg` is used.
 For custom list parameter expressions, the arguments have already been evaluated in the scope of the
 calling expression, so the values in the scope are individual [nodes](https://www.w3.org/TR/rdf12-concepts/#dfn-node) that `shnex:arg` returns as constants.
+
+Because the arguments of custom named parameter expressions are evaluated with an empty scope,
+they cannot access the variables of the calling expression.
+For example, if an expression constraint passes `[ shnex:var "value" ]` as the argument
+of a custom named parameter function, then that argument evaluates to the empty list inside the function.
+To pass such values, use a custom list parameter function, whose arguments are evaluated in the scope of the caller.
 
 Examples of `shnex:arg` can be found in Example 25 and Example 27.
 
@@ -3178,8 +3247,7 @@ This section introduces SHACL [constraint components](https://www.w3.org/TR/shac
 
 ### 7.1 sh:expression
 
-Based on [node expressions](https://www.w3.org/TR/shacl12-core/#dfn-node-expression), this section introduces a [constraint component](https://www.w3.org/TR/shacl12-core/#dfn-constraint-component) called *expression constraints*.
-Expression constraints can be used in any [shape](https://www.w3.org/TR/shacl12-core/#dfn-shape) to declare the condition that the [node expression](https://www.w3.org/TR/shacl12-core/#dfn-node-expression) specified via `sh:expression` has `true` as its only output node.
+Based on [node expressions](https://www.w3.org/TR/shacl12-core/#dfn-node-expression), this section introduces a [constraint component](https://www.w3.org/TR/shacl12-core/#dfn-constraint-component) called *expression constraints*. Expression constraints can be used in any [shape](https://www.w3.org/TR/shacl12-core/#dfn-shape) to declare the condition that the [node expression](https://www.w3.org/TR/shacl12-core/#dfn-node-expression) specified via `sh:expression` has `true` as its only output node.
 The node expression is evaluated once for each [value node](https://www.w3.org/TR/shacl12-core/#dfn-value-node) of the [shape](https://www.w3.org/TR/shacl12-core/#dfn-shape), with the [focus node](https://www.w3.org/TR/shacl12-core/#dfn-focus-node) of the shape as the focus node and the value node bound to the scope variable `value`.
 
 Constraint Component IRI: `sh:ExpressionConstraintComponent`
@@ -3350,7 +3418,10 @@ TEXTUAL DEFINITION
 
 Let `$expr` be a [value](https://www.w3.org/TR/shacl12-core/#dfn-value) of `sh:nodeByExpression`.
 For each [value node](https://www.w3.org/TR/shacl12-core/#dfn-value-node) `v`: perform a [conformance check](https://www.w3.org/TR/shacl12-core/#dfn-conformance-checking) of `v` against each [output node](https://www.w3.org/TR/shacl12-core/#dfn-output-nodes) `s` of `evalExpr($expr, 						data graph, v, {})`.
-A [failure](https://www.w3.org/TR/shacl12-core/#dfn-failure) *MUST* be produced if the [conformance check](https://www.w3.org/TR/shacl12-core/#dfn-conformance-checking) of `v` against `s` produces a [failure](https://www.w3.org/TR/shacl12-core/#dfn-failure) or if the evaluation of `$expr` produces an [evaluation failure](https://www.w3.org/TR/shacl12-core/#dfn-evaluation-failure).
+Each such [output node](https://www.w3.org/TR/shacl12-core/#dfn-output-nodes) `s` must be the [IRI](https://www.w3.org/TR/rdf12-concepts/#dfn-iri) of a [well-formed](https://www.w3.org/TR/shacl12-core/#dfn-well-formed) [shape](https://www.w3.org/TR/shacl12-core/#dfn-shape) in the [shapes graph](https://www.w3.org/TR/shacl12-core/#dfn-shapes-graph).
+A [failure](https://www.w3.org/TR/shacl12-core/#dfn-failure) *MUST* be produced if the [conformance check](https://www.w3.org/TR/shacl12-core/#dfn-conformance-checking) of `v` against `s` produces a [failure](https://www.w3.org/TR/shacl12-core/#dfn-failure),
+if the evaluation of `$expr` produces an [evaluation failure](https://www.w3.org/TR/shacl12-core/#dfn-evaluation-failure),
+or if an [output node](https://www.w3.org/TR/shacl12-core/#dfn-output-nodes) `s` is not the [IRI](https://www.w3.org/TR/rdf12-concepts/#dfn-iri) of a [well-formed](https://www.w3.org/TR/shacl12-core/#dfn-well-formed) [shape](https://www.w3.org/TR/shacl12-core/#dfn-shape).
 Otherwise, if `v` does not [conform](https://www.w3.org/TR/shacl12-core/#dfn-conform) to `s`, there is a [validation result](https://www.w3.org/TR/shacl12-core/#dfn-validation-result) with `v` as `sh:value` and a [deep copy](https://www.w3.org/TR/shacl12-core/#dfn-deep-copy) of `s` as `sh:sourceConstraint`.
 
 *The remainder of this section is non-normative.*
@@ -3369,7 +3440,7 @@ Note that `sh:node` and `sh:nodeByExpression` exhibit the same behavior when giv
 In this case, `sh:node` directly validates against the specified [node shape](https://www.w3.org/TR/shacl12-core/#dfn-node-shape), whereas `sh:nodeByExpression` interprets the [IRI](https://www.w3.org/TR/rdf12-concepts/#dfn-iri) as an IRI expression that evaluates to a set containing the same [node shape](https://www.w3.org/TR/shacl12-core/#dfn-node-shape).
 
 The following example demonstrates how `sh:nodeByExpression` could be used in the context of the [W3C Data Cube Vocabulary](https://www.w3.org/TR/vocab-data-cube/).
-Building upon examples 5 and 6 from the Data Cube Vocabulary documentation, Data Structure Definition is extended with the property `eg:hasShape`,
+Building upon examples 5 and 6 from the Data Cube Vocabulary documentation, the Data Structure Definition is extended with the property `eg:hasShape`,
 which links to an associated [node shape](https://www.w3.org/TR/shacl12-core/#dfn-node-shape) to which relevant `qb:Observation` instances must conform.
 To validate that every `qb:Observation` instance conforms to the appropriate shape, `sh:nodeByExpression` with a path values expression is used to locate the shape at the property path `qb:dataSet/qb:structure/eg:hasShape` from each `qb:Observation` instance.
 > **Example:**
@@ -3723,9 +3794,17 @@ Support for Dynamic SHACL is *OPTIONAL*, see 1.3 Conformance (§1.3).
 In Dynamic SHACL any [parameter](https://www.w3.org/TR/shacl12-core/#dfn-parameter) of a [constraint](https://www.w3.org/TR/shacl12-core/#dfn-constraint) can be computed using a [node expression](https://www.w3.org/TR/shacl12-core/#dfn-node-expression),
 except for parameters whose values may be [blank nodes](https://www.w3.org/TR/rdf12-concepts/#dfn-blank-node) (such as `sh:node`, `sh:property` or `sh:qualifiedValueShape`), because such a value cannot be distinguished from a node expression.
 Parameters that take [SHACL lists](https://www.w3.org/TR/shacl12-core/#dfn-shacl-list) as values (such as `sh:class`, `sh:datatype`, and `sh:in`) are included.
-During [validation](https://www.w3.org/TR/shacl12-core/#dfn-validation), such [node expressions](https://www.w3.org/TR/shacl12-core/#dfn-node-expression) are evaluated in the [data graph](https://www.w3.org/TR/shacl12-core/#dfn-data-graph),
-using the current [focus node](https://www.w3.org/TR/shacl12-core/#dfn-focus-node).
-The resulting [nodes](https://www.w3.org/TR/rdf12-concepts/#dfn-node) will be used as [parameters](https://www.w3.org/TR/shacl12-core/#dfn-parameter) for the [constraint](https://www.w3.org/TR/shacl12-core/#dfn-constraint).
+During [validation](https://www.w3.org/TR/shacl12-core/#dfn-validation), such a [node expression](https://www.w3.org/TR/shacl12-core/#dfn-node-expression) `expr` is evaluated for each [focus node](https://www.w3.org/TR/shacl12-core/#dfn-focus-node) `focusNode` of the [shape](https://www.w3.org/TR/shacl12-core/#dfn-shape) using `evalExpr(expr, data graph, focusNode, {})`,
+and its [output nodes](https://www.w3.org/TR/shacl12-core/#dfn-output-nodes) are used as the [value](https://www.w3.org/TR/shacl12-core/#dfn-value) of the [parameter](https://www.w3.org/TR/shacl12-core/#dfn-parameter) for that [focus node](https://www.w3.org/TR/shacl12-core/#dfn-focus-node):
+
+- For a [parameter](https://www.w3.org/TR/shacl12-core/#dfn-parameter) that takes a [SHACL list](https://www.w3.org/TR/shacl12-core/#dfn-shacl-list) as its value, the [output nodes](https://www.w3.org/TR/shacl12-core/#dfn-output-nodes) are the [members](https://www.w3.org/TR/shacl12-core/#dfn-members) of that list, in their order.
+- For any other [parameter](https://www.w3.org/TR/shacl12-core/#dfn-parameter), the [output nodes](https://www.w3.org/TR/shacl12-core/#dfn-output-nodes) must consist of exactly one [node](https://www.w3.org/TR/rdf12-concepts/#dfn-node),
+  which is the value of the parameter.
+
+A [failure](https://www.w3.org/TR/shacl12-core/#dfn-failure) *MUST* be produced if the evaluation produces an [evaluation failure](https://www.w3.org/TR/shacl12-core/#dfn-evaluation-failure),
+if a [parameter](https://www.w3.org/TR/shacl12-core/#dfn-parameter) that is not list-taking receives zero or more than one [node](https://www.w3.org/TR/rdf12-concepts/#dfn-node),
+or if the value of the parameter does not satisfy the syntax rules that the [constraint component](https://www.w3.org/TR/shacl12-core/#dfn-constraint-component) defines for its [parameters](https://www.w3.org/TR/shacl12-core/#dfn-parameter), for example a value of `sh:minInclusive` that is not a [literal](https://www.w3.org/TR/rdf12-concepts/#dfn-literal).
+These syntax rules are checked for the computed values, as they cannot be checked in the [shapes graph](https://www.w3.org/TR/shacl12-core/#dfn-shapes-graph).
 
 ### 8.1 Example: Dynamic Minimum Age of Presidents
 
@@ -3963,7 +4042,7 @@ state codes that are linked to `ex:USA`.
 
 This section enumerates all normative syntax rules of this document.
 This section is automatically generated from other parts of this spec and hyperlinks are provided back
-into the prose if the context of the rule in unclear.
+into the prose if the context of the rule is unclear.
 Nodes that violate these rules in a [shapes graph](https://www.w3.org/TR/shacl12-core/#dfn-shapes-graph) are [ill-formed](https://www.w3.org/TR/shacl12-core/#dfn-ill-formed).
 
 | Syntax Rule Id                                                                                                                      | Syntax Rule Text                                                                                                                                                                                         |
@@ -3996,9 +4075,9 @@ Nodes that violate these rules in a [shapes graph](https://www.w3.org/TR/shacl12
 | NodesMatchingExpression-syntax               | A [blank node](https://www.w3.org/TR/rdf12-concepts/#dfn-blank-node) that is the [subject](https://www.w3.org/TR/rdf12-concepts/#dfn-subject) of the following properties is called a nodes matching expression with the [function name](https://www.w3.org/TR/shacl12-core/#dfn-function-name) `shnex:NodesMatchingExpression`: |
 | ConformsToShapeExpression-syntax           | A [blank node](https://www.w3.org/TR/rdf12-concepts/#dfn-blank-node) that has a [SHACL list](https://www.w3.org/TR/shacl12-core/#dfn-shacl-list) with two [members](https://www.w3.org/TR/shacl12-core/#dfn-members) as its [value](https://www.w3.org/TR/shacl12-core/#dfn-value) for `shnex:conformsToShape shnex:conformsToShape` is called a conformsToShape expression with the [function name](https://www.w3.org/TR/shacl12-core/#dfn-function-name). The two members are as follows: |
 | sparql-syntax                                                 | A [blank node](https://www.w3.org/TR/rdf12-concepts/#dfn-blank-node) that is the [subject](https://www.w3.org/TR/rdf12-concepts/#dfn-subject) of a single [triple](https://www.w3.org/TR/rdf12-concepts/#dfn-rdf-triple) whose [predicate](https://www.w3.org/TR/rdf12-concepts/#dfn-predicate) is one of the SPARQL function IRIs `sparql:<NAME> sparql:<NAME>` declared in the SHACL node expression SPARQL vocabulary (listed in the table below) and whose [object](https://www.w3.org/TR/rdf12-concepts/#dfn-object) follows the syntax rules of list parameter functions is called a SHACL SPARQL function expression with the [function name](https://www.w3.org/TR/shacl12-core/#dfn-function-name). |
-| CustomNamedParameterFunction-syntax     | A custom named parameter function is an [IRI](https://www.w3.org/TR/rdf12-concepts/#dfn-iri) in a [shapes graph](https://www.w3.org/TR/shacl12-core/#dfn-shapes-graph) that is a [SHACL instance](https://www.w3.org/TR/shacl12-core/#dfn-shacl-instance) of `sh:NamedParameterExpressionFunction` and a [SHACL subclass](https://www.w3.org/TR/shacl12-core/#dfn-shacl-subclass) of `sh:NamedParameterExpression`. It has a single [value](https://www.w3.org/TR/shacl12-core/#dfn-value) for `sh:bodyExpression` that is a [well-formed](https://www.w3.org/TR/shacl12-core/#dfn-well-formed) [node expression](https://www.w3.org/TR/shacl12-core/#dfn-node-expression). A custom named parameter function declares one or more [parameters](https://www.w3.org/TR/shacl12-core/#dfn-parameter) as [values](https://www.w3.org/TR/shacl12-core/#dfn-value) of `sh:parameter`, where each such [parameter](https://www.w3.org/TR/shacl12-core/#dfn-parameter) has exactly one [value](https://www.w3.org/TR/shacl12-core/#dfn-value) for `sh:path` and that value is an [IRI](https://www.w3.org/TR/rdf12-concepts/#dfn-iri). At least one of the parameters has `sh:keyParameter true`, declaring the key parameters for the function. The key parameters of all [node expression functions](https://www.w3.org/TR/shacl12-core/#dfn-node-expression-function) (including the built-in ones from the `shnex:` namespace) must be disjoint. Custom named parameter functions can reference the declared [parameters](https://www.w3.org/TR/shacl12-core/#dfn-parameter) using an arg expression such as `[ shnex:arg ex:param ]`, where the [value](https://www.w3.org/TR/shacl12-core/#dfn-value) of `shnex:arg` matches the [IRI](https://www.w3.org/TR/rdf12-concepts/#dfn-iri) of the [parameter](https://www.w3.org/TR/shacl12-core/#dfn-parameter)'s `sh:path`. |
+| CustomNamedParameterFunction-syntax     | A custom named parameter function is an [IRI](https://www.w3.org/TR/rdf12-concepts/#dfn-iri) in a [shapes graph](https://www.w3.org/TR/shacl12-core/#dfn-shapes-graph) that is a [SHACL instance](https://www.w3.org/TR/shacl12-core/#dfn-shacl-instance) of `sh:NamedParameterExpressionFunction`, a [SHACL subclass](https://www.w3.org/TR/shacl12-core/#dfn-shacl-subclass) of `sh:NamedParameterExpression sh:bodyExpression`, and the [subject](https://www.w3.org/TR/rdf12-concepts/#dfn-subject) of a [triple](https://www.w3.org/TR/rdf12-concepts/#dfn-rdf-triple) with the [predicate](https://www.w3.org/TR/rdf12-concepts/#dfn-predicate). It has a single [value](https://www.w3.org/TR/shacl12-core/#dfn-value) for `sh:bodyExpression` that is a [well-formed](https://www.w3.org/TR/shacl12-core/#dfn-well-formed) [node expression](https://www.w3.org/TR/shacl12-core/#dfn-node-expression). A custom named parameter function declares one or more [parameters](https://www.w3.org/TR/shacl12-core/#dfn-parameter) as [values](https://www.w3.org/TR/shacl12-core/#dfn-value) of `sh:parameter`, where each such [parameter](https://www.w3.org/TR/shacl12-core/#dfn-parameter) has exactly one [value](https://www.w3.org/TR/shacl12-core/#dfn-value) for `sh:path` and that value is an [IRI](https://www.w3.org/TR/rdf12-concepts/#dfn-iri). At least one of the parameters has `sh:keyParameter true`, declaring the key parameters for the function. The key parameters of all [node expression functions](https://www.w3.org/TR/shacl12-core/#dfn-node-expression-function) (including the built-in ones from the `shnex:` namespace) must be disjoint. Custom named parameter functions can reference the declared [parameters](https://www.w3.org/TR/shacl12-core/#dfn-parameter) using an arg expression such as `[ shnex:arg ex:param ]`, where the [value](https://www.w3.org/TR/shacl12-core/#dfn-value) of `shnex:arg` matches the [IRI](https://www.w3.org/TR/rdf12-concepts/#dfn-iri) of the [parameter](https://www.w3.org/TR/shacl12-core/#dfn-parameter)'s `sh:path`. |
 | CustomNamedParameterExpression-syntax | A custom named parameter expression is a [node expression](https://www.w3.org/TR/shacl12-core/#dfn-node-expression) represented by a [blank node](https://www.w3.org/TR/rdf12-concepts/#dfn-blank-node) that has exactly one [value](https://www.w3.org/TR/shacl12-core/#dfn-value) for at least one of the key parameters. |
-| CustomListParameterFunction-syntax       | A custom list parameter function is an [IRI](https://www.w3.org/TR/rdf12-concepts/#dfn-iri) in a [shapes graph](https://www.w3.org/TR/shacl12-core/#dfn-shapes-graph) that is a [SHACL instance](https://www.w3.org/TR/shacl12-core/#dfn-shacl-instance) of `sh:ListParameterExpressionFunction` and a [SHACL subclass](https://www.w3.org/TR/shacl12-core/#dfn-shacl-subclass) of `sh:ListParameterExpression`. The [IRI](https://www.w3.org/TR/rdf12-concepts/#dfn-iri) of a custom list parameter function is its list parameter property. It has a single [value](https://www.w3.org/TR/shacl12-core/#dfn-value) for `sh:bodyExpression` that is a [well-formed](https://www.w3.org/TR/shacl12-core/#dfn-well-formed) [node expression](https://www.w3.org/TR/shacl12-core/#dfn-node-expression). Custom list parameter functions can reference the arguments using an arg expression such as `[ shnex:arg 0 ]` and `[ shnex:arg 1 ]` where the `xsd:integer n` corresponds to the `n`th [member](https://www.w3.org/TR/shacl12-core/#dfn-members) of the arguments list, starting with `0` as the first member. Custom list parameter functions *MAY* document the expected shape of the arguments with [values](https://www.w3.org/TR/shacl12-core/#dfn-value) of `sh:parameter` where the values of `sh:path` are the values `shnex:arg0`, `shnex:arg1` etc. |
+| CustomListParameterFunction-syntax       | A custom list parameter function is an [IRI](https://www.w3.org/TR/rdf12-concepts/#dfn-iri) in a [shapes graph](https://www.w3.org/TR/shacl12-core/#dfn-shapes-graph) that is a [SHACL instance](https://www.w3.org/TR/shacl12-core/#dfn-shacl-instance) of `sh:ListParameterExpressionFunction`, a [SHACL subclass](https://www.w3.org/TR/shacl12-core/#dfn-shacl-subclass) of `sh:ListParameterExpression sh:bodyExpression`, and the [subject](https://www.w3.org/TR/rdf12-concepts/#dfn-subject) of a [triple](https://www.w3.org/TR/rdf12-concepts/#dfn-rdf-triple) with the [predicate](https://www.w3.org/TR/rdf12-concepts/#dfn-predicate). The [IRI](https://www.w3.org/TR/rdf12-concepts/#dfn-iri) of a custom list parameter function is its list parameter property. It has a single [value](https://www.w3.org/TR/shacl12-core/#dfn-value) for `sh:bodyExpression` that is a [well-formed](https://www.w3.org/TR/shacl12-core/#dfn-well-formed) [node expression](https://www.w3.org/TR/shacl12-core/#dfn-node-expression). Custom list parameter functions can reference the arguments using an arg expression such as `[ shnex:arg 0 ]` and `[ shnex:arg 1 ]` where the `xsd:integer n` corresponds to the `n`th [member](https://www.w3.org/TR/shacl12-core/#dfn-members) of the arguments list, starting with `0` as the first member. Custom list parameter functions *MAY* document the expected shape of the arguments with [values](https://www.w3.org/TR/shacl12-core/#dfn-value) of `sh:parameter` where the values of `sh:path` are the values `shnex:arg0`, `shnex:arg1` etc. |
 | CustomListParameterExpression-syntax   | A custom list parameter expression is a [node expression](https://www.w3.org/TR/shacl12-core/#dfn-node-expression) represented by a [blank node](https://www.w3.org/TR/rdf12-concepts/#dfn-blank-node) that is the [subject](https://www.w3.org/TR/rdf12-concepts/#dfn-subject) of exactly one [triple](https://www.w3.org/TR/rdf12-concepts/#dfn-rdf-triple) and the [predicate](https://www.w3.org/TR/rdf12-concepts/#dfn-predicate) of that triple is the list parameter property of a custom list parameter function in the [shapes graph](https://www.w3.org/TR/shacl12-core/#dfn-shapes-graph). |
 | ArgExpression-syntax                                   | A [blank node](https://www.w3.org/TR/rdf12-concepts/#dfn-blank-node) that is the [subject](https://www.w3.org/TR/rdf12-concepts/#dfn-subject) of the following properties is called an arg expression with the [function name](https://www.w3.org/TR/shacl12-core/#dfn-function-name) `shnex:ArgExpression`: |
 | expression-scope                                           | The [values](https://www.w3.org/TR/shacl12-core/#dfn-value) of `sh:expression` at a [shape](https://www.w3.org/TR/shacl12-core/#dfn-shape) must be well-formed [node expressions](https://www.w3.org/TR/shacl12-core/#dfn-node-expression). |
@@ -4057,7 +4136,6 @@ Security considerations of SHACL Node Expressions include all the [security cons
 
 - [RDF12-CONCEPTS] defines the following:
   * blank node
-  * datatype
   * IRI
   * literal
   * node
@@ -4084,15 +4162,13 @@ Security considerations of SHACL Node Expressions include all the [security cons
   * focus node
   * function name
   * ill-formed
-  * mandatory parameter
   * members
   * node expression
   * node expression function
   * node shape
-  * optional parameter
   * output nodes
   * parameter
-  * parameter value
+  * path mapping
   * property shape
   * security considerations of SHACL Core
   * sh:node
@@ -4100,15 +4176,14 @@ Security considerations of SHACL Node Expressions include all the [security cons
   * SHACL list
   * SHACL property path
   * SHACL subclass
-  * SHACL type
   * shape
   * shapes graph
   * target
   * validation
   * validation result
-  * validator
   * value
   * value node
+  * value nodes of property shapes
   * well-formed
 - [SHACL12-SPARQL] defines the following:
   * select expressions
@@ -4120,17 +4195,17 @@ Security considerations of SHACL Node Expressions include all the [security cons
   * SPARQL ORDER BY
   * SPARQL SUM
 
-## F. References
+## E. References
 
-### F.1 Normative references
+### E.1 Normative references
 
 [rdf12-concepts]
 
-[RDF 1.2 Concepts and Abstract Data Model](https://www.w3.org/TR/rdf12-concepts/). Andy Seaborne; Gregg Kellogg; Olaf Hartig; Pierre-Antoine Champin. W3C. 7 April 2026. W3C Candidate Recommendation. URL: <https://www.w3.org/TR/rdf12-concepts/>
+[RDF 1.2 Concepts and Abstract Data Model](https://www.w3.org/TR/rdf12-concepts/). Gregg Kellogg; Olaf Hartig; Pierre-Antoine Champin; Andy Seaborne. W3C. 16 November 2026. CRD. URL: <https://www.w3.org/TR/rdf12-concepts/>
 
 [rdf12-turtle]
 
-[RDF 1.2 Turtle](https://www.w3.org/TR/rdf12-turtle/). Gregg Kellogg; Andy Seaborne; Dominik Tomaszuk. W3C. 23 October 2026. W3C Working Draft. URL: <https://www.w3.org/TR/rdf12-turtle/>
+[RDF 1.2 Turtle](https://www.w3.org/TR/rdf12-turtle/). Gregg Kellogg; Andy Seaborne; Dominik Tomaszuk. W3C. 11 November 2026. W3C Working Draft. URL: <https://www.w3.org/TR/rdf12-turtle/>
 
 [RFC2119]
 
@@ -4142,7 +4217,7 @@ Security considerations of SHACL Node Expressions include all the [security cons
 
 [shacl12-core]
 
-[SHACL 1.2 Core](https://www.w3.org/TR/shacl12-core/). Holger Knublauch; Thomas Bergwinkl; Yousouf Taghzouti; Jesse Wright. W3C. 25 October 2026. W3C Working Draft. URL: <https://www.w3.org/TR/shacl12-core/>
+[SHACL 1.2 Core](https://www.w3.org/TR/shacl12-core/). Holger Knublauch; Thomas Bergwinkl; Yousouf Taghzouti; Jesse Wright. W3C. 16 November 2026. W3C Working Draft. URL: <https://www.w3.org/TR/shacl12-core/>
 
 [shacl12-sparql]
 
@@ -4150,17 +4225,17 @@ Security considerations of SHACL Node Expressions include all the [security cons
 
 [sparql12-query]
 
-[SPARQL 1.2 Query Language](https://www.w3.org/TR/sparql12-query/). Olaf Hartig; Andy Seaborne; Ruben Taelman; Gregory Williams; Thomas Pellissier Tanon. W3C. 25 October 2026. W3C Working Draft. URL: <https://www.w3.org/TR/sparql12-query/>
+[SPARQL 1.2 Query Language](https://www.w3.org/TR/sparql12-query/). Olaf Hartig; Andy Seaborne; Ruben Taelman; Gregory Williams; Thomas Pellissier Tanon. W3C. 16 November 2026. W3C Working Draft. URL: <https://www.w3.org/TR/sparql12-query/>
 
-### F.2 Informative references
+### E.2 Informative references
 
 [shacl12-inference-rules]
 
-[SHACL 1.2 Inference Rules](https://www.w3.org/TR/shacl12-inference-rules/). Holger Knublauch; Simon Steyskal; Scott Henninger; Livio Robaldo; Matt Goldberg. W3C. 17 September 2026. FPWD. URL: <https://www.w3.org/TR/shacl12-inference-rules/>
+[SHACL 1.2 Inference Rules](https://www.w3.org/TR/shacl12-inference-rules/). Holger Knublauch; Matt Goldberg; Scott Henninger; Livio Robaldo; Simon Steyskal. W3C. 10 November 2026. W3C Working Draft. URL: <https://www.w3.org/TR/shacl12-inference-rules/>
 
 [shacl12-node-expr]
 
-[SHACL 1.2 Node Expressions](https://www.w3.org/TR/shacl12-node-expr/). Robert David; Holger Knublauch; Simon Steyskal. W3C. 22 October 2026. W3C Working Draft. URL: <https://www.w3.org/TR/shacl12-node-expr/>
+[SHACL 1.2 Node Expressions](https://www.w3.org/TR/shacl12-node-expr/). Robert David; Holger Knublauch; Simon Steyskal. W3C. 28 October 2026. W3C Working Draft. URL: <https://www.w3.org/TR/shacl12-node-expr/>
 
 [shacl12-profiling]
 
@@ -4168,11 +4243,11 @@ Security considerations of SHACL Node Expressions include all the [security cons
 
 [shacl12-ui]
 
-[SHACL 1.2 User Interfaces](https://www.w3.org/TR/shacl12-ui/). Edmond Chuc; Thomas Bergwinkl; Ieben Smessaert; Daniël Beeke. W3C. 27 October 2026. W3C Working Draft. URL: <https://www.w3.org/TR/shacl12-ui/>
+[SHACL 1.2 User Interfaces](https://www.w3.org/TR/shacl12-ui/). Edmond Chuc; Thomas Bergwinkl; Ieben Smessaert; Daniël Beeke. W3C. 11 November 2026. W3C Working Draft. URL: <https://www.w3.org/TR/shacl12-ui/>
 
 [sparql12-rl]
 
-[SPARQL 1.2 RL](https://www.w3.org/TR/sparql12-rl/). Robert David; David Habgood; Andy Seaborne; Simon Steyskal. W3C. 21 October 2026. W3C Working Draft. URL: <https://www.w3.org/TR/sparql12-rl/>
+[SPARQL 1.2 RL](https://www.w3.org/TR/sparql12-rl/). Robert David; David Habgood; Andy Seaborne; Simon Steyskal. W3C. 15 November 2026. W3C Working Draft. URL: <https://www.w3.org/TR/sparql12-rl/>
 
 Permalink
 
@@ -4219,7 +4294,7 @@ Permalink
 - § 3. Node Expression Syntax
 - § 3.2.1 Named Parameter Functions (2)
 - § 3.2.2 List Parameter Functions
-- § 4. Node Expressions Library
+- § 4. Node Expressions Library (2)
 - § 6.1 Custom Named Parameter Functions (2) (3) (4)
 - § A. Summary of Syntax Rules (2) (3)
 
@@ -4254,6 +4329,7 @@ Permalink
 
 **Referenced in:**
 
+- § 3.3 Handling of Failures
 - § 4.1.2 Var Expressions (2) (3)
 - § A. Summary of Syntax Rules
 
@@ -4269,7 +4345,8 @@ Permalink
 
 **Referenced in:**
 
-- § 4.1.4 Path Values Expressions (2) (3) (4)
+- § 3.3 Handling of Failures
+- § 4.1.4 Path Values Expressions (2) (3) (4) (5)
 - § 4.4.4 Sum Expressions
 - § 7.2 sh:nodeByExpression
 - § 8.2 Example: Dynamic Enumerations
@@ -4286,7 +4363,7 @@ Permalink
 
 **Referenced in:**
 
-- § 4.1.6 If Expressions (2)
+- § 4.1.6 If Expressions (2) (3)
 - § A. Summary of Syntax Rules
 
 Permalink
@@ -4379,21 +4456,21 @@ Permalink
 
 **Referenced in:**
 
-- § 4.4.2 Min Expressions (2)
+- § 4.4.2 Min Expressions (2) (3)
 - § A. Summary of Syntax Rules
 
 Permalink
 
 **Referenced in:**
 
-- § 4.4.3 Max Expressions (2)
+- § 4.4.3 Max Expressions (2) (3)
 - § A. Summary of Syntax Rules
 
 Permalink
 
 **Referenced in:**
 
-- § 4.4.4 Sum Expressions (2) (3)
+- § 4.4.4 Sum Expressions (2) (3) (4)
 - § A. Summary of Syntax Rules
 
 Permalink
@@ -4422,6 +4499,7 @@ Permalink
 
 **Referenced in:**
 
+- § 3.3 Handling of Failures
 - § A. Summary of Syntax Rules
 
 Permalink
@@ -4430,6 +4508,7 @@ Permalink
 
 - § 3. Node Expression Syntax
 - § 6.1 Custom Named Parameter Functions (2) (3)
+- § 6.3 Arg Expressions
 - § A. Summary of Syntax Rules (2) (3)
 
 Permalink
@@ -4437,14 +4516,16 @@ Permalink
 **Referenced in:**
 
 - § 6.1 Custom Named Parameter Functions
-- § 6.3 Arg Expressions
+- § 6.3 Arg Expressions (2) (3) (4)
 - § A. Summary of Syntax Rules
 
 Permalink
 
 **Referenced in:**
 
+- § 3.2.2 List Parameter Functions
 - § 6.2 Custom List Parameter Functions (2) (3) (4) (5)
+- § 6.3 Arg Expressions
 - § A. Summary of Syntax Rules (2) (3) (4) (5)
 
 Permalink
@@ -4452,7 +4533,7 @@ Permalink
 **Referenced in:**
 
 - § 6.2 Custom List Parameter Functions
-- § 6.3 Arg Expressions
+- § 6.3 Arg Expressions (2) (3)
 - § A. Summary of Syntax Rules
 
 Permalink
@@ -4468,7 +4549,8 @@ Permalink
 
 **Referenced in:**
 
-- Not referenced in this document.
+- § 6.3 Arg Expressions
+- § 7.1 sh:expression (2)
 
 Permalink
 
@@ -4513,16 +4595,10 @@ Permalink
 - § 5. SPARQL Functions
 - § 6.1 Custom Named Parameter Functions
 - § 6.2 Custom List Parameter Functions
-- § 6.3 Arg Expressions
+- § 6.3 Arg Expressions (2)
 - § 7.2 sh:nodeByExpression (2)
 - § 8. Dynamic SHACL
 - § A. Summary of Syntax Rules (2) (3) (4) (5) (6) (7) (8) (9) (10) (11) (12) (13) (14) (15) (16) (17) (18) (19) (20) (21) (22) (23) (24) (25) (26) (27) (28)
-
-Permalink
-
-**Referenced in:**
-
-- § 1.1 Terminology
 
 Permalink
 
@@ -4533,11 +4609,12 @@ Permalink
 - § 3.1.1 IRI Expressions (2)
 - § 4.1.1 Empty Expressions
 - § 4.1.3 List Expressions
-- § 4.1.4 Path Values Expressions
+- § 4.1.4 Path Values Expressions (2) (3)
 - § 4.5.1 InstancesOf Expressions
 - § 6.1 Custom Named Parameter Functions (2) (3)
 - § 6.2 Custom List Parameter Functions (2)
-- § 7.2 sh:nodeByExpression (2)
+- § 6.3 Arg Expressions
+- § 7.2 sh:nodeByExpression (2) (3) (4)
 - § A. Summary of Syntax Rules (2) (3) (4) (5) (6)
 
 Permalink
@@ -4549,6 +4626,8 @@ Permalink
 - § 3.1.2 Literal Expressions (2)
 - § 4.1.3 List Expressions
 - § 4.4.1 Count Expressions
+- § 6.3 Arg Expressions
+- § 8. Dynamic SHACL
 - § A. Summary of Syntax Rules
 
 Permalink
@@ -4559,6 +4638,7 @@ Permalink
 - § 3.2.1 Named Parameter Functions
 - § 3.2.2 List Parameter Functions (2)
 - § 3.4 The Shapes Graph
+- § 4.1.4 Path Values Expressions (2)
 - § 4.2.1 Distinct Expressions
 - § 4.2.2 Intersection Expressions
 - § 4.2.4 Remove Expressions
@@ -4573,8 +4653,8 @@ Permalink
 - § 4.5.3 ConformsToShape Expressions (2)
 - § 6.1 Custom Named Parameter Functions (2)
 - § 6.2 Custom List Parameter Functions (2)
-- § 6.3 Arg Expressions
-- § 8. Dynamic SHACL
+- § 6.3 Arg Expressions (2)
+- § 8. Dynamic SHACL (2)
 
 Permalink
 
@@ -4593,8 +4673,9 @@ Permalink
 - § 3.2.1 Named Parameter Functions
 - § 3.2.2 List Parameter Functions
 - § 5. SPARQL Functions
-- § 6.2 Custom List Parameter Functions
-- § A. Summary of Syntax Rules (2)
+- § 6.1 Custom Named Parameter Functions
+- § 6.2 Custom List Parameter Functions (2)
+- § A. Summary of Syntax Rules (2) (3) (4)
 
 Permalink
 
@@ -4617,8 +4698,9 @@ Permalink
 - § 3.2.1 Named Parameter Functions
 - § 3.2.2 List Parameter Functions (2)
 - § 5. SPARQL Functions
-- § 6.2 Custom List Parameter Functions
-- § A. Summary of Syntax Rules (2)
+- § 6.1 Custom Named Parameter Functions
+- § 6.2 Custom List Parameter Functions (2)
+- § A. Summary of Syntax Rules (2) (3) (4)
 
 Permalink
 
@@ -4652,15 +4734,17 @@ Permalink
 - § 4.5.1 InstancesOf Expressions
 - § 4.5.2 Nodes Matching Expressions
 - § 5. SPARQL Functions
-- § 6.2 Custom List Parameter Functions
+- § 6.1 Custom Named Parameter Functions
+- § 6.2 Custom List Parameter Functions (2)
 - § 6.3 Arg Expressions
-- § A. Summary of Syntax Rules (2) (3) (4) (5) (6) (7) (8) (9) (10) (11) (12) (13) (14) (15) (16) (17) (18) (19) (20) (21) (22) (23) (24) (25) (26)
+- § A. Summary of Syntax Rules (2) (3) (4) (5) (6) (7) (8) (9) (10) (11) (12) (13) (14) (15) (16) (17) (18) (19) (20) (21) (22) (23) (24) (25) (26) (27) (28)
 
 Permalink
 
 **Referenced in:**
 
 - § 1.1 Terminology
+- § 4.1.6 If Expressions
 - § 4.2.1 Distinct Expressions
 - § 4.2.2 Intersection Expressions
 - § 4.2.4 Remove Expressions
@@ -4707,7 +4791,7 @@ Permalink
 **Referenced in:**
 
 - § 1.1 Terminology
-- § 8. Dynamic SHACL (2)
+- § 8. Dynamic SHACL
 
 Permalink
 
@@ -4716,6 +4800,7 @@ Permalink
 - § 1.1 Terminology
 - § 7. Constraint Components
 - § 7.1 sh:expression
+- § 8. Dynamic SHACL
 
 Permalink
 
@@ -4743,6 +4828,7 @@ Permalink
 
 - § 1.1 Terminology
 - § 3.2.2 List Parameter Functions
+- § 3.3 Handling of Failures
 
 Permalink
 
@@ -4751,14 +4837,20 @@ Permalink
 - § 1.1 Terminology
 - § 3.2.1 Named Parameter Functions
 - § 3.2.2 List Parameter Functions (2) (3)
+- § 3.3 Handling of Failures
 - § 3.4 The Shapes Graph
-- § 4.1.4 Path Values Expressions
+- § 4.1.4 Path Values Expressions (2) (3)
+- § 4.1.6 If Expressions
+- § 4.4.2 Min Expressions
+- § 4.4.3 Max Expressions
+- § 4.4.4 Sum Expressions
 - § 4.5.1 InstancesOf Expressions
 - § 4.5.3 ConformsToShape Expressions
 - § 5. SPARQL Functions (2) (3) (4) (5)
 - § 6.2 Custom List Parameter Functions (2) (3)
 - § 7.1 sh:expression
 - § 7.2 sh:nodeByExpression
+- § 8. Dynamic SHACL
 
 Permalink
 
@@ -4770,6 +4862,7 @@ Permalink
 - § 4.5.3 ConformsToShape Expressions
 - § 7.1 sh:expression
 - § 7.2 sh:nodeByExpression (2)
+- § 8. Dynamic SHACL
 
 Permalink
 
@@ -4777,6 +4870,7 @@ Permalink
 
 - § 1.1 Terminology
 - § 3.4 The Shapes Graph
+- § 4.1.4 Path Values Expressions
 - § 4.5.1 InstancesOf Expressions (2)
 - § 4.5.2 Nodes Matching Expressions
 - § 4.5.3 ConformsToShape Expressions
@@ -4788,9 +4882,10 @@ Permalink
 - § 1.1 Terminology
 - § 2. Getting started with Node Expressions (2)
 - § 3.2.2 List Parameter Functions
+- § 3.3 Handling of Failures (2)
 - § 4. Node Expressions Library
 - § 4.1.2 Var Expressions
-- § 4.1.4 Path Values Expressions (2)
+- § 4.1.4 Path Values Expressions (2) (3)
 - § 4.2.6 Limit Expressions
 - § 4.2.7 Offset Expressions
 - § 4.3.1 FlatMap Expressions
@@ -4798,7 +4893,7 @@ Permalink
 - § 4.3.3 MatchAll Expressions
 - § 7.1 sh:expression
 - § 7.2 sh:nodeByExpression
-- § 8. Dynamic SHACL
+- § 8. Dynamic SHACL (2)
 
 Permalink
 
@@ -4849,18 +4944,13 @@ Permalink
 **Referenced in:**
 
 - § 1.1 Terminology
-
-Permalink
-
-**Referenced in:**
-
-- § 1.1 Terminology
 - § 3.2.2 List Parameter Functions (2)
 - § 4.1.3 List Expressions (2) (3)
 - § 4.2.2 Intersection Expressions (2)
 - § 4.2.3 Concat Expressions (2)
 - § 4.5.3 ConformsToShape Expressions
 - § 6.2 Custom List Parameter Functions
+- § 8. Dynamic SHACL
 - § A. Summary of Syntax Rules (2)
 
 Permalink
@@ -4913,7 +5003,7 @@ Permalink
 - § 3.2.1 Named Parameter Functions
 - § 3.2.2 List Parameter Functions
 - § 4. Node Expressions Library
-- § 6. Custom Node Expressions
+- § 6. Custom Node Expressions (2)
 - § 6.1 Custom Named Parameter Functions (2)
 - § 6.2 Custom List Parameter Functions
 - § A. Summary of Syntax Rules
@@ -4930,29 +5020,24 @@ Permalink
 **Referenced in:**
 
 - § 1.1 Terminology
-
-Permalink
-
-**Referenced in:**
-
-- § 1.1 Terminology
+- § 1.2 Document Conventions
 - § 2. Getting started with Node Expressions
 - § 3.1.1 IRI Expressions
 - § 3.1.2 Literal Expressions
 - § 3.1.3 Triple Term Expressions
 - § 3.2.1 Named Parameter Functions (2) (3)
-- § 3.2.2 List Parameter Functions (2) (3) (4) (5) (6) (7)
+- § 3.2.2 List Parameter Functions (2) (3) (4) (5) (6) (7) (8)
 - § 3.3 Handling of Failures
 - § 4. Node Expressions Library
 - § 4.1.1 Empty Expressions
 - § 4.1.2 Var Expressions
 - § 4.1.3 List Expressions
-- § 4.1.4 Path Values Expressions (2) (3)
+- § 4.1.4 Path Values Expressions (2) (3) (4) (5)
 - § 4.1.5 Exists Expressions
 - § 4.1.6 If Expressions (2) (3)
 - § 4.2.1 Distinct Expressions (2)
-- § 4.2.2 Intersection Expressions (2)
-- § 4.2.3 Concat Expressions (2) (3)
+- § 4.2.2 Intersection Expressions (2) (3)
+- § 4.2.3 Concat Expressions (2) (3) (4)
 - § 4.2.4 Remove Expressions (2) (3)
 - § 4.2.5 Filter Shape Expressions (2)
 - § 4.2.6 Limit Expressions (2)
@@ -4962,18 +5047,19 @@ Permalink
 - § 4.3.2 FindFirst Expressions (2)
 - § 4.3.3 MatchAll Expressions (2)
 - § 4.4.1 Count Expressions (2)
-- § 4.4.2 Min Expressions (2)
-- § 4.4.3 Max Expressions (2)
+- § 4.4.2 Min Expressions (2) (3)
+- § 4.4.3 Max Expressions (2) (3)
 - § 4.4.4 Sum Expressions (2)
-- § 4.5.1 InstancesOf Expressions (2) (3)
+- § 4.5.1 InstancesOf Expressions (2) (3) (4)
 - § 4.5.2 Nodes Matching Expressions (2)
 - § 4.5.3 ConformsToShape Expressions (2)
-- § 5. SPARQL Functions (2) (3) (4) (5) (6) (7)
+- § 5. SPARQL Functions (2) (3) (4) (5) (6) (7) (8)
 - § 6.1 Custom Named Parameter Functions
 - § 6.2 Custom List Parameter Functions (2) (3)
 - § 6.3 Arg Expressions
 - § 7.1 sh:expression
-- § 7.2 sh:nodeByExpression
+- § 7.2 sh:nodeByExpression (2) (3)
+- § 8. Dynamic SHACL (2) (3)
 
 Permalink
 
@@ -4981,7 +5067,7 @@ Permalink
 
 - § 1.1 Terminology
 - § 6.1 Custom Named Parameter Functions (2) (3) (4) (5) (6)
-- § 8. Dynamic SHACL (2)
+- § 8. Dynamic SHACL (2) (3) (4) (5) (6)
 - § A. Summary of Syntax Rules (2) (3) (4)
 
 Permalink
@@ -4989,12 +5075,14 @@ Permalink
 **Referenced in:**
 
 - § 1.1 Terminology
+- § 4.1.4 Path Values Expressions
 
 Permalink
 
 **Referenced in:**
 
 - § 1.1 Terminology
+- § 4.1.4 Path Values Expressions (2) (3) (4)
 
 Permalink
 
@@ -5014,7 +5102,7 @@ Permalink
 
 - § 1.1 Terminology
 - § 4.2.2 Intersection Expressions
-- § 4.5.1 InstancesOf Expressions
+- § 4.5.1 InstancesOf Expressions (2)
 - § 6.1 Custom Named Parameter Functions
 - § 6.2 Custom List Parameter Functions
 - § A. Summary of Syntax Rules (2)
@@ -5029,7 +5117,7 @@ Permalink
 - § 4.2.2 Intersection Expressions
 - § 4.2.3 Concat Expressions
 - § 4.5.3 ConformsToShape Expressions
-- § 8. Dynamic SHACL
+- § 8. Dynamic SHACL (2)
 - § A. Summary of Syntax Rules
 
 Permalink
@@ -5037,7 +5125,7 @@ Permalink
 **Referenced in:**
 
 - § 1.1 Terminology
-- § 4.1.4 Path Values Expressions (2)
+- § 4.1.4 Path Values Expressions
 
 Permalink
 
@@ -5053,12 +5141,6 @@ Permalink
 **Referenced in:**
 
 - § 1.1 Terminology
-
-Permalink
-
-**Referenced in:**
-
-- § 1.1 Terminology
 - § 2. Getting started with Node Expressions (2)
 - § 3.4 The Shapes Graph
 - § 4.2.5 Filter Shape Expressions (2)
@@ -5067,7 +5149,8 @@ Permalink
 - § 4.5.2 Nodes Matching Expressions
 - § 4.5.3 ConformsToShape Expressions (2) (3)
 - § 7.1 sh:expression (2) (3)
-- § 7.2 sh:nodeByExpression
+- § 7.2 sh:nodeByExpression (2) (3)
+- § 8. Dynamic SHACL
 - § A. Summary of Syntax Rules
 
 Permalink
@@ -5077,8 +5160,12 @@ Permalink
 - § 1.1 Terminology
 - § 2. Getting started with Node Expressions (2)
 - § 3.4 The Shapes Graph (2) (3) (4)
+- § 4.1.4 Path Values Expressions
+- § 6. Custom Node Expressions
 - § 6.1 Custom Named Parameter Functions (2)
 - § 6.2 Custom List Parameter Functions (2) (3)
+- § 7.2 sh:nodeByExpression
+- § 8. Dynamic SHACL
 - § A. Summary of Syntax Rules (2) (3) (4)
 
 Permalink
@@ -5093,6 +5180,8 @@ Permalink
 **Referenced in:**
 
 - § 1.1 Terminology
+- § 1.3 Conformance
+- § 3.3 Handling of Failures
 - § 3.4 The Shapes Graph (2) (3)
 - § 4.5.3 ConformsToShape Expressions
 - § 8. Dynamic SHACL
@@ -5110,14 +5199,8 @@ Permalink
 **Referenced in:**
 
 - § 1.1 Terminology
-
-Permalink
-
-**Referenced in:**
-
-- § 1.1 Terminology
 - § 4.1.2 Var Expressions
-- § 4.1.4 Path Values Expressions (2)
+- § 4.1.4 Path Values Expressions (2) (3) (4) (5)
 - § 4.1.5 Exists Expressions
 - § 4.1.6 If Expressions (2) (3)
 - § 4.2.1 Distinct Expressions
@@ -5143,6 +5226,7 @@ Permalink
 - § 6.3 Arg Expressions
 - § 7.1 sh:expression (2)
 - § 7.2 sh:nodeByExpression (2) (3)
+- § 8. Dynamic SHACL
 - § A. Summary of Syntax Rules (2) (3) (4) (5) (6) (7) (8) (9) (10)
 
 Permalink
@@ -5150,9 +5234,15 @@ Permalink
 **Referenced in:**
 
 - § 1.1 Terminology
-- § 4.1.4 Path Values Expressions (2)
+- § 4.1.4 Path Values Expressions
 - § 7.1 sh:expression (2) (3)
 - § 7.2 sh:nodeByExpression (2) (3) (4)
+
+Permalink
+
+**Referenced in:**
+
+- § 4.1.4 Path Values Expressions
 
 Permalink
 
@@ -5186,9 +5276,10 @@ Permalink
 - § 4.5.1 InstancesOf Expressions
 - § 4.5.2 Nodes Matching Expressions
 - § 4.5.3 ConformsToShape Expressions
+- § 6. Custom Node Expressions
 - § 6.1 Custom Named Parameter Functions
 - § 6.2 Custom List Parameter Functions
-- § 7.2 sh:nodeByExpression
+- § 7.2 sh:nodeByExpression (2) (3)
 - § A. Summary of Syntax Rules (2) (3) (4) (5) (6)
 
 Permalink
