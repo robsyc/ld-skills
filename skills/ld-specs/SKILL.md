@@ -1,6 +1,6 @@
 ---
 name: ld-specs
-description: Offline reference library of RDF / Linked Data specifications for answering precise syntax, semantics, and vocabulary questions. Use when working with RDF (1.2), Turtle, TriG, N-Triples, N-Quads, JSON-LD, RDF/XML, Notation3, SPARQL, SHACL, OWL, SKOS, PROV, DCAT, SSN/SOSA, GeoSPARQL, OWL-Time, vCard, VoID, RDF data cubes, LDP, RDFa, R2RML, or RML/YARRRML.
+description: Offline snapshots of the official RDF / Linked Data specifications (W3C and community) for precise syntax, semantics and vocabulary questions. Use when reading or writing RDF serializations, SPARQL, SHACL, OWL, RDF vocabularies (including dataset and ML metadata) or mappings to RDF, instead of answering from memory.
 ---
 
 # Linked Data Specifications
@@ -20,10 +20,9 @@ memory — they are the normative source of truth.
    productions (`IRIREF`, `PropertyPath`), or section titles.
 4. Read only the relevant section: files are large, so use search + a window
    of surrounding lines rather than reading whole files.
-5. For term definitions of the core vocabularies (rdf, rdfs, owl, sh, skos,
-   prov, time, dcat, qb, sosa, rml), the Turtle snapshots in
-   `references/_namespaces/*.ttl` give the exact classes and properties —
-   load them into rdflib or read them directly.
+5. For a vocabulary's exact classes and properties, use its Turtle snapshot
+   in `references/_namespaces/<prefix>.ttl` (listed in the index) — load it
+   into rdflib or read it directly.
 
 ## Gotchas
 

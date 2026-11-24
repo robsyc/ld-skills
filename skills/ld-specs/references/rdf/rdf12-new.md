@@ -3,7 +3,7 @@ title: "What’s New in RDF 1.2"
 source: https://w3c.github.io/rdf-new/spec/
 family: rdf
 version: "1.2"
-fetched: 2026-11-23
+fetched: 2026-11-24
 ---
 
 # What’s New in RDF 1.2
@@ -68,8 +68,6 @@ RDF 1.1 introduces a number of new serialization formats. RDF 1.1 Concepts and
 Abstract Syntax makes it clear that RDF/XML is no longer the only recommended serialization
 format; RDF itself should be considered to be the data model (the
 abstract syntax), not any particular serialization.
-
-!
 
 *RDF 1.0 and 1.1 serialization formats*
 

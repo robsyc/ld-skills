@@ -12,6 +12,7 @@
 #         version: spec version, if meaningful
 #     namespaces:
 #       - key / label / comment / uri / version   (uri must serve RDF)
+#         source: fetch location, if the namespace IRI does not serve RDF
 #
 # URLs were verified 2026-10-21. Sources: W3C /TR/, w3id.org (kg-construct CG),
 # OGC. Undated /TR/ slugs follow the latest published version automatically.
@@ -617,6 +618,36 @@ vocabularies:
       label: SOSA
       comment: sosa:Sensor, sosa:Observation, sosa:FeatureOfInterest and friends.
       uri: http://www.w3.org/ns/sosa/
+
+ml:
+  label: Machine Learning Metadata
+  comment: Describing ML datasets and models — Croissant (MLCommons) and MLDCAT-AP (SEMIC).
+  specifications:
+
+    - key: croissant11
+      label: Croissant Format Specification 1.1
+      comment: MLCommons metadata format for ML-ready datasets (schema.org-based JSON-LD; FileObject, RecordSet, Field).
+      uri: https://docs.mlcommons.org/croissant/docs/croissant-spec-1.1.html
+      version: "1.1"
+
+    - key: mldcat-ap3
+      label: MLDCAT-AP 3.1.0
+      comment: SEMIC DCAT-AP extension for ML models, datasets, tasks, runs, and evaluations.
+      uri: https://semiceu.github.io/MLDCAT-AP/releases/3.1.0/
+      version: "3.1.0"
+
+  namespaces:
+
+    - key: cr
+      label: Croissant
+      comment: cr:RecordSet, cr:Field, cr:FileObject, cr:FileSet, cr:source, cr:extract and friends.
+      uri: http://mlcommons.org/croissant/
+      source: https://raw.githubusercontent.com/mlcommons/croissant/main/docs/croissant.ttl
+
+    - key: mls
+      label: ML Schema
+      comment: W3C ML Schema reused by MLDCAT-AP — mls:Run, mls:Model, mls:Algorithm, mls:EvaluationMeasure and friends.
+      uri: http://www.w3.org/ns/mls#
 
 time:
   label: OWL-Time
