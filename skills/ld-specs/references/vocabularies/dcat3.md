@@ -4,7 +4,7 @@ source: https://www.w3.org/TR/vocab-dcat-3/
 family: vocabularies
 status: W3C Recommendation
 spec_date: 2024-08-22
-fetched: 2026-11-23
+fetched: 2026-11-24
 ---
 
 # Data Catalog Vocabulary (DCAT) - Version 3
@@ -3023,7 +3023,7 @@ Two spatial properties of datasets may be described using DCAT.
 >   ] .
 > ```
 >
-> !
+>
 >
 > *Figure 2 Map preview of a spatial coverage specified with a geometry*
 > **Example:**
@@ -3062,7 +3062,7 @@ Two spatial properties of datasets may be described using DCAT.
 >   ] .
 > ```
 >
-> !
+>
 >
 > *Figure 3 Map preview of a spatial coverage specified with a centroid*
 > **Example:**
@@ -3090,7 +3090,7 @@ Two spatial properties of datasets may be described using DCAT.
 >   ] .
 > ```
 >
-> !
+>
 >
 > *Figure 4 Map preview of a spatial coverage specified with a bounding box*
 
@@ -3156,7 +3156,7 @@ The following example reuses those in [§ 8.6 Data Versioning](https://www.w3.or
 >
 > In Figure 5, the resource with IRI `mycity-bus:stops` is the abstract resource, corresponding always to the latest version of the MyCity bus stops dataset, whereas the other ones correspond to specific versions of it. The current version is the one with IRI `mycity-bus:stops-2015-12-07`.
 >
-> !
+>
 >
 > *Figure 5 Version chain and hierarchy of the MyCity bus stops dataset*
 >

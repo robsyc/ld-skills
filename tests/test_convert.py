@@ -93,6 +93,21 @@ def test_respec_conversion_captures_and_cleans():
     assert result.title == "Test Spec"
     assert result.status == "W3C Working Draft"  # from head text (no TR-dated URL)
 
+STATIC_SITE_FIXTURE = """<html><head><title>Data Spec | Example site</title></head>
+<body><div class="container markdown-body">
+<h1 id="data-spec">Data Spec</h1>
+<p>Published: 2026-01-29</p>
+<h2 id="intro">Introduction</h2>
+<h3 id="ids">ID and Reference Mechanism</h3>
+<p>See <a href="#ids">IDs</a>. <a href="https://example.org/"><img src="cc.svg" alt=""></a></p>
+<table><tr><th></th><th>Property</th></tr>
+<tr><td><a href="https://github.com/org/repo/issues/new?title=x"><img src="callout.png" alt="[o]"></a></td>
+<td>name</td></tr></table>
+<h2 id="examples">Examples</h2>
+<div class="footer">This site is open source. Improve this page.</div>
+</div></body></html>"""
+
+
 
 def test_status_from_tr_url():
     result = convert_spec(RESPEC_FIXTURE, "https://www.w3.org/TR/2013/REC-old-20130101/")
@@ -212,3 +227,25 @@ def test_assemble_document_header():
     assert "# Test Spec" in doc
     assert "## Contents" in doc
     assert "- 1 One" in doc
+
+
+def test_static_site_layout():
+    """Jekyll-style page: title h1 in the body, site-suffixed <title>, footer,
+    SEMIC-style issue callouts in a leading table column."""
+    result = convert_spec(STATIC_SITE_FIXTURE, "https://example.org/spec.html")
+    md = result.markdown
+
+    assert result.title == "Data Spec"
+    assert result.date == "2026-01-29"
+    # The title h1 is neither numbered nor listed; "ID" is not a roman numeral.
+    assert [(s.number, s.title) for s in result.sections] == [
+        ("1", "Introduction"),
+        ("1.1", "ID and Reference Mechanism"),
+        ("2", "Examples"),
+    ]
+    assert md.startswith("Published") and "## Introduction" in md
+    assert "IDs (§1.1)" in md
+    assert "Improve this page" not in md
+    assert "issues/new" not in md and "callout" not in md
+    assert "| Property |\n| -------- |\n| name     |" in md  # empty callout column gone
+    assert "cc.svg" not in md and "!" not in md

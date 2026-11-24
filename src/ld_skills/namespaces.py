@@ -60,7 +60,9 @@ def fetch_namespace_graph(uri: str) -> Graph:
     last_error: Exception | None = None
     for attempt in attempts:
         try:
-            g.parse(data=data, format=attempt)
+            # publicID: resolve relative IRIs (<#>) against the namespace
+            # document, not the local working directory.
+            g.parse(data=data, format=attempt, publicID=uri)
             return g
         except Exception as e:  # noqa: BLE001 — try the next serialization
             last_error = e
@@ -92,11 +94,17 @@ def extract_resources(graph: Graph, ns_uri: str) -> list[dict]:
     return sorted(resources, key=lambda r: r["name"])
 
 
-def serialize_namespace(graph: Graph, ns_uri: str, comment: str = "") -> str:
-    """Serialize the whole namespace graph as Turtle with a provenance header."""
+def serialize_namespace(graph: Graph, ns_uri: str, comment: str = "", prefix: str = "") -> str:
+    """Serialize the whole namespace graph as Turtle with a provenance header.
+
+    ``prefix`` is bound to the namespace itself (unless already bound, e.g. by
+    rdflib's defaults) so its terms are not written as ``ns1:`` or full IRIs.
+    """
     subgraph = Graph()
-    for prefix, ns in PREFIXES.items():
-        subgraph.bind(prefix, ns)
+    for p, ns in PREFIXES.items():
+        subgraph.bind(p, ns)
+    if prefix and prefix not in dict(subgraph.namespaces()):
+        subgraph.bind(prefix, ns_uri, override=False)
 
     variants = _uri_variants(ns_uri)
     for s, p, o in graph:

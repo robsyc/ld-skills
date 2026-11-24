@@ -5,10 +5,6 @@
 @prefix rdfs: <http://www.w3.org/2000/01/rdf-schema#> .
 @prefix xsd: <http://www.w3.org/2001/XMLSchema#> .
 
-<file:///home/runner/work/ld-skills/ld-skills/#> prov:specializationOf <http://www.w3.org/ns/prov-o-inverses> ;
-    prov:wasDerivedFrom <http://www.w3.org/ns/prov-o-20130430> ;
-    prov:wasRevisionOf <http://www.w3.org/ns/prov-o-inverses-20120312> .
-
 prov:Accept a owl:Class ;
     rdfs:label "Accept"@en ;
     rdfs:subClassOf prov:Activity ;
@@ -523,6 +519,14 @@ prov:wasUsedBy rdfs:label "wasUsedBy" ;
 prov:wasUsedInDerivation rdfs:label "wasUsedInDerivation" ;
     rdfs:isDefinedBy <http://www.w3.org/ns/prov-o-inverses#> ;
     owl:inverseOf prov:hadUsage .
+
+<https://www.w3.org/ns/prov#> a owl:Ontology ;
+    rdfs:seeAlso <http://www.w3.org/TR/prov-o/#names-of-inverse-properties> ;
+    owl:imports <http://www.w3.org/ns/prov-o#> ;
+    owl:versionIRI <http://www.w3.org/ns/prov-o-inverses-20130430> ;
+    prov:specializationOf <http://www.w3.org/ns/prov-o-inverses> ;
+    prov:wasDerivedFrom <http://www.w3.org/ns/prov-o-20130430> ;
+    prov:wasRevisionOf <http://www.w3.org/ns/prov-o-inverses-20120312> .
 
 prov:Bundle a owl:Class ;
     rdfs:label "Bundle" ;
@@ -1660,4 +1664,4 @@ prov:Entity a owl:Class ;
 [] prov:definition "influencee: an identifier (o2) for an entity, activity, or agent; " ;
     prov:dm "http://www.w3.org/TR/2013/REC-prov-dm-20130430/#term-influence" .
 
-# fetched: 2026-11-23, resources: 170
+# fetched: 2026-11-24, resources: 170

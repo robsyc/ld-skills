@@ -42,6 +42,7 @@ STRIP_SELECTORS = [
     # Site chrome
     "header",
     "footer",
+    "div.footer",
     "nav",
     # ReSpec UI + generated table of contents
     "#respec-ui",
@@ -164,6 +165,8 @@ def extract_metadata(soup: BeautifulSoup, source_url: str, final_url: str = "") 
 
     for text in candidates:
         text = re.sub(r"\s*$", "", text)
+        # Static-site <title>s append the site name: "Spec Title | Site".
+        text = re.sub(r"\s+\|\s+[^|]+$", "", text)
         # ReSpec titles repeat the status in the h1 (e.g. "Turtle W3C Recommendation")
         text = re.sub(
             r"\s*(W3C (First Public )?(Working Draft|Candidate Recommendation( Draft)?|"
@@ -245,6 +248,13 @@ def extract_metadata(soup: BeautifulSoup, source_url: str, final_url: str = "") 
                 meta.date = f"{year}-{months.index(month_name) + 1:02d}-{day:02d}"
                 break
 
+    if not meta.date and soup.body:
+        # Non-W3C pages state an ISO date: "Published: 2026-01-29", "published at 2024-06-25".
+        text = soup.body.get_text(" ", strip=True)[:5000]
+        m = re.search(r"\bpublished(?:\s+at|\s*:)?\s+(\d{4}-\d{2}-\d{2})\b", text, re.I)
+        if m:
+            meta.date = m.group(1)
+
     return meta
 
 
@@ -309,6 +319,32 @@ def _strip_toggle_anchors(soup: BeautifulSoup) -> None:
             continue
         if text in _ARROW_GLYPHS:
             a.decompose()
+
+
+_ISSUE_LINK_RE = re.compile(r"^https://github\.com/[^/]+/[^/]+/issues/new\b")
+
+
+def _strip_issue_links(soup: BeautifulSoup) -> None:
+    """Remove "create an issue" feedback links (SEMIC per-row callouts) and
+    any table column they leave empty."""
+    tables = set()
+    for a in soup.find_all("a", href=_ISSUE_LINK_RE):
+        table = a.find_parent("table")
+        if table is not None:
+            tables.add(table)
+        a.decompose()
+    for table in tables:
+        _drop_empty_columns(table)
+
+
+def _drop_empty_columns(table: Tag) -> None:
+    rows = [r.find_all(["td", "th"], recursive=False) for r in table.find_all("tr")]
+    width = max((len(cells) for cells in rows), default=0)
+    for col in reversed(range(width)):
+        column = [cells[col] for cells in rows if len(cells) > col]
+        if all(not _clean_text(c.get_text()) and not c.find("img") for c in column):
+            for cell in column:
+                cell.decompose()
 
 
 def _strip_permalink_anchors(soup: BeautifulSoup) -> None:
@@ -474,6 +510,7 @@ def extract_doc(
             heading.decompose()
 
     _strip_toggle_anchors(soup)
+    _strip_issue_links(soup)
     _strip_permalink_anchors(soup)
     _normalize_asides(soup)
 

@@ -46,11 +46,12 @@ class ConversionResult:
 # ---------------------------------------------------------------------------
 
 # Markdown link with optional quoted title: [text](url "Title (with parens)").
+# Images (![alt](src)) are not links: left to _postprocess.
 # Link text may contain escaped brackets (\]). The text group must be
 # unambiguous (escape branch owns backslashes, the class excludes them) or
 # backslash/bracket-heavy grammar tables cause catastrophic backtracking.
 _MD_LINK_RE = re.compile(
-    r"\[((?:\\.|[^\[\]\\])*)\]\(\s*<?([^)>\s]+)>?(?:\s+\"[^\"]*\")?\s*\)"
+    r"(?<!!)\[((?:\\.|[^\[\]\\])*)\]\(\s*<?([^)>\s]+)>?(?:\s+\"[^\"]*\")?\s*\)"
 )
 
 _FENCE_LINE_RE = re.compile(r"^\s*(?:>\s*)*`{3,}")
@@ -128,6 +129,12 @@ def _postprocess(md: str) -> str:
     # Stray non-breaking spaces and zero-width joiners.
     md = md.replace("\u00a0", " ").replace("\u200b", "")
 
+    # Empty links and alt-less images; twice, so a link wrapping such an
+    # image ([![](img)](href)) goes too. First, so the cleanup below tidies
+    # the lines they leave empty.
+    for _ in range(2):
+        md = re.sub(r"!?\[\]\([^)]*\)", "", md)
+
     # Trailing whitespace and 3+ blank lines.
     md = re.sub(r"[ \t]+$", "", md, flags=re.M)
     md = re.sub(r"\n{3,}", "\n\n", md)
@@ -151,8 +158,7 @@ def _postprocess(md: str) -> str:
     # blockquotes so renderers do not join them.
     md = _separate_example_captions(md)
 
-    # Empty link/bold residue and stray footnote markers.
-    md = re.sub(r"\[\]\([^)]*\)", "", md)
+    # Stray rule/underline residue.
     md = re.sub(r"^[-=_*]{4,}\s*$", "", md, flags=re.M)
 
     # Table of contents that some old specs inline into the body:
@@ -264,15 +270,19 @@ def _demote_headings(md: str, floor_level: int = 2) -> str:
     return "\n".join(out)
 
 
+def _normalize_title(text: str) -> str:
+    return re.sub(r"\W+", "", text or "").lower()
+
+
 def _drop_duplicate_title(md: str, title: str) -> str:
     """Remove a leading content heading that just repeats the document title."""
-    normalized = re.sub(r"\W+", "", title or "").lower()
+    normalized = _normalize_title(title)
     if not normalized:
         return md
     lines = md.splitlines()
     for i, line in enumerate(lines[:5]):
         m = re.match(r"^#{1,2}\s+(.*)$", line)
-        if m and re.sub(r"\W+", "", m.group(1)).lower() == normalized:
+        if m and _normalize_title(m.group(1)) == normalized:
             del lines[i]
             return "\n".join(lines).lstrip("\n")
     return md
@@ -307,8 +317,13 @@ def convert_spec(
     # Link rewriting must not touch fenced code blocks.
     md = _map_outside_fences(md, lambda seg: _rewrite_links(seg, anchors, (source_url, final_url))[0])
     md = _postprocess(md)
-    md = _demote_headings(md, floor_level=2)
-    md = _drop_duplicate_title(md, doc.metadata.title)
+    md = _drop_duplicate_title(_demote_headings(md, floor_level=2), doc.metadata.title)
+    md = _demote_headings(md, floor_level=2)  # the title may have been the only h1
+    # A title heading kept in the body is not a section of its own (TOC).
+    toc_sections = sections
+    if sections and sections[0].level == 1 and not sections[0].number:
+        if _normalize_title(sections[0].title) == _normalize_title(doc.metadata.title):
+            toc_sections = sections[1:]
 
     warnings = list(doc.warnings)
     if not sections:
@@ -320,7 +335,7 @@ def convert_spec(
         status=doc.metadata.status,
         date=doc.metadata.date,
         warnings=warnings,
-        sections=sections,
+        sections=toc_sections,
     )
 
 

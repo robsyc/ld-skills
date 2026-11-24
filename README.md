@@ -17,13 +17,14 @@ skills/ld-specs/
     ├── sparql/  owl/  shacl/  jsonld/  skos/  prov/
     ├── mapping/              # RML, YARRRML, R2RML
     ├── vocabularies/         # DCAT, Data Cube, VoID, SSN/SOSA, GeoSPARQL, vCard
+    ├── ml/                   # Croissant, MLDCAT-AP
     ├── web/                  # LDP, RDFa, Notation3
     └── _namespaces/          # Turtle snapshots of the core vocabularies
         ├── shacl.ttl  owl.ttl  skos.ttl  rml.ttl  …
 ```
  
-~95 specifications across 11 families, each converted from its canonical
-source (W3C `/TR/`, w3id.org/kg-construct, OGC) into clean markdown:
+~97 specifications across 12 families, each converted from its canonical
+source (W3C `/TR/`, w3id.org/kg-construct, OGC, MLCommons, SEMIC) into clean markdown:
 boilerplate stripped, examples and tables preserved, internal links collapsed
 to `§` section references, provenance recorded in frontmatter.
  
@@ -89,7 +90,8 @@ Acknowledgements sections, status-of-the-document text, tables of contents
 (replaced by a generated `## Contents`), and site chrome are dropped as noise.
 Everything else — examples, tables, grammar productions, notes, references —
 is preserved. Each file's frontmatter records `source`, `status`,
-`spec_date`, and `fetched`.
+`spec_date`, and `fetched`. A rebuild leaves a file untouched when only its
+build-date stamp would change, so `fetched` is the date its content last changed.
  
 ## Development
  
@@ -102,5 +104,6 @@ uv run ruff check src/ tests/
 ## License
  
 MIT for the code. The specification snapshots remain under their respective
-source licenses (W3C per-document license, OGC); each file records its source
-URL — follow it for license text and the authoritative version.
+source licenses (W3C per-document license, OGC, MLCommons, SEMIC); each file
+records its source URL — follow it for license text and the authoritative
+version.

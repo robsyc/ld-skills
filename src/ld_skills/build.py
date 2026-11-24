@@ -26,6 +26,10 @@ DEFAULT_OUT = Path(__file__).parent.parent.parent / "skills" / "ld-specs" / "ref
 
 _DIR_SAFE_RE = re.compile(r"^[a-z0-9][a-z0-9-]*$")
 _URL_RE = re.compile(r"^https?://\S+$")
+# Build-date stamps (spec frontmatter, namespace footer, index intro). They are
+# ignored when deciding whether a file changed, so refreshes that only move
+# the date leave the file — and its old stamp — untouched.
+_STAMP_RE = re.compile(r"^(fetched: |# fetched: |Snapshots built )\d{4}-\d{2}-\d{2}", re.M)
 
 
 @dataclass
@@ -44,6 +48,7 @@ class NamespaceEntry:
     comment: str
     uri: str
     version: str
+    source: str = ""  # where to fetch the RDF when the namespace IRI does not serve it
 
 
 @dataclass
@@ -127,6 +132,9 @@ def load_registry(path: Path) -> tuple[Registry, list[str]]:
             if not _URL_RE.match(n.get("uri", "")):
                 errors.append(f"namespace '{key}': invalid uri {n.get('uri')!r}")
                 continue
+            if "source" in n and not _URL_RE.match(str(n["source"])):
+                errors.append(f"namespace '{key}': invalid source {n['source']!r}")
+                continue
             seen_ns.add(key)
             nss.append(
                 NamespaceEntry(
@@ -135,6 +143,7 @@ def load_registry(path: Path) -> tuple[Registry, list[str]]:
                     comment=n.get("comment", ""),
                     uri=n["uri"],
                     version=str(n.get("version", "")),
+                    source=n.get("source", ""),
                 )
             )
 
@@ -157,6 +166,18 @@ def spec_path(out_dir: Path, family_key: str, spec_key: str) -> Path:
 
 def namespace_path(out_dir: Path, ns_key: str) -> Path:
     return out_dir / "_namespaces" / f"{ns_key}.ttl"
+
+
+def write_if_changed(path: Path, content: str) -> bool:
+    """Write content unless the file already holds it up to build-date stamps.
+
+    Returns True if the file was written.
+    """
+    if path.exists() and _STAMP_RE.sub(r"\1", path.read_text()) == _STAMP_RE.sub(r"\1", content):
+        return False
+    path.parent.mkdir(parents=True, exist_ok=True)
+    path.write_text(content)
+    return True
 
 
 def build_spec(
@@ -193,9 +214,7 @@ def build_spec(
     if not validation.ok:
         return False, messages
 
-    target = spec_path(out_dir, family.key, spec.key)
-    target.parent.mkdir(parents=True, exist_ok=True)
-    target.write_text(document)
+    write_if_changed(spec_path(out_dir, family.key, spec.key), document)
     return True, messages
 
 
@@ -204,7 +223,7 @@ def build_namespace(
 ) -> tuple[bool, list[str]]:
     """Fetch, serialize, and write one namespace snapshot."""
     try:
-        graph = fetch_namespace_graph(ns.uri)
+        graph = fetch_namespace_graph(ns.source or ns.uri)
     except Exception as e:  # noqa: BLE001
         return False, [f"{ns.key}: namespace fetch/parse failed: {e}"]
 
@@ -212,12 +231,10 @@ def build_namespace(
     if not resources:
         return False, [f"{ns.key}: no resources found in namespace"]
 
-    turtle = serialize_namespace(graph, ns.uri, comment=ns.comment)
+    turtle = serialize_namespace(graph, ns.uri, comment=ns.comment, prefix=ns.key)
     turtle += f"# fetched: {fetched}, resources: {len(resources)}\n"
 
-    target = namespace_path(out_dir, ns.key)
-    target.parent.mkdir(parents=True, exist_ok=True)
-    target.write_text(turtle)
+    write_if_changed(namespace_path(out_dir, ns.key), turtle)
     return True, [f"{ns.key}: {len(graph)} triples, {len(resources)} resources"]
 
 
@@ -260,7 +277,7 @@ def write_index(registry: Registry, out_dir: Path, fetched: str) -> None:
         "",
     ]
 
-    (out_dir / "index.md").write_text("\n".join(lines))
+    write_if_changed(out_dir / "index.md", "\n".join(lines))
 
 
 def prune_orphans(out_dir: Path, registry: Registry) -> list[str]:

@@ -2,7 +2,7 @@
 
 # Specification catalog
 
-Snapshots built 2026-11-23. Each entry is a single markdown file:
+Snapshots built 2026-11-24. Each entry is a single markdown file:
 open it and search (case-insensitive) for the term you need.
 
 ## RDF
@@ -147,6 +147,15 @@ open it and search (case-insensitive) for the term you need.
 - [DCAT vocabulary](_namespaces/dcat.ttl) — dcat:Dataset, dcat:Distribution, dcat:Catalog, dcat:service and friends.
 - [RDF Data Cube vocabulary](_namespaces/qb.ttl) — qb:DataSet, qb:DimensionProperty, qb:MeasureProperty and friends.
 - [SOSA vocabulary](_namespaces/sosa.ttl) — sosa:Sensor, sosa:Observation, sosa:FeatureOfInterest and friends.
+
+## Machine Learning Metadata
+
+*Describing ML datasets and models — Croissant (MLCommons) and MLDCAT-AP (SEMIC).*
+
+- [Croissant Format Specification 1.1](ml/croissant11.md) — MLCommons metadata format for ML-ready datasets (schema.org-based JSON-LD; FileObject, RecordSet, Field).
+- [MLDCAT-AP 3.1.0](ml/mldcat-ap3.md) — SEMIC DCAT-AP extension for ML models, datasets, tasks, runs, and evaluations.
+- [Croissant vocabulary](_namespaces/cr.ttl) — cr:RecordSet, cr:Field, cr:FileObject, cr:FileSet, cr:source, cr:extract and friends.
+- [ML Schema vocabulary](_namespaces/mls.ttl) — W3C ML Schema reused by MLDCAT-AP — mls:Run, mls:Model, mls:Algorithm, mls:EvaluationMeasure and friends.
 
 ## OWL-Time
 

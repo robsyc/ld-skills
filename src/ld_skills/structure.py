@@ -19,7 +19,9 @@ from bs4 import Tag
 
 HEADING_TAGS = ["h1", "h2", "h3", "h4", "h5", "h6"]
 
-_EXPLICIT_NUM_RE = re.compile(r"^((?:\d+|[A-Z]|[IVXLCDM]{1,6})(?:\.\d+)*)\.?\s+\S")
+# Multi-letter roman numerals need their dot ("II. Preface") so words made of
+# roman letters ("ID and Reference Mechanism") are not taken for numbers.
+_EXPLICIT_NUM_RE = re.compile(r"^((?:\d+|[A-Z]|[IVXLCDM]{2,6}(?=\.))(?:\.\d+)*)\.?\s+\S")
 _APPENDIX_RE = re.compile(r"^Appendix\s+([A-Z](?:\.\d+)*)\.?\s+(\S.*)$")
 _PART_RE = re.compile(r"^(part\s+\d+|appendices?)\b", re.I)
 
@@ -81,9 +83,13 @@ def build_section_map(content: Tag) -> list[Section]:
     counters = [0] * 7  # counters[level] for levels 1..6
     seen_letter_appendix = False
 
-    for heading in content.find_all(HEADING_TAGS):
-        if heading.find_parent(["table", "pre"]):
-            continue
+    headings = [h for h in content.find_all(HEADING_TAGS) if not h.find_parent(["table", "pre"])]
+    # A lone leading h1 is the document title (static-site pages keep it in
+    # the body); numbering it would push every section under "1.".
+    h1s = [h for h in headings if h.name == "h1"]
+    title_h1 = headings[0] if len(h1s) == 1 and headings[0] is h1s[0] else None
+
+    for heading in headings:
 
         level = int(heading.name[1])
         title = _heading_text(heading)
@@ -109,6 +115,7 @@ def build_section_map(content: Tag) -> list[Section]:
             or "no-toc" in classes
             or "introductory" in classes
             or "introductory" in parent_classes
+            or heading is title_h1
             or title.lower() in _UNNUMBERED_TITLES
             or bool(_PART_RE.match(title))
         )
